@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import Button from '../../atoms/Button'
 
-export const SignIn = ({ onSignIn, isSignedIn }) => {
+export const SignIn = ({ onSignIn, onSignUp, isSignedIn, isSignUpPage }) => {
   let inputUsername
   let inputPassword
   const onSubmitSignIn = () => {
@@ -12,13 +12,17 @@ export const SignIn = ({ onSignIn, isSignedIn }) => {
     }
   }
 
-  if (!isSignedIn) {
+  const onSubmitSignUp = () => {
+    onSignUp()
+  }
+
+  if (!isSignedIn && !isSignUpPage) {
     return (
       <div>
         <input ref={node => { inputUsername = node }} placeholder={'username'} />
         <input ref={node => { inputPassword = node }} placeholder={'password'} />
         <Button type="submit" onClick={onSubmitSignIn}>Sign In</Button>
-        {/*<Button type="submit" onClick={onSubmitSignIn}>Sign Up</Button>*/}
+        <Button type="submit" onClick={onSubmitSignUp}>Sign Up</Button>
       </div>
     )
   }
@@ -27,7 +31,9 @@ export const SignIn = ({ onSignIn, isSignedIn }) => {
 
 SignIn.propTypes = {
   onSignIn: PropTypes.func.isRequired,
+  onSignUp: PropTypes.func.isRequired,
   isSignedIn: PropTypes.bool,
+  isSignUpPage: PropTypes.bool,
 }
 
 export default SignIn
