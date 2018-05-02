@@ -22,6 +22,9 @@ const ttrsReducer = (state = initialState, action) => {
       return {
         isSignUpPage: false,
       }
+    case actions.SIGNOUT_REQUEST:
+      console.log('sign in page')
+      return initialState
     default:
       return state
   }
