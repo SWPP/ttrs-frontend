@@ -1,10 +1,11 @@
 import React from 'react'
-
-import { PageTemplate } from 'components'
+import SignIn from '../../../containers/SignIn'
 
 const HomePage = () => {
   return (
-    <PageTemplate>Hello World</PageTemplate>
+    <div>
+      <SignIn />
+    </div>
   )
 }
 
