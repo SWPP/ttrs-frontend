@@ -1,7 +1,7 @@
-export const SIGNIN_RESPONSE = 'SIGNIN_RESPONSE'
+export const SIGNIN_RESQUEST = 'SIGNIN_RESQUEST'
 
-export const signInResponse = () => {
+export const signInRequest = () => {
   return {
-    type: SIGNIN_RESPONSE,
+    type: SIGNIN_RESQUEST,
   }
 }
