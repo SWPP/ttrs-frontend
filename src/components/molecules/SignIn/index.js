@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import Button from '../../atoms/Button'
 
-export const SignIn = ({ onSignIn, onSignUp, isSignedIn, isSignUpPage }) => {
+export const SignIn = ({ onSignIn, onGoSignUpPage, isSignedIn, isSignUpPage }) => {
   let inputUsername
   let inputPassword
   const onSubmitSignIn = () => {
@@ -13,7 +13,7 @@ export const SignIn = ({ onSignIn, onSignUp, isSignedIn, isSignUpPage }) => {
   }
 
   const onSubmitSignUp = () => {
-    onSignUp()
+    onGoSignUpPage()
   }
 
   if (!isSignedIn && !isSignUpPage) {
@@ -31,7 +31,7 @@ export const SignIn = ({ onSignIn, onSignUp, isSignedIn, isSignUpPage }) => {
 
 SignIn.propTypes = {
   onSignIn: PropTypes.func.isRequired,
-  onSignUp: PropTypes.func.isRequired,
+  onGoSignUpPage: PropTypes.func.isRequired,
   isSignedIn: PropTypes.bool,
   isSignUpPage: PropTypes.bool,
 }

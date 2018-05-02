@@ -15,7 +15,7 @@ const mapDispatchToProps = (dispatch) => {
     onSignIn: (username, password) => {
       dispatch(signInRequest(username, password))
     },
-    onSignUp: () => {
+    onGoSignUpPage: () => {
       dispatch(goSignUpPageRequest())
     }
   }

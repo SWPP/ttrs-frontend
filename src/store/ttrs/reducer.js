@@ -17,6 +17,11 @@ const ttrsReducer = (state = initialState, action) => {
       return {
         isSignUpPage: true,
       }
+    case actions.SIGNUP_REQUEST:
+      console.log('sign up complete')
+      return {
+        isSignUpPage: false,
+      }
     default:
       return state
   }
