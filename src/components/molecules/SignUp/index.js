@@ -9,10 +9,10 @@ export const SignUp = ({ onSignUp, isSignUpPage }) => {
   if (isSignUpPage) {
     return (
       <div>
-        <input placeholder={'username'} />
-        <input placeholder={'password'} />
-        <input placeholder={'password confirm'} />
-        <input placeholder={'email'} />
+        <input placeholder={'username'} /> <br />
+        <input placeholder={'password'} /> <br />
+        <input placeholder={'password confirm'} /> <br />
+        <input placeholder={'email'} /> <br />
         <Button type="submit" onClick={onSubmit}>Sign Up</Button>
       </div>
     )

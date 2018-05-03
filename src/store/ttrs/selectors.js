@@ -3,4 +3,8 @@ export const initialState = {
   password: undefined,
   isSignedIn: false,
   isSignUpPage: false,
+  isRecommendTab: false,
+  isBookmarkTab: false,
+  isReceivedTab: false,
+  isSettingTab: false,
 }
