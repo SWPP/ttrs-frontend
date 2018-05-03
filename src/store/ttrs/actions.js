@@ -7,6 +7,7 @@ export const BOOKMARKTAB_REQUEST = 'BOOKMARKTAB_REQUEST'
 export const RECEIVEDTAB_REQUEST = 'RECEIVEDTAB_REQUEST'
 export const SETTINGTAB_REQUEST = 'SETTINGTAB_REQUEST'
 export const MODIFY_MEMO_REQUEST = 'MODIFY_MEMO_REQUEST'
+export const MODIFY_TITLE_REQUEST = 'MODIFY_TITLE_REQUEST'
 
 
 export const signInRequest = (username, password) => {
@@ -65,3 +66,11 @@ export const modifyMemoRequest = (content) => {
     content,
   }
 }
+
+export const modifyTitleRequest = (content) => {
+  return {
+    type: MODIFY_TITLE_REQUEST,
+    content,
+  }
+}
+
