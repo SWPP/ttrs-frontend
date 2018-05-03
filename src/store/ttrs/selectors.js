@@ -7,4 +7,5 @@ export const initialState = {
   isBookmarkTab: false,
   isReceivedTab: false,
   isSettingTab: false,
+  memo: 'write memo',
 }
