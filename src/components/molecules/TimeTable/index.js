@@ -8,26 +8,29 @@ const Styledul = styled.ul`
   font-family: ${font('primary')};
 `
 
-export const TodoList = ({ todoliststate = [], onTodoClick }) => {
-  return (
-    <Styledul>
-      {todoliststate.map(todo =>
-        <Todo key={todo.id}
-              {...todo}
-              onClick={() => onTodoClick(todo.id)}
-        />
-      )}
-    </Styledul>
-  );
-};
+export const TimeTable = ({ memoList , isSignedIn }) => {
+  if (isSignedIn) {
+    return (
+      <Styledul>
+        Memo
+        {memoList.map(content =>
+          <Memo
+            key={content.id}
+            content={content}
+          />
+        )}
+      </Styledul>
+    )
+  }
+  return null
+}
 
-TodoList.propTypes = {
-  todoliststate: PropTypes.arrayOf(PropTypes.shape({
+TimeTable.propTypes = {
+  memoList: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
-    completed: PropTypes.bool,
-    text: PropTypes.string
+    content: PropTypes.string
   })),
-  reverse: PropTypes.bool,
+  isSignedIn: PropTypes.bool,
 }
 
 export default TimeTable

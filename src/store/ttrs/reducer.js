@@ -52,6 +52,14 @@ const ttrsReducer = (state = initialState, action) => {
         ...state,
         isSettingTab: true,
       }
+    case actions.ADDMEMO_REQUEST:
+      return {
+        ...state,
+        memoList: [
+          ...state.memoList,
+          action.content,
+        ]
+      }
     default:
       return state
   }
