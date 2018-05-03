@@ -12,7 +12,7 @@ export const SignUp = ({ onSignUp, isSignUpPage }) => {
         onSignUp()
       }
       else {
-        console.log('password not coincide')
+        console.log('password not same')
       }
     }
     else {
