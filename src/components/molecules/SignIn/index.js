@@ -10,6 +10,9 @@ export const SignIn = ({ onSignIn, onGoSignUpPage, isSignedIn, isSignUpPage }) =
       inputUsername.value = ''
       inputPassword.value = ''
     }
+    else {
+      console.log('blank input not allowed')
+    }
   }
 
   const onSubmitSignUp = () => {

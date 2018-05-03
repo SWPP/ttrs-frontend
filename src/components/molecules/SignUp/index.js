@@ -2,17 +2,31 @@ import React, { PropTypes } from 'react'
 import Button from '../../atoms/Button'
 
 export const SignUp = ({ onSignUp, isSignUpPage }) => {
+  let inputUsername
+  let inputPassword
+  let passwordConfirm
+  let email
   const onSubmit = () => {
-    onSignUp()
+    if (inputUsername.value.trim() && inputPassword.value.trim() && passwordConfirm.value.trim() && email.value.trim()) {
+      if (inputPassword.value === passwordConfirm.value) {
+        onSignUp()
+      }
+      else {
+        console.log('password not coincide')
+      }
+    }
+    else {
+      console.log('blank input not allowed')
+    }
   }
 
   if (isSignUpPage) {
     return (
       <div>
-        <input placeholder={'username'} /> <br />
-        <input placeholder={'password'} /> <br />
-        <input placeholder={'password confirm'} /> <br />
-        <input placeholder={'email'} /> <br />
+        <input ref={node => { inputUsername = node }} placeholder={'username'} /> <br />
+        <input ref={node => { inputPassword = node }} placeholder={'password'} /> <br />
+        <input ref={node => { passwordConfirm = node }} placeholder={'password confirm'} /> <br />
+        <input ref={node => { email = node }} placeholder={'email'} />@snu.ac.kr <br />
         <Button type="submit" onClick={onSubmit}>Sign Up</Button>
       </div>
     )
