@@ -6,6 +6,7 @@ export const RECOMMENDTAB_REQUEST = 'RECOMMENDTAB_REQUEST'
 export const BOOKMARKTAB_REQUEST = 'BOOKMARKTAB_REQUEST'
 export const RECEIVEDTAB_REQUEST = 'RECEIVEDTAB_REQUEST'
 export const SETTINGTAB_REQUEST = 'SETTINGTAB_REQUEST'
+export const ADDMEMO_REQUEST = 'ADDMEMO_REQUEST'
 
 
 export const signInRequest = (username, password) => {
@@ -55,5 +56,14 @@ export const goReceivedTabRequest = () => {
 export const goSettingTabRequest = () => {
   return {
     type: SETTINGTAB_REQUEST,
+  }
+}
+
+let memoId = 0
+export const addMemoRequest = (content) => {
+  return {
+    type: ADDMEMO_REQUEST,
+    id: memoId++,
+    content,
   }
 }
