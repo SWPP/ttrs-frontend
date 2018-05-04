@@ -13,7 +13,7 @@ const Memo = ({ content }) => (
 )
 
 
-Promise.propTypes = {
+Memo.propTypes = {
   content: PropTypes.string.isRequired,
 }
 

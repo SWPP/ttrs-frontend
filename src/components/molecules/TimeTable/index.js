@@ -1,11 +1,15 @@
 import React, { PropTypes } from 'react'
 import Memo from '../../atoms/Memo'
+import TimeSlot from '../../atoms/TimeSlot'
 import Title from '../../atoms/Title'
 import Button from '../../atoms/Button'
 
-export const TimeTable = ({ isSignedIn, memo, title, onModifyMemo, onModifyTitle }) => {
+
+export const TimeTable = ({ isSignedIn, memo, title, timeSlotList, onModifyMemo, onModifyTitle }) => {
   let titleContent = title
   let memoContent = memo
+  let timeSlotKey = 1
+
   const onSubmitMemo = () => {
     onModifyMemo(memoContent.value)
   }
@@ -21,6 +25,16 @@ export const TimeTable = ({ isSignedIn, memo, title, onModifyMemo, onModifyTitle
         <Title content={titleContent} />
         <Button type="submit" onClick={onSubmitTitle}>Modify Title</Button>
         <br />
+        TimeTable
+        {timeSlotList.map(timeSlot =>
+          <TimeSlot
+            key={timeSlotKey++}
+            dayOfWeek={timeSlot[0]}
+            startTime={timeSlot[1]}
+            endTime={timeSlot[2]}
+            classroom={timeSlot[3]}
+          />
+        )}
         <input ref={node => { memoContent = node }} placeholder={'memo'} /> <br />
         <Memo content={memoContent} />
         <Button type="submit" onClick={onSubmitMemo}>Modify Memo</Button>
@@ -30,11 +44,20 @@ export const TimeTable = ({ isSignedIn, memo, title, onModifyMemo, onModifyTitle
   return null
 }
 
-TimeTable.propTypes = {
-  isSignedIn: PropTypes.bool,
-  memo: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  onModifyMemo: PropTypes.func.isRequired,
-}
+/* Maybe will not use this*/
+// TimeTable.propTypes = {
+//   isSignedIn: PropTypes.bool,
+//   memo: PropTypes.string.isRequired,
+//   title: PropTypes.string.isRequired,
+//   timeSlotList: PropTypes.arrayOf(PropTypes.shape({
+//     id: PropTypes.number,
+//     dayOfWeek: PropTypes.string,
+//     startTime: PropTypes.string,
+//     endTime: PropTypes.string,
+//     classroom: PropTypes.string,
+//   })),
+//   onModifyMemo: PropTypes.func.isRequired,
+//   onModifyTitle: PropTypes.func.isRequired,
+// }
 
 export default TimeTable

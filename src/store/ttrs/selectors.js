@@ -9,4 +9,5 @@ export const initialState = {
   isSettingTab: false,
   title: 'write title',
   memo: 'write memo',
+  timeSlotList: [['1', '2', '3', '4'], ['5', '6', '7', '8']],
 }

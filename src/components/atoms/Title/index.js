@@ -13,7 +13,7 @@ const Title = ({ content }) => (
 )
 
 
-Promise.propTypes = {
+Title.propTypes = {
   content: PropTypes.string.isRequired,
 }
 
