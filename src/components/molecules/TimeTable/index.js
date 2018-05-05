@@ -28,10 +28,7 @@ export const TimeTable = ({ isSignedIn, memo, title, timeSlotList, onModifyMemo,
         {timeSlotList.map(timeSlot =>
           <TimeSlot
             key={timeSlot.id}
-            dayOfWeek={timeSlot.dayOfWeek}
-            startTime={timeSlot.startTime}
-            endTime={timeSlot.endTime}
-            classroom={timeSlot.classroom}
+            {...timeSlot}
           />
         )}
         <input ref={node => { memoContent = node }} placeholder={'memo'} /> <br />
