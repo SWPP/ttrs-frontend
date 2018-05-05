@@ -8,7 +8,6 @@ import Button from '../../atoms/Button'
 export const TimeTable = ({ isSignedIn, memo, title, timeSlotList, onModifyMemo, onModifyTitle }) => {
   let titleContent = title
   let memoContent = memo
-  let timeSlotKey = 1
 
   const onSubmitMemo = () => {
     onModifyMemo(memoContent.value)
@@ -28,11 +27,11 @@ export const TimeTable = ({ isSignedIn, memo, title, timeSlotList, onModifyMemo,
         TimeTable
         {timeSlotList.map(timeSlot =>
           <TimeSlot
-            key={timeSlotKey++}
-            dayOfWeek={timeSlot[0]}
-            startTime={timeSlot[1]}
-            endTime={timeSlot[2]}
-            classroom={timeSlot[3]}
+            key={timeSlot.id}
+            dayOfWeek={timeSlot.dayOfWeek}
+            startTime={timeSlot.startTime}
+            endTime={timeSlot.endTime}
+            classroom={timeSlot.classroom}
           />
         )}
         <input ref={node => { memoContent = node }} placeholder={'memo'} /> <br />
