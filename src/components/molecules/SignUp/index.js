@@ -6,10 +6,14 @@ export const SignUp = ({ onSignUp, isSignUpPage }) => {
   let inputPassword
   let inputPasswordConfirm
   let inputEmail
+  let inputGrade
+  const gradeOption = [1, 2, 3, 4];
+
   const onSubmit = () => {
     if (inputUsername.value.trim() && inputPassword.value.trim() && inputPasswordConfirm.value.trim() && inputEmail.value.trim()) {
       if (inputPassword.value === inputPasswordConfirm.value) {
-        onSignUp()
+        console.log(inputGrade.value)
+        onSignUp(inputUsername.value, inputPassword.value, inputGrade.value)
       }
       else {
         console.log('password not coincide')
@@ -27,6 +31,15 @@ export const SignUp = ({ onSignUp, isSignUpPage }) => {
         <input ref={node => { inputPassword = node }} placeholder={'password'} /> <br />
         <input ref={node => { inputPasswordConfirm = node }} placeholder={'password confirm'} /> <br />
         <input ref={node => { inputEmail = node }} placeholder={'email'} />@snu.ac.kr <br />
+        Grade
+        <select ref={node => { inputGrade = node }}>
+          {gradeOption.map(value =>
+            <option
+              key={value}
+              value={value}
+            >{value}</option>
+          )}
+        </select> <br />
         <Button type="submit" onClick={onSubmit}>Sign Up</Button>
       </div>
     )

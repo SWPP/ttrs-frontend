@@ -32,9 +32,10 @@ export const goSignUpPageRequest = () => {
   }
 }
 
-export const signUpRequest = () => {
+export const signUpRequest = (studentInfo) => {
   return {
     type: SIGNUP_REQUEST,
+    studentInfo,
   }
 }
 

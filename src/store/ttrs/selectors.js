@@ -1,8 +1,7 @@
 export const initialState = {
   username: undefined,
   password: undefined,
-  // Will use later
-  // grade: undefined,
+  grade: undefined,
   // college: undefined,
   // department: undefined,
   // major: undefined,
