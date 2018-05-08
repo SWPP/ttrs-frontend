@@ -3,14 +3,12 @@ import * as actions from './actions'
 
 const ttrsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actions.SIGNIN_REQUEST:
-      console.log('username: ', action.username)
-      console.log('password: ', action.password)
+    case actions.SIGNIN_RESPONSE:
+      console.log(action.studentInfo)
       console.log('main page')
       return {
         ...state,
-        username: action.username,
-        password: action.password,
+        ...action.studentInfo,
         isSignedIn: true,
       }
     case actions.GO_SIGNUPPAGE_REQUEST:

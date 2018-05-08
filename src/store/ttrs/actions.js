@@ -1,4 +1,5 @@
 export const SIGNIN_REQUEST = 'SIGNIN_REQUEST'
+export const SIGNIN_RESPONSE = 'SIGNIN_RESPONSE'
 export const GO_SIGNUPPAGE_REQUEST = 'GO_SIGNUPPAGE_REQUEST'
 export const SIGNUP_REQUEST = 'SIGNUP_REQUEST'
 export const SIGNOUT_REQUEST = 'SIGNOUT_REQUEST'
@@ -15,6 +16,13 @@ export const signInRequest = (username, password) => {
     type: SIGNIN_REQUEST,
     username,
     password,
+  }
+}
+
+export const signInResponse = (studentInfo) => {
+  return {
+    type: SIGNIN_RESPONSE,
+    studentInfo,
   }
 }
 
@@ -73,4 +81,3 @@ export const modifyTitleRequest = (content) => {
     content,
   }
 }
-

@@ -1,6 +1,12 @@
 export const initialState = {
   username: undefined,
   password: undefined,
+  // Will use later
+  // grade: undefined,
+  // college: undefined,
+  // department: undefined,
+  // major: undefined,
+  // notRecommends: undefined,
   isSignedIn: false,
   isSignUpPage: false,
   isRecommendTab: true,
@@ -22,4 +28,5 @@ export const initialState = {
     endTime: '7',
     classroom: '8',
   }],
+
 }
