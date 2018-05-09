@@ -7,7 +7,7 @@ const url = 'http://127.0.0.1:8000/'
 function* signIn(username, password) {
   try {
     const hash = new Buffer(`${username}:${password}`).toString('base64')
-    const signInResponse = yield call(api.get, `${url}signin/`, {
+    const signInResponse = yield call(api.get, `${url}ttrs/students/my/`, {
       headers: {
         Authorization: `Basic ${hash}`,
         Accept: 'application/json',
@@ -40,6 +40,22 @@ function* watchSignInRequest() {
   }
 }
 
+function* getCollegeList() {
+  try {
+    const collegeListResponse = yield call(api.get, `${url}ttrs/colleges/`, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    console.log(collegeListResponse)
+    yield put(actions.getCollegeListResponse(collegeListResponse))
+  } catch (error) {
+    console.log('Failed to get college list')
+  }
+}
+
 export default function* () {
+  yield call(getCollegeList)
   yield fork(watchSignInRequest)
 }

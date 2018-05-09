@@ -9,6 +9,7 @@ export const RECEIVEDTAB_REQUEST = 'RECEIVEDTAB_REQUEST'
 export const SETTINGTAB_REQUEST = 'SETTINGTAB_REQUEST'
 export const MODIFY_MEMO_REQUEST = 'MODIFY_MEMO_REQUEST'
 export const MODIFY_TITLE_REQUEST = 'MODIFY_TITLE_REQUEST'
+export const GET_COLLEGELIST_RESPONSE = 'GET_COLLEGELIST_RESPONSE'
 
 
 export const signInRequest = (username, password) => {
@@ -80,5 +81,12 @@ export const modifyTitleRequest = (content) => {
   return {
     type: MODIFY_TITLE_REQUEST,
     content,
+  }
+}
+
+export const getCollegeListResponse = (collegeList) => {
+  return {
+    type: GET_COLLEGELIST_RESPONSE,
+    collegeList,
   }
 }

@@ -26,7 +26,10 @@ const ttrsReducer = (state = initialState, action) => {
       }
     case actions.SIGNOUT_REQUEST:
       console.log('sign in page')
-      return initialState
+      return {
+        ...initialState,
+        collegeList: state.collegeList,
+      }
     case actions.RECOMMENDTAB_REQUEST:
       console.log('recommend tab')
       return {
@@ -62,6 +65,11 @@ const ttrsReducer = (state = initialState, action) => {
       return {
         ...state,
         title: action.content,
+      }
+    case actions.GET_COLLEGELIST_RESPONSE:
+      return {
+        ...state,
+        collegeList: action.collegeList,
       }
     default:
       return state

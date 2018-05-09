@@ -5,13 +5,14 @@ import { signUpRequest } from '../store/ttrs/actions'
 const mapStateToProps = (state) => {
   return {
     isSignUpPage: state.ttrs.isSignUpPage,
+    collegeList: state.ttrs.collegeList,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onSignUp: (username, password, grade) => {
-      dispatch(signUpRequest({ username, password, grade }))
+    onSignUp: (username, password, grade, college) => {
+      dispatch(signUpRequest({ username, password, grade, college }))
     }
   }
 }
