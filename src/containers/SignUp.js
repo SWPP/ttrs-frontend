@@ -1,18 +1,26 @@
 import { connect } from 'react-redux'
 import { SignUp } from '../components/molecules/SignUp'
-import { signUpRequest } from '../store/ttrs/actions'
+import { changeDepartmentListRequest, changeMajorListRequest, signUpRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
     isSignUpPage: state.ttrs.isSignUpPage,
     collegeList: state.ttrs.collegeList,
+    departmentList: state.ttrs.departmentList,
+    majorList: state.ttrs.majorList,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onSignUp: (username, password, grade, college) => {
-      dispatch(signUpRequest({ username, password, grade, college }))
+    onChangeDepartmentList: (college) => {
+      dispatch(changeDepartmentListRequest( college ))
+    },
+    // onChangeMajorList: (department) => {
+    //   dispatch(changeMajorListRequest( department ))
+    // },
+    onSignUp: (username, password, grade, college, department, major) => {
+      dispatch(signUpRequest({ username, password, grade, college, department, major }))
     }
   }
 }

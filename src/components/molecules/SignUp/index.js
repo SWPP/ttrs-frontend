@@ -1,13 +1,15 @@
 import React, { PropTypes } from 'react'
 import Button from '../../atoms/Button'
 
-export const SignUp = ({ onSignUp, isSignUpPage, collegeList }) => {
+export const SignUp = ({ onSignUp, onChangeDepartmentList, onChangeMajorList, isSignUpPage, collegeList, departmentList, majorList }) => {
   let inputUsername
   let inputPassword
   let inputPasswordConfirm
   let inputEmail
   let inputGrade
-  let inputCollege
+  let inputCollege = {value: 0}
+  let inputDepartment = {value: 0}
+  let inputMajor
   const gradeOption = [1, 2, 3, 4];
 
   const onSubmit = () => {
@@ -15,10 +17,12 @@ export const SignUp = ({ onSignUp, isSignUpPage, collegeList }) => {
       if (inputPassword.value === inputPasswordConfirm.value) {
         console.log('grade = '+inputGrade.value)
         console.log('college = '+inputCollege.value)
-        onSignUp(inputUsername.value, inputPassword.value, inputGrade.value, inputCollege.value)
+        console.log('department = '+inputDepartment.value)
+        console.log('major = '+inputMajor.value)
+        onSignUp(inputUsername.value, inputPassword.value, inputGrade.value, inputCollege.value, inputDepartment.value, inputMajor.value)
       }
       else {
-        console.log('password not coincide')
+        console.log('password not same')
       }
     }
     else {
@@ -27,7 +31,6 @@ export const SignUp = ({ onSignUp, isSignUpPage, collegeList }) => {
   }
 
   if (isSignUpPage) {
-    console.log(collegeList)
     return (
       <div>
         <input ref={node => { inputUsername = node }} placeholder={'username'} /> <br />
@@ -44,14 +47,32 @@ export const SignUp = ({ onSignUp, isSignUpPage, collegeList }) => {
           )}
         </select> <br />
         College
-        <select ref={node => { inputCollege = node }}>
-          {collegeList.map(value =>
+        <select ref={node => { inputCollege = node }} onChange={() => onChangeDepartmentList(inputCollege.value)}>
+          {collegeList.map((value, index) =>
             <option
               key={value.id}
-              value={value.id}
+              value={index}
             >{value.name}</option>
           )}
         </select> <br />
+        Department
+        <select ref={node => { inputDepartment = node }} onChange={() => onChangeMajorList(inputDepartment.value)}>
+          {departmentList.map((value, index) =>
+            <option
+              key={value.id}
+              value={index}
+            >{value.name}</option>
+          )}
+        </select> <br />
+        {/*Major*/}
+        {/*<select ref={node => { inputMajor = node }}>*/}
+          {/*{majorList.map((value, index) =>*/}
+            {/*<option*/}
+              {/*key={value.id}*/}
+              {/*value={index}*/}
+            {/*>{value.name}</option>*/}
+          {/*)}*/}
+        {/*</select> <br />*/}
         <Button type="submit" onClick={onSubmit}>Sign Up</Button>
       </div>
     )

@@ -10,6 +10,8 @@ export const SETTINGTAB_REQUEST = 'SETTINGTAB_REQUEST'
 export const MODIFY_MEMO_REQUEST = 'MODIFY_MEMO_REQUEST'
 export const MODIFY_TITLE_REQUEST = 'MODIFY_TITLE_REQUEST'
 export const GET_COLLEGELIST_RESPONSE = 'GET_COLLEGELIST_RESPONSE'
+export const CHANGE_DEPARTMENTLIST_REQUEST = 'CHANGE_DEPARTMENTLIST_REQUEST'
+export const CHANGE_MAJORLIST_REQUEST = 'CHANGE_MAJORLIST_REQUEST'
 
 
 export const signInRequest = (username, password) => {
@@ -90,3 +92,17 @@ export const getCollegeListResponse = (collegeList) => {
     collegeList,
   }
 }
+
+export const changeDepartmentListRequest = (college) => {
+  return {
+    type:CHANGE_DEPARTMENTLIST_REQUEST,
+    college,
+  }
+}
+
+// export const changeMajorListRequest = (department) => {
+//   return {
+//     type:CHANGE_MAJORLIST_REQUEST,
+//     department,
+//   }
+// }
