@@ -8,7 +8,7 @@ export const initialState = {
   departmentList: [],
   major: undefined,
   majorList: [],
-  // notRecommends: undefined,
+  notRecommends: [],
   isSignedIn: false,
   isSignUpPage: false,
   isRecommendTab: true,

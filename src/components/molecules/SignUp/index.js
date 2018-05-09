@@ -9,17 +9,21 @@ export const SignUp = ({ onSignUp, onChangeDepartmentList, onChangeMajorList, is
   let inputGrade
   let inputCollegeIndex = {value: 0}
   let inputDepartmentIndex = {value: 0}
-  let inputMajorIndex
+  let inputMajor
   const gradeOption = [1, 2, 3, 4];
 
   const onSubmit = () => {
     if (inputUsername.value.trim() && inputPassword.value.trim() && inputPasswordConfirm.value.trim() && inputEmail.value.trim()) {
       if (inputPassword.value === inputPasswordConfirm.value) {
-        console.log('grade = '+inputGrade.value)
-        console.log('college = '+inputCollegeIndex.value)
-        console.log('department = '+inputDepartmentIndex.value)
-        console.log('major = '+inputMajorIndex.value)
-        onSignUp(inputUsername.value, inputPassword.value, inputEmail.value, inputGrade.value, inputCollegeIndex.value, inputDepartmentIndex.value, inputMajorIndex.value)
+        onSignUp(
+          inputUsername.value,
+          inputPassword.value,
+          inputEmail.value+'@snu.ac.kr',
+          inputGrade.value,
+          inputCollegeIndex.value,
+          inputDepartmentIndex.value,
+          inputMajor.value
+        )
       }
       else {
         console.log('password not same')
@@ -65,11 +69,11 @@ export const SignUp = ({ onSignUp, onChangeDepartmentList, onChangeMajorList, is
           )}
         </select> <br />
         Major
-        <select ref={node => { inputMajorIndex = node }}>
-          {majorList.map((value, index) =>
+        <select ref={node => { inputMajor = node }}>
+          {majorList.map(value =>
             <option
               key={value.id}
-              value={index}
+              value={value.id}
             >{value.name}</option>
           )}
         </select> <br />
@@ -79,11 +83,5 @@ export const SignUp = ({ onSignUp, onChangeDepartmentList, onChangeMajorList, is
   }
   return null
 }
-
-// Maybe will not use
-// SignUp.propTypes = {
-//   onSignUp: PropTypes.func.isRequired,
-//   isSignUpPage: PropTypes.bool,
-// }
 
 export default SignUp
