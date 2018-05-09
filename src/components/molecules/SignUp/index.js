@@ -9,7 +9,7 @@ export const SignUp = ({ onSignUp, onChangeDepartmentList, onChangeMajorList, is
   let inputGrade
   let inputCollegeIndex = {value: 0}
   let inputDepartmentIndex = {value: 0}
-  let inputMajor
+  let inputMajorIndex
   const gradeOption = [1, 2, 3, 4];
 
   const onSubmit = () => {
@@ -19,10 +19,10 @@ export const SignUp = ({ onSignUp, onChangeDepartmentList, onChangeMajorList, is
           inputUsername.value,
           inputPassword.value,
           inputEmail.value+'@snu.ac.kr',
-          inputGrade.value,
-          inputCollegeIndex.value,
-          inputDepartmentIndex.value,
-          inputMajor.value
+          parseInt(inputGrade.value),
+          collegeList[inputCollegeIndex.value].id,
+          inputDepartmentIndex.value === '' ? null : departmentList[inputDepartmentIndex.value].id,
+          inputMajorIndex.value === '' ? null : majorList[inputMajorIndex.value].id,
         )
       }
       else {
@@ -61,6 +61,7 @@ export const SignUp = ({ onSignUp, onChangeDepartmentList, onChangeMajorList, is
         </select> <br />
         Department
         <select ref={node => { inputDepartmentIndex = node }} onChange={() => onChangeMajorList(inputDepartmentIndex.value)}>
+          <option value=''>----</option>
           {departmentList.map((value, index) =>
             <option
               key={value.id}
@@ -69,11 +70,12 @@ export const SignUp = ({ onSignUp, onChangeDepartmentList, onChangeMajorList, is
           )}
         </select> <br />
         Major
-        <select ref={node => { inputMajor = node }}>
-          {majorList.map(value =>
+        <select ref={node => { inputMajorIndex = node }}>
+          <option value=''>----</option>
+          {majorList.map((value, index) =>
             <option
               key={value.id}
-              value={value.id}
+              value={index}
             >{value.name}</option>
           )}
         </select> <br />
