@@ -17,7 +17,7 @@ const ttrsReducer = (state = initialState, action) => {
         ...state,
         isSignUpPage: true,
       }
-    case actions.SIGNUP_REQUEST:
+    case actions.SIGNUP_RESPONSE:
       console.log('sign up complete')
       console.log(action.studentInfo)
       return {

@@ -2,6 +2,7 @@ export const SIGNIN_REQUEST = 'SIGNIN_REQUEST'
 export const SIGNIN_RESPONSE = 'SIGNIN_RESPONSE'
 export const GO_SIGNUPPAGE_REQUEST = 'GO_SIGNUPPAGE_REQUEST'
 export const SIGNUP_REQUEST = 'SIGNUP_REQUEST'
+export const SIGNUP_RESPONSE = 'SIGNUP_RESPONSE'
 export const SIGNOUT_REQUEST = 'SIGNOUT_REQUEST'
 export const RECOMMENDTAB_REQUEST = 'RECOMMENDTAB_REQUEST'
 export const BOOKMARKTAB_REQUEST = 'BOOKMARKTAB_REQUEST'
@@ -38,6 +39,13 @@ export const goSignUpPageRequest = () => {
 export const signUpRequest = (studentInfo) => {
   return {
     type: SIGNUP_REQUEST,
+    studentInfo,
+  }
+}
+
+export const signUpResponse = (studentInfo) => {
+  return {
+    type: SIGNUP_RESPONSE,
     studentInfo,
   }
 }
