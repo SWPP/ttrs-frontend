@@ -73,19 +73,19 @@ const ttrsReducer = (state = initialState, action) => {
         ...state,
         collegeList: action.collegeList,
         departmentList: action.collegeList[0].departments,
-        // majorList: state.collegeList[0].departments[0].majors,
+        majorList: action.collegeList[0].departments[0].majors,
       }
     case actions.CHANGE_DEPARTMENTLIST_REQUEST:
       return {
         ...state,
         departmentList: state.collegeList[action.college].departments,
-        // majorList: state.departmentList[0].majors,
+        majorList: state.collegeList[action.college].departments[0].majors,
       }
-    // case actions.CHANGE_MAJORLIST_REQUEST:
-    //   return {
-    //     ...state,
-    //     majorList: state.departmentList[action.department].majors,
-    //   }
+    case actions.CHANGE_MAJORLIST_REQUEST:
+      return {
+        ...state,
+        majorList: state.departmentList[action.department].majors,
+      }
     default:
       return state
   }

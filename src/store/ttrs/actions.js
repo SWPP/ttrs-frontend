@@ -100,9 +100,9 @@ export const changeDepartmentListRequest = (college) => {
   }
 }
 
-// export const changeMajorListRequest = (department) => {
-//   return {
-//     type:CHANGE_MAJORLIST_REQUEST,
-//     department,
-//   }
-// }
+export const changeMajorListRequest = (department) => {
+  return {
+    type:CHANGE_MAJORLIST_REQUEST,
+    department,
+  }
+}
