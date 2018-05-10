@@ -43,18 +43,16 @@ function* signIn(username, password) {
 
 function* signUp(studentInfo) {
   try {
-    console.log(studentInfo)
     const signUpResponse = yield call(fetch, `${url}ttrs/students/signup/`, {
-      method: 'POST'
-    }, {
-      studentInfo,
-    }, { headers: {
+      method: 'POST',
+      body: studentInfo && JSON.stringify(studentInfo),
+      headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
     })
     console.log(signUpResponse)
-    // yield put(actions.signUpResponse({ studentInfo }))
+    yield put(actions.signUpResponse(studentInfo))
   } catch (error) {
     console.log('Failed to sign up')
     console.log(error)

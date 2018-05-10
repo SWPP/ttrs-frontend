@@ -21,8 +21,10 @@ const ttrsReducer = (state = initialState, action) => {
       console.log('sign up complete')
       console.log(action.studentInfo)
       return {
-        ...state,
-        isSignUpPage: false,
+        ...initialState,
+        collegeList: state.collegeList,
+        departmentList: state.collegeList[0].departments,
+        majorList: state.collegeList[0].departments[0].majors,
       }
     case actions.SIGNOUT_REQUEST:
       console.log('sign in page')
