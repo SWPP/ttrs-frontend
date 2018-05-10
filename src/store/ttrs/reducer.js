@@ -3,14 +3,12 @@ import * as actions from './actions'
 
 const ttrsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actions.SIGNIN_REQUEST:
-      console.log('username: ', action.username)
-      console.log('password: ', action.password)
+    case actions.SIGNIN_RESPONSE:
+      console.log(action.studentInfo)
       console.log('main page')
       return {
         ...state,
-        username: action.username,
-        password: action.password,
+        ...action.studentInfo,
         isSignedIn: true,
       }
     case actions.GO_SIGNUPPAGE_REQUEST:
@@ -19,15 +17,23 @@ const ttrsReducer = (state = initialState, action) => {
         ...state,
         isSignUpPage: true,
       }
-    case actions.SIGNUP_REQUEST:
+    case actions.SIGNUP_RESPONSE:
       console.log('sign up complete')
+      console.log(action.studentInfo)
       return {
-        ...state,
-        isSignUpPage: false,
+        ...initialState,
+        collegeList: state.collegeList,
+        departmentList: state.collegeList[0].departments,
+        majorList: state.collegeList[0].departments[0].majors,
       }
     case actions.SIGNOUT_REQUEST:
       console.log('sign in page')
-      return initialState
+      return {
+        ...initialState,
+        collegeList: state.collegeList,
+        departmentList: state.collegeList[0].departments,
+        majorList: state.collegeList[0].departments[0].majors,
+      }
     case actions.RECOMMENDTAB_REQUEST:
       console.log('recommend tab')
       return {
@@ -63,6 +69,24 @@ const ttrsReducer = (state = initialState, action) => {
       return {
         ...state,
         title: action.content,
+      }
+    case actions.GET_COLLEGELIST_RESPONSE:
+      return {
+        ...state,
+        collegeList: action.collegeList,
+        departmentList: action.collegeList[0].departments,
+        majorList: action.collegeList[0].departments[0].majors,
+      }
+    case actions.CHANGE_DEPARTMENTLIST_REQUEST:
+      return {
+        ...state,
+        departmentList: state.collegeList[action.collegeIndex].departments,
+        majorList: state.collegeList[action.collegeIndex].departments[0].majors,
+      }
+    case actions.CHANGE_MAJORLIST_REQUEST:
+      return {
+        ...state,
+        majorList: action.departmentIndex === '' ? [] : state.departmentList[action.departmentIndex].majors,
       }
     default:
       return state
