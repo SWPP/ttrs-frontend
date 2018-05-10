@@ -29,15 +29,26 @@ function* signIn(username, password) {
         'Content-Type': 'application/json',
       },
     })
-    // const grade = studentInfoResponse.grade
-    // const college = studentInfoResponse.college
-    // const department = studentInfoResponse.department
-    // const major = studentInfoResponse.major
-    // const notRecommends = studentInfoResponse.not_recommends
-    // yield put(actions.signInResponse({ username, password, grade, college, department, major, notRecommends }))
-    yield put(actions.signInResponse({ username, password }))
+    const { email, grade, college, department, major } = signInResponse
+    const notRecommends = signInResponse.not_recommends
+    const myTimeTable = signInResponse.my_time_table
+    const bookmarkedTimeTables = signInResponse.bookmarked_time_tables
+    const receivedTimeTables = signInResponse.received_time_tables
+    yield put(actions.signInResponse({
+      username,
+      password,
+      email,
+      grade,
+      college,
+      department,
+      major,
+      notRecommends,
+      myTimeTable,
+      bookmarkedTimeTables,
+      receivedTimeTables,
+    }))
   } catch (error) {
-    console.log('Invalid user')
+    console.log('Failed to sign in')
   }
 }
 
