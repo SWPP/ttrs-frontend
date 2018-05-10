@@ -13,11 +13,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onChangeDepartmentList: (college) => {
-      dispatch(changeDepartmentListRequest( college ))
+    onChangeDepartmentList: (collegeIndex) => {
+      dispatch(changeDepartmentListRequest( collegeIndex ))
     },
-    onChangeMajorList: (department) => {
-      dispatch(changeMajorListRequest( department ))
+    onChangeMajorList: (departmentIndex) => {
+      dispatch(changeMajorListRequest( departmentIndex ))
     },
     onSignUp: (username, password, email, grade, college, department, major) => {
       dispatch(signUpRequest({ username, password, email, grade, college, department, major }))

@@ -78,13 +78,13 @@ const ttrsReducer = (state = initialState, action) => {
     case actions.CHANGE_DEPARTMENTLIST_REQUEST:
       return {
         ...state,
-        departmentList: state.collegeList[action.college].departments,
-        majorList: state.collegeList[action.college].departments[0].majors,
+        departmentList: state.collegeList[action.collegeIndex].departments,
+        majorList: state.collegeList[action.collegeIndex].departments[0].majors,
       }
     case actions.CHANGE_MAJORLIST_REQUEST:
       return {
         ...state,
-        majorList: state.departmentList[action.department].majors,
+        majorList: action.departmentIndex === '' ? [] : state.departmentList[action.departmentIndex].majors,
       }
     default:
       return state
