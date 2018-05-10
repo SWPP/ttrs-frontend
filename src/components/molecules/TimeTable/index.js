@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import Memo from '../../atoms/Memo'
 import TimeSlot from '../../atoms/TimeSlot'
 import Title from '../../atoms/Title'
@@ -39,21 +39,5 @@ export const TimeTable = ({ isSignedIn, memo, title, timeSlotList, onModifyMemo,
   }
   return null
 }
-
-/* Maybe will not use this*/
-// TimeTable.propTypes = {
-//   isSignedIn: PropTypes.bool,
-//   memo: PropTypes.string.isRequired,
-//   title: PropTypes.string.isRequired,
-//   timeSlotList: PropTypes.arrayOf(PropTypes.shape({
-//     id: PropTypes.number,
-//     dayOfWeek: PropTypes.string,
-//     startTime: PropTypes.string,
-//     endTime: PropTypes.string,
-//     classroom: PropTypes.string,
-//   })),
-//   onModifyMemo: PropTypes.func.isRequired,
-//   onModifyTitle: PropTypes.func.isRequired,
-// }
 
 export default TimeTable

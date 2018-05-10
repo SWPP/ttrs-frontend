@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import Button from '../../atoms/Button'
 
 export const SignUp = ({ onSignUp, onChangeDepartmentList, onChangeMajorList, isSignUpPage, collegeList, departmentList, majorList }) => {
