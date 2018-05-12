@@ -22,17 +22,17 @@ const ttrsReducer = (state = initialState, action) => {
       console.log(action.studentInfo)
       return {
         ...initialState,
-        collegeList: state.collegeList,
-        departmentList: state.collegeList[0].departments,
-        majorList: state.collegeList[0].departments[0].majors,
+        colleges: state.colleges,
+        departments: state.colleges[0].departments,
+        majors: state.colleges[0].departments[0].majors,
       }
     case actions.SIGNOUT_REQUEST:
       console.log('sign in page')
       return {
         ...initialState,
-        collegeList: state.collegeList,
-        departmentList: state.collegeList[0].departments,
-        majorList: state.collegeList[0].departments[0].majors,
+        colleges: state.colleges,
+        departments: state.colleges[0].departments,
+        majors: state.colleges[0].departments[0].majors,
       }
     case actions.RECOMMENDTAB_REQUEST:
       console.log('recommend tab')
@@ -73,20 +73,20 @@ const ttrsReducer = (state = initialState, action) => {
     case actions.GET_COLLEGELIST_RESPONSE:
       return {
         ...state,
-        collegeList: action.collegeList,
-        departmentList: action.collegeList[0].departments,
-        majorList: action.collegeList[0].departments[0].majors,
+        colleges: action.colleges,
+        departments: action.colleges[0].departments,
+        majors: action.colleges[0].departments[0].majors,
       }
     case actions.CHANGE_DEPARTMENTLIST_REQUEST:
       return {
         ...state,
-        departmentList: state.collegeList[action.collegeIndex].departments,
-        majorList: state.collegeList[action.collegeIndex].departments[0].majors,
+        departments: state.colleges[action.collegeIndex].departments,
+        majors: state.colleges[action.collegeIndex].departments[0].majors,
       }
     case actions.CHANGE_MAJORLIST_REQUEST:
       return {
         ...state,
-        majorList: action.departmentIndex === '' ? [] : state.departmentList[action.departmentIndex].majors,
+        majors: action.departmentIndex === '' ? [] : state.departments[action.departmentIndex].majors,
       }
     default:
       return state
