@@ -1,39 +1,31 @@
+import axios from 'axios'
 import { take, put, call, fork } from 'redux-saga/effects'
-import api from '../../services/api'
 import * as actions from './actions'
 
-const url = 'http://127.0.0.1:8000/'
+axios.defaults.baseURL = 'http://127.0.0.1:8000/'
+const config = {}
 
 function* getCollegeList() {
   try {
-    const collegeListResponse = yield call(api.get, `${url}ttrs/colleges/`, {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-    console.log(collegeListResponse)
-    yield put(actions.getCollegeListResponse(collegeListResponse))
+    const response = yield call(axios.get, 'ttrs/colleges/')
+    console.log('getCollegeList response', response)
+    yield put(actions.getCollegeListResponse(response.data))
   } catch (error) {
-    console.log('Failed to get college list')
+    console.log('getCollegeList error', error.response)
   }
 }
 
 function* signIn(username, password) {
+  const hash = new Buffer(`${username}:${password}`).toString('base64')
+  config.headers = { Authorization: `Basic ${hash}` }
   try {
-    const hash = new Buffer(`${username}:${password}`).toString('base64')
-    const signInResponse = yield call(api.get, `${url}ttrs/students/my/`, {
-      headers: {
-        Authorization: `Basic ${hash}`,
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-    const { email, grade, college, department, major } = signInResponse
-    const notRecommends = signInResponse.not_recommends
-    const myTimeTable = signInResponse.my_time_table
-    const bookmarkedTimeTables = signInResponse.bookmarked_time_tables
-    const receivedTimeTables = signInResponse.received_time_tables
+    const response = yield call(axios.get, 'ttrs/students/my/', config)
+    console.log('signIn response', response)
+    const { email, grade, college, department, major } = response
+    const notRecommends = response.data.not_recommends
+    const myTimeTables = response.data.my_time_tables
+    const bookmarkedTimeTables = response.data.bookmarked_time_tables
+    const receivedTimeTables = response.data.received_time_tables
     yield put(actions.signInResponse({
       username,
       password,
@@ -43,30 +35,22 @@ function* signIn(username, password) {
       department,
       major,
       notRecommends,
-      myTimeTable,
+      myTimeTables,
       bookmarkedTimeTables,
       receivedTimeTables,
     }))
   } catch (error) {
-    console.log('Failed to sign in')
+    console.log('signIn error', error.response)
   }
 }
 
 function* signUp(studentInfo) {
   try {
-    const signUpResponse = yield call(fetch, `${url}ttrs/students/signup/`, {
-      method: 'POST',
-      body: studentInfo && JSON.stringify(studentInfo),
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-    console.log(signUpResponse)
+    const response = yield call(axios.post, 'ttrs/students/signup/', studentInfo)
+    console.log('signUp response', response)
     yield put(actions.signUpResponse(studentInfo))
   } catch (error) {
-    console.log('Failed to sign up')
-    console.log(error)
+    console.log('signUp error', error.response)
   }
 }
 
