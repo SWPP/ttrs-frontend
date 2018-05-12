@@ -126,7 +126,7 @@ export const searchLectureRequest = (content) => {
 
 export const searchLectureResponse = (lectureList) => {
   return {
-    type:SEARCH_LECTURE_REQUEST,
+    type:SEARCH_LECTURE_RESPONSE,
     lectureList,
   }
 }
