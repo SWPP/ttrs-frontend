@@ -133,16 +133,16 @@ export const searchLectureResponse = (lectures) => {
   }
 }
 
-export const addLectureToTimeTableRequest = (content) => {
-  return {
-    type:ADD_LECTURE_TO_TIMETABLE_REQUEST,
-    content,
-  }
-}
-
-export const addLectureToTimeTableResponse = (content) => {
-  return {
-    type:ADD_LECTURE_TO_TIMETABLE_RESPONSE,
-    content,
-  }
-}
+// export const addLectureToTimeTableRequest = (content) => {
+//   return {
+//     type:ADD_LECTURE_TO_TIMETABLE_REQUEST,
+//     content,
+//   }
+// }
+//
+// export const addLectureToTimeTableResponse = (content) => {
+//   return {
+//     type:ADD_LECTURE_TO_TIMETABLE_RESPONSE,
+//     content,
+//   }
+// }

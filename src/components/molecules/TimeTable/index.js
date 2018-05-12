@@ -30,7 +30,7 @@ export const TimeTable = ({ isSignedIn, memo, title, timeSlots, onModifyMemo, on
             key={timeSlot.id}
             {...timeSlot}
           />
-        )}
+        )} <br />
         <input ref={node => { memoContent = node }} placeholder={'memo'} /> <br />
         <Memo content={memoContent} />
         <Button type="submit" onClick={onSubmitMemo}>Modify Memo</Button>
