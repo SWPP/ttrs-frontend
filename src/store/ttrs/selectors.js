@@ -34,5 +34,5 @@ export const initialState = {
     endTime: '7',
     classroom: '8',
   }],
-  LectureList: [],
+  lectureList: [],
 }

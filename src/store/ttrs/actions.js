@@ -14,6 +14,7 @@ export const GET_COLLEGELIST_RESPONSE = 'GET_COLLEGELIST_RESPONSE'
 export const CHANGE_DEPARTMENTLIST_REQUEST = 'CHANGE_DEPARTMENTLIST_REQUEST'
 export const CHANGE_MAJORLIST_REQUEST = 'CHANGE_MAJORLIST_REQUEST'
 export const SEARCH_LECTURE_REQUEST = 'SEARCH_LECTURE_REQUEST'
+export const SEARCH_LECTURE_RESPONSE = 'SEARCH_LECTURE_RESPONSE'
 
 
 export const signInRequest = (username, password) => {
@@ -120,5 +121,12 @@ export const searchLectureRequest = (content) => {
   return {
     type:SEARCH_LECTURE_REQUEST,
     content,
+  }
+}
+
+export const searchLectureResponse = (lectureList) => {
+  return {
+    type:SEARCH_LECTURE_REQUEST,
+    lectureList,
   }
 }

@@ -88,6 +88,11 @@ const ttrsReducer = (state = initialState, action) => {
         ...state,
         majorList: action.departmentIndex === '' ? [] : state.departmentList[action.departmentIndex].majors,
       }
+    case actions.SEARCH_LECTURE_RESPONSE:
+      return {
+        ...state,
+        lectureList: action.lectureList,
+      }
     default:
       return state
   }

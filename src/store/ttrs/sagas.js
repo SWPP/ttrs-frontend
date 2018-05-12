@@ -21,7 +21,7 @@ function* signIn(username, password) {
   try {
     const response = yield call(axios.get, 'ttrs/students/my/', config)
     console.log('signIn response', response)
-    const { email, grade, college, department, major } = response
+    const { email, grade, college, department, major } = response.data
     const notRecommends = response.data.not_recommends
     const myTimeTables = response.data.my_time_tables
     const bookmarkedTimeTables = response.data.bookmarked_time_tables
@@ -54,6 +54,16 @@ function* signUp(studentInfo) {
   }
 }
 
+function* searchLecture(content) {
+  try {
+    const response = yield call(axios.get, 'ttrs/lectures/?course__name__contains='+`${content}`, config)
+    console.log('searchLecture response', response)
+    yield put(actions.searchLectureResponse(response.data))
+  } catch (error) {
+    console.log('searchLecture error', error.response)
+  }
+}
+
 function* watchSignInRequest() {
   while (true) {
     const { username, password } = yield take(actions.SIGNIN_REQUEST)
@@ -68,8 +78,16 @@ function* watchSignUpRequest() {
   }
 }
 
+function* watchSearchLectureRequest() {
+  while (true) {
+    const { content } = yield take(actions.SEARCH_LECTURE_REQUEST)
+    yield call(searchLecture, content)
+  }
+}
+
 export default function* () {
   yield call(getCollegeList)
   yield fork(watchSignInRequest)
   yield fork(watchSignUpRequest)
+  yield fork(watchSearchLectureRequest)
 }
