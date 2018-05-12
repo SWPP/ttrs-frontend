@@ -98,10 +98,10 @@ export const modifyTitleRequest = (content) => {
   }
 }
 
-export const getCollegeListResponse = (collegeList) => {
+export const getCollegeListResponse = (colleges) => {
   return {
     type: GET_COLLEGELIST_RESPONSE,
-    collegeList,
+    colleges,
   }
 }
 

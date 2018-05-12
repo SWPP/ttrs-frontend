@@ -9,7 +9,7 @@ $ npm install
 
 #### Axios
 ```console
-npm install --save axios
+$ npm install --save axios
 ```
 
 ## Notice

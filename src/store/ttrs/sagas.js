@@ -1,13 +1,40 @@
 import axios from 'axios'
 import { take, put, call, fork } from 'redux-saga/effects'
 import * as actions from './actions'
+import { convertToCStyle, convertToJavaStyle } from '../../services/parser'
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000/'
+axios.interceptors.request.use((config) => {
+  const newParams = convertToCStyle(config.params)
+  return {
+    ...config,
+    params: newParams,
+  }
+}, (error) => {
+  return Promise.reject(error)
+})
+axios.interceptors.response.use((response) => {
+  const newData = convertToJavaStyle(response.data)
+  return {
+    ...response,
+    data: newData,
+  }
+}, (error) => {
+  const newData = convertToJavaStyle(error.response.data)
+  const newError = {
+    ...error,
+    response: {
+      ...error.response,
+      data: newData,
+    },
+  }
+  return Promise.reject(newError)
+})
 const config = {}
 
 function* getCollegeList() {
   try {
-    const response = yield call(axios.get, 'ttrs/colleges/')
+    const response = yield call(axios.get, 'ttrs/colleges/', config)
     console.log('getCollegeList response', response)
     yield put(actions.getCollegeListResponse(response.data))
   } catch (error) {
@@ -21,24 +48,7 @@ function* signIn(username, password) {
   try {
     const response = yield call(axios.get, 'ttrs/students/my/', config)
     console.log('signIn response', response)
-    const { email, grade, college, department, major } = response.data
-    const notRecommends = response.data.not_recommends
-    const myTimeTables = response.data.my_time_tables
-    const bookmarkedTimeTables = response.data.bookmarked_time_tables
-    const receivedTimeTables = response.data.received_time_tables
-    yield put(actions.signInResponse({
-      username,
-      password,
-      email,
-      grade,
-      college,
-      department,
-      major,
-      notRecommends,
-      myTimeTables,
-      bookmarkedTimeTables,
-      receivedTimeTables,
-    }))
+    yield put(actions.signInResponse(response.data))
   } catch (error) {
     console.log('signIn error', error.response)
   }
