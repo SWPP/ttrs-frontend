@@ -7,10 +7,10 @@ export const SignUp = ({ onSignUp, onReturnToSignInPage, onChangeDepartmentList,
   let inputPasswordConfirm
   let inputEmail
   let inputGrade
-  let inputCollegeIndex = {value: 0}
-  let inputDepartmentIndex = {value: 0}
+  let inputCollegeIndex = { value: 0 }
+  let inputDepartmentIndex = { value: 0 }
   let inputMajorIndex
-  const gradeOption = [1, 2, 3, 4];
+  const gradeOption = [1, 2, 3, 4]
 
   const onSubmit = () => {
     if (inputUsername.value.trim() && inputPassword.value.trim() && inputPasswordConfirm.value.trim() && inputEmail.value.trim()) {
@@ -18,18 +18,16 @@ export const SignUp = ({ onSignUp, onReturnToSignInPage, onChangeDepartmentList,
         onSignUp(
           inputUsername.value,
           inputPassword.value,
-          inputEmail.value+'@snu.ac.kr',
-          parseInt(inputGrade.value),
+          `${inputEmail.value}@snu.ac.kr`,
+          parseInt(inputGrade.value, 10),
           colleges[inputCollegeIndex.value].id,
           inputDepartmentIndex.value === '' ? null : departments[inputDepartmentIndex.value].id,
           inputMajorIndex.value === '' ? null : majors[inputMajorIndex.value].id,
         )
-      }
-      else {
+      } else {
         console.log('password not same')
       }
-    }
-    else {
+    } else {
       console.log('blank input not allowed')
     }
   }
@@ -61,7 +59,7 @@ export const SignUp = ({ onSignUp, onReturnToSignInPage, onChangeDepartmentList,
         </select> <br />
         Department
         <select ref={node => { inputDepartmentIndex = node }} onChange={() => onChangeMajorList(inputDepartmentIndex.value)}>
-          <option value=''>----</option>
+          <option value="">----</option>
           {departments.map((value, index) =>
             <option
               key={value.id}
@@ -71,7 +69,7 @@ export const SignUp = ({ onSignUp, onReturnToSignInPage, onChangeDepartmentList,
         </select> <br />
         Major
         <select ref={node => { inputMajorIndex = node }}>
-          <option value=''>----</option>
+          <option value="">----</option>
           {majors.map((value, index) =>
             <option
               key={value.id}

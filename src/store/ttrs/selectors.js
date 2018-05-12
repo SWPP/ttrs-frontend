@@ -27,7 +27,7 @@ export const initialState = {
     startTime: '2',
     endTime: '3',
     classroom: '4',
-  },{
+  }, {
     id: 5,
     dayOfWeek: '5',
     startTime: '6',

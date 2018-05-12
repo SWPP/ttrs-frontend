@@ -103,14 +103,14 @@ export const getCollegeListResponse = (colleges) => {
 
 export const changeDepartmentListRequest = (collegeIndex) => {
   return {
-    type:CHANGE_DEPARTMENTLIST_REQUEST,
+    type: CHANGE_DEPARTMENTLIST_REQUEST,
     collegeIndex,
   }
 }
 
 export const changeMajorListRequest = (departmentIndex) => {
   return {
-    type:CHANGE_MAJORLIST_REQUEST,
+    type: CHANGE_MAJORLIST_REQUEST,
     departmentIndex,
   }
 }

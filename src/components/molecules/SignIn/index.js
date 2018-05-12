@@ -9,8 +9,7 @@ export const SignIn = ({ onSignIn, onGoSignUpPage, isSignedIn, isSignUpPage }) =
       onSignIn(inputUsername.value, inputPassword.value)
       inputUsername.value = ''
       inputPassword.value = ''
-    }
-    else {
+    } else {
       console.log('blank input not allowed')
     }
   }
