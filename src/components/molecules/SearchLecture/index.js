@@ -1,6 +1,4 @@
 import React from 'react'
-import Course from '../../atoms/Course'
-import TimeSlot from '../../atoms/TimeSlot'
 import Lecture from '../../atoms/Lecture'
 import Button from '../../atoms/Button'
 

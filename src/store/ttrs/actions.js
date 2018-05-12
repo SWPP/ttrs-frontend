@@ -15,6 +15,8 @@ export const CHANGE_DEPARTMENTLIST_REQUEST = 'CHANGE_DEPARTMENTLIST_REQUEST'
 export const CHANGE_MAJORLIST_REQUEST = 'CHANGE_MAJORLIST_REQUEST'
 export const SEARCH_LECTURE_REQUEST = 'SEARCH_LECTURE_REQUEST'
 export const SEARCH_LECTURE_RESPONSE = 'SEARCH_LECTURE_RESPONSE'
+export const ADD_LECTURE_TO_TIMETABLE_REQUEST = 'ADD_LECTURE_TO_TIMETABLE_REQUEST'
+export const ADD_LECTURE_TO_TIMETABLE_RESPONSE = 'ADD_LECTURE_TO_TIMETABLE_RESPONSE'
 
 
 export const signInRequest = (username, password) => {
@@ -128,5 +130,19 @@ export const searchLectureResponse = (lectureList) => {
   return {
     type:SEARCH_LECTURE_RESPONSE,
     lectureList,
+  }
+}
+
+export const addLectureToTimeTableRequest = (content) => {
+  return {
+    type:ADD_LECTURE_TO_TIMETABLE_REQUEST,
+    content,
+  }
+}
+
+export const addLectureToTimeTableResponse = (content) => {
+  return {
+    type:ADD_LECTURE_TO_TIMETABLE_RESPONSE,
+    content,
   }
 }
