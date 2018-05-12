@@ -1,4 +1,4 @@
-import { initialState } from "./selectors"
+import { initialState } from './selectors'
 import * as actions from './actions'
 
 const ttrsReducer = (state = initialState, action) => {
