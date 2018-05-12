@@ -2,9 +2,10 @@ import React from 'react'
 import Course from '../../atoms/Course'
 import TimeSlot from '../../atoms/TimeSlot'
 import Button from '../../atoms/Button'
+import Lecture from '../../atoms/Lecture'
 
 
-export const SearchLecture = ({ isSignedIn, lectureList }) => {
+export const SearchLecture = ({ isSignedIn, lectureList, onSearchLecture }) => {
   let inputCourseName
 
   const onSubmitCourseName = () => {
@@ -21,9 +22,13 @@ export const SearchLecture = ({ isSignedIn, lectureList }) => {
         {lectureList.map(lecture =>
           <Course
             key={lecture.course.id}
-            {lecture.course}
+            {...lecture.course}
           />,
           <TimeSlot
+            key={lecture.time_slots.id}
+            {...lecture.time_slots}
+          />,
+          <Lecture
             key={lecture.id}
             {...lecture}
           />
