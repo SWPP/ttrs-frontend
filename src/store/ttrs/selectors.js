@@ -7,7 +7,7 @@ export const initialState = {
   department: undefined,
   major: undefined,
   notRecommends: [],
-  myTimeTable: [],
+  myTimeTables: [],
   bookmarkedTimeTables: [],
   receivedTimeTables: [],
   collegeList: [],
