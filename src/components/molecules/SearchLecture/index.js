@@ -3,7 +3,7 @@ import Lecture from '../../atoms/Lecture'
 import Button from '../../atoms/Button'
 
 
-export const SearchLecture = ({ isSignedIn, lectureList, onSearchLecture }) => {
+export const SearchLecture = ({ isSignedIn, lectures, onSearchLecture }) => {
   let inputCourseName
 
   const onSubmitCourseName = () => {
@@ -17,7 +17,7 @@ export const SearchLecture = ({ isSignedIn, lectureList, onSearchLecture }) => {
         <Button type="submit" onClick={onSubmitCourseName}>Search</Button>
         <br />
         Lectures
-        {lectureList.map(lecture =>
+        {lectures.map(lecture =>
           <Lecture
             key={lecture.id}
             {...lecture}

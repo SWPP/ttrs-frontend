@@ -5,7 +5,7 @@ import Title from '../../atoms/Title'
 import Button from '../../atoms/Button'
 
 
-export const TimeTable = ({ isSignedIn, memo, title, timeSlotList, onModifyMemo, onModifyTitle }) => {
+export const TimeTable = ({ isSignedIn, memo, title, timeSlots, onModifyMemo, onModifyTitle }) => {
   let titleContent = title
   let memoContent = memo
 
@@ -25,7 +25,7 @@ export const TimeTable = ({ isSignedIn, memo, title, timeSlotList, onModifyMemo,
         <Button type="submit" onClick={onSubmitTitle}>Modify Title</Button>
         <br />
         TimeTable
-        {timeSlotList.map(timeSlot =>
+        {timeSlots.map(timeSlot =>
           <TimeSlot
             key={timeSlot.id}
             {...timeSlot}

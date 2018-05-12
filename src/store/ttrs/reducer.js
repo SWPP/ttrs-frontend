@@ -91,7 +91,7 @@ const ttrsReducer = (state = initialState, action) => {
     case actions.SEARCH_LECTURE_RESPONSE:
       return {
         ...state,
-        lectureList: action.lectureList,
+        lectures: action.lectures,
       }
     default:
       return state

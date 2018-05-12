@@ -21,6 +21,6 @@ export const initialState = {
   isSettingTab: false,
   title: 'write title',
   memo: 'write memo',
-  timeSlotList: [],
-  lectureList: [],
+  timeSlots: [],
+  lectures: [],
 }

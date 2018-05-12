@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Classroom = ({ building, room_no }) => (
+const Classroom = ({ building, roomNo }) => (
   <div>
     {"building = "+building+" "}
-    {"roomNo = "+room_no+" "}
+    {"roomNo = "+roomNo+" "}
   </div>
 )
 

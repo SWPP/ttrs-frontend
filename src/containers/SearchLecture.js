@@ -5,7 +5,7 @@ import { searchLectureRequest } from '../store/ttrs/actions'
 const mapStateToProps = (state) => {
   return {
     isSignedIn: state.ttrs.isSignedIn,
-    lectureList: state.ttrs.lectureList,
+    lectures: state.ttrs.lectures,
   }
 }
 

@@ -3,10 +3,10 @@ import Course from '../Course'
 import TimeSlot from '../TimeSlot'
 import Button from '../Button'
 
-const Lecture = ({ course, time_slots, year, semester, number, instructor, note, onAddLectureToTimeTable }) => (
+const Lecture = ({ course, timeSlots, year, semester, number, instructor, note, onAddLectureToTimeTable }) => (
   <div>
     <Course {...course} />
-    {time_slots.map(timeSlot =>
+    {timeSlots.map(timeSlot =>
       <TimeSlot
         key={timeSlot.id}
         {...timeSlot}

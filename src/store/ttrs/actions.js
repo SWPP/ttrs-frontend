@@ -126,10 +126,10 @@ export const searchLectureRequest = (content) => {
   }
 }
 
-export const searchLectureResponse = (lectureList) => {
+export const searchLectureResponse = (lectures) => {
   return {
     type:SEARCH_LECTURE_RESPONSE,
-    lectureList,
+    lectures,
   }
 }
 
