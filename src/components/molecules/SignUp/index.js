@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '../../atoms/Button'
 
-export const SignUp = ({ onSignUp, onReturnToSignInPage, onChangeDepartmentList, onChangeMajorList, isSignUpPage, collegeList, departmentList, majorList }) => {
+export const SignUp = ({ onSignUp, onReturnToSignInPage, onChangeDepartmentList, onChangeMajorList, isSignUpPage, colleges, departments, majors }) => {
   let inputUsername
   let inputPassword
   let inputPasswordConfirm
@@ -20,9 +20,9 @@ export const SignUp = ({ onSignUp, onReturnToSignInPage, onChangeDepartmentList,
           inputPassword.value,
           inputEmail.value+'@snu.ac.kr',
           parseInt(inputGrade.value),
-          collegeList[inputCollegeIndex.value].id,
-          inputDepartmentIndex.value === '' ? null : departmentList[inputDepartmentIndex.value].id,
-          inputMajorIndex.value === '' ? null : majorList[inputMajorIndex.value].id,
+          colleges[inputCollegeIndex.value].id,
+          inputDepartmentIndex.value === '' ? null : departments[inputDepartmentIndex.value].id,
+          inputMajorIndex.value === '' ? null : majors[inputMajorIndex.value].id,
         )
       }
       else {
@@ -52,7 +52,7 @@ export const SignUp = ({ onSignUp, onReturnToSignInPage, onChangeDepartmentList,
         </select> <br />
         College
         <select ref={node => { inputCollegeIndex = node }} onChange={() => onChangeDepartmentList(inputCollegeIndex.value)}>
-          {collegeList.map((value, index) =>
+          {colleges.map((value, index) =>
             <option
               key={value.id}
               value={index}
@@ -62,7 +62,7 @@ export const SignUp = ({ onSignUp, onReturnToSignInPage, onChangeDepartmentList,
         Department
         <select ref={node => { inputDepartmentIndex = node }} onChange={() => onChangeMajorList(inputDepartmentIndex.value)}>
           <option value=''>----</option>
-          {departmentList.map((value, index) =>
+          {departments.map((value, index) =>
             <option
               key={value.id}
               value={index}
@@ -72,7 +72,7 @@ export const SignUp = ({ onSignUp, onReturnToSignInPage, onChangeDepartmentList,
         Major
         <select ref={node => { inputMajorIndex = node }}>
           <option value=''>----</option>
-          {majorList.map((value, index) =>
+          {majors.map((value, index) =>
             <option
               key={value.id}
               value={index}

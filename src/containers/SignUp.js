@@ -8,9 +8,9 @@ import {
 const mapStateToProps = (state) => {
   return {
     isSignUpPage: state.ttrs.isSignUpPage,
-    collegeList: state.ttrs.collegeList,
-    departmentList: state.ttrs.departmentList,
-    majorList: state.ttrs.majorList,
+    colleges: state.ttrs.colleges,
+    departments: state.ttrs.departments,
+    majors: state.ttrs.majors,
   }
 }
 
