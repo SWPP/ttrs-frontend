@@ -19,12 +19,11 @@ export const SearchLecture = ({ isSignedIn, lectures, onSearchLecture, onAddLect
         Lectures
         {lectures.map(lecture =>
           <div>
-            <Lecture
             key={lecture.id}
+            <Lecture
             {...lecture}
             />
             <Button
-              key={lecture.id+1}
               type='submit'
               onClick={() => onAddLectureToTimeTable(lecture.id)}
             >Add To TimeTable</Button>
