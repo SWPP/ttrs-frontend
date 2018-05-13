@@ -91,18 +91,17 @@ function* searchLecture(courseName) {
   }
 }
 
-function* addLectureToMyTimeTable (lectureId) {
-  lectureIdsOfMyTimeTable.push(lectureId)
+function* addLectureToMyTimeTable (lectureIds, newLectureId) {
+  lectureIds.push(newLectureId)
   let myTimeTableInfo = {
-    lectures: lectureIdsOfMyTimeTable,
+    lectures: lectureIds,
   }
   try {
     const response = yield call(axios.post, 'ttrs/my-time-tables/', myTimeTableInfo, config)
     console.log('addLecture response', response)
-    const lectureResponse = yield call(axios.get, `ttrs/lectures/${lectureId}/`, config)
+    const lectureResponse = yield call(axios.get, `ttrs/lectures/${newLectureId}/`, config)
     yield put(actions.addLectureToMyTimeTableResponse(lectureResponse.data))
   } catch (error) {
-    lectureIdsOfMyTimeTable.pop()
     console.log('addLecture error', error.response)
   }
 }
@@ -130,8 +129,8 @@ function* watchSearchLecture() {
 
 function* watchAddLectureToMyTimeTable() {
   while (true) {
-    const { lectureId } = yield take(actions.ADD_LECTURE_TO_MY_TIMETABLE_REQUEST)
-    yield call(addLectureToMyTimeTable, lectureId)
+    const { lectureIds, newLectureId } = yield take(actions.ADD_LECTURE_TO_MY_TIMETABLE_REQUEST)
+    yield call(addLectureToMyTimeTable, lectureIds, newLectureId)
   }
 }
 

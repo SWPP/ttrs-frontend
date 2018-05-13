@@ -6,7 +6,8 @@ const mapStateToProps = (state) => {
   return {
     isMainPage: state.ttrs.isMainPage,
     isRecommendTab: state.ttrs.tabs.isRecommendTab,
-    lectures: state.ttrs.search.lectures,
+    searchLectures: state.ttrs.search.lectures,
+    myTimeTableLectures: state.ttrs.timeTable.myTimeTable.lectures,
   }
 }
 
@@ -15,8 +16,8 @@ const mapDispatchToProps = (dispatch) => {
     onSearchLecture: (courseName) => {
       dispatch(searchLectureRequest(courseName))
     },
-    onAddLectureToMyTimeTable: (lectureId) => {
-      dispatch(addLectureToMyTimeTableRequest(lectureId))
+    onAddLectureToMyTimeTable: (lectureIds, newLectureId) => {
+      dispatch(addLectureToMyTimeTableRequest(lectureIds, newLectureId))
     },
   }
 }

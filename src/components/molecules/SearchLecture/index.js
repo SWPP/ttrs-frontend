@@ -3,8 +3,12 @@ import Lecture from '../../atoms/Lecture'
 import Button from '../../atoms/Button'
 
 
-export const SearchLecture = ({ isMainPage, isRecommendTab, lectures, onSearchLecture, onAddLectureToMyTimeTable }) => {
+export const SearchLecture = ({ isMainPage, isRecommendTab, searchLectures, myTimeTableLectures, onSearchLecture, onAddLectureToMyTimeTable }) => {
   let inputCourseName
+  let myTimeTableLectureIds = []
+  myTimeTableLectures.forEach((lecture) => {
+    myTimeTableLectureIds.push(lecture.id)
+  })
 
   const onSubmitCourseName = () => {
     onSearchLecture(inputCourseName.value)
@@ -17,14 +21,14 @@ export const SearchLecture = ({ isMainPage, isRecommendTab, lectures, onSearchLe
         <Button type='submit' onClick={onSubmitCourseName}>Search</Button>
         <br />
         Lectures
-        {lectures.map(lecture =>
+        {searchLectures.map(lecture =>
           <div key={lecture.id}>
             <Lecture
             {...lecture}
             />
             <Button
               type='submit'
-              onClick={() => onAddLectureToMyTimeTable(lecture.id)}
+              onClick={() => onAddLectureToMyTimeTable(myTimeTableLectureIds, lecture.id)}
             >Add To TimeTable</Button>
           </div>
         )}

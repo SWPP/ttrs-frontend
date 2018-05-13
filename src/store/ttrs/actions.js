@@ -133,10 +133,11 @@ export const getMyTimeTableResponse = (lectures) => {
   }
 }
 
-export const addLectureToMyTimeTableRequest = (lectureId) => {
+export const addLectureToMyTimeTableRequest = (lectureIds, newLectureId) => {
   return {
     type:ADD_LECTURE_TO_MY_TIMETABLE_REQUEST,
-    lectureId,
+    lectureIds,
+    newLectureId,
   }
 }
 
