@@ -5,9 +5,9 @@ import { changeDepartmentListRequest, changeMajorListRequest, clearStateRequest,
 const mapStateToProps = (state) => {
   return {
     isSignUpPage: state.ttrs.isSignUpPage,
-    colleges: state.ttrs.colleges,
-    departments: state.ttrs.departments,
-    majors: state.ttrs.majors,
+    colleges: state.ttrs.belongInfo.colleges,
+    departments: state.ttrs.belongInfo.departments,
+    majors: state.ttrs.belongInfo.majors,
   }
 }
 

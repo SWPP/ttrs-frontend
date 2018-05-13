@@ -6,7 +6,7 @@ const mapStateToProps = (state) => {
   return {
     isMainPage: state.ttrs.isMainPage,
     isRecommendTab: state.ttrs.tabs.isRecommendTab,
-    lectures: state.ttrs.lectures,
+    lectures: state.ttrs.search.lectures,
   }
 }
 

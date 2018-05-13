@@ -6,9 +6,9 @@ const mapStateToProps = (state) => {
   return {
     isMainPage: state.ttrs.isMainPage,
     isSettingTab: state.ttrs.tabs.isSettingTab,
-    memo: state.ttrs.memo,
-    title: state.ttrs.title,
-    lectures: state.ttrs.lecturesOfMyTimeTable,
+    memo: state.ttrs.timeTable.memo,
+    title: state.ttrs.timeTable.title,
+    lectures: state.ttrs.timeTable.lecturesOfMyTimeTable,
   }
 }
 
