@@ -3,7 +3,7 @@ import Lecture from '../../atoms/Lecture'
 import Button from '../../atoms/Button'
 
 
-export const SearchLecture = ({ isSignedIn, isRecommendTab, lectures, onSearchLecture, onAddLectureToTimeTable }) => {
+export const SearchLecture = ({ isSignedIn, isRecommendTab, lectures, onSearchLecture, onAddLectureToMyTimeTable }) => {
   let inputCourseName
 
   const onSubmitCourseName = () => {
@@ -25,7 +25,7 @@ export const SearchLecture = ({ isSignedIn, isRecommendTab, lectures, onSearchLe
             />
             <Button
               type='submit'
-              onClick={() => onAddLectureToTimeTable(lecture.id)}
+              onClick={() => onAddLectureToMyTimeTable(lecture.id)}
             >Add To TimeTable</Button>
           </div>
         )}

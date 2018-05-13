@@ -16,8 +16,8 @@ export const CHANGE_MAJORLIST_REQUEST = 'CHANGE_MAJORLIST_REQUEST'
 export const SEARCH_LECTURE_REQUEST = 'SEARCH_LECTURE_REQUEST'
 export const SEARCH_LECTURE_RESPONSE = 'SEARCH_LECTURE_RESPONSE'
 export const GET_MYTIMETABLE_RESPONSE = 'GET_MYTIMETABLE_RESPONSE'
-export const ADD_LECTURE_TO_TIMETABLE_REQUEST = 'ADD_LECTURE_TO_TIMETABLE_REQUEST'
-export const ADD_LECTURE_TO_TIMETABLE_RESPONSE = 'ADD_LECTURE_TO_TIMETABLE_RESPONSE'
+export const ADD_LECTURE_TO_MY_TIMETABLE_REQUEST = 'ADD_LECTURE_TO_MY_TIMETABLE_REQUEST'
+export const ADD_LECTURE_TO_MY_TIMETABLE_RESPONSE = 'ADD_LECTURE_TO_MY_TIMETABLE_RESPONSE'
 
 
 export const signInRequest = (username, password) => {
@@ -141,16 +141,16 @@ export const getMyTimeTableResponse = (lecturesOfMyTimeTable) => {
   }
 }
 
-export const addLectureToTimeTableRequest = (lectureId) => {
+export const addLectureToMyTimeTableRequest = (lectureId) => {
   return {
-    type:ADD_LECTURE_TO_TIMETABLE_REQUEST,
+    type:ADD_LECTURE_TO_MY_TIMETABLE_REQUEST,
     lectureId,
   }
 }
 
-export const addLectureToTimeTableResponse = (lecture) => {
+export const addLectureToMyTimeTableResponse = (lecture) => {
   return {
-    type:ADD_LECTURE_TO_TIMETABLE_RESPONSE,
+    type:ADD_LECTURE_TO_MY_TIMETABLE_RESPONSE,
     lecture,
   }
 }

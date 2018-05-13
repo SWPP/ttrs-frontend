@@ -57,6 +57,7 @@ function* signIn(username, password) {
     yield put(actions.signInResponse(response.data))
   } catch (error) {
     console.log('signIn error', error.response)
+    return null
   }
   try {
     const response = yield call(axios.get, `ttrs/my-time-tables/?year=${year}&semester=${semester}`, config)
@@ -94,7 +95,7 @@ function* searchLecture(courseName) {
   }
 }
 
-function* addLectureToTimeTable (lectureId) {
+function* addLectureToMyTimeTable (lectureId) {
   lectureIdsOfMyTimeTable.push(lectureId)
   let myTimeTableInfo = {
     lectures: lectureIdsOfMyTimeTable,
@@ -103,7 +104,7 @@ function* addLectureToTimeTable (lectureId) {
     const response = yield call(axios.post, 'ttrs/my-time-tables/', myTimeTableInfo, config)
     console.log('addLecture response', response)
     const lectureResponse = yield call(axios.get, `ttrs/lectures/${lectureId}/`, config)
-    yield put(actions.addLectureToTimeTableResponse(lectureResponse.data))
+    yield put(actions.addLectureToMyTimeTableResponse(lectureResponse.data))
   } catch (error) {
     lectureIdsOfMyTimeTable.pop()
     console.log('addLecture error', error.response)
@@ -131,10 +132,10 @@ function* watchSearchLecture() {
   }
 }
 
-function* watchAddLectureToTimeTable() {
+function* watchAddLectureToMyTimeTable() {
   while (true) {
-    const { lectureId } = yield take(actions.ADD_LECTURE_TO_TIMETABLE_REQUEST)
-    yield call(addLectureToTimeTable, lectureId)
+    const { lectureId } = yield take(actions.ADD_LECTURE_TO_MY_TIMETABLE_REQUEST)
+    yield call(addLectureToMyTimeTable, lectureId)
   }
 }
 
@@ -143,5 +144,5 @@ export default function* () {
   yield fork(watchSignIn)
   yield fork(watchSignUp)
   yield fork(watchSearchLecture)
-  yield fork(watchAddLectureToTimeTable)
+  yield fork(watchAddLectureToMyTimeTable)
 }
