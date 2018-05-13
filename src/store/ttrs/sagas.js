@@ -96,14 +96,12 @@ function* searchLecture(courseName) {
 function* addLectureToTimeTable (lectureId) {
   lectureIdsOfMyTimeTable.push(lectureId)
   let myTimeTableInfo = {
-    title: 'Table',
     lectures: lectureIdsOfMyTimeTable,
   }
   try {
     const response = yield call(axios.post, 'ttrs/my-time-tables/', myTimeTableInfo, config)
     console.log('addLecture response', response)
-    lecturesOfMyTimeTable.push(yield call(axios.get, `ttrs/lectures/${lectureId}/`, config))
-    yield put(actions.getMyTimeTableResponse(lecturesOfMyTimeTable))
+    yield put(actions.addLectureToTimeTableResponse(yield call(axios.get, `ttrs/lectures/${lectureId}/`, config)))
   } catch (error) {
     lectureIdsOfMyTimeTable.pop()
     console.log('addLecture error', error.response)

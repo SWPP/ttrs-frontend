@@ -98,6 +98,14 @@ const ttrsReducer = (state = initialState, action) => {
         ...state,
         lecturesOfMyTimeTable: action.lecturesOfMyTimeTable,
       }
+    case actions.ADD_LECTURE_TO_TIMETABLE_RESPONSE:
+      return {
+        ...state,
+        lecturesOfMyTimeTable: [
+          ...state.lecturesOfMyTimeTable,
+          action.lecture
+        ]
+      }
     default:
       return state
   }
