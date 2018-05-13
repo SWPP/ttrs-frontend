@@ -25,11 +25,6 @@ export const initialBelongInfo = {
   majors: [],
 }
 
-export const initialPages = {
-  isMainPage: false,
-  isSignUpPage: false,
-}
-
 export const initialTimeTable = {
   title: 'write title',
   memo: 'write memo',
@@ -42,9 +37,10 @@ export const initialSearch = {
 
 export const initialState = {
   studentInfo: initialStudentInfo,
-  belongInfo: initialBelongInfo,
-  pages: initialPages,
   tabs: initialTabs,
+  belongInfo: initialBelongInfo,
   timeTable: initialTimeTable,
   search: initialSearch,
+  isMainPage: false,
+  isSignUpPage: false,
 }
