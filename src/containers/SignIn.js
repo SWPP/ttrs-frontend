@@ -4,7 +4,7 @@ import { signInRequest, goSignUpPageRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
-    isSignedIn: state.ttrs.isSignedIn,
+    isMainPage: state.ttrs.isMainPage,
     isSignUpPage: state.ttrs.isSignUpPage,
   }
 }

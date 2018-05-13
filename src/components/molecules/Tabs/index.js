@@ -1,8 +1,8 @@
 import React from 'react'
 import Button from '../../atoms/Button'
 
-export const Tabs = ({ isSignedIn, onGoRecommendTab, onGoBookmarkTab, onGoReceivedTab, onGoSettingTab }) => {
-  if (isSignedIn) {
+export const Tabs = ({ isMainPage, onGoRecommendTab, onGoBookmarkTab, onGoReceivedTab, onGoSettingTab }) => {
+  if (isMainPage) {
     return (
       <div>
         <Button type='submit' onClick={onGoRecommendTab}>Recommend</Button>

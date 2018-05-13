@@ -1,8 +1,8 @@
 import React from 'react'
 import Button from '../../atoms/Button'
 
-export const SignOut = ({ onSignOut, isSignedIn, username }) => {
-  if (isSignedIn) {
+export const SignOut = ({ onSignOut, isMainPage, username }) => {
+  if (isMainPage) {
     return (
       <div>
         Hello, {username}!

@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '../../atoms/Button'
 
-export const SignIn = ({ onSignIn, onGoSignUpPage, isSignedIn, isSignUpPage }) => {
+export const SignIn = ({ onSignIn, onGoSignUpPage, isMainPage, isSignUpPage }) => {
   let inputUsername
   let inputPassword
   const onSubmitSignIn = () => {
@@ -19,7 +19,7 @@ export const SignIn = ({ onSignIn, onGoSignUpPage, isSignedIn, isSignUpPage }) =
     onGoSignUpPage()
   }
 
-  if (!isSignedIn && !isSignUpPage) {
+  if (!isMainPage && !isSignUpPage) {
     return (
       <div>
         <input ref={node => { inputUsername = node }} placeholder={'username'} /> <br />

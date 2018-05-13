@@ -40,7 +40,7 @@ const ttrsReducer = (state = initialState, action) => {
       return {
         ...state,
         ...action.studentInfo,
-        isSignedIn: true,
+        isMainPage: true,
       }
     case actions.GO_SIGNUPPAGE_REQUEST:
       return {

@@ -4,7 +4,7 @@ import { modifyMemoRequest, modifyTitleRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
-    isSignedIn: state.ttrs.isSignedIn,
+    isMainPage: state.ttrs.isMainPage,
     isSettingTab: state.ttrs.tabs.isSettingTab,
     memo: state.ttrs.memo,
     title: state.ttrs.title,

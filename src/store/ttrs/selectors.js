@@ -1,4 +1,4 @@
-export const initialState = {
+export const initialStudentInfo = {
   username: undefined,
   password: undefined,
   email: undefined,
@@ -10,20 +10,41 @@ export const initialState = {
   myTimeTables: [],
   bookmarkedTimeTables: [],
   receivedTimeTables: [],
+}
+
+export const initialTabs = {
+  isRecommendTab: true,
+  isBookmarkTab: false,
+  isReceivedTab: false,
+  isSettingTab: false,
+}
+
+export const initialBelongInfo = {
   colleges: [],
   departments: [],
   majors: [],
-  isSignedIn: false,
+}
+
+export const initialPages = {
+  isMainPage: false,
   isSignUpPage: false,
-  tabs: {
-    isRecommendTab: true,
-    isBookmarkTab: false,
-    isReceivedTab: false,
-    isSettingTab: false,
-  },
+}
+
+export const initialTimeTable = {
   title: 'write title',
   memo: 'write memo',
-  timeSlots: [],
+  lecturesOfMyTimeTable: [],
+}
+
+export const initialSearch = {
   lectures: [],
-  lecturesOfMyTimeTable: []
+}
+
+export const initialState = {
+  studentInfo: initialStudentInfo,
+  belongInfo: initialBelongInfo,
+  pages: initialPages,
+  tabs: initialTabs,
+  timeTable: initialTimeTable,
+  search: initialSearch,
 }

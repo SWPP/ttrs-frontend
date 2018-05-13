@@ -4,7 +4,7 @@ import { goRecommendTabRequest, goBookmarkTabRequest, goReceivedTabRequest, goSe
 
 const mapStateToProps = (state) => {
   return {
-    isSignedIn: state.ttrs.isSignedIn,
+    isMainPage: state.ttrs.isMainPage,
   }
 }
 
