@@ -34,7 +34,7 @@ const config = {}
 
 function* getCollegeList() {
   try {
-    const response = yield call(axios.get, updateURLParams('ttrs/colleges/'), config)
+    const response = yield call(axios.get, 'ttrs/colleges/', config)
     console.log('getCollegeList response', response)
     yield put(actions.getCollegeListResponse(response.data))
   } catch (error) {
