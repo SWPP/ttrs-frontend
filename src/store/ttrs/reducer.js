@@ -1,6 +1,39 @@
 import { initialState } from './selectors'
 import * as actions from './actions'
 
+const tabs = (state = [], action) => {
+  switch (action.type) {
+    case actions.RECOMMENDTAB_REQUEST:
+      return {
+        isRecommendTab: true,
+        isBookmarkTab: false,
+        isReceivedTab: false,
+        isSettingTab: false,
+      }
+    case actions.BOOKMARKTAB_REQUEST:
+      return {
+        isRecommendTab: false,
+        isBookmarkTab: true,
+        isReceivedTab: false,
+        isSettingTab: false,
+      }
+    case actions.RECEIVEDTAB_REQUEST:
+      return {
+        isRecommendTab: false,
+        isBookmarkTab: false,
+        isReceivedTab: true,
+        isSettingTab: false,
+      }
+    case actions.SETTINGTAB_REQUEST:
+      return {
+        isRecommendTab: false,
+        isBookmarkTab: false,
+        isReceivedTab: false,
+        isSettingTab: true,
+      }
+  }
+}
+
 const ttrsReducer = (state = initialState, action) => {
   switch (action.type) {
     case actions.SIGNIN_RESPONSE:
@@ -24,34 +57,22 @@ const ttrsReducer = (state = initialState, action) => {
     case actions.RECOMMENDTAB_REQUEST:
       return {
         ...state,
-        isRecommendTab: true,
-        isBookmarkTab: false,
-        isReceivedTab: false,
-        isSettingTab: false,
+        tabs: tabs(state.tabs, action),
       }
     case actions.BOOKMARKTAB_REQUEST:
       return {
         ...state,
-        isRecommendTab: false,
-        isBookmarkTab: true,
-        isReceivedTab: false,
-        isSettingTab: false,
+        tabs: tabs(state.tabs, action),
       }
     case actions.RECEIVEDTAB_REQUEST:
       return {
         ...state,
-        isRecommendTab: false,
-        isBookmarkTab: false,
-        isReceivedTab: true,
-        isSettingTab: false,
+        tabs: tabs(state.tabs, action),
       }
     case actions.SETTINGTAB_REQUEST:
       return {
         ...state,
-        isRecommendTab: false,
-        isBookmarkTab: false,
-        isReceivedTab: false,
-        isSettingTab: true,
+        tabs: tabs(state.tabs, action),
       }
     case actions.MODIFY_MEMO_REQUEST:
       return {
