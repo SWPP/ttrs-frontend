@@ -1,14 +1,9 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 
 const Memo = ({ content }) => (
   <div>
     { content }
   </div>
 )
-
-
-Memo.propTypes = {
-  content: PropTypes.string.isRequired,
-}
 
 export default Memo

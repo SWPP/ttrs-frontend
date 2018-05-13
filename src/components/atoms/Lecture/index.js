@@ -2,7 +2,7 @@ import React from 'react'
 import Course from '../Course'
 import TimeSlot from '../TimeSlot'
 
-const Lecture = ({ id, course, timeSlots, year, semester, number, instructor, note, onAddLectureToTimeTable }) => (
+const Lecture = ({ id, course, timeSlots, year, semester, number, instructor, note }) => (
   <div>
     <Course {...course} />
     {timeSlots.map(timeSlot =>

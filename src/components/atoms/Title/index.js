@@ -1,14 +1,9 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 
 const Title = ({ content }) => (
   <div>
     { content }
   </div>
 )
-
-
-Title.propTypes = {
-  content: PropTypes.string.isRequired,
-}
 
 export default Title
