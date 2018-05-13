@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { take, put, call, fork } from 'redux-saga/effects'
 import * as actions from './actions'
-import { convertToCStyle, convertToJavaStyle } from '../../services/parser'
+import { convertToCStyle, convertToJavaStyle, updateURLParams } from '../../services/parser'
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000/'
 axios.interceptors.request.use((config) => {
@@ -34,7 +34,7 @@ const config = {}
 
 function* getCollegeList() {
   try {
-    const response = yield call(axios.get, 'ttrs/colleges/', config)
+    const response = yield call(axios.get, updateURLParams('ttrs/colleges/'), config)
     console.log('getCollegeList response', response)
     yield put(actions.getCollegeListResponse(response.data))
   } catch (error) {
