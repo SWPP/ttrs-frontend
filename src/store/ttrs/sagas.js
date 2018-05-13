@@ -63,8 +63,9 @@ function* signIn(username, password) {
     console.log('getCurrent myTimeTable response', response)
     if (response.data.length !== 0) {
       for (let i = 0; i < response.data[0].lectures.length; i += 1) {
-        lecturesOfMyTimeTable.push(yield call(axios.get, `ttrs/lectures/${response.data[0].lectures[i]}/`, config))
-        lectureIdsOfMyTimeTable.push(lecturesOfMyTimeTable[i].data.id)
+        const lectureResponse = yield call(axios.get, `ttrs/lectures/${response.data[0].lectures[i]}/`, config)
+        lecturesOfMyTimeTable.push(lectureResponse.data)
+        lectureIdsOfMyTimeTable.push(lecturesOfMyTimeTable[i].id)
       }
     }
     yield put(actions.getMyTimeTableResponse(lecturesOfMyTimeTable))
@@ -101,7 +102,8 @@ function* addLectureToTimeTable (lectureId) {
   try {
     const response = yield call(axios.post, 'ttrs/my-time-tables/', myTimeTableInfo, config)
     console.log('addLecture response', response)
-    yield put(actions.addLectureToTimeTableResponse(yield call(axios.get, `ttrs/lectures/${lectureId}/`, config)))
+    const lectureResponse = yield call(axios.get, `ttrs/lectures/${lectureId}/`, config)
+    yield put(actions.addLectureToTimeTableResponse(lectureResponse.data))
   } catch (error) {
     lectureIdsOfMyTimeTable.pop()
     console.log('addLecture error', error.response)

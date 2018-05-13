@@ -28,8 +28,8 @@ export const TimeTable = ({ isSignedIn, memo, title, lecturesOfMyTimeTable, onMo
         TimeTable
         {lecturesOfMyTimeTable.map(lecture =>
           <Lecture
-            key={lecture.data.id}
-            {...lecture.data}
+            key={lecture.id}
+            {...lecture}
           />
         )} <br />
         <input ref={node => { memoContent = node }} placeholder={'memo'} /> <br />
