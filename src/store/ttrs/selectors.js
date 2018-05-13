@@ -26,9 +26,11 @@ export const initialBelongInfo = {
 }
 
 export const initialTimeTable = {
-  title: 'write title',
-  memo: 'write memo',
-  lecturesOfMyTimeTable: [],
+  myTimeTable: {
+    title: 'write title',
+    lectures: [],
+    memo: 'write memo',
+  },
 }
 
 export const initialSearch = {

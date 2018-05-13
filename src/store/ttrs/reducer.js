@@ -17,6 +17,7 @@ const tabs = (state = [], action) => {
   switch (action.type) {
     case actions.RECOMMENDTAB_REQUEST:
       return {
+        ...state,
         isRecommendTab: true,
         isBookmarkTab: false,
         isReceivedTab: false,
@@ -24,6 +25,7 @@ const tabs = (state = [], action) => {
       }
     case actions.BOOKMARKTAB_REQUEST:
       return {
+        ...state,
         isRecommendTab: false,
         isBookmarkTab: true,
         isReceivedTab: false,
@@ -31,6 +33,7 @@ const tabs = (state = [], action) => {
       }
     case actions.RECEIVEDTAB_REQUEST:
       return {
+        ...state,
         isRecommendTab: false,
         isBookmarkTab: false,
         isReceivedTab: true,
@@ -38,6 +41,7 @@ const tabs = (state = [], action) => {
       }
     case actions.SETTINGTAB_REQUEST:
       return {
+        ...state,
         isRecommendTab: false,
         isBookmarkTab: false,
         isReceivedTab: false,
@@ -52,12 +56,14 @@ const belongInfo = (state = [], action) => {
   switch (action.type) {
     case actions.CLEAR_STATE_REQUEST:
       return {
+        ...state,
         colleges: state.colleges,
         departments: state.colleges[0].departments,
         majors: state.colleges[0].departments[0].majors,
       }
     case actions.GET_COLLEGELIST_RESPONSE:
       return {
+        ...state,
         colleges: action.colleges,
         departments: action.colleges[0].departments,
         majors: action.colleges[0].departments[0].majors,
@@ -83,25 +89,37 @@ const timeTable = (state = [], action) => {
     case actions.MODIFY_MEMO_REQUEST:
       return {
         ...state,
-        memo: action.content,
+        myTimeTable: {
+          ...state.myTimeTable,
+          memo: action.content,
+        }
       }
     case actions.MODIFY_TITLE_REQUEST:
       return {
         ...state,
-        title: action.content,
+        myTimeTable: {
+          ...state.myTimeTable,
+          title: action.content,
+        }
       }
     case actions.GET_MYTIMETABLE_RESPONSE:
       return {
         ...state,
-        lecturesOfMyTimeTable: action.lecturesOfMyTimeTable,
+        myTimeTable: {
+          ...state.myTimeTable,
+          lectures: action.lectures,
+        }
       }
     case actions.ADD_LECTURE_TO_MY_TIMETABLE_RESPONSE:
       return {
         ...state,
-        lecturesOfMyTimeTable: [
-          ...state.lecturesOfMyTimeTable,
-          action.lecture
-        ]
+        myTimeTable: {
+          ...state.myTimeTable,
+          lectures: [
+            ...state.myTimeTable.lectures,
+            action.lecture,
+          ]
+        }
       }
     default:
       return state
@@ -112,6 +130,7 @@ const search = (state = [], action) => {
   switch (action.type) {
     case actions.SEARCH_LECTURE_RESPONSE:
       return {
+        ...state,
         lectures: action.lectures,
       }
     default:

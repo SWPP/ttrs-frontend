@@ -33,8 +33,6 @@ axios.interceptors.response.use((response) => {
 const config = {}
 let year = 2018
 let semester = '1학기'
-let lecturesOfMyTimeTable = []
-let lectureIdsOfMyTimeTable = []
 
 function* getCollegeList() {
   try {
@@ -47,8 +45,7 @@ function* getCollegeList() {
 }
 
 function* signIn(username, password) {
-  lecturesOfMyTimeTable = []
-  lectureIdsOfMyTimeTable = []
+  let lecturesOfMyTimeTable = []
   const hash = new Buffer(`${username}:${password}`).toString('base64')
   config.headers = { Authorization: `Basic ${hash}` }
   try {
@@ -66,7 +63,6 @@ function* signIn(username, password) {
       for (let i = 0; i < response.data[0].lectures.length; i += 1) {
         const lectureResponse = yield call(axios.get, `ttrs/lectures/${response.data[0].lectures[i]}/`, config)
         lecturesOfMyTimeTable.push(lectureResponse.data)
-        lectureIdsOfMyTimeTable.push(lecturesOfMyTimeTable[i].id)
       }
     }
     yield put(actions.getMyTimeTableResponse(lecturesOfMyTimeTable))

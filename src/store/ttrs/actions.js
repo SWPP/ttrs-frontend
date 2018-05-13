@@ -126,10 +126,10 @@ export const searchLectureResponse = (lectures) => {
   }
 }
 
-export const getMyTimeTableResponse = (lecturesOfMyTimeTable) => {
+export const getMyTimeTableResponse = (lectures) => {
   return {
     type:GET_MYTIMETABLE_RESPONSE,
-    lecturesOfMyTimeTable,
+    lectures,
   }
 }
 
