@@ -6,7 +6,7 @@ export const SignOut = ({ onSignOut, isSignedIn, username }) => {
     return (
       <div>
         Hello, {username}!
-        <Button type="submit" onClick={onSignOut}>Sign Out</Button>
+        <Button type='submit' onClick={onSignOut}>Sign Out</Button>
       </div>
     )
   }

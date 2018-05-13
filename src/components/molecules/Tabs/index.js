@@ -5,10 +5,10 @@ export const Tabs = ({ isSignedIn, onGoRecommendTab, onGoBookmarkTab, onGoReceiv
   if (isSignedIn) {
     return (
       <div>
-        <Button type="submit" onClick={onGoRecommendTab}>Recommend</Button>
-        <Button type="submit" onClick={onGoBookmarkTab}>Bookmark</Button>
-        <Button type="submit" onClick={onGoReceivedTab}>Received</Button>
-        <Button type="submit" onClick={onGoSettingTab}>Settings</Button>
+        <Button type='submit' onClick={onGoRecommendTab}>Recommend</Button>
+        <Button type='submit' onClick={onGoBookmarkTab}>Bookmark</Button>
+        <Button type='submit' onClick={onGoReceivedTab}>Received</Button>
+        <Button type='submit' onClick={onGoSettingTab}>Settings</Button>
       </div>
     )
   }

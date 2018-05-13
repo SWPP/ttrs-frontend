@@ -23,7 +23,7 @@ export const TimeTable = ({ isSignedIn, memo, title, lecturesOfMyTimeTable, onMo
       <div>
         <input ref={node => { titleContent = node }} placeholder={'title'} /> <br />
         <Title content={titleContent} />
-        <Button type="submit" onClick={onSubmitTitle}>Modify Title</Button>
+        <Button type='submit' onClick={onSubmitTitle}>Modify Title</Button>
         <br />
         TimeTable
         {lecturesOfMyTimeTable.map(lecture =>
@@ -34,7 +34,7 @@ export const TimeTable = ({ isSignedIn, memo, title, lecturesOfMyTimeTable, onMo
         )} <br />
         <input ref={node => { memoContent = node }} placeholder={'memo'} /> <br />
         <Memo content={memoContent} />
-        <Button type="submit" onClick={onSubmitMemo}>Modify Memo</Button>
+        <Button type='submit' onClick={onSubmitMemo}>Modify Memo</Button>
       </div>
     )
   }

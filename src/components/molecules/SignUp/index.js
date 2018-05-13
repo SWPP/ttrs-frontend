@@ -79,8 +79,8 @@ export const SignUp = ({ onSignUp, onReturnToSignInPage, onChangeDepartmentList,
             >{value.name}</option>
           )}
         </select> <br />
-        <Button type="submit" onClick={onSubmit}>Sign Up</Button>
-        <Button type="submit" onClick={onReturnToSignInPage}>Return</Button>
+        <Button type='submit' onClick={onSubmit}>Sign Up</Button>
+        <Button type='submit' onClick={onReturnToSignInPage}>Return</Button>
       </div>
     )
   }

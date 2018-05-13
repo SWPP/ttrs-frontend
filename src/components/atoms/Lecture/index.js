@@ -11,11 +11,11 @@ const Lecture = ({ id, course, timeSlots, year, semester, number, instructor, no
         {...timeSlot}
       />
     )}
-    {"year = "+year+" "}
-    {"semester = "+semester+" "}
-    {"number = "+number+" "}
-    {"instructor = "+instructor+" "}
-    {"note = "+note+" "}
+    {'year = '+year+' '}
+    {'semester = '+semester+' '}
+    {'number = '+number+' '}
+    {'instructor = '+instructor+' '}
+    {'note = '+note+' '}
   </div>
 )
 

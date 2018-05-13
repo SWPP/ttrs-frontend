@@ -14,7 +14,7 @@ export const SearchLecture = ({ isSignedIn, lectures, onSearchLecture, onAddLect
     return (
       <div>
         <input ref={node => { inputCourseName = node }} placeholder={'type course name'} /> <br />
-        <Button type="submit" onClick={onSubmitCourseName}>Search</Button>
+        <Button type='submit' onClick={onSubmitCourseName}>Search</Button>
         <br />
         Lectures
         {lectures.map(lecture =>
@@ -25,7 +25,7 @@ export const SearchLecture = ({ isSignedIn, lectures, onSearchLecture, onAddLect
             />
             <Button
               key={lecture.id+1}
-              type="submit"
+              type='submit'
               onClick={() => onAddLectureToTimeTable(lecture.id)}
             >Add To TimeTable</Button>
           </div>
