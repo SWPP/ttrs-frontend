@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { SearchLecture } from '../components/molecules/SearchLecture'
-import { searchLectureRequest } from '../store/ttrs/actions'
+import { addLectureToTimeTableRequest, searchLectureRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -13,6 +13,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onSearchLecture: (courseName) => {
       dispatch(searchLectureRequest(courseName))
+    },
+    onAddLectureToTimeTable: (lectureId) => {
+      dispatch(addLectureToTimeTableRequest(lectureId))
     },
   }
 }
