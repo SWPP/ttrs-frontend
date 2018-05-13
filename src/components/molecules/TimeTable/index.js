@@ -1,11 +1,11 @@
 import React from 'react'
 import Memo from '../../atoms/Memo'
-import TimeSlot from '../../atoms/TimeSlot'
 import Title from '../../atoms/Title'
 import Button from '../../atoms/Button'
+import Lecture from '../../atoms/Lecture'
 
 
-export const TimeTable = ({ isSignedIn, memo, title, timeSlots, onModifyMemo, onModifyTitle }) => {
+export const TimeTable = ({ isSignedIn, memo, title, lecturesOfMyTimeTable, onModifyMemo, onModifyTitle }) => {
   let titleContent = title
   let memoContent = memo
 
@@ -18,6 +18,7 @@ export const TimeTable = ({ isSignedIn, memo, title, timeSlots, onModifyMemo, on
   }
 
   if (isSignedIn) {
+    console.log(lecturesOfMyTimeTable)
     return (
       <div>
         <input ref={node => { titleContent = node }} placeholder={'title'} /> <br />
@@ -25,10 +26,10 @@ export const TimeTable = ({ isSignedIn, memo, title, timeSlots, onModifyMemo, on
         <Button type="submit" onClick={onSubmitTitle}>Modify Title</Button>
         <br />
         TimeTable
-        {timeSlots.map(timeSlot =>
-          <TimeSlot
-            key={timeSlot.id}
-            {...timeSlot}
+        {lecturesOfMyTimeTable.map(lecture =>
+          <Lecture
+            key={lecture.data.id}
+            {...lecture.data}
           />
         )} <br />
         <input ref={node => { memoContent = node }} placeholder={'memo'} /> <br />

@@ -8,7 +8,7 @@ const mapStateToProps = (state) => {
     isSignedIn: state.ttrs.isSignedIn,
     memo: state.ttrs.memo,
     title: state.ttrs.title,
-    timeSlots: state.ttrs.timeSlots,
+    lecturesOfMyTimeTable: state.ttrs.lecturesOfMyTimeTable,
   }
 }
 

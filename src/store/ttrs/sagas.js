@@ -31,6 +31,8 @@ axios.interceptors.response.use((response) => {
   return Promise.reject(newError)
 })
 const config = {}
+let year = 2018
+let semester = '1학기'
 
 function* getCollegeList() {
   try {
@@ -43,6 +45,7 @@ function* getCollegeList() {
 }
 
 function* signIn(username, password) {
+  let lecturesOfMyTimeTable = []
   const hash = new Buffer(`${username}:${password}`).toString('base64')
   config.headers = { Authorization: `Basic ${hash}` }
   try {
@@ -51,6 +54,18 @@ function* signIn(username, password) {
     yield put(actions.signInResponse(response.data))
   } catch (error) {
     console.log('signIn error', error.response)
+  }
+  try {
+    const response = yield call(axios.get, `ttrs/my-time-tables/?year=${year}&semester=${semester}`, config)
+    console.log('getCurrent myTimeTable response', response)
+    if (response.data.length !== 0) {
+      for (let i = 0; i < response.data[0].lectures.length; i += 1) {
+        lecturesOfMyTimeTable.push(yield call(axios.get, `ttrs/lectures/${response.data[0].lectures[i]}/`, config))
+      }
+    }
+    yield put(actions.getMyTimeTableResponse(lecturesOfMyTimeTable))
+  } catch (error) {
+    console.log('getCurrent myTimeTable error', error.response)
   }
 }
 
@@ -66,7 +81,7 @@ function* signUp(studentInfo) {
 
 function* searchLecture(courseName) {
   try {
-    const response = yield call(axios.get, `ttrs/lectures/?course__name=${courseName}`, config)
+    const response = yield call(axios.get, `ttrs/lectures/?course__name=${courseName}&year=${year}&semester=${semester}`, config)
     console.log('searchLecture response', response)
     yield put(actions.searchLectureResponse(response.data))
   } catch (error) {

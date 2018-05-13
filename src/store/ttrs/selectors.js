@@ -23,4 +23,5 @@ export const initialState = {
   memo: 'write memo',
   timeSlots: [],
   lectures: [],
+  lecturesOfMyTimeTable: []
 }
