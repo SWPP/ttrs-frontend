@@ -119,10 +119,10 @@ export const changeMajorListRequest = (departmentIndex) => {
   }
 }
 
-export const searchLectureRequest = (content) => {
+export const searchLectureRequest = (courseName) => {
   return {
     type:SEARCH_LECTURE_REQUEST,
-    content,
+    courseName,
   }
 }
 

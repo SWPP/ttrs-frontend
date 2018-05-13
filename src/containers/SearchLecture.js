@@ -11,8 +11,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onSearchLecture: (content) => {
-      dispatch(searchLectureRequest(content))
+    onSearchLecture: (courseName) => {
+      dispatch(searchLectureRequest(courseName))
     },
   }
 }

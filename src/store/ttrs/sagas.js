@@ -64,9 +64,9 @@ function* signUp(studentInfo) {
   }
 }
 
-function* searchLecture(content) {
+function* searchLecture(courseName) {
   try {
-    const response = yield call(axios.get, 'ttrs/lectures/?course__name__contains='+`${content}`, config)
+    const response = yield call(axios.get, `ttrs/lectures/?course__name=${courseName}`, config)
     console.log('searchLecture response', response)
     yield put(actions.searchLectureResponse(response.data))
   } catch (error) {
@@ -90,8 +90,8 @@ function* watchSignUpRequest() {
 
 function* watchSearchLectureRequest() {
   while (true) {
-    const { content } = yield take(actions.SEARCH_LECTURE_REQUEST)
-    yield call(searchLecture, content)
+    const { courseName } = yield take(actions.SEARCH_LECTURE_REQUEST)
+    yield call(searchLecture, courseName)
   }
 }
 
