@@ -18,8 +18,7 @@ export const SearchLecture = ({ isSignedIn, isRecommendTab, lectures, onSearchLe
         <br />
         Lectures
         {lectures.map(lecture =>
-          <div>
-            key={lecture.id}
+          <div key={lecture.id}>
             <Lecture
             {...lecture}
             />
