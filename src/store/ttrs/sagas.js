@@ -79,7 +79,7 @@ function* signUp(studentInfo) {
   try {
     const response = yield call(axios.post, 'ttrs/students/signup/', studentInfo)
     console.log('signUp response', response)
-    yield put(actions.signUpResponse())
+    yield put(actions.clearStateRequest())
   } catch (error) {
     console.log('signUp error', error.response)
   }

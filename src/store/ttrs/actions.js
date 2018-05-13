@@ -2,8 +2,7 @@ export const SIGNIN_REQUEST = 'SIGNIN_REQUEST'
 export const SIGNIN_RESPONSE = 'SIGNIN_RESPONSE'
 export const GO_SIGNUPPAGE_REQUEST = 'GO_SIGNUPPAGE_REQUEST'
 export const SIGNUP_REQUEST = 'SIGNUP_REQUEST'
-export const SIGNUP_RESPONSE = 'SIGNUP_RESPONSE'
-export const SIGNOUT_REQUEST = 'SIGNOUT_REQUEST'
+export const CLEAR_STATE_REQUEST = 'CLEAR_STATE_REQUEST'
 export const RECOMMENDTAB_REQUEST = 'RECOMMENDTAB_REQUEST'
 export const BOOKMARKTAB_REQUEST = 'BOOKMARKTAB_REQUEST'
 export const RECEIVEDTAB_REQUEST = 'RECEIVEDTAB_REQUEST'
@@ -48,15 +47,9 @@ export const signUpRequest = (studentInfo) => {
   }
 }
 
-export const signUpResponse = () => {
+export const clearStateRequest = () => {
   return {
-    type: SIGNUP_RESPONSE,
-  }
-}
-
-export const signOutRequest = () => {
-  return {
-    type: SIGNOUT_REQUEST,
+    type: CLEAR_STATE_REQUEST,
   }
 }
 

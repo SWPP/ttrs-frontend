@@ -4,29 +4,17 @@ import * as actions from './actions'
 const ttrsReducer = (state = initialState, action) => {
   switch (action.type) {
     case actions.SIGNIN_RESPONSE:
-      console.log(action.studentInfo)
-      console.log('main page')
       return {
         ...state,
         ...action.studentInfo,
         isSignedIn: true,
       }
     case actions.GO_SIGNUPPAGE_REQUEST:
-      console.log('sign up page')
       return {
         ...state,
         isSignUpPage: true,
       }
-    case actions.SIGNUP_RESPONSE:
-      console.log('sign up complete')
-      return {
-        ...initialState,
-        colleges: state.colleges,
-        departments: state.colleges[0].departments,
-        majors: state.colleges[0].departments[0].majors,
-      }
-    case actions.SIGNOUT_REQUEST:
-      console.log('sign in page')
+    case actions.CLEAR_STATE_REQUEST:
       return {
         ...initialState,
         colleges: state.colleges,
@@ -34,7 +22,6 @@ const ttrsReducer = (state = initialState, action) => {
         majors: state.colleges[0].departments[0].majors,
       }
     case actions.RECOMMENDTAB_REQUEST:
-      console.log('recommend tab')
       return {
         ...state,
         isRecommendTab: true,
@@ -43,7 +30,6 @@ const ttrsReducer = (state = initialState, action) => {
         isSettingTab: false,
       }
     case actions.BOOKMARKTAB_REQUEST:
-      console.log('bookmark tab')
       return {
         ...state,
         isRecommendTab: false,
@@ -52,7 +38,6 @@ const ttrsReducer = (state = initialState, action) => {
         isSettingTab: false,
       }
     case actions.RECEIVEDTAB_REQUEST:
-      console.log('received tab')
       return {
         ...state,
         isRecommendTab: false,
@@ -61,7 +46,6 @@ const ttrsReducer = (state = initialState, action) => {
         isSettingTab: false,
       }
     case actions.SETTINGTAB_REQUEST:
-      console.log('setting tab')
       return {
         ...state,
         isRecommendTab: false,
@@ -70,13 +54,11 @@ const ttrsReducer = (state = initialState, action) => {
         isSettingTab: true,
       }
     case actions.MODIFY_MEMO_REQUEST:
-      console.log('modify Memo')
       return {
         ...state,
         memo: action.content,
       }
     case actions.MODIFY_TITLE_REQUEST:
-      console.log('modify Title')
       return {
         ...state,
         title: action.content,
