@@ -3,14 +3,14 @@ import Lecture from '../../atoms/Lecture'
 import Button from '../../atoms/Button'
 
 
-export const SearchLecture = ({ isSignedIn, lectures, onSearchLecture, onAddLectureToTimeTable }) => {
+export const SearchLecture = ({ isSignedIn, isRecommendTab, lectures, onSearchLecture, onAddLectureToTimeTable }) => {
   let inputCourseName
 
   const onSubmitCourseName = () => {
     onSearchLecture(inputCourseName.value)
   }
 
-  if (isSignedIn) {
+  if (isSignedIn && isRecommendTab) {
     return (
       <div>
         <input ref={node => { inputCourseName = node }} placeholder={'type course name'} /> <br />

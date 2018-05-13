@@ -39,23 +39,35 @@ const ttrsReducer = (state = initialState, action) => {
       return {
         ...state,
         isRecommendTab: true,
+        isBookmarkTab: false,
+        isReceivedTab: false,
+        isSettingTab: false,
       }
     case actions.BOOKMARKTAB_REQUEST:
       console.log('bookmark tab')
       return {
         ...state,
+        isRecommendTab: false,
         isBookmarkTab: true,
+        isReceivedTab: false,
+        isSettingTab: false,
       }
     case actions.RECEIVEDTAB_REQUEST:
       console.log('received tab')
       return {
         ...state,
+        isRecommendTab: false,
+        isBookmarkTab: false,
         isReceivedTab: true,
+        isSettingTab: false,
       }
     case actions.SETTINGTAB_REQUEST:
       console.log('setting tab')
       return {
         ...state,
+        isRecommendTab: false,
+        isBookmarkTab: false,
+        isReceivedTab: false,
         isSettingTab: true,
       }
     case actions.MODIFY_MEMO_REQUEST:
