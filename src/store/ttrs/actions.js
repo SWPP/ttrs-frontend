@@ -48,10 +48,9 @@ export const signUpRequest = (studentInfo) => {
   }
 }
 
-export const signUpResponse = (studentInfo) => {
+export const signUpResponse = () => {
   return {
     type: SIGNUP_RESPONSE,
-    studentInfo,
   }
 }
 
