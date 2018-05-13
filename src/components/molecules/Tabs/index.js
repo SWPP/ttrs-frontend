@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import Button from '../../atoms/Button'
 
 export const Tabs = ({ isSignedIn, onGoRecommendTab, onGoBookmarkTab, onGoReceivedTab, onGoSettingTab }) => {
@@ -13,14 +13,6 @@ export const Tabs = ({ isSignedIn, onGoRecommendTab, onGoBookmarkTab, onGoReceiv
     )
   }
   return null
-}
-
-Tabs.propTypes = {
-  isSignedIn: PropTypes.bool,
-  onGoRecommendTab: PropTypes.func.isRequired,
-  onGoBookmarkTab: PropTypes.func.isRequired,
-  onGoReceivedTab: PropTypes.func.isRequired,
-  onGoSettingTab: PropTypes.func.isRequired,
 }
 
 export default Tabs

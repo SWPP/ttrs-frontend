@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import Button from '../../atoms/Button'
 
 export const SignIn = ({ onSignIn, onGoSignUpPage, isSignedIn, isSignUpPage }) => {
@@ -30,13 +30,6 @@ export const SignIn = ({ onSignIn, onGoSignUpPage, isSignedIn, isSignUpPage }) =
     )
   }
   return null
-}
-
-SignIn.propTypes = {
-  onSignIn: PropTypes.func.isRequired,
-  onGoSignUpPage: PropTypes.func.isRequired,
-  isSignedIn: PropTypes.bool,
-  isSignUpPage: PropTypes.bool,
 }
 
 export default SignIn
