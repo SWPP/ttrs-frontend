@@ -38,8 +38,8 @@ export const SignUp = ({ onSignUp, onReturnToSignInPage, onChangeDepartmentList,
     return (
       <div>
         <input ref={node => { inputUsername = node }} placeholder={'username'} /> <br />
-        <input ref={node => { inputPassword = node }} placeholder={'password'} /> <br />
-        <input ref={node => { inputPasswordConfirm = node }} placeholder={'password confirm'} /> <br />
+        <input ref={node => { inputPassword = node }} placeholder={'password'} type='password' /> <br />
+        <input ref={node => { inputPasswordConfirm = node }} placeholder={'password confirm'} type='password' /> <br />
         <input ref={node => { inputEmail = node }} placeholder={'email'} />@snu.ac.kr <br />
         Grade
         <select ref={node => { inputGrade = node }}>

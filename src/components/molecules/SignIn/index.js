@@ -23,7 +23,7 @@ export const SignIn = ({ onSignIn, onGoSignUpPage, isSignedIn, isSignUpPage }) =
     return (
       <div>
         <input ref={node => { inputUsername = node }} placeholder={'username'} /> <br />
-        <input ref={node => { inputPassword = node }} placeholder={'password'} type="password" /> <br />
+        <input ref={node => { inputPassword = node }} placeholder={'password'} type='password' /> <br />
         <Button type="submit" onClick={onSubmitSignIn}>Sign In</Button> <br />
         <Button type="submit" onClick={onSubmitSignUp}>Sign Up</Button>
       </div>

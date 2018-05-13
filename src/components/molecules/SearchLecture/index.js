@@ -23,7 +23,11 @@ export const SearchLecture = ({ isSignedIn, lectures, onSearchLecture, onAddLect
             key={lecture.id}
             {...lecture}
             />
-            <Button type="submit" onClick={() => onAddLectureToTimeTable(lecture.id)}>Add To TimeTable</Button>
+            <Button
+              key={lecture.id+1}
+              type="submit"
+              onClick={() => onAddLectureToTimeTable(lecture.id)}
+            >Add To TimeTable</Button>
           </div>
         )}
       </div>
