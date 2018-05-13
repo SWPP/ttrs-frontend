@@ -3,7 +3,7 @@ import Button from '../../atoms/Button'
 import Lecture from '../../atoms/Lecture'
 
 
-export const TimeTable = ({ isSignedIn, memo, title, lecturesOfMyTimeTable, onModifyMemo, onModifyTitle }) => {
+export const TimeTable = ({ isSignedIn, memo, title, lectures, onModifyMemo, onModifyTitle }) => {
   let titleContent = title
   let memoContent = memo
 
@@ -16,7 +16,6 @@ export const TimeTable = ({ isSignedIn, memo, title, lecturesOfMyTimeTable, onMo
   }
 
   if (isSignedIn) {
-    console.log(lecturesOfMyTimeTable)
     return (
       <div>
         <input ref={node => { titleContent = node }} placeholder={'title'} />
@@ -24,7 +23,7 @@ export const TimeTable = ({ isSignedIn, memo, title, lecturesOfMyTimeTable, onMo
         {titleContent}
         <br /> <br />
         TimeTable
-        {lecturesOfMyTimeTable.map(lecture =>
+        {lectures.map(lecture =>
           <Lecture
             key={lecture.id}
             {...lecture}

@@ -110,28 +110,28 @@ function* addLectureToTimeTable (lectureId) {
   }
 }
 
-function* watchSignInRequest() {
+function* watchSignIn() {
   while (true) {
     const { username, password } = yield take(actions.SIGNIN_REQUEST)
     yield call(signIn, username, password)
   }
 }
 
-function* watchSignUpRequest() {
+function* watchSignUp() {
   while (true) {
     const { studentInfo } = yield take(actions.SIGNUP_REQUEST)
     yield call(signUp, studentInfo)
   }
 }
 
-function* watchSearchLectureRequest() {
+function* watchSearchLecture() {
   while (true) {
     const { courseName } = yield take(actions.SEARCH_LECTURE_REQUEST)
     yield call(searchLecture, courseName)
   }
 }
 
-function* watchAddLectureToTimeTableRequest() {
+function* watchAddLectureToTimeTable() {
   while (true) {
     const { lectureId } = yield take(actions.ADD_LECTURE_TO_TIMETABLE_REQUEST)
     yield call(addLectureToTimeTable, lectureId)
@@ -140,8 +140,8 @@ function* watchAddLectureToTimeTableRequest() {
 
 export default function* () {
   yield call(getCollegeList)
-  yield fork(watchSignInRequest)
-  yield fork(watchSignUpRequest)
-  yield fork(watchSearchLectureRequest)
-  yield fork(watchAddLectureToTimeTableRequest)
+  yield fork(watchSignIn)
+  yield fork(watchSignUp)
+  yield fork(watchSearchLecture)
+  yield fork(watchAddLectureToTimeTable)
 }
