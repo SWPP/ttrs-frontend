@@ -3,12 +3,8 @@ import Lecture from '../../atoms/Lecture'
 import Button from '../../atoms/Button'
 
 
-const SearchLecture = ({ searchLectures, myTimeTableLectures, onSearchLecture, onAddLectureToMyTimeTable }) => {
+const SearchLecture = ({ searchLectures, onSearchLecture, onAddLecture }) => {
   let inputCourseName
-  let myTimeTableLectureIds = []
-  myTimeTableLectures.forEach((lecture) => {
-    myTimeTableLectureIds.push(lecture.id)
-  })
 
   const onSubmitCourseName = () => {
     onSearchLecture(inputCourseName.value)
@@ -27,7 +23,7 @@ const SearchLecture = ({ searchLectures, myTimeTableLectures, onSearchLecture, o
           />
           <Button
             type='submit'
-            onClick={() => onAddLectureToMyTimeTable(myTimeTableLectureIds, lecture.id)}
+            onClick={() => onAddLecture(lecture.id)}
           >Add To TimeTable</Button>
         </div>
       )}

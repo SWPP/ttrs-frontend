@@ -2,11 +2,9 @@ import { connect } from 'react-redux'
 import TimeTable from '../components/molecules/TimeTable'
 import { modifyMemoRequest, modifyTitleRequest } from '../store/ttrs/actions'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, props) => {
   return {
-    memo: state.ttrs.timeTable.myTimeTable.memo,
-    title: state.ttrs.timeTable.myTimeTable.title,
-    lectures: state.ttrs.timeTable.myTimeTable.lectures,
+    ...props,
   }
 }
 
