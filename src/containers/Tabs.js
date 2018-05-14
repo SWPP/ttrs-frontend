@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { Tabs } from '../components/molecules/Tabs'
+import Tabs from '../components/molecules/Tabs'
 import { goRecommendTabRequest, goBookmarkTabRequest, goReceiveTabRequest, goSettingsTabRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {

@@ -3,7 +3,7 @@ import Lecture from '../../atoms/Lecture'
 import Button from '../../atoms/Button'
 
 
-export const SearchLecture = ({ isMainPage, searchLectures, myTimeTableLectures, onSearchLecture, onAddLectureToMyTimeTable }) => {
+const SearchLecture = ({ searchLectures, myTimeTableLectures, onSearchLecture, onAddLectureToMyTimeTable }) => {
   let inputCourseName
   let myTimeTableLectureIds = []
   myTimeTableLectures.forEach((lecture) => {
@@ -14,28 +14,25 @@ export const SearchLecture = ({ isMainPage, searchLectures, myTimeTableLectures,
     onSearchLecture(inputCourseName.value)
   }
 
-  if (isMainPage) {
-    return (
-      <div>
-        <input ref={node => { inputCourseName = node }} placeholder={'type course name'} /> <br />
-        <Button type='submit' onClick={onSubmitCourseName}>Search</Button>
-        <br />
-        Lectures
-        {searchLectures.map(lecture =>
-          <div key={lecture.id}>
-            <Lecture
-            {...lecture}
-            />
-            <Button
-              type='submit'
-              onClick={() => onAddLectureToMyTimeTable(myTimeTableLectureIds, lecture.id)}
-            >Add To TimeTable</Button>
-          </div>
-        )}
-      </div>
-    )
-  }
-  return null
+  return (
+    <div>
+      <input ref={node => { inputCourseName = node }} placeholder={'type course name'} /> <br />
+      <Button type='submit' onClick={onSubmitCourseName}>Search</Button>
+      <br />
+      Lectures
+      {searchLectures.map(lecture =>
+        <div key={lecture.id}>
+          <Lecture
+          {...lecture}
+          />
+          <Button
+            type='submit'
+            onClick={() => onAddLectureToMyTimeTable(myTimeTableLectureIds, lecture.id)}
+          >Add To TimeTable</Button>
+        </div>
+      )}
+    </div>
+  )
 }
 
 export default SearchLecture

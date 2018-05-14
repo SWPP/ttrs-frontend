@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '../../atoms/Button'
 
-export const Tabs = ({ isMainPage, onGoRecommendTab, onGoBookmarkTab, onGoReceiveTab, onGoSettingsTab }) => {
+const Tabs = ({ isMainPage, onGoRecommendTab, onGoBookmarkTab, onGoReceiveTab, onGoSettingsTab }) => {
   if (isMainPage) {
     return (
       <div>

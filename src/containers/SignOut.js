@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { SignOut } from '../components/molecules/SignOut'
+import SignOut from '../components/molecules/SignOut'
 import { clearStateRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {

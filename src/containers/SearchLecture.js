@@ -1,10 +1,9 @@
 import { connect } from 'react-redux'
-import { SearchLecture } from '../components/molecules/SearchLecture'
+import SearchLecture from '../components/molecules/SearchLecture'
 import { addLectureToMyTimeTableRequest, searchLectureRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
-    isMainPage: state.ttrs.isMainPage,
     searchLectures: state.ttrs.search.lectures,
     myTimeTableLectures: state.ttrs.timeTable.myTimeTable.lectures,
   }

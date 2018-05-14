@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '../../atoms/Button'
 
-export const SignOut = ({ onSignOut, isMainPage, username }) => {
+const SignOut = ({ onSignOut, isMainPage, username }) => {
   if (isMainPage) {
     return (
       <div>

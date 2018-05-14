@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '../../atoms/Button'
 
-export const SignUp = ({ onSignUp, onReturnToSignInPage, onChangeDepartmentList, onChangeMajorList, isSignUpPage, colleges, departments, majors }) => {
+const SignUp = ({ onSignUp, onReturnToSignInPage, onChangeDepartmentList, onChangeMajorList, isSignUpPage, colleges, departments, majors }) => {
   let inputUsername
   let inputPassword
   let inputPasswordConfirm

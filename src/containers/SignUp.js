@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { SignUp } from '../components/molecules/SignUp'
+import SignUp from '../components/molecules/SignUp'
 import { changeDepartmentListRequest, changeMajorListRequest, clearStateRequest, signUpRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
