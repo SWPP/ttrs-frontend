@@ -1,20 +1,13 @@
-import React, { PropTypes } from 'react'
-import styled from 'styled-components'
-import { font, palette } from 'styled-theme'
+import React from 'react'
+import { SETTINGS_TAB } from '../../../store/ttrs/selectors'
 
-const Wrapper = styled.div`
-  font-family: ${font('primary')};
-  color: ${palette('grayscale', 0)};
-`
-
-const SettingsTab = (props) => {
-  return (
-    <Wrapper {...props}>content</Wrapper>
-  )
-}
-
-SettingsTab.propTypes = {
-  reverse: PropTypes.bool,
+const SettingsTab = ({ isMainPage, currentTab }) => {
+  if (isMainPage && currentTab === SETTINGS_TAB)
+    return (
+      <div>
+      </div>
+    )
+  return null
 }
 
 export default SettingsTab

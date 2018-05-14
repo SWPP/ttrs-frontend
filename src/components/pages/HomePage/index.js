@@ -16,9 +16,9 @@ const HomePage = () => {
       <SignOut />
       <Tabs />
       <RecommendTab />
-      {/*<BookmarkTab />*/}
-      {/*<ReceiveTab />*/}
-      {/*<SettingsTab />*/}
+      <BookmarkTab />
+      <ReceiveTab />
+      <SettingsTab />
     </div>
   )
 }

@@ -1,20 +1,15 @@
-import React, { PropTypes } from 'react'
-import styled from 'styled-components'
-import { font, palette } from 'styled-theme'
+import React from 'react'
+import { RECEIVE_TAB } from '../../../store/ttrs/selectors'
+import TimeTable from '../../../containers/TimeTable'
 
-const Wrapper = styled.div`
-  font-family: ${font('primary')};
-  color: ${palette('grayscale', 0)};
-`
-
-const ReceiveTab = (props) => {
-  return (
-    <Wrapper {...props}>content</Wrapper>
-  )
-}
-
-ReceiveTab.propTypes = {
-  reverse: PropTypes.bool,
+const ReceiveTab = ({ isMainPage, currentTab, myTimeTable }) => {
+  if (isMainPage && currentTab === RECEIVE_TAB)
+    return (
+      <div>
+        <TimeTable {...myTimeTable}/>
+      </div>
+    )
+  return null
 }
 
 export default ReceiveTab

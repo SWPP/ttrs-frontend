@@ -1,20 +1,15 @@
-import React, { PropTypes } from 'react'
-import styled from 'styled-components'
-import { font, palette } from 'styled-theme'
+import React from 'react'
+import { BOOKMARK_TAB } from '../../../store/ttrs/selectors'
+import TimeTable from '../../../containers/TimeTable'
 
-const Wrapper = styled.div`
-  font-family: ${font('primary')};
-  color: ${palette('grayscale', 0)};
-`
-
-const BookmarkTab = (props) => {
-  return (
-    <Wrapper {...props}>content</Wrapper>
-  )
-}
-
-BookmarkTab.propTypes = {
-  reverse: PropTypes.bool,
+const BookmarkTab = ({ isMainPage, currentTab, myTimeTable }) => {
+  if (isMainPage && currentTab === BOOKMARK_TAB)
+    return (
+      <div>
+        <TimeTable {...myTimeTable}/>
+      </div>
+    )
+  return null
 }
 
 export default BookmarkTab
