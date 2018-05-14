@@ -4,18 +4,19 @@ import SearchLecture from '../../../containers/SearchLecture'
 import TimeTable from '../../../containers/TimeTable'
 
 const RecommendTab = ({ isMainPage, currentTab, myTimeTable, onAddLectureToMyTimeTable }) => {
-  let myTimeTableLectureIds = []
+  const myTimeTableLectureIds = []
   myTimeTable.lectures.forEach((lecture) => {
     myTimeTableLectureIds.push(lecture.id)
   })
 
-  if (isMainPage && currentTab === RECOMMEND_TAB)
-  return (
-    <div>
-      <SearchLecture onAddLecture={(newLectureId) => onAddLectureToMyTimeTable(myTimeTableLectureIds, newLectureId)} />
-      <TimeTable {...myTimeTable}/>
-    </div>
-  )
+  if (isMainPage && currentTab === RECOMMEND_TAB) {
+    return (
+      <div>
+        <SearchLecture onAddLecture={(newLectureId) => onAddLectureToMyTimeTable(myTimeTableLectureIds, newLectureId)} />
+        <TimeTable {...myTimeTable} />
+      </div>
+    )
+  }
   return null
 }
 

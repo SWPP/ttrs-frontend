@@ -36,8 +36,8 @@ const SignUp = ({ onSignUp, onReturnToSignInPage, onChangeDepartmentList, onChan
     return (
       <div>
         <input ref={node => { inputUsername = node }} placeholder={'username'} /> <br />
-        <input ref={node => { inputPassword = node }} placeholder={'password'} type='password' /> <br />
-        <input ref={node => { inputPasswordConfirm = node }} placeholder={'password confirm'} type='password' /> <br />
+        <input ref={node => { inputPassword = node }} placeholder={'password'} type="password" /> <br />
+        <input ref={node => { inputPasswordConfirm = node }} placeholder={'password confirm'} type="password" /> <br />
         <input ref={node => { inputEmail = node }} placeholder={'email'} />@snu.ac.kr <br />
         Grade
         <select ref={node => { inputGrade = node }}>
@@ -77,8 +77,8 @@ const SignUp = ({ onSignUp, onReturnToSignInPage, onChangeDepartmentList, onChan
             >{value.name}</option>
           )}
         </select> <br />
-        <Button type='submit' onClick={onSubmit}>Sign Up</Button>
-        <Button type='submit' onClick={onReturnToSignInPage}>Return</Button>
+        <Button type="submit" onClick={onSubmit}>Sign Up</Button>
+        <Button type="submit" onClick={onReturnToSignInPage}>Return</Button>
       </div>
     )
   }

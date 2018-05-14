@@ -2,11 +2,11 @@ import React from 'react'
 import { SETTINGS_TAB } from '../../../store/ttrs/selectors'
 
 const SettingsTab = ({ isMainPage, currentTab }) => {
-  if (isMainPage && currentTab === SETTINGS_TAB)
+  if (isMainPage && currentTab === SETTINGS_TAB) {
     return (
-      <div>
-      </div>
+      <div />
     )
+  }
   return null
 }
 

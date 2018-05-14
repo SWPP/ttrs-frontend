@@ -53,7 +53,7 @@ const timeTable = (state = [], action) => {
         myTimeTable: {
           ...state.myTimeTable,
           memo: action.content,
-        }
+        },
       }
     case actions.MODIFY_TITLE_REQUEST:
       return {
@@ -61,7 +61,7 @@ const timeTable = (state = [], action) => {
         myTimeTable: {
           ...state.myTimeTable,
           title: action.content,
-        }
+        },
       }
     case actions.GET_MYTIMETABLE_RESPONSE:
       return {
@@ -69,7 +69,7 @@ const timeTable = (state = [], action) => {
         myTimeTable: {
           ...state.myTimeTable,
           lectures: action.lectures,
-        }
+        },
       }
     case actions.ADD_LECTURE_TO_MY_TIMETABLE_RESPONSE:
       return {
@@ -79,8 +79,8 @@ const timeTable = (state = [], action) => {
           lectures: [
             ...state.myTimeTable.lectures,
             action.lecture,
-          ]
-        }
+          ],
+        },
       }
     default:
       return state
