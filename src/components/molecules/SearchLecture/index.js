@@ -19,7 +19,7 @@ const SearchLecture = ({ searchLectures, onSearchLecture, onAddLecture }) => {
       {searchLectures.map(lecture =>
         <div key={lecture.id}>
           <Lecture
-          {...lecture}
+            {...lecture}
           />
           <Button
             type='submit'

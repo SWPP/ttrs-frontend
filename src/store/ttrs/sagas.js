@@ -45,7 +45,7 @@ function* getCollegeList() {
 }
 
 function* signIn(username, password) {
-  let lecturesOfMyTimeTable = []
+  const lecturesOfMyTimeTable = []
   const hash = new Buffer(`${username}:${password}`).toString('base64')
   config.headers = { Authorization: `Basic ${hash}` }
   try {

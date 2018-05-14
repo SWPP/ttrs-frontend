@@ -23,10 +23,12 @@ const TimeTable = ({ memo, title, lectures, onModifyMemo, onModifyTitle }) => {
       <br /> <br />
       TimeTable
       {lectures.map(lecture =>
-        <Lecture
-          key={lecture.id}
-          {...lecture}
-        />
+        <div key={lecture.id}>
+          <hr/>
+          <Lecture
+            {...lecture}
+          />
+        </div>
       )} <br />
       <input ref={node => { memoContent = node }} placeholder={'memo'} />
       <Button type='submit' onClick={onSubmitMemo}>Modify Memo</Button> <br />
