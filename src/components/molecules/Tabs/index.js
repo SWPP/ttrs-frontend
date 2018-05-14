@@ -5,10 +5,10 @@ const Tabs = ({ isMainPage, onGoRecommendTab, onGoBookmarkTab, onGoReceiveTab, o
   if (isMainPage) {
     return (
       <div>
-        <Button type='submit' onClick={onGoRecommendTab}>Recommend</Button>
-        <Button type='submit' onClick={onGoBookmarkTab}>Bookmark</Button>
-        <Button type='submit' onClick={onGoReceiveTab}>Receive</Button>
-        <Button type='submit' onClick={onGoSettingsTab}>Settings</Button>
+        <Button type="submit" onClick={onGoRecommendTab}>Recommend</Button>
+        <Button type="submit" onClick={onGoBookmarkTab}>Bookmark</Button>
+        <Button type="submit" onClick={onGoReceiveTab}>Receive</Button>
+        <Button type="submit" onClick={onGoSettingsTab}>Settings</Button>
       </div>
     )
   }

@@ -24,7 +24,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     onReturnToSignInPage: () => {
       dispatch(clearStateRequest())
-    }
+    },
   }
 }
 

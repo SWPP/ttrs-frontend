@@ -9,8 +9,7 @@ const SignIn = ({ onSignIn, onGoSignUpPage, isMainPage, isSignUpPage }) => {
       onSignIn(inputUsername.value, inputPassword.value)
       inputUsername.value = ''
       inputPassword.value = ''
-    }
-    else {
+    } else {
       console.log('blank input not allowed')
     }
   }
@@ -19,9 +18,9 @@ const SignIn = ({ onSignIn, onGoSignUpPage, isMainPage, isSignUpPage }) => {
     return (
       <div>
         <input ref={node => { inputUsername = node }} placeholder={'username'} /> <br />
-        <input ref={node => { inputPassword = node }} placeholder={'password'} type='password' /> <br />
-        <Button type='submit' onClick={onSubmitSignIn}>Sign In</Button> <br />
-        <Button type='submit' onClick={onGoSignUpPage}>Sign Up</Button>
+        <input ref={node => { inputPassword = node }} placeholder={'password'} type="password" /> <br />
+        <Button type="submit" onClick={onSubmitSignIn}>Sign In</Button> <br />
+        <Button type="submit" onClick={onGoSignUpPage}>Sign Up</Button>
       </div>
     )
   }

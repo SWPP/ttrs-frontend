@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     onGoSignUpPage: () => {
       dispatch(goSignUpPageRequest())
-    }
+    },
   }
 }
 

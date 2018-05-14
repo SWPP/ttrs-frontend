@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     onGoSettingsTab: () => {
       dispatch(goSettingsTabRequest())
-    }
+    },
   }
 }
 

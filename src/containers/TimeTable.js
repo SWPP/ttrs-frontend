@@ -15,7 +15,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     onModifyTitle: (content) => {
       dispatch(modifyTitleRequest(content))
-    }
+    },
   }
 }
 

@@ -7,10 +7,10 @@ const SignUp = ({ onSignUp, onReturnToSignInPage, onChangeDepartmentList, onChan
   let inputPasswordConfirm
   let inputEmail
   let inputGrade
-  let inputCollegeIndex = {value: 0}
-  let inputDepartmentIndex = {value: 0}
+  let inputCollegeIndex = { value: 0 }
+  let inputDepartmentIndex = { value: 0 }
   let inputMajorIndex
-  const gradeOption = [1, 2, 3, 4];
+  const gradeOption = [1, 2, 3, 4]
 
   const onSubmit = () => {
     if (inputUsername.value.trim() && inputPassword.value.trim() && inputPasswordConfirm.value.trim() && inputEmail.value.trim()) {
@@ -18,18 +18,16 @@ const SignUp = ({ onSignUp, onReturnToSignInPage, onChangeDepartmentList, onChan
         onSignUp(
           inputUsername.value,
           inputPassword.value,
-          inputEmail.value+'@snu.ac.kr',
-          parseInt(inputGrade.value),
+          `${inputEmail.value}@snu.ac.kr`,
+          parseInt(inputGrade.value, 10),
           colleges[inputCollegeIndex.value].id,
           inputDepartmentIndex.value === '' ? null : departments[inputDepartmentIndex.value].id,
           inputMajorIndex.value === '' ? null : majors[inputMajorIndex.value].id,
         )
-      }
-      else {
+      } else {
         console.log('password not same')
       }
-    }
-    else {
+    } else {
       console.log('blank input not allowed')
     }
   }
@@ -38,8 +36,8 @@ const SignUp = ({ onSignUp, onReturnToSignInPage, onChangeDepartmentList, onChan
     return (
       <div>
         <input ref={node => { inputUsername = node }} placeholder={'username'} /> <br />
-        <input ref={node => { inputPassword = node }} placeholder={'password'} type='password' /> <br />
-        <input ref={node => { inputPasswordConfirm = node }} placeholder={'password confirm'} type='password' /> <br />
+        <input ref={node => { inputPassword = node }} placeholder={'password'} type="password" /> <br />
+        <input ref={node => { inputPasswordConfirm = node }} placeholder={'password confirm'} type="password" /> <br />
         <input ref={node => { inputEmail = node }} placeholder={'email'} />@snu.ac.kr <br />
         Grade
         <select ref={node => { inputGrade = node }}>
@@ -61,7 +59,7 @@ const SignUp = ({ onSignUp, onReturnToSignInPage, onChangeDepartmentList, onChan
         </select> <br />
         Department
         <select ref={node => { inputDepartmentIndex = node }} onChange={() => onChangeMajorList(inputDepartmentIndex.value)}>
-          <option value=''>----</option>
+          <option value="">----</option>
           {departments.map((value, index) =>
             <option
               key={value.id}
@@ -71,7 +69,7 @@ const SignUp = ({ onSignUp, onReturnToSignInPage, onChangeDepartmentList, onChan
         </select> <br />
         Major
         <select ref={node => { inputMajorIndex = node }}>
-          <option value=''>----</option>
+          <option value="">----</option>
           {majors.map((value, index) =>
             <option
               key={value.id}
@@ -79,8 +77,8 @@ const SignUp = ({ onSignUp, onReturnToSignInPage, onChangeDepartmentList, onChan
             >{value.name}</option>
           )}
         </select> <br />
-        <Button type='submit' onClick={onSubmit}>Sign Up</Button>
-        <Button type='submit' onClick={onReturnToSignInPage}>Return</Button>
+        <Button type="submit" onClick={onSubmit}>Sign Up</Button>
+        <Button type="submit" onClick={onReturnToSignInPage}>Return</Button>
       </div>
     )
   }

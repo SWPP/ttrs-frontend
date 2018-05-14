@@ -100,42 +100,42 @@ export const getCollegeListResponse = (colleges) => {
 
 export const changeDepartmentListRequest = (collegeIndex) => {
   return {
-    type:CHANGE_DEPARTMENTLIST_REQUEST,
+    type: CHANGE_DEPARTMENTLIST_REQUEST,
     collegeIndex,
   }
 }
 
 export const changeMajorListRequest = (departmentIndex) => {
   return {
-    type:CHANGE_MAJORLIST_REQUEST,
+    type: CHANGE_MAJORLIST_REQUEST,
     departmentIndex,
   }
 }
 
 export const searchLectureRequest = (courseName) => {
   return {
-    type:SEARCH_LECTURE_REQUEST,
+    type: SEARCH_LECTURE_REQUEST,
     courseName,
   }
 }
 
 export const searchLectureResponse = (lectures) => {
   return {
-    type:SEARCH_LECTURE_RESPONSE,
+    type: SEARCH_LECTURE_RESPONSE,
     lectures,
   }
 }
 
 export const getMyTimeTableResponse = (lectures) => {
   return {
-    type:GET_MYTIMETABLE_RESPONSE,
+    type: GET_MYTIMETABLE_RESPONSE,
     lectures,
   }
 }
 
 export const addLectureToMyTimeTableRequest = (lectureIds, newLectureId) => {
   return {
-    type:ADD_LECTURE_TO_MY_TIMETABLE_REQUEST,
+    type: ADD_LECTURE_TO_MY_TIMETABLE_REQUEST,
     lectureIds,
     newLectureId,
   }
@@ -143,7 +143,7 @@ export const addLectureToMyTimeTableRequest = (lectureIds, newLectureId) => {
 
 export const addLectureToMyTimeTableResponse = (lecture) => {
   return {
-    type:ADD_LECTURE_TO_MY_TIMETABLE_RESPONSE,
+    type: ADD_LECTURE_TO_MY_TIMETABLE_RESPONSE,
     lecture,
   }
 }
