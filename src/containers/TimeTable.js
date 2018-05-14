@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import TimeTable from '../components/molecules/TimeTable'
-import { modifyMemoRequest, modifyTitleRequest } from '../store/ttrs/actions'
+import { modifyMemo, modifyTitle } from '../store/ttrs/actions'
 
 const mapStateToProps = (state, props) => {
   return {
@@ -11,10 +11,10 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onModifyMemo: (content) => {
-      dispatch(modifyMemoRequest(content))
+      dispatch(modifyMemo(content))
     },
     onModifyTitle: (content) => {
-      dispatch(modifyTitleRequest(content))
+      dispatch(modifyTitle(content))
     },
   }
 }

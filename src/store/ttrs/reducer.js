@@ -3,7 +3,7 @@ import * as actions from './actions'
 
 const studentInfo = (state = [], action) => {
   switch (action.type) {
-    case actions.SIGNIN_RESPONSE:
+    case actions.SIGN_IN_RESPONSE:
       return {
         ...state,
         ...action.studentInfo,
@@ -15,27 +15,27 @@ const studentInfo = (state = [], action) => {
 
 const belongInfo = (state = [], action) => {
   switch (action.type) {
-    case actions.CLEAR_STATE_REQUEST:
+    case actions.CLEAR_STATE:
       return {
         ...state,
         colleges: state.colleges,
         departments: state.colleges[0].departments,
         majors: state.colleges[0].departments[0].majors,
       }
-    case actions.GET_COLLEGELIST_RESPONSE:
+    case actions.GET_COLLEGE_LIST:
       return {
         ...state,
         colleges: action.colleges,
         departments: action.colleges[0].departments,
         majors: action.colleges[0].departments[0].majors,
       }
-    case actions.CHANGE_DEPARTMENTLIST_REQUEST:
+    case actions.CHANGE_DEPARTMENT_LIST:
       return {
         ...state,
         departments: state.colleges[action.collegeIndex].departments,
         majors: state.colleges[action.collegeIndex].departments.length === 0 ? [] : state.colleges[action.collegeIndex].departments[0].majors,
       }
-    case actions.CHANGE_MAJORLIST_REQUEST:
+    case actions.CHANGE_MAJOR_LIST:
       return {
         ...state,
         majors: action.departmentIndex === '' ? [] : state.departments[action.departmentIndex].majors,
@@ -47,7 +47,7 @@ const belongInfo = (state = [], action) => {
 
 const timeTable = (state = [], action) => {
   switch (action.type) {
-    case actions.MODIFY_MEMO_REQUEST:
+    case actions.MODIFY_MEMO:
       return {
         ...state,
         myTimeTable: {
@@ -55,7 +55,7 @@ const timeTable = (state = [], action) => {
           memo: action.content,
         },
       }
-    case actions.MODIFY_TITLE_REQUEST:
+    case actions.MODIFY_TITLE:
       return {
         ...state,
         myTimeTable: {
@@ -63,7 +63,7 @@ const timeTable = (state = [], action) => {
           title: action.content,
         },
       }
-    case actions.GET_MYTIMETABLE_RESPONSE:
+    case actions.GET_MY_TIME_TABLE:
       return {
         ...state,
         myTimeTable: {
@@ -71,7 +71,7 @@ const timeTable = (state = [], action) => {
           lectures: action.lectures,
         },
       }
-    case actions.ADD_LECTURE_TO_MY_TIMETABLE_RESPONSE:
+    case actions.ADD_LECTURE_TO_MY_TIME_TABLE_RESPONSE:
       return {
         ...state,
         myTimeTable: {
@@ -101,63 +101,63 @@ const search = (state = [], action) => {
 
 const ttrsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actions.SIGNIN_RESPONSE:
+    case actions.SIGN_IN_RESPONSE:
       return {
         ...state,
         studentInfo: studentInfo(state.studentInfo, action),
         isMainPage: true,
       }
-    case actions.GO_SIGNUPPAGE_REQUEST:
+    case actions.GO_SIGN_UP_PAGE:
       return {
         ...state,
         isSignUpPage: true,
       }
-    case actions.CLEAR_STATE_REQUEST:
+    case actions.CLEAR_STATE:
       return {
         ...initialState,
         belongInfo: belongInfo(state.belongInfo, action),
       }
-    case actions.RECOMMENDTAB_REQUEST:
+    case actions.GO_RECOMMEND_TAB:
       return {
         ...state,
         currentTab: RECOMMEND_TAB,
       }
-    case actions.BOOKMARKTAB_REQUEST:
+    case actions.GO_BOOKMARK_TAB:
       return {
         ...state,
         currentTab: BOOKMARK_TAB,
       }
-    case actions.RECEIVETAB_REQUEST:
+    case actions.GO_RECEIVE_TAB:
       return {
         ...state,
         currentTab: RECEIVE_TAB,
       }
-    case actions.SETTINGSTAB_REQUEST:
+    case actions.GO_SETTINGS_TAB:
       return {
         ...state,
         currentTab: SETTINGS_TAB,
       }
-    case actions.MODIFY_MEMO_REQUEST:
+    case actions.MODIFY_MEMO:
       return {
         ...state,
         timeTable: timeTable(state.timeTable, action),
       }
-    case actions.MODIFY_TITLE_REQUEST:
+    case actions.MODIFY_TITLE:
       return {
         ...state,
         timeTable: timeTable(state.timeTable, action),
       }
-    case actions.GET_COLLEGELIST_RESPONSE:
+    case actions.GET_COLLEGE_LIST:
       return {
         ...state,
         belongInfo: belongInfo(state.belongInfo, action),
       }
-    case actions.CHANGE_DEPARTMENTLIST_REQUEST:
+    case actions.CHANGE_DEPARTMENT_LIST:
       return {
         ...state,
         belongInfo: belongInfo(state.belongInfo, action),
       }
-    case actions.CHANGE_MAJORLIST_REQUEST:
+    case actions.CHANGE_MAJOR_LIST:
       return {
         ...state,
         belongInfo: belongInfo(state.belongInfo, action),
@@ -167,12 +167,12 @@ const ttrsReducer = (state = initialState, action) => {
         ...state,
         search: search(state.search, action),
       }
-    case actions.GET_MYTIMETABLE_RESPONSE:
+    case actions.GET_MY_TIME_TABLE:
       return {
         ...state,
         timeTable: timeTable(state.timeTable, action),
       }
-    case actions.ADD_LECTURE_TO_MY_TIMETABLE_RESPONSE:
+    case actions.ADD_LECTURE_TO_MY_TIME_TABLE_RESPONSE:
       return {
         ...state,
         timeTable: timeTable(state.timeTable, action),

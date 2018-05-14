@@ -38,7 +38,7 @@ function* getCollegeList() {
   try {
     const response = yield call(axios.get, 'ttrs/colleges/', config)
     console.log('getCollegeList response', response)
-    yield put(actions.getCollegeListResponse(response.data))
+    yield put(actions.getCollegeList(response.data))
   } catch (error) {
     console.log('getCollegeList error', error.response)
   }
@@ -69,7 +69,7 @@ function* signIn(username, password) {
         lecturesOfMyTimeTable.push(lectureResponse.data)
       }
     }
-    yield put(actions.getMyTimeTableResponse(lecturesOfMyTimeTable))
+    yield put(actions.getMyTimeTable(lecturesOfMyTimeTable))
   } catch (error) {
     console.log('getCurrent myTimeTable error', error.response)
   }
@@ -79,7 +79,7 @@ function* signUp(studentInfo) {
   try {
     const response = yield call(axios.post, 'ttrs/students/signup/', studentInfo)
     console.log('signUp response', response)
-    yield put(actions.clearStateRequest())
+    yield put(actions.clearState())
   } catch (error) {
     console.log('signUp error', error.response)
   }
@@ -117,14 +117,14 @@ function* addLectureToMyTimeTable(lectureIds, newLectureId) {
 
 function* watchSignIn() {
   while (true) {
-    const { username, password } = yield take(actions.SIGNIN_REQUEST)
+    const { username, password } = yield take(actions.SIGN_IN_REQUEST)
     yield call(signIn, username, password)
   }
 }
 
 function* watchSignUp() {
   while (true) {
-    const { studentInfo } = yield take(actions.SIGNUP_REQUEST)
+    const { studentInfo } = yield take(actions.SIGN_UP)
     yield call(signUp, studentInfo)
   }
 }
@@ -138,7 +138,7 @@ function* watchSearchLecture() {
 
 function* watchAddLectureToMyTimeTable() {
   while (true) {
-    const { lectureIds, newLectureId } = yield take(actions.ADD_LECTURE_TO_MY_TIMETABLE_REQUEST)
+    const { lectureIds, newLectureId } = yield take(actions.ADD_LECTURE_TO_MY_TIME_TABLE_REQUEST)
     yield call(addLectureToMyTimeTable, lectureIds, newLectureId)
   }
 }

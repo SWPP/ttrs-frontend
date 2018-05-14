@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import SignOut from '../components/molecules/SignOut'
-import { clearStateRequest } from '../store/ttrs/actions'
+import { clearState } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -12,7 +12,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onSignOut: () => {
-      dispatch(clearStateRequest())
+      dispatch(clearState())
     },
   }
 }

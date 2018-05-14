@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import SignUp from '../components/molecules/SignUp'
-import { changeDepartmentListRequest, changeMajorListRequest, clearStateRequest, signUpRequest } from '../store/ttrs/actions'
+import { changeDepartmentList, changeMajorList, clearState, signUp } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -14,16 +14,16 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onChangeDepartmentList: (collegeIndex) => {
-      dispatch(changeDepartmentListRequest( collegeIndex ))
+      dispatch(changeDepartmentList( collegeIndex ))
     },
     onChangeMajorList: (departmentIndex) => {
-      dispatch(changeMajorListRequest( departmentIndex ))
+      dispatch(changeMajorList( departmentIndex ))
     },
     onSignUp: (username, password, email, grade, college, department, major) => {
-      dispatch(signUpRequest({ username, password, email, grade, college, department, major }))
+      dispatch(signUp({ username, password, email, grade, college, department, major }))
     },
     onReturnToSignInPage: () => {
-      dispatch(clearStateRequest())
+      dispatch(clearState())
     },
   }
 }
