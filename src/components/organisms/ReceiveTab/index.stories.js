@@ -1,11 +1,11 @@
 import React from 'react'
 import { storiesOf } from '@kadira/storybook'
-import Memo from '.'
+import { ReceiveTab } from 'components'
 
-storiesOf('Memo', module)
+storiesOf('ReceiveTab', module)
   .add('default', () => (
-    <Memo>Hello</Memo>
+    <ReceiveTab />
   ))
   .add('reverse', () => (
-    <Memo reverse>Hello</Memo>
+    <ReceiveTab reverse />
   ))

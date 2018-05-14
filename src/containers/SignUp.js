@@ -1,13 +1,13 @@
 import { connect } from 'react-redux'
-import { SignUp } from '../components/molecules/SignUp'
-import { changeDepartmentListRequest, changeMajorListRequest, signOutRequest, signUpRequest } from '../store/ttrs/actions'
+import SignUp from '../components/molecules/SignUp'
+import { changeDepartmentListRequest, changeMajorListRequest, clearStateRequest, signUpRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
     isSignUpPage: state.ttrs.isSignUpPage,
-    colleges: state.ttrs.colleges,
-    departments: state.ttrs.departments,
-    majors: state.ttrs.majors,
+    colleges: state.ttrs.belongInfo.colleges,
+    departments: state.ttrs.belongInfo.departments,
+    majors: state.ttrs.belongInfo.majors,
   }
 }
 
@@ -23,7 +23,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(signUpRequest({ username, password, email, grade, college, department, major }))
     },
     onReturnToSignInPage: () => {
-      dispatch(signOutRequest())
+      dispatch(clearStateRequest())
     },
   }
 }

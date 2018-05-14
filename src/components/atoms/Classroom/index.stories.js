@@ -1,11 +1,11 @@
 import React from 'react'
 import { storiesOf } from '@kadira/storybook'
-import Title from '.'
+import Classroom from '.'
 
-storiesOf('Title', module)
+storiesOf('Classroom', module)
   .add('default', () => (
-    <Title>Hello</Title>
+    <Classroom>Hello</Classroom>
   ))
   .add('reverse', () => (
-    <Title reverse>Hello</Title>
+    <Classroom reverse>Hello</Classroom>
   ))

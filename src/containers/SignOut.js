@@ -1,18 +1,18 @@
 import { connect } from 'react-redux'
-import { SignOut } from '../components/molecules/SignOut'
-import { signOutRequest } from '../store/ttrs/actions'
+import SignOut from '../components/molecules/SignOut'
+import { clearStateRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
-    username: state.ttrs.username,
-    isSignedIn: state.ttrs.isSignedIn,
+    username: state.ttrs.studentInfo.username,
+    isMainPage: state.ttrs.isMainPage,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onSignOut: () => {
-      dispatch(signOutRequest())
+      dispatch(clearStateRequest())
     },
   }
 }
