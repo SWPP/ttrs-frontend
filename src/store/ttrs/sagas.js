@@ -31,8 +31,8 @@ axios.interceptors.response.use((response) => {
   return Promise.reject(newError)
 })
 const config = {}
-let year = 2018
-let semester = '1학기'
+const year = 2018
+const semester = '1학기'
 
 function* getCollegeList() {
   try {
@@ -57,7 +57,11 @@ function* signIn(username, password) {
     return undefined
   }
   try {
-    const response = yield call(axios.get, `ttrs/my-time-tables/?year=${year}&semester=${semester}`, config)
+    const params = {
+      year,
+      semester,
+    }
+    const response = yield call(axios.get, updateURLParams('ttrs/my-time-tables/', params), config)
     console.log('getCurrent myTimeTable response', response)
     if (response.data.length !== 0) {
       for (let i = 0; i < response.data[0].lectures.length; i += 1) {
@@ -83,7 +87,12 @@ function* signUp(studentInfo) {
 
 function* searchLecture(courseName) {
   try {
-    const response = yield call(axios.get, `ttrs/lectures/?course__name=${courseName}&year=${year}&semester=${semester}`, config)
+    const params = {
+      'course.name.contains': courseName,
+      year,
+      semester,
+    }
+    const response = yield call(axios.get, updateURLParams('ttrs/lectures/', params), config)
     console.log('searchLecture response', response)
     yield put(actions.searchLectureResponse(response.data))
   } catch (error) {
@@ -91,9 +100,9 @@ function* searchLecture(courseName) {
   }
 }
 
-function* addLectureToMyTimeTable (lectureIds, newLectureId) {
+function* addLectureToMyTimeTable(lectureIds, newLectureId) {
   lectureIds.push(newLectureId)
-  let myTimeTableInfo = {
+  const myTimeTableInfo = {
     lectures: lectureIds,
   }
   try {
