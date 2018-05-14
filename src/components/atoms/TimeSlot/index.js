@@ -9,9 +9,7 @@ const Styledli = styled.li`
 
 const TimeSlot = ({ dayOfWeek, startTime, endTime, classroom }) => (
   <Styledli>
-    {'dayOfWeek = '+dayOfWeek+' '}
-    {'startTime = '+startTime+' '}
-    {'endTime = '+endTime+' '}
+    {`${dayOfWeek}요일 ${startTime}-${endTime}`}
     <Classroom {...classroom} />
   </Styledli>
 )

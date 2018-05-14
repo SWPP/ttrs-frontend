@@ -15,17 +15,13 @@ export const SignIn = ({ onSignIn, onGoSignUpPage, isMainPage, isSignUpPage }) =
     }
   }
 
-  const onSubmitSignUp = () => {
-    onGoSignUpPage()
-  }
-
   if (!isMainPage && !isSignUpPage) {
     return (
       <div>
         <input ref={node => { inputUsername = node }} placeholder={'username'} /> <br />
         <input ref={node => { inputPassword = node }} placeholder={'password'} type='password' /> <br />
         <Button type='submit' onClick={onSubmitSignIn}>Sign In</Button> <br />
-        <Button type='submit' onClick={onSubmitSignUp}>Sign Up</Button>
+        <Button type='submit' onClick={onGoSignUpPage}>Sign Up</Button>
       </div>
     )
   }

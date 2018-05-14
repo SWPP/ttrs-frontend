@@ -54,7 +54,7 @@ function* signIn(username, password) {
     yield put(actions.signInResponse(response.data))
   } catch (error) {
     console.log('signIn error', error.response)
-    return null
+    return undefined
   }
   try {
     const response = yield call(axios.get, `ttrs/my-time-tables/?year=${year}&semester=${semester}`, config)
