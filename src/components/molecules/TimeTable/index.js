@@ -1,11 +1,9 @@
 import React from 'react'
-import Memo from '../../atoms/Memo'
-import TimeSlot from '../../atoms/TimeSlot'
-import Title from '../../atoms/Title'
 import Button from '../../atoms/Button'
+import Lecture from '../../atoms/Lecture'
 
 
-export const TimeTable = ({ isSignedIn, memo, title, timeSlotList, onModifyMemo, onModifyTitle }) => {
+const TimeTable = ({ memo, title, lectures, onModifyMemo, onModifyTitle }) => {
   let titleContent = title
   let memoContent = memo
 
@@ -17,27 +15,26 @@ export const TimeTable = ({ isSignedIn, memo, title, timeSlotList, onModifyMemo,
     onModifyTitle(titleContent.value)
   }
 
-  if (isSignedIn) {
-    return (
-      <div>
-        <input ref={node => { titleContent = node }} placeholder={'title'} /> <br />
-        <Title content={titleContent} />
-        <Button type="submit" onClick={onSubmitTitle}>Modify Title</Button>
-        <br />
-        TimeTable
-        {timeSlotList.map(timeSlot =>
-          <TimeSlot
-            key={timeSlot.id}
-            {...timeSlot}
+  return (
+    <div>
+      <input ref={node => { titleContent = node }} placeholder={'title'} />
+      <Button type='submit' onClick={onSubmitTitle}>Modify Title</Button> <br />
+      {titleContent}
+      <br /> <br />
+      TimeTable
+      {lectures.map(lecture =>
+        <div key={lecture.id}>
+          <hr/>
+          <Lecture
+            {...lecture}
           />
-        )}
-        <input ref={node => { memoContent = node }} placeholder={'memo'} /> <br />
-        <Memo content={memoContent} />
-        <Button type="submit" onClick={onSubmitMemo}>Modify Memo</Button>
-      </div>
-    )
-  }
-  return null
+        </div>
+      )} <br />
+      <input ref={node => { memoContent = node }} placeholder={'memo'} />
+      <Button type='submit' onClick={onSubmitMemo}>Modify Memo</Button> <br />
+      {memoContent}
+    </div>
+  )
 }
 
 export default TimeTable

@@ -1,7 +1,7 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import Button from '../../atoms/Button'
 
-export const SignIn = ({ onSignIn, onGoSignUpPage, isSignedIn, isSignUpPage }) => {
+const SignIn = ({ onSignIn, onGoSignUpPage, isMainPage, isSignUpPage }) => {
   let inputUsername
   let inputPassword
   const onSubmitSignIn = () => {
@@ -15,28 +15,17 @@ export const SignIn = ({ onSignIn, onGoSignUpPage, isSignedIn, isSignUpPage }) =
     }
   }
 
-  const onSubmitSignUp = () => {
-    onGoSignUpPage()
-  }
-
-  if (!isSignedIn && !isSignUpPage) {
+  if (!isMainPage && !isSignUpPage) {
     return (
       <div>
         <input ref={node => { inputUsername = node }} placeholder={'username'} /> <br />
-        <input ref={node => { inputPassword = node }} placeholder={'password'} type="password" /> <br />
-        <Button type="submit" onClick={onSubmitSignIn}>Sign In</Button> <br />
-        <Button type="submit" onClick={onSubmitSignUp}>Sign Up</Button>
+        <input ref={node => { inputPassword = node }} placeholder={'password'} type='password' /> <br />
+        <Button type='submit' onClick={onSubmitSignIn}>Sign In</Button> <br />
+        <Button type='submit' onClick={onGoSignUpPage}>Sign Up</Button>
       </div>
     )
   }
   return null
-}
-
-SignIn.propTypes = {
-  onSignIn: PropTypes.func.isRequired,
-  onGoSignUpPage: PropTypes.func.isRequired,
-  isSignedIn: PropTypes.bool,
-  isSignUpPage: PropTypes.bool,
 }
 
 export default SignIn

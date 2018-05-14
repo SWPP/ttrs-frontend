@@ -1,11 +1,10 @@
 import { connect } from 'react-redux'
-import { SignIn } from '../components/molecules/SignIn'
-import { signInRequest } from '../store/ttrs/actions'
-import { goSignUpPageRequest } from "../store/ttrs/actions";
+import SignIn from '../components/molecules/SignIn'
+import { signInRequest, goSignUpPageRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
-    isSignedIn: state.ttrs.isSignedIn,
+    isMainPage: state.ttrs.isMainPage,
     isSignUpPage: state.ttrs.isSignUpPage,
   }
 }

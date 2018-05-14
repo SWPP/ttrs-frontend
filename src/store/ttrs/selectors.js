@@ -1,4 +1,4 @@
-export const initialState = {
+export const initialStudentInfo = {
   username: undefined,
   password: undefined,
   email: undefined,
@@ -10,29 +10,37 @@ export const initialState = {
   myTimeTables: [],
   bookmarkedTimeTables: [],
   receivedTimeTables: [],
+}
+
+export const initialBelongInfo = {
   colleges: [],
   departments: [],
   majors: [],
-  isSignedIn: false,
-  isSignUpPage: false,
-  isRecommendTab: true,
-  isBookmarkTab: false,
-  isReceivedTab: false,
-  isSettingTab: false,
-  title: 'write title',
-  memo: 'write memo',
-  timeSlotList: [{
-    id: 1,
-    dayOfWeek: '1',
-    startTime: '2',
-    endTime: '3',
-    classroom: '4',
-  },{
-    id: 5,
-    dayOfWeek: '5',
-    startTime: '6',
-    endTime: '7',
-    classroom: '8',
-  }],
+}
 
+export const initialTimeTable = {
+  myTimeTable: {
+    title: '',
+    lectures: [],
+    memo: '',
+  },
+}
+
+export const initialSearch = {
+  lectures: [],
+}
+
+export const RECOMMEND_TAB = 0
+export const BOOKMARK_TAB = 1
+export const RECEIVE_TAB = 2
+export const SETTINGS_TAB = 3
+
+export const initialState = {
+  studentInfo: initialStudentInfo,
+  belongInfo: initialBelongInfo,
+  timeTable: initialTimeTable,
+  search: initialSearch,
+  isMainPage: false,
+  isSignUpPage: false,
+  currentTab: RECOMMEND_TAB,
 }

@@ -2,17 +2,21 @@ export const SIGNIN_REQUEST = 'SIGNIN_REQUEST'
 export const SIGNIN_RESPONSE = 'SIGNIN_RESPONSE'
 export const GO_SIGNUPPAGE_REQUEST = 'GO_SIGNUPPAGE_REQUEST'
 export const SIGNUP_REQUEST = 'SIGNUP_REQUEST'
-export const SIGNUP_RESPONSE = 'SIGNUP_RESPONSE'
-export const SIGNOUT_REQUEST = 'SIGNOUT_REQUEST'
+export const CLEAR_STATE_REQUEST = 'CLEAR_STATE_REQUEST'
 export const RECOMMENDTAB_REQUEST = 'RECOMMENDTAB_REQUEST'
 export const BOOKMARKTAB_REQUEST = 'BOOKMARKTAB_REQUEST'
-export const RECEIVEDTAB_REQUEST = 'RECEIVEDTAB_REQUEST'
-export const SETTINGTAB_REQUEST = 'SETTINGTAB_REQUEST'
+export const RECEIVETAB_REQUEST = 'RECEIVETAB_REQUEST'
+export const SETTINGSTAB_REQUEST = 'SETTINGSTAB_REQUEST'
 export const MODIFY_MEMO_REQUEST = 'MODIFY_MEMO_REQUEST'
 export const MODIFY_TITLE_REQUEST = 'MODIFY_TITLE_REQUEST'
 export const GET_COLLEGELIST_RESPONSE = 'GET_COLLEGELIST_RESPONSE'
 export const CHANGE_DEPARTMENTLIST_REQUEST = 'CHANGE_DEPARTMENTLIST_REQUEST'
 export const CHANGE_MAJORLIST_REQUEST = 'CHANGE_MAJORLIST_REQUEST'
+export const SEARCH_LECTURE_REQUEST = 'SEARCH_LECTURE_REQUEST'
+export const SEARCH_LECTURE_RESPONSE = 'SEARCH_LECTURE_RESPONSE'
+export const GET_MYTIMETABLE_RESPONSE = 'GET_MYTIMETABLE_RESPONSE'
+export const ADD_LECTURE_TO_MY_TIMETABLE_REQUEST = 'ADD_LECTURE_TO_MY_TIMETABLE_REQUEST'
+export const ADD_LECTURE_TO_MY_TIMETABLE_RESPONSE = 'ADD_LECTURE_TO_MY_TIMETABLE_RESPONSE'
 
 
 export const signInRequest = (username, password) => {
@@ -43,16 +47,9 @@ export const signUpRequest = (studentInfo) => {
   }
 }
 
-export const signUpResponse = (studentInfo) => {
+export const clearStateRequest = () => {
   return {
-    type: SIGNUP_RESPONSE,
-    studentInfo,
-  }
-}
-
-export const signOutRequest = () => {
-  return {
-    type: SIGNOUT_REQUEST,
+    type: CLEAR_STATE_REQUEST,
   }
 }
 
@@ -68,15 +65,15 @@ export const goBookmarkTabRequest = () => {
   }
 }
 
-export const goReceivedTabRequest = () => {
+export const goReceiveTabRequest = () => {
   return {
-    type: RECEIVEDTAB_REQUEST,
+    type: RECEIVETAB_REQUEST,
   }
 }
 
-export const goSettingTabRequest = () => {
+export const goSettingsTabRequest = () => {
   return {
-    type: SETTINGTAB_REQUEST,
+    type: SETTINGSTAB_REQUEST,
   }
 }
 
@@ -112,5 +109,41 @@ export const changeMajorListRequest = (departmentIndex) => {
   return {
     type:CHANGE_MAJORLIST_REQUEST,
     departmentIndex,
+  }
+}
+
+export const searchLectureRequest = (courseName) => {
+  return {
+    type:SEARCH_LECTURE_REQUEST,
+    courseName,
+  }
+}
+
+export const searchLectureResponse = (lectures) => {
+  return {
+    type:SEARCH_LECTURE_RESPONSE,
+    lectures,
+  }
+}
+
+export const getMyTimeTableResponse = (lectures) => {
+  return {
+    type:GET_MYTIMETABLE_RESPONSE,
+    lectures,
+  }
+}
+
+export const addLectureToMyTimeTableRequest = (lectureIds, newLectureId) => {
+  return {
+    type:ADD_LECTURE_TO_MY_TIMETABLE_REQUEST,
+    lectureIds,
+    newLectureId,
+  }
+}
+
+export const addLectureToMyTimeTableResponse = (lecture) => {
+  return {
+    type:ADD_LECTURE_TO_MY_TIMETABLE_RESPONSE,
+    lecture,
   }
 }

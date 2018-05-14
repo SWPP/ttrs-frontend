@@ -3,8 +3,10 @@ import SignIn from '../../../containers/SignIn'
 import SignUp from '../../../containers/SignUp'
 import SignOut from '../../../containers/SignOut'
 import Tabs from '../../../containers/Tabs'
-import TimeTable from '../../../containers/TimeTable'
-
+import RecommendTab from '../../../containers/RecommendTab'
+import BookmarkTab from '../../../containers/BookmarkTab'
+import ReceiveTab from '../../../containers/ReceiveTab'
+import SettingsTab from '../../../containers/SettingsTab'
 
 const HomePage = () => {
   return (
@@ -13,7 +15,10 @@ const HomePage = () => {
       <SignUp />
       <SignOut />
       <Tabs />
-      <TimeTable />
+      <RecommendTab />
+      <BookmarkTab />
+      <ReceiveTab />
+      <SettingsTab />
     </div>
   )
 }

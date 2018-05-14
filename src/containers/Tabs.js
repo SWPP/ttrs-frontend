@@ -1,13 +1,10 @@
 import { connect } from 'react-redux'
-import { Tabs } from '../components/molecules/Tabs'
-import { goRecommendTabRequest } from '../store/ttrs/actions'
-import { goBookmarkTabRequest } from '../store/ttrs/actions'
-import { goReceivedTabRequest } from '../store/ttrs/actions'
-import { goSettingTabRequest } from '../store/ttrs/actions'
+import Tabs from '../components/molecules/Tabs'
+import { goRecommendTabRequest, goBookmarkTabRequest, goReceiveTabRequest, goSettingsTabRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
-    isSignedIn: state.ttrs.isSignedIn,
+    isMainPage: state.ttrs.isMainPage,
   }
 }
 
@@ -19,11 +16,11 @@ const mapDispatchToProps = (dispatch) => {
     onGoBookmarkTab: () => {
       dispatch(goBookmarkTabRequest())
     },
-    onGoReceivedTab: () => {
-      dispatch(goReceivedTabRequest())
+    onGoReceiveTab: () => {
+      dispatch(goReceiveTabRequest())
     },
-    onGoSettingTab: () => {
-      dispatch(goSettingTabRequest())
+    onGoSettingsTab: () => {
+      dispatch(goSettingsTabRequest())
     }
   }
 }
