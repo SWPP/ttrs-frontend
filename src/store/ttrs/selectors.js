@@ -12,13 +12,6 @@ export const initialStudentInfo = {
   receivedTimeTables: [],
 }
 
-export const initialTabs = {
-  isRecommendTab: true,
-  isBookmarkTab: false,
-  isReceivedTab: false,
-  isSettingTab: false,
-}
-
 export const initialBelongInfo = {
   colleges: [],
   departments: [],
@@ -27,9 +20,9 @@ export const initialBelongInfo = {
 
 export const initialTimeTable = {
   myTimeTable: {
-    title: 'write title',
+    title: '',
     lectures: [],
-    memo: 'write memo',
+    memo: '',
   },
 }
 
@@ -37,12 +30,17 @@ export const initialSearch = {
   lectures: [],
 }
 
+export const RECOMMEND_TAB = 0
+export const BOOKMARK_TAB = 1
+export const RECEIVE_TAB = 2
+export const SETTINGS_TAB = 3
+
 export const initialState = {
   studentInfo: initialStudentInfo,
-  tabs: initialTabs,
   belongInfo: initialBelongInfo,
   timeTable: initialTimeTable,
   search: initialSearch,
   isMainPage: false,
   isSignUpPage: false,
+  currentTab: RECOMMEND_TAB,
 }

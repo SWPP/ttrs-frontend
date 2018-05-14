@@ -5,8 +5,8 @@ export const SIGNUP_REQUEST = 'SIGNUP_REQUEST'
 export const CLEAR_STATE_REQUEST = 'CLEAR_STATE_REQUEST'
 export const RECOMMENDTAB_REQUEST = 'RECOMMENDTAB_REQUEST'
 export const BOOKMARKTAB_REQUEST = 'BOOKMARKTAB_REQUEST'
-export const RECEIVEDTAB_REQUEST = 'RECEIVEDTAB_REQUEST'
-export const SETTINGTAB_REQUEST = 'SETTINGTAB_REQUEST'
+export const RECEIVETAB_REQUEST = 'RECEIVETAB_REQUEST'
+export const SETTINGSTAB_REQUEST = 'SETTINGSTAB_REQUEST'
 export const MODIFY_MEMO_REQUEST = 'MODIFY_MEMO_REQUEST'
 export const MODIFY_TITLE_REQUEST = 'MODIFY_TITLE_REQUEST'
 export const GET_COLLEGELIST_RESPONSE = 'GET_COLLEGELIST_RESPONSE'
@@ -65,15 +65,15 @@ export const goBookmarkTabRequest = () => {
   }
 }
 
-export const goReceivedTabRequest = () => {
+export const goReceiveTabRequest = () => {
   return {
-    type: RECEIVEDTAB_REQUEST,
+    type: RECEIVETAB_REQUEST,
   }
 }
 
-export const goSettingTabRequest = () => {
+export const goSettingsTabRequest = () => {
   return {
-    type: SETTINGTAB_REQUEST,
+    type: SETTINGSTAB_REQUEST,
   }
 }
 

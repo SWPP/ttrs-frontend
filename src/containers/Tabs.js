@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { Tabs } from '../components/molecules/Tabs'
-import { goRecommendTabRequest, goBookmarkTabRequest, goReceivedTabRequest, goSettingTabRequest } from '../store/ttrs/actions'
+import { goRecommendTabRequest, goBookmarkTabRequest, goReceiveTabRequest, goSettingsTabRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -16,11 +16,11 @@ const mapDispatchToProps = (dispatch) => {
     onGoBookmarkTab: () => {
       dispatch(goBookmarkTabRequest())
     },
-    onGoReceivedTab: () => {
-      dispatch(goReceivedTabRequest())
+    onGoReceiveTab: () => {
+      dispatch(goReceiveTabRequest())
     },
-    onGoSettingTab: () => {
-      dispatch(goSettingTabRequest())
+    onGoSettingsTab: () => {
+      dispatch(goSettingsTabRequest())
     }
   }
 }

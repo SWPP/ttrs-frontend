@@ -1,4 +1,4 @@
-import { initialState } from './selectors'
+import { initialState, RECOMMEND_TAB, BOOKMARK_TAB, RECEIVE_TAB, SETTINGS_TAB } from './selectors'
 import * as actions from './actions'
 
 const studentInfo = (state = [], action) => {
@@ -7,45 +7,6 @@ const studentInfo = (state = [], action) => {
       return {
         ...state,
         ...action.studentInfo,
-      }
-    default:
-      return state
-  }
-}
-
-const tabs = (state = [], action) => {
-  switch (action.type) {
-    case actions.RECOMMENDTAB_REQUEST:
-      return {
-        ...state,
-        isRecommendTab: true,
-        isBookmarkTab: false,
-        isReceivedTab: false,
-        isSettingTab: false,
-      }
-    case actions.BOOKMARKTAB_REQUEST:
-      return {
-        ...state,
-        isRecommendTab: false,
-        isBookmarkTab: true,
-        isReceivedTab: false,
-        isSettingTab: false,
-      }
-    case actions.RECEIVEDTAB_REQUEST:
-      return {
-        ...state,
-        isRecommendTab: false,
-        isBookmarkTab: false,
-        isReceivedTab: true,
-        isSettingTab: false,
-      }
-    case actions.SETTINGTAB_REQUEST:
-      return {
-        ...state,
-        isRecommendTab: false,
-        isBookmarkTab: false,
-        isReceivedTab: false,
-        isSettingTab: true,
       }
     default:
       return state
@@ -159,22 +120,22 @@ const ttrsReducer = (state = initialState, action) => {
     case actions.RECOMMENDTAB_REQUEST:
       return {
         ...state,
-        tabs: tabs(state.tabs, action),
+        currentTab: RECOMMEND_TAB,
       }
     case actions.BOOKMARKTAB_REQUEST:
       return {
         ...state,
-        tabs: tabs(state.tabs, action),
+        currentTab: BOOKMARK_TAB,
       }
-    case actions.RECEIVEDTAB_REQUEST:
+    case actions.RECEIVETAB_REQUEST:
       return {
         ...state,
-        tabs: tabs(state.tabs, action),
+        currentTab: RECEIVE_TAB,
       }
-    case actions.SETTINGTAB_REQUEST:
+    case actions.SETTINGSTAB_REQUEST:
       return {
         ...state,
-        tabs: tabs(state.tabs, action),
+        currentTab: SETTINGS_TAB,
       }
     case actions.MODIFY_MEMO_REQUEST:
       return {

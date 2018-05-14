@@ -3,7 +3,7 @@ import Lecture from '../../atoms/Lecture'
 import Button from '../../atoms/Button'
 
 
-export const SearchLecture = ({ isMainPage, isRecommendTab, searchLectures, myTimeTableLectures, onSearchLecture, onAddLectureToMyTimeTable }) => {
+export const SearchLecture = ({ isMainPage, searchLectures, myTimeTableLectures, onSearchLecture, onAddLectureToMyTimeTable }) => {
   let inputCourseName
   let myTimeTableLectureIds = []
   myTimeTableLectures.forEach((lecture) => {
@@ -14,7 +14,7 @@ export const SearchLecture = ({ isMainPage, isRecommendTab, searchLectures, myTi
     onSearchLecture(inputCourseName.value)
   }
 
-  if (isMainPage && isRecommendTab) {
+  if (isMainPage) {
     return (
       <div>
         <input ref={node => { inputCourseName = node }} placeholder={'type course name'} /> <br />

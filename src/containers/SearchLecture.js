@@ -5,7 +5,6 @@ import { addLectureToMyTimeTableRequest, searchLectureRequest } from '../store/t
 const mapStateToProps = (state) => {
   return {
     isMainPage: state.ttrs.isMainPage,
-    isRecommendTab: state.ttrs.tabs.isRecommendTab,
     searchLectures: state.ttrs.search.lectures,
     myTimeTableLectures: state.ttrs.timeTable.myTimeTable.lectures,
   }

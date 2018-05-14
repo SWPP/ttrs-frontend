@@ -3,7 +3,7 @@ import Button from '../../atoms/Button'
 import Lecture from '../../atoms/Lecture'
 
 
-export const TimeTable = ({ isMainPage, isSettingTab, memo, title, lectures, onModifyMemo, onModifyTitle }) => {
+export const TimeTable = ({ isMainPage, memo, title, lectures, onModifyMemo, onModifyTitle }) => {
   let titleContent = title
   let memoContent = memo
 
@@ -15,7 +15,7 @@ export const TimeTable = ({ isMainPage, isSettingTab, memo, title, lectures, onM
     onModifyTitle(titleContent.value)
   }
 
-  if (isMainPage && !isSettingTab) {
+  if (isMainPage) {
     return (
       <div>
         <input ref={node => { titleContent = node }} placeholder={'title'} />
