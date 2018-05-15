@@ -82,9 +82,14 @@ const timeTable = (state = [], action) => {
           ...action.myTimeTable,
           lectures: [
             ...action.myTimeTable.lectures,
-            action.newLecture,
-          ]
+          ],
         }
+      }
+    case actions.UPDATE_MY_TIME_TABLE_RESPONSE2:
+      console.log('update', action.myTimeTable.id)
+      return {
+        ...state,
+        myTimeTable: action.myTimeTable,
       }
     default:
       return state
@@ -182,6 +187,11 @@ const ttrsReducer = (state = initialState, action) => {
         timeTable: timeTable(state.timeTable, action),
       }
     case actions.UPDATE_MY_TIME_TABLE_RESPONSE:
+      return {
+        ...state,
+        timeTable: timeTable(state.timeTable, action),
+      }
+    case actions.UPDATE_MY_TIME_TABLE_RESPONSE2:
       return {
         ...state,
         timeTable: timeTable(state.timeTable, action),

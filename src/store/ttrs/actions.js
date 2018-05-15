@@ -17,6 +17,7 @@ export const CREATE_MY_TIME_TABLE_REQUEST = 'CREATE_MY_TIME_TABLE_REQUEST'
 export const CREATE_MY_TIME_TABLE_RESPONSE = 'CREATE_MY_TIME_TABLE_RESPONSE'
 export const UPDATE_MY_TIME_TABLE_REQUEST = 'UPDATE_MY_TIME_TABLE_REQUEST'
 export const UPDATE_MY_TIME_TABLE_RESPONSE = 'UPDATE_MY_TIME_TABLE_RESPONSE'
+export const UPDATE_MY_TIME_TABLE_RESPONSE2 = 'UPDATE_MY_TIME_TABLE_RESPONSE2'
 
 
 export const signInRequest = (username, password) => {
@@ -147,5 +148,12 @@ export const updateMyTimeTableResponse = (myTimeTable, newLecture) => {
     type: UPDATE_MY_TIME_TABLE_RESPONSE,
     myTimeTable,
     newLecture,
+  }
+}
+
+export const updateMyTimeTableResponse2 = (myTimeTable) => {
+  return {
+    type: UPDATE_MY_TIME_TABLE_RESPONSE2,
+    myTimeTable,
   }
 }

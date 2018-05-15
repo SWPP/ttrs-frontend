@@ -3,16 +3,24 @@ import Button from '../../atoms/Button'
 import Lecture from '../../atoms/Lecture'
 
 
-const TimeTable = ({ memo, title, lectures, onModifyMemo, onModifyTitle }) => {
+const TimeTable = ({ id, memo, title, lectures, onModifyMemo, onModifyTitle }) => {
   let titleContent = title
   let memoContent = memo
+  let myTimeTable = {
+    id,
+    memo,
+    title,
+    lectures,
+  }
 
   const onSubmitMemo = () => {
-    onModifyMemo(memoContent.value)
+    myTimeTable.memo = memoContent.value
+    onModifyMemo(myTimeTable)
   }
 
   const onSubmitTitle = () => {
-    onModifyTitle(titleContent.value)
+    myTimeTable.title = titleContent.value
+    onModifyTitle(myTimeTable)
   }
 
   return (

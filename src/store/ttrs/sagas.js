@@ -157,8 +157,12 @@ function* UpdateMyTimeTable(myTimeTable, newLectureId) {
   try {
     const response = yield call(axios.put, `ttrs/my-time-tables/${myTimeTable.id}/`, myTimeTableInfo, config)
     console.log('addLecture response', response)
-    const lectureResponse = yield call(axios.get, `ttrs/lectures/${newLectureId}/`, config)
-    yield put(actions.updateMyTimeTableResponse(myTimeTable, lectureResponse.data))
+    if (newLectureId !== 0) {
+      const lectureResponse = yield call(axios.get, `ttrs/lectures/${newLectureId}/`, config)
+      yield put(actions.updateMyTimeTableResponse(myTimeTable, lectureResponse.data))
+    } else {
+      yield put(actions.updateMyTimeTableResponse2(myTimeTable))
+    }
   } catch (error) {
     lectureIds.pop()
     console.log('addLecture error', error.response)
