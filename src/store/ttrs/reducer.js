@@ -1,4 +1,4 @@
-import { initialState, RECOMMEND_TAB, BOOKMARK_TAB, RECEIVE_TAB, SETTINGS_TAB } from './selectors'
+import { initialState } from './selectors'
 import * as actions from './actions'
 
 const studentInfo = (state = [], action) => {
@@ -120,25 +120,10 @@ const ttrsReducer = (state = initialState, action) => {
         ...initialState,
         belongInfo: belongInfo(state.belongInfo, action),
       }
-    case actions.GO_RECOMMEND_TAB:
+    case actions.CHANGE_TAB:
       return {
         ...state,
-        currentTab: RECOMMEND_TAB,
-      }
-    case actions.GO_BOOKMARK_TAB:
-      return {
-        ...state,
-        currentTab: BOOKMARK_TAB,
-      }
-    case actions.GO_RECEIVE_TAB:
-      return {
-        ...state,
-        currentTab: RECEIVE_TAB,
-      }
-    case actions.GO_SETTINGS_TAB:
-      return {
-        ...state,
-        currentTab: SETTINGS_TAB,
+        currentTab: action.tab
       }
     case actions.GET_COLLEGE_LIST:
       return {

@@ -3,10 +3,7 @@ export const SIGN_IN_RESPONSE = 'SIGN_IN_RESPONSE'
 export const GO_SIGN_UP_PAGE = 'GO_SIGN_UP_PAGE'
 export const SIGN_UP = 'SIGN_UP'
 export const CLEAR_STATE = 'CLEAR_STATE'
-export const GO_RECOMMEND_TAB = 'GO_RECOMMEND_TAB'
-export const GO_BOOKMARK_TAB = 'GO_BOOKMARK_TAB'
-export const GO_RECEIVE_TAB = 'GO_RECEIVE_TAB'
-export const GO_SETTINGS_TAB = 'GO_SETTINGS_TAB'
+export const CHANGE_TAB = 'CHANGE_TAB'
 export const GET_COLLEGE_LIST = 'GET_COLLEGE_LIST'
 export const CHANGE_DEPARTMENT_LIST = 'CHANGE_DEPARTMENT_LIST'
 export const CHANGE_MAJOR_LIST = 'CHANGE_MAJOR_LIST'
@@ -52,27 +49,10 @@ export const clearState = () => {
   }
 }
 
-export const goRecommendTab = () => {
+export const changeTab = (tab) => {
   return {
-    type: GO_RECOMMEND_TAB,
-  }
-}
-
-export const goBookmarkTab = () => {
-  return {
-    type: GO_BOOKMARK_TAB,
-  }
-}
-
-export const goReceiveTab = () => {
-  return {
-    type: GO_RECEIVE_TAB,
-  }
-}
-
-export const goSettingsTab = () => {
-  return {
-    type: GO_SETTINGS_TAB,
+    type: CHANGE_TAB,
+    tab,
   }
 }
 

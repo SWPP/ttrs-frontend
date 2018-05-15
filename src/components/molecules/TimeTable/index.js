@@ -6,15 +6,9 @@ import Lecture from '../../atoms/Lecture'
 const TimeTable = ({ id, memo, title, lectures, onModifyMemo, onModifyTitle, onDeleteLecture }) => {
   let titleContent = title
   let memoContent = memo
-  let myTimeTable = {
-    id,
-    memo,
-    title,
-    lectures,
-  }
 
   const onSubmitMemo = () => {
-    if (myTimeTable.id === null) {
+    if (id === null) {
       console.log('There is no TimeTable')
       return
     }
@@ -22,7 +16,7 @@ const TimeTable = ({ id, memo, title, lectures, onModifyMemo, onModifyTitle, onD
   }
 
   const onSubmitTitle = () => {
-    if (myTimeTable.id === null) {
+    if (id === null) {
       console.log('There is no TimeTable')
       return
     }
