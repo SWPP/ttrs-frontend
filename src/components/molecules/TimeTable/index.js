@@ -14,11 +14,19 @@ const TimeTable = ({ id, memo, title, lectures, onModifyMemo, onModifyTitle }) =
   }
 
   const onSubmitMemo = () => {
+    if (myTimeTable.id === null) {
+      console.log('There is no TimeTable')
+      return
+    }
     myTimeTable.memo = memoContent.value
     onModifyMemo(myTimeTable)
   }
 
   const onSubmitTitle = () => {
+    if (myTimeTable.id === null) {
+      console.log('There is no TimeTable')
+      return
+    }
     myTimeTable.title = titleContent.value
     onModifyTitle(myTimeTable)
   }

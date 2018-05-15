@@ -9,6 +9,7 @@ const RecommendTab = ({ isMainPage, currentTab, myTimeTable, onUpdateMyTimeTable
       <div>
         <SearchLecture
           onAddLecture={(newLectureId) => onUpdateMyTimeTable(myTimeTable, newLectureId)} />
+        <hr />
         <TimeTable {...myTimeTable} />
       </div>
     )
