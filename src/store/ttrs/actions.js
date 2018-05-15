@@ -12,7 +12,7 @@ export const CHANGE_DEPARTMENT_LIST = 'CHANGE_DEPARTMENT_LIST'
 export const CHANGE_MAJOR_LIST = 'CHANGE_MAJOR_LIST'
 export const SEARCH_LECTURE_REQUEST = 'SEARCH_LECTURE_REQUEST'
 export const SEARCH_LECTURE_RESPONSE = 'SEARCH_LECTURE_RESPONSE'
-export const GET_MY_TIME_TABLE = 'GET_MY_TIME_TABLE'
+export const CREATE_MY_TIME_TABLE = 'CREATE_MY_TIME_TABLE'
 export const UPDATE_MY_TIME_TABLE_REQUEST = 'UPDATE_MY_TIME_TABLE_REQUEST'
 export const ADD_LECTURE_TO_MY_TIME_TABLE = 'ADD_LECTURE_TO_MY_TIME_TABLE'
 export const UPDATE_TITLE_OR_MEMO_OF_MY_TIME_TABLE = 'UPDATE_TITLE_OR_MEMO_OF_MY_TIME_TABLE'
@@ -111,9 +111,9 @@ export const searchLectureResponse = (lectures) => {
   }
 }
 
-export const getMyTimeTable = (myTimeTable) => {
+export const createMyTimeTable = (myTimeTable) => {
   return {
-    type: GET_MY_TIME_TABLE,
+    type: CREATE_MY_TIME_TABLE,
     myTimeTable,
   }
 }

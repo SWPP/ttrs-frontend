@@ -81,7 +81,7 @@ function* signIn(username, password) {
       }
     }
     console.log(myTimeTable)
-    yield put(actions.getMyTimeTable(myTimeTable))
+    yield put(actions.createMyTimeTable(myTimeTable))
   } catch (error) {
     console.log('getCurrent myTimeTable error', error.response)
   }
@@ -122,7 +122,7 @@ function* updateMyTimeTable(myTimeTableId, updatedInfo, newLectureId) {
       console.log('create MyTimeTable response', response)
 
       const lectureResponse = yield call(axios.get, `ttrs/lectures/${newLectureId}/`, config)
-      yield put(actions.getMyTimeTable({
+      yield put(actions.createMyTimeTable({
           ...response.data,
           lectures: [lectureResponse.data],
       }))

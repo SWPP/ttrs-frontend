@@ -47,13 +47,12 @@ const belongInfo = (state = [], action) => {
 
 const timeTable = (state = [], action) => {
   switch (action.type) {
-    case actions.GET_MY_TIME_TABLE:
+    case actions.CREATE_MY_TIME_TABLE:
       return {
         ...state,
         myTimeTable: action.myTimeTable
       }
     case actions.ADD_LECTURE_TO_MY_TIME_TABLE:
-      // console.log('update', action.myTimeTable.id)
       return {
         ...state,
         myTimeTable: {
@@ -65,7 +64,6 @@ const timeTable = (state = [], action) => {
         }
       }
     case actions.UPDATE_TITLE_OR_MEMO_OF_MY_TIME_TABLE:
-      // console.log('update', action.myTimeTable.id)
       return {
         ...state,
         myTimeTable: {
@@ -148,7 +146,7 @@ const ttrsReducer = (state = initialState, action) => {
         ...state,
         search: search(state.search, action),
       }
-    case actions.GET_MY_TIME_TABLE:
+    case actions.CREATE_MY_TIME_TABLE:
       return {
         ...state,
         timeTable: timeTable(state.timeTable, action),
