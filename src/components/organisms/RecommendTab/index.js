@@ -12,6 +12,16 @@ const RecommendTab = ({ isMainPage, currentTab, myTimeTable, onUpdateMyTimeTable
     return lectureIds
   }
 
+  const getLectureIdsWithout = (lectureId) => {
+    const lectureIds = []
+    myTimeTable.lectures.forEach((lecture) => {
+      if (lecture.id !== lectureId) {
+        lectureIds.push(lecture.id)
+      }
+    })
+    return lectureIds
+  }
+
   if (isMainPage && currentTab === RECOMMEND_TAB) {
     return (
       <div>
@@ -21,7 +31,7 @@ const RecommendTab = ({ isMainPage, currentTab, myTimeTable, onUpdateMyTimeTable
         <TimeTable
           onModifyMemo={(memo) => onUpdateMyTimeTable(myTimeTable.id, {memo}, null)}
           onModifyTitle={(title) => onUpdateMyTimeTable(myTimeTable.id, {title}, null)}
-          onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, )}
+          onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, {lectures: getLectureIdsWithout(lectureId)}, -lectureId )}
           {...myTimeTable}
         />
       </div>

@@ -113,7 +113,7 @@ function* searchLecture(courseName) {
 }
 
 function* updateMyTimeTable(myTimeTableId, updatedInfo, newLectureId) {
-  if (newLectureId !== null) {
+  if (newLectureId !== null && newLectureId > 0) {
     updatedInfo.lectures.push(newLectureId)
   }
   if (myTimeTableId === null) {
@@ -135,8 +135,12 @@ function* updateMyTimeTable(myTimeTableId, updatedInfo, newLectureId) {
       console.log('update MyTimeTable response', response)
 
       if (newLectureId !== null) {
-        const lectureResponse = yield call(axios.get, `ttrs/lectures/${newLectureId}/`, config)
-        yield put(actions.addLectureToMyTimeTable(lectureResponse.data))
+        if (newLectureId > 0) {
+          const lectureResponse = yield call(axios.get, `ttrs/lectures/${newLectureId}/`, config)
+          yield put(actions.addLectureToMyTimeTable(lectureResponse.data))
+        } else {
+          yield put(actions.deleteLectureFromMyTimeTable(-newLectureId))
+        }
       } else {
         yield put(actions.updateTitleOrMemoOfMyTimeTable(updatedInfo))
       }

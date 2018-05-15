@@ -71,6 +71,20 @@ const timeTable = (state = [], action) => {
           ...action.updatedInfo,
         },
       }
+    case actions.DELETE_LECTURE_FROM_MY_TIME_TABLE:
+      const lectures = []
+      state.myTimeTable.lectures.forEach((lecture) => {
+        if (lecture.id !== action.lectureId) {
+          lectures.push(lecture)
+        }
+      })
+      return {
+        ...state,
+        myTimeTable: {
+          ...state.myTimeTable,
+          lectures,
+        }
+      }
     default:
       return state
   }
@@ -157,6 +171,11 @@ const ttrsReducer = (state = initialState, action) => {
         timeTable: timeTable(state.timeTable, action),
       }
     case actions.UPDATE_TITLE_OR_MEMO_OF_MY_TIME_TABLE:
+      return {
+        ...state,
+        timeTable: timeTable(state.timeTable, action),
+      }
+    case actions.DELETE_LECTURE_FROM_MY_TIME_TABLE:
       return {
         ...state,
         timeTable: timeTable(state.timeTable, action),
