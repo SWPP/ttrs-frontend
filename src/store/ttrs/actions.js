@@ -13,7 +13,7 @@ export const CHANGE_MAJOR_LIST = 'CHANGE_MAJOR_LIST'
 export const SEARCH_LECTURE_REQUEST = 'SEARCH_LECTURE_REQUEST'
 export const SEARCH_LECTURE_RESPONSE = 'SEARCH_LECTURE_RESPONSE'
 export const GET_MY_TIME_TABLE = 'GET_MY_TIME_TABLE'
-export const UPDATE_MY_TIME_TABLE = 'UPDATE_MY_TIME_TABLE'
+export const UPDATE_MY_TIME_TABLE_REQUEST = 'UPDATE_MY_TIME_TABLE_REQUEST'
 export const ADD_LECTURE_TO_MY_TIME_TABLE = 'ADD_LECTURE_TO_MY_TIME_TABLE'
 export const UPDATE_TITLE_OR_MEMO_OF_MY_TIME_TABLE = 'UPDATE_TITLE_OR_MEMO_OF_MY_TIME_TABLE'
 
@@ -118,25 +118,25 @@ export const getMyTimeTable = (myTimeTable) => {
   }
 }
 
-export const updateMyTimeTable = (myTimeTable, newLectureId) => {
+export const updateMyTimeTableRequest = (myTimeTableId, updatedInfo, newLectureId) => {
   return {
-    type: UPDATE_MY_TIME_TABLE,
-    myTimeTable,
+    type: UPDATE_MY_TIME_TABLE_REQUEST,
+    myTimeTableId,
+    updatedInfo,
     newLectureId,
   }
 }
 
-export const addLectureToMyTimeTable = (myTimeTable, newLecture) => {
+export const addLectureToMyTimeTable = (newLecture) => {
   return {
     type: ADD_LECTURE_TO_MY_TIME_TABLE,
-    myTimeTable,
     newLecture,
   }
 }
 
-export const updateTitleOrMemoOfMyTimeTable = (myTimeTable) => {
+export const updateTitleOrMemoOfMyTimeTable = (updatedInfo) => {
   return {
     type: UPDATE_TITLE_OR_MEMO_OF_MY_TIME_TABLE,
-    myTimeTable,
+    updatedInfo,
   }
 }

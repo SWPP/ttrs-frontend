@@ -4,13 +4,26 @@ import SearchLecture from '../../../containers/SearchLecture'
 import TimeTable from '../../../containers/TimeTable'
 
 const RecommendTab = ({ isMainPage, currentTab, myTimeTable, onUpdateMyTimeTable }) => {
+  const getLectureIds = () => {
+    const lectureIds = []
+    myTimeTable.lectures.forEach((lecture) => {
+      lectureIds.push(lecture.id)
+    })
+    return lectureIds
+  }
+
   if (isMainPage && currentTab === RECOMMEND_TAB) {
     return (
       <div>
         <SearchLecture
-          onAddLecture={(newLectureId) => onUpdateMyTimeTable(myTimeTable, newLectureId)} />
+          onAddLecture={(newLectureId) => onUpdateMyTimeTable(myTimeTable.id, {lectures: getLectureIds()}, newLectureId)} />
         <hr />
-        <TimeTable {...myTimeTable} />
+        <TimeTable
+          onModifyMemo={(memo) => onUpdateMyTimeTable(myTimeTable.id, {memo}, null)}
+          onModifyTitle={(title) => onUpdateMyTimeTable(myTimeTable.id, {title}, null)}
+          onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, )}
+          {...myTimeTable}
+        />
       </div>
     )
   }

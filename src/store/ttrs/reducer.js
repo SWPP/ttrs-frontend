@@ -53,22 +53,25 @@ const timeTable = (state = [], action) => {
         myTimeTable: action.myTimeTable
       }
     case actions.ADD_LECTURE_TO_MY_TIME_TABLE:
-      console.log('update', action.myTimeTable.id)
+      // console.log('update', action.myTimeTable.id)
       return {
         ...state,
         myTimeTable: {
-          ...action.myTimeTable,
+          ...state.myTimeTable,
           lectures: [
-            ...action.myTimeTable.lectures,
+            ...state.myTimeTable.lectures,
             action.newLecture
           ],
         }
       }
     case actions.UPDATE_TITLE_OR_MEMO_OF_MY_TIME_TABLE:
-      console.log('update', action.myTimeTable.id)
+      // console.log('update', action.myTimeTable.id)
       return {
         ...state,
-        myTimeTable: action.myTimeTable,
+        myTimeTable: {
+          ...state.myTimeTable,
+          ...action.updatedInfo,
+        },
       }
     default:
       return state

@@ -112,45 +112,35 @@ function* searchLecture(courseName) {
   }
 }
 
-function* updateMyTimeTable(myTimeTable, newLectureId) {
-  const lectureIds = []
-  myTimeTable.lectures.forEach((lecture) => {
-    lectureIds.push(lecture.id)
-  })
-  if (newLectureId !== 0) {
-    lectureIds.push(newLectureId)
+function* updateMyTimeTable(myTimeTableId, updatedInfo, newLectureId) {
+  if (newLectureId !== null) {
+    updatedInfo.lectures.push(newLectureId)
   }
-  const myTimeTableInfo = {
-    title: myTimeTable.title,
-    memo: myTimeTable.memo,
-    lectures: lectureIds,
-  }
-  if (myTimeTable.id === null) {
+  if (myTimeTableId === null) {
     try {
-      const response = yield call(axios.post, 'ttrs/my-time-tables/', myTimeTableInfo, config)
+      const response = yield call(axios.post, 'ttrs/my-time-tables/', updatedInfo, config)
       console.log('create MyTimeTable response', response)
-      myTimeTable.id = response.data.id
-      myTimeTable.lectures = []
+
       const lectureResponse = yield call(axios.get, `ttrs/lectures/${newLectureId}/`, config)
-      yield put(actions.addLectureToMyTimeTable(myTimeTable, lectureResponse.data))
+      yield put(actions.getMyTimeTable({
+          ...response.data,
+          lectures: [lectureResponse.data],
+      }))
     } catch (error) {
-      lectureIds.pop()
       console.log('create MyTimeTable error', error.response)
     }
   } else {
     try {
-      const response = yield call(axios.put, `ttrs/my-time-tables/${myTimeTable.id}/`, myTimeTableInfo, config)
+      const response = yield call(axios.patch, `ttrs/my-time-tables/${myTimeTableId}/`, updatedInfo, config)
       console.log('update MyTimeTable response', response)
-      if (newLectureId !== 0) {
+
+      if (newLectureId !== null) {
         const lectureResponse = yield call(axios.get, `ttrs/lectures/${newLectureId}/`, config)
-        yield put(actions.addLectureToMyTimeTable(myTimeTable, lectureResponse.data))
+        yield put(actions.addLectureToMyTimeTable(lectureResponse.data))
       } else {
-        yield put(actions.updateTitleOrMemoOfMyTimeTable(myTimeTable))
+        yield put(actions.updateTitleOrMemoOfMyTimeTable(updatedInfo))
       }
     } catch (error) {
-      if (newLectureId !== 0) {
-        lectureIds.pop()
-      }
       console.log('update MyTimeTable error', error.response)
     }
   }
@@ -179,8 +169,8 @@ function* watchSearchLecture() {
 
 function* watchUpdateMyTimeTable() {
   while (true) {
-    const { myTimeTable, newLectureId } = yield take(actions.UPDATE_MY_TIME_TABLE)
-    yield call(updateMyTimeTable, myTimeTable, newLectureId)
+    const { myTimeTableId, updatedInfo, newLectureId } = yield take(actions.UPDATE_MY_TIME_TABLE_REQUEST)
+    yield call(updateMyTimeTable, myTimeTableId, updatedInfo, newLectureId)
   }
 }
 

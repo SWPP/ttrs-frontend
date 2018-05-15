@@ -13,7 +13,7 @@ const SearchLecture = ({ searchLectures, onSearchLecture, onAddLecture }) => {
   return (
     <div>
       <input ref={node => { inputCourseName = node }} placeholder={'type course name'} /> <br />
-      <Button type='submit' onClick={onSubmitCourseName}>Search</Button>
+      <Button type="submit" onClick={onSubmitCourseName}>Search</Button>
       <br />
       Lectures
       {searchLectures.map(lecture =>
@@ -22,7 +22,7 @@ const SearchLecture = ({ searchLectures, onSearchLecture, onAddLecture }) => {
             {...lecture}
           />
           <Button
-            type='submit'
+            type="submit"
             onClick={() => onAddLecture(lecture.id)}
           >Add To TimeTable</Button>
         </div>
