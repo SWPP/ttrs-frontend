@@ -125,48 +125,13 @@ const ttrsReducer = (state = initialState, action) => {
         ...state,
         currentTab: action.tab
       }
-    case actions.GET_COLLEGE_LIST:
+    default:
       return {
         ...state,
         belongInfo: belongInfo(state.belongInfo, action),
-      }
-    case actions.CHANGE_DEPARTMENT_LIST:
-      return {
-        ...state,
-        belongInfo: belongInfo(state.belongInfo, action),
-      }
-    case actions.CHANGE_MAJOR_LIST:
-      return {
-        ...state,
-        belongInfo: belongInfo(state.belongInfo, action),
-      }
-    case actions.SEARCH_LECTURE_RESPONSE:
-      return {
-        ...state,
+        timeTable: timeTable(state.timeTable, action),
         search: search(state.search, action),
       }
-    case actions.CREATE_MY_TIME_TABLE:
-      return {
-        ...state,
-        timeTable: timeTable(state.timeTable, action),
-      }
-    case actions.ADD_LECTURE_TO_MY_TIME_TABLE:
-      return {
-        ...state,
-        timeTable: timeTable(state.timeTable, action),
-      }
-    case actions.UPDATE_TITLE_OR_MEMO_OF_MY_TIME_TABLE:
-      return {
-        ...state,
-        timeTable: timeTable(state.timeTable, action),
-      }
-    case actions.DELETE_LECTURE_FROM_MY_TIME_TABLE:
-      return {
-        ...state,
-        timeTable: timeTable(state.timeTable, action),
-      }
-    default:
-      return state
   }
 }
 
