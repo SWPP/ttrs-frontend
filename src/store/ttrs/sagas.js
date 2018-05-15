@@ -56,14 +56,16 @@ function* signIn(username, password) {
     console.log('signIn error', error.response)
     return undefined
   }
-  year = 2018
-  semester = '여름학기'
+  let myTimeTable = {
+    ...initialTimeTable.myTimeTable
+  }
+  year = myTimeTable.year
+  semester = myTimeTable.semester
   try {
     const params = {
       year,
-      semester
+      semester,
     }
-    let myTimeTable = initialTimeTable.myTimeTable
     const response = yield call(axios.get, updateURLParams('ttrs/my-time-tables/', params), config)
     console.log('getCurrent myTimeTable response', response)
     if (response.data.length !== 0) {
@@ -168,11 +170,12 @@ function* switchSemester(newYear, newSemester) {
     year,
     semester,
   }
-  console.log(params)
+  let myTimeTable = {
+    ...initialTimeTable.myTimeTable
+  }
+  myTimeTable.year = year
+  myTimeTable.semester = semester
   try {
-    let myTimeTable = initialTimeTable.myTimeTable
-    myTimeTable.year = year
-    myTimeTable.semester = semester
     const response = yield call(axios.get, updateURLParams('ttrs/my-time-tables/', params), config)
     console.log('switchSemester response', response)
     if (response.data.length !== 0) {
