@@ -7,16 +7,16 @@ export const GO_RECOMMEND_TAB = 'GO_RECOMMEND_TAB'
 export const GO_BOOKMARK_TAB = 'GO_BOOKMARK_TAB'
 export const GO_RECEIVE_TAB = 'GO_RECEIVE_TAB'
 export const GO_SETTINGS_TAB = 'GO_SETTINGS_TAB'
-export const MODIFY_MEMO = 'MODIFY_MEMO'
-export const MODIFY_TITLE = 'MODIFY_TITLE'
 export const GET_COLLEGE_LIST = 'GET_COLLEGE_LIST'
 export const CHANGE_DEPARTMENT_LIST = 'CHANGE_DEPARTMENT_LIST'
 export const CHANGE_MAJOR_LIST = 'CHANGE_MAJOR_LIST'
 export const SEARCH_LECTURE_REQUEST = 'SEARCH_LECTURE_REQUEST'
 export const SEARCH_LECTURE_RESPONSE = 'SEARCH_LECTURE_RESPONSE'
 export const GET_MY_TIME_TABLE = 'GET_MY_TIME_TABLE'
-export const ADD_LECTURE_TO_MY_TIME_TABLE_REQUEST = 'ADD_LECTURE_TO_MY_TIME_TABLE_REQUEST'
-export const ADD_LECTURE_TO_MY_TIME_TABLE_RESPONSE = 'ADD_LECTURE_TO_MY_TIME_TABLE_RESPONSE'
+export const CREATE_MY_TIME_TABLE_REQUEST = 'CREATE_MY_TIME_TABLE_REQUEST'
+export const CREATE_MY_TIME_TABLE_RESPONSE = 'CREATE_MY_TIME_TABLE_RESPONSE'
+export const UPDATE_MY_TIME_TABLE_REQUEST = 'UPDATE_MY_TIME_TABLE_REQUEST'
+export const UPDATE_MY_TIME_TABLE_RESPONSE = 'UPDATE_MY_TIME_TABLE_RESPONSE'
 
 
 export const signInRequest = (username, password) => {
@@ -77,20 +77,6 @@ export const goSettingsTab = () => {
   }
 }
 
-export const modifyMemo = (content) => {
-  return {
-    type: MODIFY_MEMO,
-    content,
-  }
-}
-
-export const modifyTitle = (content) => {
-  return {
-    type: MODIFY_TITLE,
-    content,
-  }
-}
-
 export const getCollegeList = (colleges) => {
   return {
     type: GET_COLLEGE_LIST,
@@ -133,17 +119,32 @@ export const getMyTimeTable = (lectures) => {
   }
 }
 
-export const addLectureToMyTimeTableRequest = (lectureIds, newLectureId) => {
+export const createMyTimeTableRequest = (lectureIds, newLectureId) => {
   return {
-    type: ADD_LECTURE_TO_MY_TIME_TABLE_REQUEST,
+    type: CREATE_MY_TIME_TABLE_REQUEST,
     lectureIds,
     newLectureId,
   }
 }
 
-export const addLectureToMyTimeTableResponse = (lecture) => {
+export const createMyTimeTableResponse = (lecture) => {
   return {
-    type: ADD_LECTURE_TO_MY_TIME_TABLE_RESPONSE,
+    type: CREATE_MY_TIME_TABLE_RESPONSE,
     lecture,
+  }
+}
+
+export const updateMyTimeTableRequest = (myTimeTable, newLectureId) => {
+  return {
+    type: UPDATE_MY_TIME_TABLE_REQUEST,
+    myTimeTable,
+    newLectureId,
+  }
+}
+
+export const updateMyTimeTableResponse = (myTimeTable) => {
+  return {
+    type: UPDATE_MY_TIME_TABLE_RESPONSE,
+    myTimeTable,
   }
 }

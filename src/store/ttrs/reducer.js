@@ -71,7 +71,7 @@ const timeTable = (state = [], action) => {
           lectures: action.lectures,
         },
       }
-    case actions.ADD_LECTURE_TO_MY_TIME_TABLE_RESPONSE:
+    case actions.CREATE_MY_TIME_TABLE_RESPONSE:
       return {
         ...state,
         myTimeTable: {
@@ -172,7 +172,7 @@ const ttrsReducer = (state = initialState, action) => {
         ...state,
         timeTable: timeTable(state.timeTable, action),
       }
-    case actions.ADD_LECTURE_TO_MY_TIME_TABLE_RESPONSE:
+    case actions.CREATE_MY_TIME_TABLE_RESPONSE:
       return {
         ...state,
         timeTable: timeTable(state.timeTable, action),
