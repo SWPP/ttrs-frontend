@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import RecommendTab from '../components/organisms/RecommendTab'
-import { addLectureToMyTimeTableRequest } from '../store/ttrs/actions'
+import { updateMyTimeTableRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -12,9 +12,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAddLectureToMyTimeTable: (lectureIds, newLectureId) => {
-      dispatch(addLectureToMyTimeTableRequest(lectureIds, newLectureId))
-    },
+    onUpdateMyTimeTable: (myTimeTableId, updatedInfo, newLectureId) => {
+      dispatch(updateMyTimeTableRequest(myTimeTableId, updatedInfo, newLectureId))
+    }
   }
 }
 

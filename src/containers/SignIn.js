@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import SignIn from '../components/molecules/SignIn'
-import { signInRequest, goSignUpPageRequest } from '../store/ttrs/actions'
+import { signInRequest, goSignUpPage } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -15,7 +15,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(signInRequest(username, password))
     },
     onGoSignUpPage: () => {
-      dispatch(goSignUpPageRequest())
+      dispatch(goSignUpPage())
     },
   }
 }

@@ -1,14 +1,16 @@
 import React from 'react'
 import Button from '../../atoms/Button'
+import { BOOKMARK_TAB, RECEIVE_TAB, RECOMMEND_TAB, SETTINGS_TAB } from '../../../store/ttrs/selectors'
 
-const Tabs = ({ isMainPage, onGoRecommendTab, onGoBookmarkTab, onGoReceiveTab, onGoSettingsTab }) => {
+
+const Tabs = ({ isMainPage, onChangeTab }) => {
   if (isMainPage) {
     return (
       <div>
-        <Button type="submit" onClick={onGoRecommendTab}>Recommend</Button>
-        <Button type="submit" onClick={onGoBookmarkTab}>Bookmark</Button>
-        <Button type="submit" onClick={onGoReceiveTab}>Receive</Button>
-        <Button type="submit" onClick={onGoSettingsTab}>Settings</Button>
+        <Button type="submit" onClick={() => onChangeTab(RECOMMEND_TAB)}>Recommend</Button>
+        <Button type="submit" onClick={() => onChangeTab(BOOKMARK_TAB)}>Bookmark</Button>
+        <Button type="submit" onClick={() => onChangeTab(RECEIVE_TAB)}>Receive</Button>
+        <Button type="submit" onClick={() => onChangeTab(SETTINGS_TAB)}>Settings</Button>
       </div>
     )
   }
