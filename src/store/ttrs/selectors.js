@@ -23,6 +23,8 @@ export const initialTimeTable = {
     id: null,
     title: '',
     memo: '',
+    year: 2018,
+    semester: '여름학기',
     lectures: [],
   },
 }

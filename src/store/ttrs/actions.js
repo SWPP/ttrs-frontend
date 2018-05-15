@@ -14,6 +14,8 @@ export const UPDATE_MY_TIME_TABLE_REQUEST = 'UPDATE_MY_TIME_TABLE_REQUEST'
 export const ADD_LECTURE_TO_MY_TIME_TABLE = 'ADD_LECTURE_TO_MY_TIME_TABLE'
 export const UPDATE_MY_TIME_TABLE_INFO = 'UPDATE_MY_TIME_TABLE_INFO'
 export const DELETE_LECTURE_FROM_MY_TIME_TABLE = 'DELETE_LECTURE_FROM_MY_TIME_TABLE'
+export const SWITCH_SEMESTER = 'SWITCH_SEMESTER'
+
 
 export const signInRequest = (username, password) => {
   return {
@@ -125,5 +127,13 @@ export const deleteLectureFromMyTimeTable = (lectureId) => {
   return {
     type: DELETE_LECTURE_FROM_MY_TIME_TABLE,
     lectureId,
+  }
+}
+
+export const switchSemester = (newYear, newSemester) => {
+  return {
+    type: SWITCH_SEMESTER,
+    newYear,
+    newSemester,
   }
 }
