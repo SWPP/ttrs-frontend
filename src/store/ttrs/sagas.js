@@ -112,6 +112,22 @@ function* searchLecture(courseName) {
   }
 }
 
+/**
+ * If newLectureId > 0:
+ *   Add Lecture to My TimeTable
+ *
+ * If newLectureId === null:
+ *   Modify Title or Memo of My TimeTable
+ *
+ * If newLectureId < 0:
+ *   Delete Lecture from My TimeTable
+ * ----------------------------------------
+ * If myTimeTableId === null:
+ *   createMyTimeTable
+ *
+ * If myTimeTableId > 0:
+ *   updateMyTimeTable
+ */
 function* updateMyTimeTable(myTimeTableId, updatedInfo, newLectureId) {
   if (newLectureId !== null && newLectureId > 0) {
     updatedInfo.lectures.push(newLectureId)
