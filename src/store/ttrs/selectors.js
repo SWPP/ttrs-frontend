@@ -22,8 +22,8 @@ export const initialTimeTable = {
   myTimeTable: {
     id: undefined,
     title: '',
-    lectures: [],
     memo: '',
+    lectures: [],
   },
 }
 

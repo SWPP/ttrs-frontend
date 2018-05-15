@@ -14,7 +14,7 @@ const RecommendTab = ({ isMainPage, currentTab, myTimeTable, onCreateMyTimeTable
     if (myTimeTable.id === undefined) {
       onCreateMyTimeTable(myTimeTableLectureIds, newLectureId)
     } else {
-      onUpdateMyTimeTable(myTimeTableLectureIds, newLectureId)
+      onUpdateMyTimeTable(myTimeTable, newLectureId)
     }
   }
 

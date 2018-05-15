@@ -112,10 +112,10 @@ export const searchLectureResponse = (lectures) => {
   }
 }
 
-export const getMyTimeTable = (lectures) => {
+export const getMyTimeTable = (myTimeTable) => {
   return {
     type: GET_MY_TIME_TABLE,
-    lectures,
+    myTimeTable,
   }
 }
 
@@ -127,10 +127,10 @@ export const createMyTimeTableRequest = (lectureIds, newLectureId) => {
   }
 }
 
-export const createMyTimeTableResponse = (lecture) => {
+export const createMyTimeTableResponse = (myTimeTable) => {
   return {
     type: CREATE_MY_TIME_TABLE_RESPONSE,
-    lecture,
+    myTimeTable,
   }
 }
 
@@ -142,9 +142,10 @@ export const updateMyTimeTableRequest = (myTimeTable, newLectureId) => {
   }
 }
 
-export const updateMyTimeTableResponse = (myTimeTable) => {
+export const updateMyTimeTableResponse = (myTimeTable, newLecture) => {
   return {
     type: UPDATE_MY_TIME_TABLE_RESPONSE,
     myTimeTable,
+    newLecture,
   }
 }
