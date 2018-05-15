@@ -47,34 +47,12 @@ const belongInfo = (state = [], action) => {
 
 const timeTable = (state = [], action) => {
   switch (action.type) {
-    case actions.MODIFY_MEMO:
-      return {
-        ...state,
-        myTimeTable: {
-          ...state.myTimeTable,
-          memo: action.content,
-        },
-      }
-    case actions.MODIFY_TITLE:
-      return {
-        ...state,
-        myTimeTable: {
-          ...state.myTimeTable,
-          title: action.content,
-        },
-      }
     case actions.GET_MY_TIME_TABLE:
       return {
         ...state,
         myTimeTable: action.myTimeTable
       }
-    case actions.CREATE_MY_TIME_TABLE_RESPONSE:
-      console.log('create', action.myTimeTable.id)
-      return {
-        ...state,
-        myTimeTable: action.myTimeTable,
-      }
-    case actions.UPDATE_MY_TIME_TABLE_RESPONSE:
+    case actions.ADD_LECTURE_TO_MY_TIME_TABLE:
       console.log('update', action.myTimeTable.id)
       return {
         ...state,
@@ -82,10 +60,11 @@ const timeTable = (state = [], action) => {
           ...action.myTimeTable,
           lectures: [
             ...action.myTimeTable.lectures,
+            action.newLecture
           ],
         }
       }
-    case actions.UPDATE_MY_TIME_TABLE_RESPONSE2:
+    case actions.UPDATE_TITLE_OR_MEMO_OF_MY_TIME_TABLE:
       console.log('update', action.myTimeTable.id)
       return {
         ...state,
@@ -146,16 +125,6 @@ const ttrsReducer = (state = initialState, action) => {
         ...state,
         currentTab: SETTINGS_TAB,
       }
-    case actions.MODIFY_MEMO:
-      return {
-        ...state,
-        timeTable: timeTable(state.timeTable, action),
-      }
-    case actions.MODIFY_TITLE:
-      return {
-        ...state,
-        timeTable: timeTable(state.timeTable, action),
-      }
     case actions.GET_COLLEGE_LIST:
       return {
         ...state,
@@ -181,17 +150,12 @@ const ttrsReducer = (state = initialState, action) => {
         ...state,
         timeTable: timeTable(state.timeTable, action),
       }
-    case actions.CREATE_MY_TIME_TABLE_RESPONSE:
+    case actions.ADD_LECTURE_TO_MY_TIME_TABLE:
       return {
         ...state,
         timeTable: timeTable(state.timeTable, action),
       }
-    case actions.UPDATE_MY_TIME_TABLE_RESPONSE:
-      return {
-        ...state,
-        timeTable: timeTable(state.timeTable, action),
-      }
-    case actions.UPDATE_MY_TIME_TABLE_RESPONSE2:
+    case actions.UPDATE_TITLE_OR_MEMO_OF_MY_TIME_TABLE:
       return {
         ...state,
         timeTable: timeTable(state.timeTable, action),

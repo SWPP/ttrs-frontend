@@ -13,11 +13,9 @@ export const CHANGE_MAJOR_LIST = 'CHANGE_MAJOR_LIST'
 export const SEARCH_LECTURE_REQUEST = 'SEARCH_LECTURE_REQUEST'
 export const SEARCH_LECTURE_RESPONSE = 'SEARCH_LECTURE_RESPONSE'
 export const GET_MY_TIME_TABLE = 'GET_MY_TIME_TABLE'
-export const CREATE_MY_TIME_TABLE_REQUEST = 'CREATE_MY_TIME_TABLE_REQUEST'
-export const CREATE_MY_TIME_TABLE_RESPONSE = 'CREATE_MY_TIME_TABLE_RESPONSE'
-export const UPDATE_MY_TIME_TABLE_REQUEST = 'UPDATE_MY_TIME_TABLE_REQUEST'
-export const UPDATE_MY_TIME_TABLE_RESPONSE = 'UPDATE_MY_TIME_TABLE_RESPONSE'
-export const UPDATE_MY_TIME_TABLE_RESPONSE2 = 'UPDATE_MY_TIME_TABLE_RESPONSE2'
+export const UPDATE_MY_TIME_TABLE = 'UPDATE_MY_TIME_TABLE'
+export const ADD_LECTURE_TO_MY_TIME_TABLE = 'ADD_LECTURE_TO_MY_TIME_TABLE'
+export const UPDATE_TITLE_OR_MEMO_OF_MY_TIME_TABLE = 'UPDATE_TITLE_OR_MEMO_OF_MY_TIME_TABLE'
 
 
 export const signInRequest = (username, password) => {
@@ -120,40 +118,25 @@ export const getMyTimeTable = (myTimeTable) => {
   }
 }
 
-export const createMyTimeTableRequest = (lectureIds, newLectureId) => {
+export const updateMyTimeTable = (myTimeTable, newLectureId) => {
   return {
-    type: CREATE_MY_TIME_TABLE_REQUEST,
-    lectureIds,
-    newLectureId,
-  }
-}
-
-export const createMyTimeTableResponse = (myTimeTable) => {
-  return {
-    type: CREATE_MY_TIME_TABLE_RESPONSE,
-    myTimeTable,
-  }
-}
-
-export const updateMyTimeTableRequest = (myTimeTable, newLectureId) => {
-  return {
-    type: UPDATE_MY_TIME_TABLE_REQUEST,
+    type: UPDATE_MY_TIME_TABLE,
     myTimeTable,
     newLectureId,
   }
 }
 
-export const updateMyTimeTableResponse = (myTimeTable, newLecture) => {
+export const addLectureToMyTimeTable = (myTimeTable, newLecture) => {
   return {
-    type: UPDATE_MY_TIME_TABLE_RESPONSE,
+    type: ADD_LECTURE_TO_MY_TIME_TABLE,
     myTimeTable,
     newLecture,
   }
 }
 
-export const updateMyTimeTableResponse2 = (myTimeTable) => {
+export const updateTitleOrMemoOfMyTimeTable = (myTimeTable) => {
   return {
-    type: UPDATE_MY_TIME_TABLE_RESPONSE2,
+    type: UPDATE_TITLE_OR_MEMO_OF_MY_TIME_TABLE,
     myTimeTable,
   }
 }

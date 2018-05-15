@@ -20,7 +20,7 @@ export const initialBelongInfo = {
 
 export const initialTimeTable = {
   myTimeTable: {
-    id: undefined,
+    id: null,
     title: '',
     memo: '',
     lectures: [],
