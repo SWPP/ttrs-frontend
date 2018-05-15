@@ -12,7 +12,7 @@ export const SEARCH_LECTURE_RESPONSE = 'SEARCH_LECTURE_RESPONSE'
 export const CREATE_MY_TIME_TABLE = 'CREATE_MY_TIME_TABLE'
 export const UPDATE_MY_TIME_TABLE_REQUEST = 'UPDATE_MY_TIME_TABLE_REQUEST'
 export const ADD_LECTURE_TO_MY_TIME_TABLE = 'ADD_LECTURE_TO_MY_TIME_TABLE'
-export const UPDATE_TITLE_OR_MEMO_OF_MY_TIME_TABLE = 'UPDATE_TITLE_OR_MEMO_OF_MY_TIME_TABLE'
+export const UPDATE_MY_TIME_TABLE_INFO = 'UPDATE_MY_TIME_TABLE_INFO'
 export const DELETE_LECTURE_FROM_MY_TIME_TABLE = 'DELETE_LECTURE_FROM_MY_TIME_TABLE'
 
 export const signInRequest = (username, password) => {
@@ -114,9 +114,9 @@ export const addLectureToMyTimeTable = (newLecture) => {
   }
 }
 
-export const updateTitleOrMemoOfMyTimeTable = (updatedInfo) => {
+export const updateMyTimeTableInfo = (updatedInfo) => {
   return {
-    type: UPDATE_TITLE_OR_MEMO_OF_MY_TIME_TABLE,
+    type: UPDATE_MY_TIME_TABLE_INFO,
     updatedInfo,
   }
 }

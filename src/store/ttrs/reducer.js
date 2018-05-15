@@ -63,7 +63,7 @@ const timeTable = (state = [], action) => {
           ],
         }
       }
-    case actions.UPDATE_TITLE_OR_MEMO_OF_MY_TIME_TABLE:
+    case actions.UPDATE_MY_TIME_TABLE_INFO:
       return {
         ...state,
         myTimeTable: {

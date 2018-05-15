@@ -142,7 +142,7 @@ function* updateMyTimeTable(myTimeTableId, updatedInfo, newLectureId) {
           yield put(actions.deleteLectureFromMyTimeTable(-newLectureId))
         }
       } else {
-        yield put(actions.updateTitleOrMemoOfMyTimeTable(updatedInfo))
+        yield put(actions.updateMyTimeTableInfo(updatedInfo))
       }
     } catch (error) {
       console.log('update MyTimeTable error', error.response)
