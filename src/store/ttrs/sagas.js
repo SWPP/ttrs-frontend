@@ -53,9 +53,7 @@ function* getCurrentMyTimeTable(response) {
 }
 
 function* getBookmarkedTimeTables(response) {
-  let bookmarkedTimeTables = [{
-    ...initialTimeTable.bookmarkedTimeTable,
-  }]
+  let bookmarkedTimeTables = []
   if (response.data.length !== 0) {
     bookmarkedTimeTables = response.data.map((timeTable) => ({
       ...timeTable,
@@ -250,9 +248,15 @@ function* bookmark(timeTableId) {
   try {
     const bookmarkResponse = yield call(axios.post, 'ttrs/time-tables/bookmark/', { timeTableId }, config)
     console.log('bookmark response', bookmarkResponse)
-    const response = yield call(axios.get, `ttrs/bookmarked-time-tables/${bookmarkResponse.data.createdTimeTable}/`, config)
-    console.log('get added bookmarked time table response', response)
-    yield put(actions.bookmarkResponse(response.data))
+    const getBookmarkedTimeTableResponse = yield call(axios.get, `ttrs/bookmarked-time-tables/${bookmarkResponse.data.createdTimeTable}/`, config)
+    console.log('get added bookmarked time table response', getBookmarkedTimeTableResponse)
+    const lectures = []
+    for (let i = 0; i < getBookmarkedTimeTableResponse.data.lectures.length; i += 1) {
+      const getLectureInfoResponse = yield call(axios.get, `ttrs/lectures/${getBookmarkedTimeTableResponse.data.lectures[i]}/`, config)
+      lectures.push(getLectureInfoResponse.data)
+    }
+    getBookmarkedTimeTableResponse.data.lectures = lectures
+    yield put(actions.bookmarkResponse(getBookmarkedTimeTableResponse.data))
   } catch (error) {
     console.log('bookmark error', error.response)
   }

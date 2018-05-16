@@ -92,7 +92,7 @@ const timeTable = (state = [], action) => {
         bookmarkedTimeTables: action.bookmarkedTimeTables.map((timeTable) => ({
           ...timeTable,
         })),
-        bookmarkedTimeTable: action.bookmarkedTimeTables[0],
+        bookmarkedTimeTable: action.bookmarkedTimeTables.length === 0 ? state.bookmarkedTimeTable : action.bookmarkedTimeTables[0],
       }
     case actions.SELECT_BOOKMARKED_TIME_TABLE_RESPONSE:
       return {
@@ -125,6 +125,7 @@ const timeTable = (state = [], action) => {
         bookmarkedTimeTables: bookmarkedTimeTables.map((timeTable) => ({
           ...timeTable,
         })),
+        bookmarkedTimeTable: action.bookmarkedTimeTable,
       }
     default:
       return state
