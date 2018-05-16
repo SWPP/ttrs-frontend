@@ -46,6 +46,8 @@ function* getInitialInfo() {
   try {
     const response = yield call(axios.get, 'ttrs/semesters/', config)
     console.log('getSemesterList response', response)
+    initialTimeTable.myTimeTable.year = response.data[0].year
+    initialTimeTable.myTimeTable.semester = response.data[0].semester
     yield put(actions.getSemesterList(response.data))
   } catch (error) {
     console.log('getSemesterList error', error.response)
@@ -53,6 +55,7 @@ function* getInitialInfo() {
 }
 
 function* signIn(username, password) {
+  console.log(initialTimeTable.myTimeTable)
   const hash = new Buffer(`${username}:${password}`).toString('base64')
   config.headers = { Authorization: `Basic ${hash}` }
   try {
