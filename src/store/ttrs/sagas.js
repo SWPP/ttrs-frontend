@@ -2,6 +2,7 @@ import axios from 'axios'
 import { take, put, call, fork } from 'redux-saga/effects'
 import * as actions from './actions'
 import { convertToCStyle, convertToJavaStyle, updateURLParams } from '../../services/parser'
+import { initialTimeTable } from './selectors'
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000/'
 axios.interceptors.request.use((config) => {
@@ -31,10 +32,24 @@ axios.interceptors.response.use((response) => {
   return Promise.reject(newError)
 })
 const config = {}
-const year = 2018
-const semester = '1학기'
+let year
+let semester
 
-function* getCollegeList() {
+function* getCurrentMyTimeTable(response, params, myTimeTable) {
+  if (response.data.length !== 0) {
+    myTimeTable = {
+      ...response.data[0],
+      lectures: [],
+    }
+    for (let i = 0; i < response.data[0].lectures.length; i += 1) {
+      const lectureResponse = yield call(axios.get, `ttrs/lectures/${response.data[0].lectures[i]}/`, config)
+      myTimeTable.lectures.push(lectureResponse.data)
+    }
+  }
+  yield put(actions.createMyTimeTable(myTimeTable))
+}
+
+function* getInitialInfo() {
   try {
     const response = yield call(axios.get, 'ttrs/colleges/', config)
     console.log('getCollegeList response', response)
@@ -42,9 +57,19 @@ function* getCollegeList() {
   } catch (error) {
     console.log('getCollegeList error', error.response)
   }
+  try {
+    const response = yield call(axios.get, 'ttrs/semesters/', config)
+    console.log('getSemesterList response', response)
+    initialTimeTable.myTimeTable.year = response.data[0].year
+    initialTimeTable.myTimeTable.semester = response.data[0].semester
+    yield put(actions.getSemesterList(response.data))
+  } catch (error) {
+    console.log('getSemesterList error', error.response)
+  }
 }
 
 function* signIn(username, password) {
+  console.log(initialTimeTable.myTimeTable)
   const hash = new Buffer(`${username}:${password}`).toString('base64')
   config.headers = { Authorization: `Basic ${hash}` }
   try {
@@ -55,33 +80,19 @@ function* signIn(username, password) {
     console.log('signIn error', error.response)
     return undefined
   }
+  const myTimeTable = {
+    ...initialTimeTable.myTimeTable,
+  }
+  year = myTimeTable.year
+  semester = myTimeTable.semester
   try {
     const params = {
       year,
       semester,
     }
-    let myTimeTable = {
-      id: null,
-      title: '',
-      memo: '',
-      lectures: [],
-    }
     const response = yield call(axios.get, updateURLParams('ttrs/my-time-tables/', params), config)
     console.log('getCurrent myTimeTable response', response)
-    if (response.data.length !== 0) {
-      myTimeTable = {
-        id: response.data[0].id,
-        title: response.data[0].title,
-        memo: response.data[0].memo,
-        lectures: [],
-      }
-      for (let i = 0; i < response.data[0].lectures.length; i += 1) {
-        const lectureResponse = yield call(axios.get, `ttrs/lectures/${response.data[0].lectures[i]}/`, config)
-        myTimeTable.lectures.push(lectureResponse.data)
-      }
-    }
-    console.log(myTimeTable)
-    yield put(actions.createMyTimeTable(myTimeTable))
+    yield call(getCurrentMyTimeTable, response, params, myTimeTable)
   } catch (error) {
     console.log('getCurrent myTimeTable error', error.response)
   }
@@ -139,8 +150,8 @@ function* updateMyTimeTable(myTimeTableId, updatedInfo, newLectureId) {
 
       const lectureResponse = yield call(axios.get, `ttrs/lectures/${newLectureId}/`, config)
       yield put(actions.createMyTimeTable({
-          ...response.data,
-          lectures: [lectureResponse.data],
+        ...response.data,
+        lectures: [lectureResponse.data],
       }))
     } catch (error) {
       console.log('create MyTimeTable error', error.response)
@@ -163,6 +174,26 @@ function* updateMyTimeTable(myTimeTableId, updatedInfo, newLectureId) {
     } catch (error) {
       console.log('update MyTimeTable error', error.response)
     }
+  }
+}
+
+function* switchSemester(newYear, newSemester) {
+  year = newYear
+  semester = newSemester
+  const params = {
+    year,
+    semester,
+  }
+  const myTimeTable = {
+    ...initialTimeTable.myTimeTable,
+  }
+  try {
+    const response = yield call(axios.get, updateURLParams('ttrs/my-time-tables/', params), config)
+    console.log('getCurrent myTimeTable response', response)
+    yield call(getCurrentMyTimeTable, response, params, myTimeTable)
+    yield put(actions.searchLectureResponse([]))
+  } catch (error) {
+    console.log('switchSemester error', error.response)
   }
 }
 
@@ -194,10 +225,18 @@ function* watchUpdateMyTimeTable() {
   }
 }
 
+function* watchSwitchSemester() {
+  while (true) {
+    const { newYear, newSemester } = yield take(actions.SWITCH_SEMESTER)
+    yield call(switchSemester, newYear, newSemester)
+  }
+}
+
 export default function* () {
-  yield call(getCollegeList)
+  yield call(getInitialInfo)
   yield fork(watchSignIn)
   yield fork(watchSignUp)
   yield fork(watchSearchLecture)
   yield fork(watchUpdateMyTimeTable)
+  yield fork(watchSwitchSemester)
 }

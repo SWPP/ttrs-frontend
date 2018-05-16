@@ -7,6 +7,7 @@ import RecommendTab from '../../../containers/RecommendTab'
 import BookmarkTab from '../../../containers/BookmarkTab'
 import ReceiveTab from '../../../containers/ReceiveTab'
 import SettingsTab from '../../../containers/SettingsTab'
+import SemesterSwitcher from '../../../containers/SemesterSwitcher'
 
 const HomePage = () => {
   return (
@@ -14,6 +15,7 @@ const HomePage = () => {
       <SignIn />
       <SignUp />
       <SignOut />
+      <SemesterSwitcher />
       <Tabs />
       <RecommendTab />
       <BookmarkTab />

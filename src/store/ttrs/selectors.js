@@ -23,6 +23,8 @@ export const initialTimeTable = {
     id: null,
     title: '',
     memo: '',
+    year: null,
+    semester: null,
     lectures: [],
   },
 }
@@ -44,4 +46,5 @@ export const initialState = {
   isMainPage: false,
   isSignUpPage: false,
   currentTab: RECOMMEND_TAB,
+  semesters: [],
 }
