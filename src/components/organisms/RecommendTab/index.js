@@ -35,6 +35,7 @@ const RecommendTab = ({ isMainPage, currentTab, myTimeTable, onUpdateMyTimeTable
           onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId) }, -lectureId)}
           {...myTimeTable}
           timeTableId={myTimeTable.id}
+          canDeleteLecture
         />
       </div>
     )

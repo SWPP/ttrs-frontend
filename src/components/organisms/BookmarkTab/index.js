@@ -4,15 +4,27 @@ import TimeTable from '../../../containers/TimeTable'
 
 const BookmarkTab = ({ isMainPage, currentTab, myTimeTable, bookmarkedTimeTables, bookmarkedTimeTable, onSelectBookmarkedTimeTable, onUpdateMyTimeTable, onUpdateBookmarkedTimeTable }) => {
   let inputBookmarkedTimeTableIndex = { value: 0 }
-  console.log('bookmarkedtable', bookmarkedTimeTable)
+
+  const getLectureIdsWithout = (lectureId) => {
+    const lectureIds = []
+    myTimeTable.lectures.forEach((lecture) => {
+      if (lecture.id !== lectureId) {
+        lectureIds.push(lecture.id)
+      }
+    })
+    return lectureIds
+  }
+
   if (isMainPage && currentTab === BOOKMARK_TAB) {
     return (
       <div>
         <TimeTable
           onModifyMemo={(memo) => onUpdateMyTimeTable(myTimeTable.id, { memo }, null)}
           onModifyTitle={(title) => onUpdateMyTimeTable(myTimeTable.id, { title }, null)}
+          onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId) }, -lectureId)}
           {...myTimeTable}
           timeTableId={myTimeTable.id}
+          canDeleteLecture
         />
         <hr />
         <select
@@ -31,6 +43,7 @@ const BookmarkTab = ({ isMainPage, currentTab, myTimeTable, bookmarkedTimeTables
           onModifyTitle={(title) => onUpdateBookmarkedTimeTable(inputBookmarkedTimeTableIndex.value, bookmarkedTimeTable.id, { title })}
           timeTableId={bookmarkedTimeTable.id}
           {...bookmarkedTimeTable}
+          canDeleteLecture
         />
       </div>
     )

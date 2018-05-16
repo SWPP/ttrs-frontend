@@ -3,7 +3,7 @@ import Button from '../../atoms/Button'
 import Lecture from '../../atoms/Lecture'
 
 
-const TimeTable = ({ timeTableId, id, memo, title, lectures, onModifyMemo, onModifyTitle, onDeleteLecture, onBookmark }) => {
+const TimeTable = ({ timeTableId, id, memo, title, lectures, canDeleteLecture, onModifyMemo, onModifyTitle, onDeleteLecture, onBookmark }) => {
   let titleContent = title
   let memoContent = memo
 
@@ -35,10 +35,11 @@ const TimeTable = ({ timeTableId, id, memo, title, lectures, onModifyMemo, onMod
           <Lecture
             {...lecture}
           />
+          { canDeleteLecture &&
           <Button
             type="submit"
             onClick={() => onDeleteLecture(lecture.id)}
-          >Delete</Button>
+          >Delete</Button> }
         </div>
       )} <br />
       <input ref={node => { memoContent = node }} placeholder={'memo'} />
