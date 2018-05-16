@@ -86,10 +86,17 @@ const timeTable = (state = [], action) => {
         },
       }
     case actions.CREATE_BOOKMARKED_TIME_TABLES:
-      console.log(action.bookmarkedTimeTables)
       return {
         ...state,
-        bookmarkedTimeTables: action.bookmarkedTimeTables,
+        bookmarkedTimeTables: action.bookmarkedTimeTables.map((timeTable) => ({
+          ...timeTable,
+        })),
+        bookmarkedTimeTable: action.bookmarkedTimeTables[0],
+      }
+    case actions.SELECT_BOOKMARKED_TIME_TABLE_RESPONSE:
+      return {
+        ...state,
+        bookmarkedTimeTable: action.bookmarkedTimeTable,
       }
     default:
       return state

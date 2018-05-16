@@ -25,12 +25,13 @@ export const initialTimeTable = {
     memo: '',
     lectures: [],
   },
-  bookmarkedTimeTables: [{
+  bookmarkedTimeTable: {
     id: null,
     title: '',
     memo: '',
     lectures: [],
-  }],
+  },
+  bookmarkedTimeTables: [],
 }
 
 export const initialSearch = {
