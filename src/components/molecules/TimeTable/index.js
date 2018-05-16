@@ -3,39 +3,44 @@ import ReactModal from 'react-modal'
 import Button from '../../atoms/Button'
 import Lecture from '../../atoms/Lecture'
 
-class Popup extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      pop: false,
-    }
 
-    this.handleOpenPopup = this.handleOpenPopup.bind(this);
-    this.handleClosePopup = this.handleClosePopup.bind(this);
-  }
-
-  handleOpenPopup() {
-    this.setState({ pop: true });
-  }
-
-  handleClosePopup() {
-    this.setState({ pop: false });
-  }
-
-  render() {
-    return (
-      <div>
-        <button onClick={this.handleOpenPopup}>Pop</button>
-        <ReactModal isOpen={this.state.pop}>
-          <p>adfadfadsfadsdsaf</p>
-          <button onClick={this.handleClosePopup}>Close</button>
-        </ReactModal>
-      </div>
-    )
-  }
-}
 
 const TimeTable = ({ id, memo, title, lectures, onModifyMemo, onModifyTitle, onDeleteLecture }) => {
+  class Popup extends React.Component {
+    constructor(lecture) {
+      super()
+      this.state = {
+        pop: false,
+      }
+
+      this.handleOpenPopup = this.handleOpenPopup.bind(this);
+      this.handleClosePopup = this.handleClosePopup.bind(this);
+      this.lecture = lecture.lecture
+      console.log(this.lecture)
+    }
+
+    handleOpenPopup() {
+      this.setState({ pop: true });
+    }
+
+    handleClosePopup() {
+      this.setState({ pop: false });
+    }
+
+    render() {
+      return (
+        <div>
+          <button onClick={this.handleOpenPopup}>{this.lecture.course.name}</button>
+          <ReactModal isOpen={this.state.pop} contentLabel={'Modal'}>
+            <p>{this.lecture.course.name}</p>
+            <button onClick={() => onDeleteLecture(this.lecture.id)}>Delete</button>
+            <button onClick={this.handleClosePopup}>Close</button>
+          </ReactModal>
+        </div>
+      )
+    }
+  }
+
   let titleContent = title
   let memoContent = memo
 
@@ -64,7 +69,6 @@ const TimeTable = ({ id, memo, title, lectures, onModifyMemo, onModifyTitle, onD
     e = e[0] * 100 + 5*(e[1]/3)
 
     if ((t <= s && s < t + 50) || (s < t && t < e) ||(t <= e && e <= t + 50)) {
-      console.log(t, s, e)
       return true
     }
     return false
@@ -96,11 +100,11 @@ const TimeTable = ({ id, memo, title, lectures, onModifyMemo, onModifyTitle, onD
   }
 
   function createTimeSlot(day, time) {
-    const lecture = hasLecture(lectures, day, time)
-    if (lecture >= 0) {
+    const lec = hasLecture(lectures, day, time)
+    if (lec >= 0) {
       return (
         <td>
-          <button onClick={() => popLectureInfo(lecture)}>{lectures[lecture].course.name}</button>
+          <Popup lecture={lectures[lec]} deleteLecture={onDeleteLecture} />
         </td>
       )
     }
@@ -116,12 +120,14 @@ const TimeTable = ({ id, memo, title, lectures, onModifyMemo, onModifyTitle, onD
   function createTimeTable() {
     const tableHeader = (
       <table>
-        <tr><th>Time</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thr</th><th>Fri</th><th>Sat</th></tr>
-        {['9:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
-          '13:30', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
-          '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30'].map((time) => (
-            <tr><td>{time}</td>{createRow(time)}</tr>
-        ))}
+        <tbody>
+          <tr><th>Time</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thr</th><th>Fri</th><th>Sat</th></tr>
+          {['9:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
+            '13:30', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
+            '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30'].map((time) => (
+              <tr><td>{time}</td>{createRow(time)}</tr>
+          ))}
+        </tbody>
       </table>
     )
 
@@ -134,19 +140,7 @@ const TimeTable = ({ id, memo, title, lectures, onModifyMemo, onModifyTitle, onD
       <Button type="submit" onClick={onSubmitTitle}>Modify Title</Button> <br />
       <h2>{titleContent}</h2>
       {createTimeTable()}
-      <Popup />
-      {lectures.map(lecture =>
-        <div key={lecture.id}>
-          <hr />
-          <Lecture
-            {...lecture}
-          />
-          <Button
-            type="submit"
-            onClick={() => onDeleteLecture(lecture.id)}
-          >Delete</Button>
-        </div>
-      )} <br />
+      <br />
       <input ref={node => { memoContent = node }} placeholder={'memo'} />
       <Button type="submit" onClick={onSubmitMemo}>Modify Memo</Button> <br />
       {memoContent}
