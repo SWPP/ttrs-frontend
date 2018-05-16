@@ -20,8 +20,8 @@ const mapDispatchToProps = (dispatch) => {
     onUpdateMyTimeTable: (myTimeTableId, updatedInfo, newLectureId) => {
       dispatch(updateMyTimeTableRequest(myTimeTableId, updatedInfo, newLectureId))
     },
-    onUpdateBookmarkedTimeTable: (index, timeTableId, updatedInfo) => {
-      dispatch(updateBookmarkedTimeTableRequest(index, timeTableId, updatedInfo))
+    onUpdateBookmarkedTimeTable: (index, timeTableId, updatedInfo, deleteLectureId) => {
+      dispatch(updateBookmarkedTimeTableRequest(index, timeTableId, updatedInfo, deleteLectureId))
     },
   }
 }

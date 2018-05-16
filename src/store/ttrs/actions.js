@@ -23,6 +23,7 @@ export const UPDATE_BOOKMARKED_TIME_TABLE_REQUEST = 'UPDATE_BOOKMARKED_TIME_TABL
 export const UPDATE_BOOKMARKED_TIME_TABLE_INFO = 'UPDATE_BOOKMARKED_TIME_TABLE_INFO'
 export const BOOKMARK_REQUEST = 'BOOKMARK_REQUEST'
 export const BOOKMARK_RESPONSE = 'BOOKMARK_RESPONSE'
+export const DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE = 'DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE'
 
 
 export const signInRequest = (username, password) => {
@@ -174,12 +175,13 @@ export const selectBookmarkedTimeTableResponse = (bookmarkedTimeTable) => {
   }
 }
 
-export const updateBookmarkedTimeTableRequest = (index, timeTableId, updatedInfo) => {
+export const updateBookmarkedTimeTableRequest = (index, timeTableId, updatedInfo, deleteLectureId) => {
   return {
     type: UPDATE_BOOKMARKED_TIME_TABLE_REQUEST,
     index,
     timeTableId,
     updatedInfo,
+    deleteLectureId,
   }
 }
 
@@ -202,5 +204,13 @@ export const bookmarkResponse = (bookmarkedTimeTable) => {
   return {
     type: BOOKMARK_RESPONSE,
     bookmarkedTimeTable,
+  }
+}
+
+export const deleteLectureFromBookmarkedTimeTable = (index, deleteLectureId) => {
+  return {
+    type: DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE,
+    index,
+    deleteLectureId,
   }
 }

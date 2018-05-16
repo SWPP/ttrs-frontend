@@ -5,9 +5,9 @@ import TimeTable from '../../../containers/TimeTable'
 const BookmarkTab = ({ isMainPage, currentTab, myTimeTable, bookmarkedTimeTables, bookmarkedTimeTable, onSelectBookmarkedTimeTable, onUpdateMyTimeTable, onUpdateBookmarkedTimeTable }) => {
   let inputBookmarkedTimeTableIndex = { value: 0 }
 
-  const getLectureIdsWithout = (lectureId) => {
+  const getLectureIdsWithout = (lectureId, timeTable) => {
     const lectureIds = []
-    myTimeTable.lectures.forEach((lecture) => {
+    timeTable.lectures.forEach((lecture) => {
       if (lecture.id !== lectureId) {
         lectureIds.push(lecture.id)
       }
@@ -21,7 +21,7 @@ const BookmarkTab = ({ isMainPage, currentTab, myTimeTable, bookmarkedTimeTables
         <TimeTable
           onModifyMemo={(memo) => onUpdateMyTimeTable(myTimeTable.id, { memo }, null)}
           onModifyTitle={(title) => onUpdateMyTimeTable(myTimeTable.id, { title }, null)}
-          onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId) }, -lectureId)}
+          onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, myTimeTable) }, -lectureId)}
           {...myTimeTable}
           timeTableId={myTimeTable.id}
           canDeleteLecture
@@ -39,8 +39,9 @@ const BookmarkTab = ({ isMainPage, currentTab, myTimeTable, bookmarkedTimeTables
           )}
         </select>
         <TimeTable
-          onModifyMemo={(memo) => onUpdateBookmarkedTimeTable(inputBookmarkedTimeTableIndex.value, bookmarkedTimeTable.id, { memo })}
-          onModifyTitle={(title) => onUpdateBookmarkedTimeTable(inputBookmarkedTimeTableIndex.value, bookmarkedTimeTable.id, { title })}
+          onModifyMemo={(memo) => onUpdateBookmarkedTimeTable(inputBookmarkedTimeTableIndex.value, bookmarkedTimeTable.id, { memo }, null)}
+          onModifyTitle={(title) => onUpdateBookmarkedTimeTable(inputBookmarkedTimeTableIndex.value, bookmarkedTimeTable.id, { title }, null)}
+          onDeleteLecture={(lectureId) => onUpdateBookmarkedTimeTable(inputBookmarkedTimeTableIndex.value, bookmarkedTimeTable.id, { lectures: getLectureIdsWithout(lectureId, bookmarkedTimeTable) }, lectureId)}
           timeTableId={bookmarkedTimeTable.id}
           {...bookmarkedTimeTable}
           canDeleteLecture

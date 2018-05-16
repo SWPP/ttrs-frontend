@@ -47,6 +47,7 @@ const belongInfo = (state = [], action) => {
 
 const timeTable = (state = [], action) => {
   let bookmarkedTimeTables
+  let lectures
   switch (action.type) {
     case actions.CREATE_MY_TIME_TABLE:
       return {
@@ -73,7 +74,7 @@ const timeTable = (state = [], action) => {
         },
       }
     case actions.DELETE_LECTURE_FROM_MY_TIME_TABLE:
-      const lectures = []
+      lectures = []
       state.myTimeTable.lectures.forEach((lecture) => {
         if (lecture.id !== action.lectureId) {
           lectures.push(lecture)
@@ -115,7 +116,6 @@ const timeTable = (state = [], action) => {
         bookmarkedTimeTable: bookmarkedTimeTables[action.index],
       }
     case actions.BOOKMARK_RESPONSE:
-      console.log(action.bookmarkedTimeTable)
       bookmarkedTimeTables = state.bookmarkedTimeTables.map((timeTable) => ({
         ...timeTable,
       }))
@@ -126,6 +126,32 @@ const timeTable = (state = [], action) => {
           ...timeTable,
         })),
         bookmarkedTimeTable: action.bookmarkedTimeTable,
+      }
+    case actions.DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE:
+      lectures = []
+      state.bookmarkedTimeTable.lectures.forEach((lecture) => {
+        if (lecture.id !== action.deleteLectureId) {
+          lectures.push(lecture)
+        }
+      })
+      bookmarkedTimeTables = state.bookmarkedTimeTables.map((timeTable) => ({
+        ...timeTable,
+      }))
+      bookmarkedTimeTables[action.index] = {
+        ...state.bookmarkedTimeTable,
+        lectures,
+      }
+      return {
+        ...state,
+        bookmarkedTimeTables: bookmarkedTimeTables.map((timeTable) => ({
+          ...timeTable,
+        })),
+        bookmarkedTimeTable: {
+          ...state.bookmarkedTimeTable,
+          lectures: [
+            ...lectures,
+          ],
+        },
       }
     default:
       return state
