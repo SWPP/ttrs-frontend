@@ -208,9 +208,12 @@ function* switchSemester(newYear, newSemester) {
     semester,
   }
   try {
-    const response = yield call(axios.get, updateURLParams('ttrs/my-time-tables/', params), config)
-    console.log('getCurrent myTimeTable response', response)
-    yield call(getCurrentMyTimeTable, response)
+    const myTimeTableResponse = yield call(axios.get, updateURLParams('ttrs/my-time-tables/', params), config)
+    console.log('getCurrent myTimeTable response', myTimeTableResponse)
+    yield call(getCurrentMyTimeTable, myTimeTableResponse)
+    const bookmarkedTimeTableResponse = yield call(axios.get, updateURLParams('ttrs/bookmarked-time-tables/', params), config)
+    console.log('getCurrent myTimeTable response', bookmarkedTimeTableResponse)
+    yield call(getBookmarkedTimeTables, bookmarkedTimeTableResponse)
     yield put(actions.searchLectureResponse([]))
   } catch (error) {
     console.log('switchSemester error', error.response)
@@ -245,7 +248,7 @@ function* updateBookmarkedTimeTable(index, timeTableId, updatedInfo) {
 
 function* bookmark(timeTableId) {
   try {
-    const bookmarkResponse = yield call(axios.post, 'ttrs/time-tables/bookmark/', { timeTableId } , config)
+    const bookmarkResponse = yield call(axios.post, 'ttrs/time-tables/bookmark/', { timeTableId }, config)
     console.log('bookmark response', bookmarkResponse)
     const response = yield call(axios.get, `ttrs/bookmarked-time-tables/${bookmarkResponse.data.createdTimeTable}/`, config)
     console.log('get added bookmarked time table response', response)
