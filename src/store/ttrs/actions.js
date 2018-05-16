@@ -16,6 +16,7 @@ export const ADD_LECTURE_TO_MY_TIME_TABLE = 'ADD_LECTURE_TO_MY_TIME_TABLE'
 export const UPDATE_MY_TIME_TABLE_INFO = 'UPDATE_MY_TIME_TABLE_INFO'
 export const DELETE_LECTURE_FROM_MY_TIME_TABLE = 'DELETE_LECTURE_FROM_MY_TIME_TABLE'
 export const SWITCH_SEMESTER = 'SWITCH_SEMESTER'
+export const CREATE_BOOKMARKED_TIME_TABLES = 'CREATE_BOOKMARKED_TIME_TABLES'
 
 
 export const signInRequest = (username, password) => {
@@ -143,5 +144,12 @@ export const switchSemester = (newYear, newSemester) => {
     type: SWITCH_SEMESTER,
     newYear,
     newSemester,
+  }
+}
+
+export const createBookmarkedTimeTables = (bookmarkedTimeTables) => {
+  return {
+    type: CREATE_BOOKMARKED_TIME_TABLES,
+    bookmarkedTimeTables,
   }
 }

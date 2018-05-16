@@ -84,16 +84,34 @@ function* signIn(username, password) {
   }
   year = initialState.year
   semester = initialState.semester
+  const params = {
+    year,
+    semester,
+  }
   try {
-    const params = {
-      year,
-      semester,
-    }
     const response = yield call(axios.get, updateURLParams('ttrs/my-time-tables/', params), config)
     console.log('getCurrent myTimeTable response', response)
     yield call(getCurrentMyTimeTable, response)
   } catch (error) {
     console.log('getCurrent myTimeTable error', error.response)
+  }
+  try {
+    const response = yield call(axios.get, updateURLParams('ttrs/bookmarked-time-tables/', params), config)
+    console.log('getCurrent Bookmarked TimeTables response', response)
+    let bookmarkedTimeTables = initialTimeTable.bookmarkedTimeTables
+    if (response.data.length !== 0) {
+      bookmarkedTimeTables = response.data.map((timeTable) => ({
+        ...timeTable,
+      }))
+      bookmarkedTimeTables[0].lectures = []
+      for (let i = 0; i < response.data[0].lectures.length; i += 1) {
+        const lectureResponse = yield call(axios.get, `ttrs/lectures/${response.data[0].lectures[i]}/`, config)
+        bookmarkedTimeTables[0].lectures.push(lectureResponse.data)
+      }
+    }
+    yield put(actions.createBookmarkedTimeTables(bookmarkedTimeTables))
+  } catch (error) {
+    console.log('getCurrent Bookmarked TimeTables error', error.response)
   }
 }
 

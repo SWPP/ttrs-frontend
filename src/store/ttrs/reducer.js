@@ -50,7 +50,7 @@ const timeTable = (state = [], action) => {
     case actions.CREATE_MY_TIME_TABLE:
       return {
         ...state,
-        myTimeTable: action.myTimeTable
+        myTimeTable: action.myTimeTable,
       }
     case actions.ADD_LECTURE_TO_MY_TIME_TABLE:
       return {
@@ -59,9 +59,9 @@ const timeTable = (state = [], action) => {
           ...state.myTimeTable,
           lectures: [
             ...state.myTimeTable.lectures,
-            action.newLecture
+            action.newLecture,
           ],
-        }
+        },
       }
     case actions.UPDATE_MY_TIME_TABLE_INFO:
       return {
@@ -83,7 +83,13 @@ const timeTable = (state = [], action) => {
         myTimeTable: {
           ...state.myTimeTable,
           lectures,
-        }
+        },
+      }
+    case actions.CREATE_BOOKMARKED_TIME_TABLES:
+      console.log(action.bookmarkedTimeTables)
+      return {
+        ...state,
+        bookmarkedTimeTables: action.bookmarkedTimeTables,
       }
     default:
       return state
