@@ -1,7 +1,39 @@
 import React from 'react'
+import ReactModal from 'react-modal'
 import Button from '../../atoms/Button'
 import Lecture from '../../atoms/Lecture'
 
+class Popup extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      pop: false,
+    }
+
+    this.handleOpenPopup = this.handleOpenPopup.bind(this);
+    this.handleClosePopup = this.handleClosePopup.bind(this);
+  }
+
+  handleOpenPopup() {
+    this.setState({ pop: true });
+  }
+
+  handleClosePopup() {
+    this.setState({ pop: false });
+  }
+
+  render() {
+    return (
+      <div>
+        <button onClick={this.handleOpenPopup}>Pop</button>
+        <ReactModal isOpen={this.state.pop}>
+          <p>adfadfadsfadsdsaf</p>
+          <button onClick={this.handleClosePopup}>Close</button>
+        </ReactModal>
+      </div>
+    )
+  }
+}
 
 const TimeTable = ({ id, memo, title, lectures, onModifyMemo, onModifyTitle, onDeleteLecture }) => {
   let titleContent = title
@@ -102,6 +134,7 @@ const TimeTable = ({ id, memo, title, lectures, onModifyMemo, onModifyTitle, onD
       <Button type="submit" onClick={onSubmitTitle}>Modify Title</Button> <br />
       <h2>{titleContent}</h2>
       {createTimeTable()}
+      <Popup />
       {lectures.map(lecture =>
         <div key={lecture.id}>
           <hr />
