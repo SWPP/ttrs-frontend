@@ -8,8 +8,8 @@ const SemesterSwitcher = ({ isMainPage, semesters, onSwitchSemester }) => {
   })
 
   const onSubmit = () => {
-    let newYear = input.value.substring(0, 4)
-    let newSemester = input.value.substring(5, input.value.length)
+    const newYear = semesters[input.value].year
+    const newSemester = semesters[input.value].semester
     onSwitchSemester(newYear, newSemester)
   }
 
@@ -17,10 +17,10 @@ const SemesterSwitcher = ({ isMainPage, semesters, onSwitchSemester }) => {
     return (
       <div>
         <select ref={node => { input = node }} onChange={onSubmit}>
-          {option.map(value =>
+          {option.map((value, index) =>
             <option
               key={value}
-              value={value}
+              value={index}
             >{value}</option>
           )}
         </select>
