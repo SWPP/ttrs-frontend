@@ -233,6 +233,16 @@ function* selectBookmarkedTimeTable(bookmarkedTimeTable) {
   }
 }
 
+function* updateBookmarkedTimeTable(index, timeTableId, updatedInfo) {
+  try {
+    const response = yield call(axios.patch, `ttrs/bookmarked-time-tables/${timeTableId}/`, updatedInfo, config)
+    console.log('update BookmarkedTimeTable response', response)
+    yield put(actions.updateBookmarkedTimeTableInfo(index, updatedInfo))
+  } catch (error) {
+    console.log('update BookmarkedTimeTable error', error.response)
+  }
+}
+
 function* watchSignIn() {
   while (true) {
     const { username, password } = yield take(actions.SIGN_IN_REQUEST)
@@ -275,6 +285,13 @@ function* watchSelectBookmarkedTimeTable() {
   }
 }
 
+function* watchUpdateBookmarkedTimeTable() {
+  while (true) {
+    const { index, timeTableId, updatedInfo } = yield take(actions.UPDATE_BOOKMARKED_TIME_TABLE_REQUEST)
+    yield call(updateBookmarkedTimeTable, index, timeTableId, updatedInfo)
+  }
+}
+
 export default function* () {
   yield call(getInitialInfo)
   yield fork(watchSignIn)
@@ -283,4 +300,5 @@ export default function* () {
   yield fork(watchUpdateMyTimeTable)
   yield fork(watchSwitchSemester)
   yield fork(watchSelectBookmarkedTimeTable)
+  yield fork(watchUpdateBookmarkedTimeTable)
 }

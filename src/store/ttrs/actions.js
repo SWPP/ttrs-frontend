@@ -19,6 +19,8 @@ export const SWITCH_SEMESTER = 'SWITCH_SEMESTER'
 export const CREATE_BOOKMARKED_TIME_TABLES = 'CREATE_BOOKMARKED_TIME_TABLES'
 export const SELECT_BOOKMARKED_TIME_TABLE_REQUEST = 'SELECT_BOOKMARKED_TIME_TABLE_REQUEST'
 export const SELECT_BOOKMARKED_TIME_TABLE_RESPONSE = 'SELECT_BOOKMARKED_TIME_TABLE_RESPONSE'
+export const UPDATE_BOOKMARKED_TIME_TABLE_REQUEST = 'UPDATE_BOOKMARKED_TIME_TABLE_REQUEST'
+export const UPDATE_BOOKMARKED_TIME_TABLE_INFO = 'UPDATE_BOOKMARKED_TIME_TABLE_INFO'
 
 
 export const signInRequest = (username, password) => {
@@ -167,5 +169,22 @@ export const selectBookmarkedTimeTableResponse = (bookmarkedTimeTable) => {
   return {
     type: SELECT_BOOKMARKED_TIME_TABLE_RESPONSE,
     bookmarkedTimeTable,
+  }
+}
+
+export const updateBookmarkedTimeTableRequest = (index, timeTableId, updatedInfo) => {
+  return {
+    type: UPDATE_BOOKMARKED_TIME_TABLE_REQUEST,
+    index,
+    timeTableId,
+    updatedInfo,
+  }
+}
+
+export const updateBookmarkedTimeTableInfo = (index, updatedInfo) => {
+  return {
+    type: UPDATE_BOOKMARKED_TIME_TABLE_INFO,
+    index,
+    updatedInfo,
   }
 }
