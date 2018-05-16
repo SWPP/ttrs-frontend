@@ -25,13 +25,14 @@ const TimeTable = ({ id, memo, title, lectures, onModifyMemo, onModifyTitle, onD
 
   function overlap(time, start, end) {
     let t = time.split(':').map((i) => Number(i))
-    t = t[0] * 100 + t[1]
+    t = t[0] * 100 + 5*(t[1]/3)
     let s = start.split(':').map((i) => Number(i))
-    s = s[0] * 100 + s[1]
+    s = s[0] * 100 + 5*(s[1]/3)
     let e = end.split(':').map((i) => Number(i))
-    e = e[0] * 100 + e[1]
+    e = e[0] * 100 + 5*(e[1]/3)
 
-    if ((t <= s && s <= t + 100) || (t <= e && e <= t + 100)) {
+    if ((t <= s && s < t + 50) || (s < t && t < e) ||(t <= e && e <= t + 50)) {
+      console.log(t, s, e)
       return true
     }
     return false
