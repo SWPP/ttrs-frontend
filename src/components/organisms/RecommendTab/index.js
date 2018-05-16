@@ -26,13 +26,15 @@ const RecommendTab = ({ isMainPage, currentTab, myTimeTable, onUpdateMyTimeTable
     return (
       <div>
         <SearchLecture
-          onAddLecture={(newLectureId) => onUpdateMyTimeTable(myTimeTable.id, {lectures: getLectureIds()}, newLectureId)} />
+          onAddLecture={(newLectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIds() }, newLectureId)}
+        />
         <hr />
         <TimeTable
           onModifyMemo={(memo) => onUpdateMyTimeTable(myTimeTable.id, {memo}, null)}
           onModifyTitle={(title) => onUpdateMyTimeTable(myTimeTable.id, {title}, null)}
-          onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, {lectures: getLectureIdsWithout(lectureId)}, -lectureId )}
+          onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId) }, -lectureId)}
           {...myTimeTable}
+          timeTableId={myTimeTable.id}
         />
       </div>
     )

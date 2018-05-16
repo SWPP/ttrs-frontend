@@ -21,6 +21,8 @@ export const SELECT_BOOKMARKED_TIME_TABLE_REQUEST = 'SELECT_BOOKMARKED_TIME_TABL
 export const SELECT_BOOKMARKED_TIME_TABLE_RESPONSE = 'SELECT_BOOKMARKED_TIME_TABLE_RESPONSE'
 export const UPDATE_BOOKMARKED_TIME_TABLE_REQUEST = 'UPDATE_BOOKMARKED_TIME_TABLE_REQUEST'
 export const UPDATE_BOOKMARKED_TIME_TABLE_INFO = 'UPDATE_BOOKMARKED_TIME_TABLE_INFO'
+export const BOOKMARK_REQUEST = 'BOOKMARK_REQUEST'
+export const BOOKMARK_RESPONSE = 'BOOKMARK_RESPONSE'
 
 
 export const signInRequest = (username, password) => {
@@ -186,5 +188,19 @@ export const updateBookmarkedTimeTableInfo = (index, updatedInfo) => {
     type: UPDATE_BOOKMARKED_TIME_TABLE_INFO,
     index,
     updatedInfo,
+  }
+}
+
+export const bookmarkRequest = (timeTableId) => {
+  return {
+    type: BOOKMARK_REQUEST,
+    timeTableId,
+  }
+}
+
+export const bookmarkResponse = (bookmarkedTimeTable) => {
+  return {
+    type: BOOKMARK_RESPONSE,
+    bookmarkedTimeTable,
   }
 }

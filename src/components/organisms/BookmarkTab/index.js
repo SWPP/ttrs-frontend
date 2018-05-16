@@ -4,6 +4,7 @@ import TimeTable from '../../../containers/TimeTable'
 
 const BookmarkTab = ({ isMainPage, currentTab, myTimeTable, bookmarkedTimeTables, bookmarkedTimeTable, onSelectBookmarkedTimeTable, onUpdateMyTimeTable, onUpdateBookmarkedTimeTable }) => {
   let inputBookmarkedTimeTableIndex = { value: 0 }
+  console.log(bookmarkedTimeTables)
   if (isMainPage && currentTab === BOOKMARK_TAB) {
     return (
       <div>
@@ -11,6 +12,7 @@ const BookmarkTab = ({ isMainPage, currentTab, myTimeTable, bookmarkedTimeTables
           onModifyMemo={(memo) => onUpdateMyTimeTable(myTimeTable.id, { memo }, null)}
           onModifyTitle={(title) => onUpdateMyTimeTable(myTimeTable.id, { title }, null)}
           {...myTimeTable}
+          timeTableId={myTimeTable.id}
         />
         <hr />
         <select
@@ -28,6 +30,7 @@ const BookmarkTab = ({ isMainPage, currentTab, myTimeTable, bookmarkedTimeTables
           onModifyMemo={(memo) => onUpdateBookmarkedTimeTable(inputBookmarkedTimeTableIndex.value, bookmarkedTimeTable.id, { memo })}
           onModifyTitle={(title) => onUpdateBookmarkedTimeTable(inputBookmarkedTimeTableIndex.value, bookmarkedTimeTable.id, { title })}
           {...bookmarkedTimeTable}
+          timeTableId={bookmarkedTimeTable.id}
         />
       </div>
     )

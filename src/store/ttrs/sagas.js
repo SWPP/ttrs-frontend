@@ -6,10 +6,10 @@ import { initialTimeTable, initialState } from './selectors'
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000/'
 axios.interceptors.request.use((config) => {
-  const newParams = convertToCStyle(config.params)
+  const newData = convertToCStyle(config.data)
   return {
     ...config,
-    params: newParams,
+    data: newData,
   }
 }, (error) => {
   return Promise.reject(error)
@@ -243,6 +243,18 @@ function* updateBookmarkedTimeTable(index, timeTableId, updatedInfo) {
   }
 }
 
+function* bookmark(timeTableId) {
+  try {
+    const bookmarkResponse = yield call(axios.post, 'ttrs/time-tables/bookmark/', { timeTableId } , config)
+    console.log('bookmark response', bookmarkResponse)
+    const response = yield call(axios.get, `ttrs/bookmarked-time-tables/${bookmarkResponse.data.createdTimeTable}/`, config)
+    console.log('get added bookmarked time table response', response)
+    yield put(actions.bookmarkResponse(response.data))
+  } catch (error) {
+    console.log('bookmark error', error.response)
+  }
+}
+
 function* watchSignIn() {
   while (true) {
     const { username, password } = yield take(actions.SIGN_IN_REQUEST)
@@ -292,6 +304,13 @@ function* watchUpdateBookmarkedTimeTable() {
   }
 }
 
+function* watchBookmark() {
+  while (true) {
+    const { timeTableId } = yield take(actions.BOOKMARK_REQUEST)
+    yield call(bookmark, timeTableId)
+  }
+}
+
 export default function* () {
   yield call(getInitialInfo)
   yield fork(watchSignIn)
@@ -301,4 +320,5 @@ export default function* () {
   yield fork(watchSwitchSemester)
   yield fork(watchSelectBookmarkedTimeTable)
   yield fork(watchUpdateBookmarkedTimeTable)
+  yield fork(watchBookmark)
 }

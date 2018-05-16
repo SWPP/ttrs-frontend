@@ -46,6 +46,7 @@ const belongInfo = (state = [], action) => {
 }
 
 const timeTable = (state = [], action) => {
+  let bookmarkedTimeTables
   switch (action.type) {
     case actions.CREATE_MY_TIME_TABLE:
       return {
@@ -99,7 +100,7 @@ const timeTable = (state = [], action) => {
         bookmarkedTimeTable: action.bookmarkedTimeTable,
       }
     case actions.UPDATE_BOOKMARKED_TIME_TABLE_INFO:
-      const bookmarkedTimeTables = state.bookmarkedTimeTables.map((timeTable) => ({
+      bookmarkedTimeTables = state.bookmarkedTimeTables.map((timeTable) => ({
         ...timeTable,
       }))
       bookmarkedTimeTables[action.index] = {
@@ -108,8 +109,22 @@ const timeTable = (state = [], action) => {
       }
       return {
         ...state,
-        bookmarkedTimeTables: bookmarkedTimeTables,
+        bookmarkedTimeTables: bookmarkedTimeTables.map((timeTable) => ({
+          ...timeTable,
+        })),
         bookmarkedTimeTable: bookmarkedTimeTables[action.index],
+      }
+    case actions.BOOKMARK_RESPONSE:
+      console.log(action.bookmarkedTimeTable)
+      bookmarkedTimeTables = state.bookmarkedTimeTables.map((timeTable) => ({
+        ...timeTable,
+      }))
+      bookmarkedTimeTables.push(action.bookmarkedTimeTable)
+      return {
+        ...state,
+        bookmarkedTimeTables: bookmarkedTimeTables.map((timeTable) => ({
+          ...timeTable,
+        })),
       }
     default:
       return state
