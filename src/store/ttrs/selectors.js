@@ -23,8 +23,8 @@ export const initialTimeTable = {
     id: null,
     title: '',
     memo: '',
-    year: 2018,
-    semester: '여름학기',
+    year: null,
+    semester: null,
     lectures: [],
   },
 }
@@ -46,4 +46,5 @@ export const initialState = {
   isMainPage: false,
   isSignUpPage: false,
   currentTab: RECOMMEND_TAB,
+  semesters: [],
 }

@@ -5,6 +5,7 @@ export const SIGN_UP = 'SIGN_UP'
 export const CLEAR_STATE = 'CLEAR_STATE'
 export const CHANGE_TAB = 'CHANGE_TAB'
 export const GET_COLLEGE_LIST = 'GET_COLLEGE_LIST'
+export const GET_SEMESTER_LIST = 'GET_SEMESTER_LIST'
 export const CHANGE_DEPARTMENT_LIST = 'CHANGE_DEPARTMENT_LIST'
 export const CHANGE_MAJOR_LIST = 'CHANGE_MAJOR_LIST'
 export const SEARCH_LECTURE_REQUEST = 'SEARCH_LECTURE_REQUEST'
@@ -62,6 +63,13 @@ export const getCollegeList = (colleges) => {
   return {
     type: GET_COLLEGE_LIST,
     colleges,
+  }
+}
+
+export const getSemesterList = (semesters) => {
+  return {
+    type: GET_SEMESTER_LIST,
+    semesters,
   }
 }
 

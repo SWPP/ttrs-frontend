@@ -104,6 +104,11 @@ const search = (state = [], action) => {
 
 const ttrsReducer = (state = initialState, action) => {
   switch (action.type) {
+    case actions.GET_SEMESTER_LIST:
+      return {
+        ...state,
+        semesters: action.semesters,
+      }
     case actions.SIGN_IN_RESPONSE:
       return {
         ...state,
@@ -119,6 +124,7 @@ const ttrsReducer = (state = initialState, action) => {
       return {
         ...initialState,
         belongInfo: belongInfo(state.belongInfo, action),
+        semesters: state.semesters,
       }
     case actions.CHANGE_TAB:
       return {

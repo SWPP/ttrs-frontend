@@ -35,13 +35,20 @@ const config = {}
 let year
 let semester
 
-function* getCollegeList() {
+function* getInitialInfo() {
   try {
     const response = yield call(axios.get, 'ttrs/colleges/', config)
     console.log('getCollegeList response', response)
     yield put(actions.getCollegeList(response.data))
   } catch (error) {
     console.log('getCollegeList error', error.response)
+  }
+  try {
+    const response = yield call(axios.get, 'ttrs/semesters/', config)
+    console.log('getSemesterList response', response)
+    yield put(actions.getSemesterList(response.data))
+  } catch (error) {
+    console.log('getSemesterList error', error.response)
   }
 }
 
@@ -231,7 +238,7 @@ function* watchSwitchSemester() {
 }
 
 export default function* () {
-  yield call(getCollegeList)
+  yield call(getInitialInfo)
   yield fork(watchSignIn)
   yield fork(watchSignUp)
   yield fork(watchSearchLecture)
