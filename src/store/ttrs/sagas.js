@@ -210,7 +210,7 @@ function* switchSemester(newYear, newSemester) {
     console.log('getCurrent myTimeTable response', myTimeTableResponse)
     yield call(getCurrentMyTimeTable, myTimeTableResponse)
     const bookmarkedTimeTableResponse = yield call(axios.get, updateURLParams('ttrs/bookmarked-time-tables/', params), config)
-    console.log('getCurrent myTimeTable response', bookmarkedTimeTableResponse)
+    console.log('getCurrent bookmarkedTimeTable response', bookmarkedTimeTableResponse)
     yield call(getBookmarkedTimeTables, bookmarkedTimeTableResponse)
     yield put(actions.searchLectureResponse([]))
   } catch (error) {
@@ -230,6 +230,7 @@ function* selectBookmarkedTimeTable(bookmarkedTimeTable) {
     ]
     yield put(actions.selectBookmarkedTimeTableResponse(bookmarkedTimeTable))
   } catch (error) {
+    // Error happens when bookmarkedTimeTable.lectures is list of Lecture Info (already updated)
     yield put(actions.selectBookmarkedTimeTableResponse(bookmarkedTimeTable))
   }
 }
