@@ -1,19 +1,10 @@
 import React from 'react'
 import { BOOKMARK_TAB } from '../../../store/ttrs/selectors'
 import TimeTable from '../../../containers/TimeTable'
+import { getLectureIdsWithout } from '../RecommendTab'
 
 const BookmarkTab = ({ isMainPage, currentTab, myTimeTable, bookmarkedTimeTables, bookmarkedTimeTable, onSelectBookmarkedTimeTable, onUpdateMyTimeTable, onUpdateBookmarkedTimeTable }) => {
   let inputBookmarkedTimeTableIndex = { value: 0 }
-
-  const getLectureIdsWithout = (lectureId, timeTable) => {
-    const lectureIds = []
-    timeTable.lectures.forEach((lecture) => {
-      if (lecture.id !== lectureId) {
-        lectureIds.push(lecture.id)
-      }
-    })
-    return lectureIds
-  }
 
   if (isMainPage && currentTab === BOOKMARK_TAB) {
     return (
