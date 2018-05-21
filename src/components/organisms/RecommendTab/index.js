@@ -30,8 +30,7 @@ const RecommendTab = ({ isMainPage, currentTab, myTimeTable, onUpdateMyTimeTable
         />
         <hr />
         <TimeTable
-          onModifyMemo={(memo) => onUpdateMyTimeTable(myTimeTable.id, {memo}, null)}
-          onModifyTitle={(title) => onUpdateMyTimeTable(myTimeTable.id, {title}, null)}
+          onModifyContent={(content) => onUpdateMyTimeTable(myTimeTable.id, content, null)}
           onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, myTimeTable) }, -lectureId)}
           {...myTimeTable}
           canDeleteLecture

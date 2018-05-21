@@ -3,7 +3,7 @@ import Button from '../../atoms/Button'
 import Lecture from '../../atoms/Lecture'
 
 
-const TimeTable = ({ id, memo, title, lectures, canDeleteLecture, onModifyMemo, onModifyTitle, onDeleteLecture, onBookmark }) => {
+const TimeTable = ({ id, memo, title, lectures, canDeleteLecture, onModifyContent, onDeleteLecture, onBookmark }) => {
   let titleContent = title
   let memoContent = memo
 
@@ -12,7 +12,7 @@ const TimeTable = ({ id, memo, title, lectures, canDeleteLecture, onModifyMemo, 
       console.log('There is no TimeTable')
       return
     }
-    onModifyMemo(memoContent.value)
+    onModifyContent({ memo: memoContent.value })
   }
 
   const onSubmitTitle = () => {
@@ -20,7 +20,7 @@ const TimeTable = ({ id, memo, title, lectures, canDeleteLecture, onModifyMemo, 
       console.log('There is no TimeTable')
       return
     }
-    onModifyTitle(titleContent.value)
+    onModifyContent({ title: titleContent.value })
   }
 
   return (
