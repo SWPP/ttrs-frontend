@@ -16,6 +16,14 @@ export const ADD_LECTURE_TO_MY_TIME_TABLE = 'ADD_LECTURE_TO_MY_TIME_TABLE'
 export const UPDATE_MY_TIME_TABLE_INFO = 'UPDATE_MY_TIME_TABLE_INFO'
 export const DELETE_LECTURE_FROM_MY_TIME_TABLE = 'DELETE_LECTURE_FROM_MY_TIME_TABLE'
 export const SWITCH_SEMESTER = 'SWITCH_SEMESTER'
+export const CREATE_BOOKMARKED_TIME_TABLES = 'CREATE_BOOKMARKED_TIME_TABLES'
+export const SELECT_BOOKMARKED_TIME_TABLE_REQUEST = 'SELECT_BOOKMARKED_TIME_TABLE_REQUEST'
+export const SELECT_BOOKMARKED_TIME_TABLE_RESPONSE = 'SELECT_BOOKMARKED_TIME_TABLE_RESPONSE'
+export const UPDATE_BOOKMARKED_TIME_TABLE_REQUEST = 'UPDATE_BOOKMARKED_TIME_TABLE_REQUEST'
+export const UPDATE_BOOKMARKED_TIME_TABLE_INFO = 'UPDATE_BOOKMARKED_TIME_TABLE_INFO'
+export const BOOKMARK_REQUEST = 'BOOKMARK_REQUEST'
+export const BOOKMARK_RESPONSE = 'BOOKMARK_RESPONSE'
+export const DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE = 'DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE'
 
 
 export const signInRequest = (username, password) => {
@@ -143,5 +151,66 @@ export const switchSemester = (newYear, newSemester) => {
     type: SWITCH_SEMESTER,
     newYear,
     newSemester,
+  }
+}
+
+export const createBookmarkedTimeTables = (bookmarkedTimeTables) => {
+  return {
+    type: CREATE_BOOKMARKED_TIME_TABLES,
+    bookmarkedTimeTables,
+  }
+}
+
+export const selectBookmarkedTimeTableRequest = (bookmarkedTimeTable) => {
+  return {
+    type: SELECT_BOOKMARKED_TIME_TABLE_REQUEST,
+    bookmarkedTimeTable,
+  }
+}
+
+export const selectBookmarkedTimeTableResponse = (bookmarkedTimeTable) => {
+  return {
+    type: SELECT_BOOKMARKED_TIME_TABLE_RESPONSE,
+    bookmarkedTimeTable,
+  }
+}
+
+export const updateBookmarkedTimeTableRequest = (index, timeTableId, updatedInfo, deleteLectureId) => {
+  return {
+    type: UPDATE_BOOKMARKED_TIME_TABLE_REQUEST,
+    index,
+    timeTableId,
+    updatedInfo,
+    deleteLectureId,
+  }
+}
+
+export const updateBookmarkedTimeTableInfo = (index, updatedInfo) => {
+  return {
+    type: UPDATE_BOOKMARKED_TIME_TABLE_INFO,
+    index,
+    updatedInfo,
+  }
+}
+
+export const bookmarkRequest = (timeTableId) => {
+  return {
+    type: BOOKMARK_REQUEST,
+    timeTableId,
+  }
+}
+
+export const bookmarkResponse = (bookmarkedTimeTable) => {
+  return {
+    type: BOOKMARK_RESPONSE,
+    bookmarkedTimeTable,
+  }
+}
+
+export const deleteLectureFromBookmarkedTimeTable = (index, deleteLectureId) => {
+  return {
+    type: DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE,
+    index,
+    deleteLectureId,
   }
 }

@@ -46,11 +46,13 @@ const belongInfo = (state = [], action) => {
 }
 
 const timeTable = (state = [], action) => {
+  let bookmarkedTimeTables
+  let lectures
   switch (action.type) {
     case actions.CREATE_MY_TIME_TABLE:
       return {
         ...state,
-        myTimeTable: action.myTimeTable
+        myTimeTable: action.myTimeTable,
       }
     case actions.ADD_LECTURE_TO_MY_TIME_TABLE:
       return {
@@ -59,9 +61,9 @@ const timeTable = (state = [], action) => {
           ...state.myTimeTable,
           lectures: [
             ...state.myTimeTable.lectures,
-            action.newLecture
+            action.newLecture,
           ],
-        }
+        },
       }
     case actions.UPDATE_MY_TIME_TABLE_INFO:
       return {
@@ -72,7 +74,7 @@ const timeTable = (state = [], action) => {
         },
       }
     case actions.DELETE_LECTURE_FROM_MY_TIME_TABLE:
-      const lectures = []
+      lectures = []
       state.myTimeTable.lectures.forEach((lecture) => {
         if (lecture.id !== action.lectureId) {
           lectures.push(lecture)
@@ -83,7 +85,73 @@ const timeTable = (state = [], action) => {
         myTimeTable: {
           ...state.myTimeTable,
           lectures,
+        },
+      }
+    case actions.CREATE_BOOKMARKED_TIME_TABLES:
+      return {
+        ...state,
+        bookmarkedTimeTables: action.bookmarkedTimeTables.map((timeTable) => ({
+          ...timeTable,
+        })),
+        bookmarkedTimeTable: action.bookmarkedTimeTables.length === 0 ? state.bookmarkedTimeTable : action.bookmarkedTimeTables[0],
+      }
+    case actions.SELECT_BOOKMARKED_TIME_TABLE_RESPONSE:
+      return {
+        ...state,
+        bookmarkedTimeTable: action.bookmarkedTimeTable,
+      }
+    case actions.UPDATE_BOOKMARKED_TIME_TABLE_INFO:
+      bookmarkedTimeTables = state.bookmarkedTimeTables.map((timeTable) => ({
+        ...timeTable,
+      }))
+      bookmarkedTimeTables[action.index] = {
+        ...state.bookmarkedTimeTable,
+        ...action.updatedInfo,
+      }
+      return {
+        ...state,
+        bookmarkedTimeTables: bookmarkedTimeTables.map((timeTable) => ({
+          ...timeTable,
+        })),
+        bookmarkedTimeTable: bookmarkedTimeTables[action.index],
+      }
+    case actions.BOOKMARK_RESPONSE:
+      bookmarkedTimeTables = state.bookmarkedTimeTables.map((timeTable) => ({
+        ...timeTable,
+      }))
+      bookmarkedTimeTables.push(action.bookmarkedTimeTable)
+      return {
+        ...state,
+        bookmarkedTimeTables: bookmarkedTimeTables.map((timeTable) => ({
+          ...timeTable,
+        })),
+        bookmarkedTimeTable: action.bookmarkedTimeTable,
+      }
+    case actions.DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE:
+      lectures = []
+      state.bookmarkedTimeTable.lectures.forEach((lecture) => {
+        if (lecture.id !== action.deleteLectureId) {
+          lectures.push(lecture)
         }
+      })
+      bookmarkedTimeTables = state.bookmarkedTimeTables.map((timeTable) => ({
+        ...timeTable,
+      }))
+      bookmarkedTimeTables[action.index] = {
+        ...state.bookmarkedTimeTable,
+        lectures,
+      }
+      return {
+        ...state,
+        bookmarkedTimeTables: bookmarkedTimeTables.map((timeTable) => ({
+          ...timeTable,
+        })),
+        bookmarkedTimeTable: {
+          ...state.bookmarkedTimeTable,
+          lectures: [
+            ...lectures,
+          ],
+        },
       }
     default:
       return state
