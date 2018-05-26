@@ -30,7 +30,7 @@ const TimeTable = ({ id, memo, title, lectures, canDeleteLecture, onModifyConten
     render() {
       return (
         <div>
-          <button styles={{ height: '200px', width: '200px' }} onClick={this.handleOpenPopup}>{this.lecture.course.name}</button>
+          <button width="200" onClick={this.handleOpenPopup}>{this.lecture.course.name}</button>
           <ReactModal isOpen={this.state.pop} contentLabel={'Modal'}>
             <p>{this.lecture.course.name}</p>
             <button onClick={() => onDeleteLecture(this.lecture.id)}>Delete</button>
@@ -104,7 +104,9 @@ const TimeTable = ({ id, memo, title, lectures, canDeleteLecture, onModifyConten
       )
     }
 
-    return (<td><button styles={{ height: '200px', width: '200px' }} /></td>)
+    // return (<td><button styles={{ height: '200px', width: '200px' }} /></td>)
+    return (<td width="200" height="30"></td>)
+    // return (<select size="1" ><option /></select>)
   }
 
 
