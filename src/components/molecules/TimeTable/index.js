@@ -5,7 +5,7 @@ import Button from '../../atoms/Button'
 
 const TimeTable = ({ id, memo, title, lectures, onModifyMemo, onModifyTitle, onDeleteLecture }) => {
   class Popup extends React.Component {
-    constructor(lecture, onDeleteLecture) {
+    constructor(lecture/*, onDeleteLecture*/) {
       super()
       this.state = {
         pop: false,
@@ -13,7 +13,7 @@ const TimeTable = ({ id, memo, title, lectures, onModifyMemo, onModifyTitle, onD
 
       this.handleOpenPopup = this.handleOpenPopup.bind(this)
       this.handleClosePopup = this.handleClosePopup.bind(this)
-      this.deleteLecture = onDeleteLecture.bind(this)
+      //this.deleteLecture = onDeleteLecture.bind(this)
       this.lecture = lecture.lecture
 
       console.log(this.lecture, onDeleteLecture)
@@ -99,7 +99,7 @@ const TimeTable = ({ id, memo, title, lectures, onModifyMemo, onModifyTitle, onD
     if (lec >= 0) {
       return (
         <td>
-          <Popup lecture={lectures[lec]} deleteLecture={onDeleteLecture} />
+          <Popup lecture={lectures[lec]} />
         </td>
       )
     }
