@@ -49,7 +49,7 @@ const TimeTable = ({ id, memo, title, lectures, onModifyMemo, onModifyTitle, onD
       console.log('There is no TimeTable')
       return
     }
-    onModifyMemo(memoContent.value)
+    onModifyContent({ memo: memoContent.value })
   }
 
   const onSubmitTitle = () => {
@@ -57,7 +57,7 @@ const TimeTable = ({ id, memo, title, lectures, onModifyMemo, onModifyTitle, onD
       console.log('There is no TimeTable')
       return
     }
-    onModifyTitle(titleContent.value)
+    onModifyContent({ title: titleContent.value })
   }
 
   function overlap(_time, _start, _end) {
@@ -117,7 +117,7 @@ const TimeTable = ({ id, memo, title, lectures, onModifyMemo, onModifyTitle, onD
       <table>
         <tbody>
           <tr><th>Time</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thr</th><th>Fri</th><th>Sat</th></tr>
-          {['9:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
+          {['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
             '13:30', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
             '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30'].map((time) => (
               <tr><td>{time}</td>{createRow(time)}</tr>

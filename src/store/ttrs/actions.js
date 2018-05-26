@@ -5,6 +5,7 @@ export const SIGN_UP = 'SIGN_UP'
 export const CLEAR_STATE = 'CLEAR_STATE'
 export const CHANGE_TAB = 'CHANGE_TAB'
 export const GET_COLLEGE_LIST = 'GET_COLLEGE_LIST'
+export const GET_SEMESTER_LIST = 'GET_SEMESTER_LIST'
 export const CHANGE_DEPARTMENT_LIST = 'CHANGE_DEPARTMENT_LIST'
 export const CHANGE_MAJOR_LIST = 'CHANGE_MAJOR_LIST'
 export const SEARCH_LECTURE_REQUEST = 'SEARCH_LECTURE_REQUEST'
@@ -14,6 +15,16 @@ export const UPDATE_MY_TIME_TABLE_REQUEST = 'UPDATE_MY_TIME_TABLE_REQUEST'
 export const ADD_LECTURE_TO_MY_TIME_TABLE = 'ADD_LECTURE_TO_MY_TIME_TABLE'
 export const UPDATE_MY_TIME_TABLE_INFO = 'UPDATE_MY_TIME_TABLE_INFO'
 export const DELETE_LECTURE_FROM_MY_TIME_TABLE = 'DELETE_LECTURE_FROM_MY_TIME_TABLE'
+export const SWITCH_SEMESTER = 'SWITCH_SEMESTER'
+export const CREATE_BOOKMARKED_TIME_TABLES = 'CREATE_BOOKMARKED_TIME_TABLES'
+export const SELECT_BOOKMARKED_TIME_TABLE_REQUEST = 'SELECT_BOOKMARKED_TIME_TABLE_REQUEST'
+export const SELECT_BOOKMARKED_TIME_TABLE_RESPONSE = 'SELECT_BOOKMARKED_TIME_TABLE_RESPONSE'
+export const UPDATE_BOOKMARKED_TIME_TABLE_REQUEST = 'UPDATE_BOOKMARKED_TIME_TABLE_REQUEST'
+export const UPDATE_BOOKMARKED_TIME_TABLE_INFO = 'UPDATE_BOOKMARKED_TIME_TABLE_INFO'
+export const BOOKMARK_REQUEST = 'BOOKMARK_REQUEST'
+export const BOOKMARK_RESPONSE = 'BOOKMARK_RESPONSE'
+export const DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE = 'DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE'
+
 
 export const signInRequest = (username, password) => {
   return {
@@ -60,6 +71,13 @@ export const getCollegeList = (colleges) => {
   return {
     type: GET_COLLEGE_LIST,
     colleges,
+  }
+}
+
+export const getSemesterList = (semesters) => {
+  return {
+    type: GET_SEMESTER_LIST,
+    semesters,
   }
 }
 
@@ -125,5 +143,74 @@ export const deleteLectureFromMyTimeTable = (lectureId) => {
   return {
     type: DELETE_LECTURE_FROM_MY_TIME_TABLE,
     lectureId,
+  }
+}
+
+export const switchSemester = (newYear, newSemester) => {
+  return {
+    type: SWITCH_SEMESTER,
+    newYear,
+    newSemester,
+  }
+}
+
+export const createBookmarkedTimeTables = (bookmarkedTimeTables) => {
+  return {
+    type: CREATE_BOOKMARKED_TIME_TABLES,
+    bookmarkedTimeTables,
+  }
+}
+
+export const selectBookmarkedTimeTableRequest = (bookmarkedTimeTable) => {
+  return {
+    type: SELECT_BOOKMARKED_TIME_TABLE_REQUEST,
+    bookmarkedTimeTable,
+  }
+}
+
+export const selectBookmarkedTimeTableResponse = (bookmarkedTimeTable) => {
+  return {
+    type: SELECT_BOOKMARKED_TIME_TABLE_RESPONSE,
+    bookmarkedTimeTable,
+  }
+}
+
+export const updateBookmarkedTimeTableRequest = (index, timeTableId, updatedInfo, deleteLectureId) => {
+  return {
+    type: UPDATE_BOOKMARKED_TIME_TABLE_REQUEST,
+    index,
+    timeTableId,
+    updatedInfo,
+    deleteLectureId,
+  }
+}
+
+export const updateBookmarkedTimeTableInfo = (index, updatedInfo) => {
+  return {
+    type: UPDATE_BOOKMARKED_TIME_TABLE_INFO,
+    index,
+    updatedInfo,
+  }
+}
+
+export const bookmarkRequest = (timeTableId) => {
+  return {
+    type: BOOKMARK_REQUEST,
+    timeTableId,
+  }
+}
+
+export const bookmarkResponse = (bookmarkedTimeTable) => {
+  return {
+    type: BOOKMARK_RESPONSE,
+    bookmarkedTimeTable,
+  }
+}
+
+export const deleteLectureFromBookmarkedTimeTable = (index, deleteLectureId) => {
+  return {
+    type: DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE,
+    index,
+    deleteLectureId,
   }
 }

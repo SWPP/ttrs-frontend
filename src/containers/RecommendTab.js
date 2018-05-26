@@ -14,7 +14,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onUpdateMyTimeTable: (myTimeTableId, updatedInfo, newLectureId) => {
       dispatch(updateMyTimeTableRequest(myTimeTableId, updatedInfo, newLectureId))
-    }
+    },
   }
 }
 

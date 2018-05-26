@@ -25,6 +25,13 @@ export const initialTimeTable = {
     memo: '',
     lectures: [],
   },
+  bookmarkedTimeTable: {
+    id: null,
+    title: '',
+    memo: '',
+    lectures: [],
+  },
+  bookmarkedTimeTables: [],
 }
 
 export const initialSearch = {
@@ -44,4 +51,7 @@ export const initialState = {
   isMainPage: false,
   isSignUpPage: false,
   currentTab: RECOMMEND_TAB,
+  semesters: [],
+  year: null,
+  semester: null,
 }
