@@ -1,36 +1,36 @@
 import React from 'react'
 import ReactModal from 'react-modal'
 import Button from '../../atoms/Button'
-import Lecture from '../../atoms/Lecture'
-
 
 
 const TimeTable = ({ id, memo, title, lectures, onModifyMemo, onModifyTitle, onDeleteLecture }) => {
   class Popup extends React.Component {
-    constructor(lecture) {
+    constructor(lecture, onDeleteLecture) {
       super()
       this.state = {
         pop: false,
       }
 
-      this.handleOpenPopup = this.handleOpenPopup.bind(this);
-      this.handleClosePopup = this.handleClosePopup.bind(this);
+      this.handleOpenPopup = this.handleOpenPopup.bind(this)
+      this.handleClosePopup = this.handleClosePopup.bind(this)
+      this.deleteLecture = onDeleteLecture.bind(this)
       this.lecture = lecture.lecture
-      console.log(this.lecture)
+
+      console.log(this.lecture, onDeleteLecture)
     }
 
     handleOpenPopup() {
-      this.setState({ pop: true });
+      this.setState({ pop: true })
     }
 
     handleClosePopup() {
-      this.setState({ pop: false });
+      this.setState({ pop: false })
     }
 
     render() {
       return (
         <div>
-          <button onClick={this.handleOpenPopup}>{this.lecture.course.name}</button>
+          <button styles={{ height: '200px', width: '200px' }} onClick={this.handleOpenPopup}>{this.lecture.course.name}</button>
           <ReactModal isOpen={this.state.pop} contentLabel={'Modal'}>
             <p>{this.lecture.course.name}</p>
             <button onClick={() => onDeleteLecture(this.lecture.id)}>Delete</button>
@@ -60,22 +60,25 @@ const TimeTable = ({ id, memo, title, lectures, onModifyMemo, onModifyTitle, onD
     onModifyTitle(titleContent.value)
   }
 
-  function overlap(time, start, end) {
-    let t = time.split(':').map((i) => Number(i))
-    t = t[0] * 100 + 5*(t[1]/3)
-    let s = start.split(':').map((i) => Number(i))
-    s = s[0] * 100 + 5*(s[1]/3)
-    let e = end.split(':').map((i) => Number(i))
-    e = e[0] * 100 + 5*(e[1]/3)
+  function overlap(_time, _start, _end) {
+    let time = _time.split(':').map((i) => Number(i))
+    time = time[0] * 60 + time[1]
 
-    if ((t <= s && s < t + 50) || (s < t && t < e) ||(t <= e && e <= t + 50)) {
+    let start = _start.split(':').map((i) => Number(i))
+    start = start[0] * 60 + start[1]
+
+    let end = _end.split(':').map((i) => Number(i))
+    end = end[0] * 60 + end[1]
+
+    if (time < end && start < time + 30) {
       return true
     }
     return false
   }
 
   function hasLecture(lectures, day, time) {
-    let i, j
+    let i
+    let j
     for (i = 0; i < lectures.length; ++i) {
       const timeSlots = lectures[i].timeSlots
       for (j = 0; j < timeSlots.length; ++j) {
@@ -91,14 +94,6 @@ const TimeTable = ({ id, memo, title, lectures, onModifyMemo, onModifyTitle, onD
     return -1
   }
 
-
-  function popLectureInfo(idx) {
-    const lecture = lectures[idx]
-    console.log(lecture)
-    const info = `<${lecture.course.name}>의 정보...`
-    alert(info)
-  }
-
   function createTimeSlot(day, time) {
     const lec = hasLecture(lectures, day, time)
     if (lec >= 0) {
@@ -109,7 +104,7 @@ const TimeTable = ({ id, memo, title, lectures, onModifyMemo, onModifyTitle, onD
       )
     }
 
-    return (<td><button /></td>)
+    return (<td><button styles={{ height: '200px', width: '200px' }} /></td>)
   }
 
 
