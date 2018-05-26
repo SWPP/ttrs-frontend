@@ -3,7 +3,7 @@ import ReactModal from 'react-modal'
 import Button from '../../atoms/Button'
 
 
-const TimeTable = ({ id, memo, title, lectures, onModifyMemo, onModifyTitle, onDeleteLecture }) => {
+const TimeTable = ({ id, memo, title, lectures, canDeleteLecture, onModifyContent, onDeleteLecture, onBookmark }) => {
   class Popup extends React.Component {
     constructor(lecture/* , onDeleteLecture */) {
       super()
@@ -134,6 +134,7 @@ const TimeTable = ({ id, memo, title, lectures, onModifyMemo, onModifyTitle, onD
       <input ref={node => { titleContent = node }} placeholder={'title'} />
       <Button type="submit" onClick={onSubmitTitle}>Modify Title</Button> <br />
       <h2>{titleContent}</h2>
+      <Button type="submit" onClick={() => onBookmark(id)}>Bookmark</Button> <br />
       {createTimeTable()}
       <br />
       <input ref={node => { memoContent = node }} placeholder={'memo'} />
