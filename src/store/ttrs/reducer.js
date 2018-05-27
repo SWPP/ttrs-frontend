@@ -47,7 +47,6 @@ const belongInfo = (state = [], action) => {
 
 const timeTable = (state = [], action) => {
   let bookmarkedTimeTables
-  let receivedTimeTables
   let lectures
   switch (action.type) {
     case actions.CREATE_MY_TIME_TABLE:
