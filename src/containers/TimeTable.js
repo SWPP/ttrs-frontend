@@ -4,6 +4,7 @@ import { bookmarkRequest, sendTimeTable } from '../store/ttrs/actions'
 
 const mapStateToProps = (state, props) => {
   return {
+    username: state.ttrs.studentInfo.username,
     ...props,
   }
 }

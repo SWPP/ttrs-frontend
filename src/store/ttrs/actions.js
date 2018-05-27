@@ -25,6 +25,9 @@ export const BOOKMARK_REQUEST = 'BOOKMARK_REQUEST'
 export const BOOKMARK_RESPONSE = 'BOOKMARK_RESPONSE'
 export const DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE = 'DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE'
 export const SEND_TIME_TABLE = 'SEND_TIME_TABLE'
+export const CREATE_RECEIVED_TIME_TABLES = 'CREATE_RECEIVED_TIME_TABLES'
+export const SELECT_RECEIVED_TIME_TABLE_REQUEST = 'SELECT_RECEIVED_TIME_TABLE_REQUEST'
+export const SELECT_RECEIVED_TIME_TABLE_RESPONSE = 'SELECT_RECEIVED_TIME_TABLE_RESPONSE'
 
 
 export const signInRequest = (username, password) => {
@@ -220,5 +223,26 @@ export const sendTimeTable = (sendInfo) => {
   return {
     type: SEND_TIME_TABLE,
     sendInfo,
+  }
+}
+
+export const createReceivedTimeTables = (receivedTimeTables) => {
+  return {
+    type: CREATE_RECEIVED_TIME_TABLES,
+    receivedTimeTables,
+  }
+}
+
+export const selectReceivedTimeTableRequest = (receivedTimeTable) => {
+  return {
+    type: SELECT_RECEIVED_TIME_TABLE_REQUEST,
+    receivedTimeTable,
+  }
+}
+
+export const selectReceivedTimeTableResponse = (receivedTimeTable) => {
+  return {
+    type: SELECT_RECEIVED_TIME_TABLE_RESPONSE,
+    receivedTimeTable,
   }
 }

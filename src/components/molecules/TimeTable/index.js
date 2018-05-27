@@ -3,7 +3,7 @@ import Button from '../../atoms/Button'
 import Lecture from '../../atoms/Lecture'
 
 
-const TimeTable = ({ id, memo, title, lectures, canDeleteLecture, onModifyContent, onDeleteLecture, onBookmark, onSendTimeTable }) => {
+const TimeTable = ({ username, id, memo, title, lectures, canModify, onModifyContent, onDeleteLecture, onBookmark, onSendTimeTable }) => {
   let titleContent = title
   let memoContent = memo
   let inputReceiverName
@@ -27,6 +27,10 @@ const TimeTable = ({ id, memo, title, lectures, canDeleteLecture, onModifyConten
       console.log('There is no TimeTable')
       return
     }
+    if (username === inputReceiverName.value) {
+      console.log('Can not send TimeTable to you')
+      return
+    }
     const sendInfo = {
       timeTableId: id,
       receiverName: inputReceiverName.value,
@@ -36,8 +40,8 @@ const TimeTable = ({ id, memo, title, lectures, canDeleteLecture, onModifyConten
 
   return (
     <div>
-      <input ref={node => { titleContent = node }} placeholder={'title'} />
-      <Button type="submit" onClick={onSubmitTitle}>Modify Title</Button> <br />
+      { canModify && <input ref={node => { titleContent = node }} placeholder={'title'} /> }
+      { canModify && <Button type="submit" onClick={onSubmitTitle}>Modify Title</Button> } <br />
       <h2>{titleContent}</h2>
       <Button type="submit" onClick={() => onBookmark(id)}>Bookmark</Button> <br />
       <input ref={node => { inputReceiverName = node }} placeholder={'username'} />
@@ -48,15 +52,15 @@ const TimeTable = ({ id, memo, title, lectures, canDeleteLecture, onModifyConten
           <Lecture
             {...lecture}
           />
-          { canDeleteLecture &&
+          { canModify &&
           <Button
             type="submit"
             onClick={() => onDeleteLecture(lecture.id)}
           >Delete</Button> }
         </div>
       )} <br />
-      <input ref={node => { memoContent = node }} placeholder={'memo'} />
-      <Button type="submit" onClick={onSubmitMemo}>Modify Memo</Button> <br />
+      { canModify && <input ref={node => { memoContent = node }} placeholder={'memo'} /> }
+      { canModify && <Button type="submit" onClick={onSubmitMemo}>Modify Memo</Button> } <br />
       {memoContent}
     </div>
   )

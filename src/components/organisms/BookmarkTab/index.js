@@ -13,7 +13,7 @@ const BookmarkTab = ({ isMainPage, currentTab, myTimeTable, bookmarkedTimeTables
           onModifyContent={(content) => onUpdateMyTimeTable(myTimeTable.id, content, null)}
           onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, myTimeTable) }, -lectureId)}
           {...myTimeTable}
-          canDeleteLecture
+          canModify
         />
         <hr />
         <select
@@ -31,7 +31,7 @@ const BookmarkTab = ({ isMainPage, currentTab, myTimeTable, bookmarkedTimeTables
           onModifyContent={(content) => onUpdateBookmarkedTimeTable(inputBookmarkedTimeTableIndex.value, bookmarkedTimeTable.id, content, null)}
           onDeleteLecture={(lectureId) => onUpdateBookmarkedTimeTable(inputBookmarkedTimeTableIndex.value, bookmarkedTimeTable.id, { lectures: getLectureIdsWithout(lectureId, bookmarkedTimeTable) }, lectureId)}
           {...bookmarkedTimeTable}
-          canDeleteLecture
+          canModify
         />
       </div>
     )

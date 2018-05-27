@@ -47,6 +47,7 @@ const belongInfo = (state = [], action) => {
 
 const timeTable = (state = [], action) => {
   let bookmarkedTimeTables
+  let receivedTimeTables
   let lectures
   switch (action.type) {
     case actions.CREATE_MY_TIME_TABLE:
@@ -114,6 +115,19 @@ const timeTable = (state = [], action) => {
           ...timeTable,
         })),
         bookmarkedTimeTable: bookmarkedTimeTables[action.index],
+      }
+    case actions.CREATE_RECEIVED_TIME_TABLES:
+      return {
+        ...state,
+        receivedTimeTables: action.receivedTimeTables.map((timeTable) => ({
+          ...timeTable,
+        })),
+        receivedTimeTable: action.receivedTimeTables.length === 0 ? state.receivedTimeTable : action.receivedTimeTables[0],
+      }
+    case actions.SELECT_RECEIVED_TIME_TABLE_RESPONSE:
+      return {
+        ...state,
+        receivedTimeTable: action.receivedTimeTable,
       }
     case actions.BOOKMARK_RESPONSE:
       bookmarkedTimeTables = state.bookmarkedTimeTables.map((timeTable) => ({
@@ -197,7 +211,7 @@ const ttrsReducer = (state = initialState, action) => {
     case actions.CHANGE_TAB:
       return {
         ...state,
-        currentTab: action.tab
+        currentTab: action.tab,
       }
     default:
       return {
