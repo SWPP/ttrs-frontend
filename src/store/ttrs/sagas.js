@@ -274,6 +274,15 @@ function* bookmark(timeTableId) {
   }
 }
 
+function* sendTimeTable(sendInfo) {
+  try {
+    const response = yield call(axios.post, 'ttrs/time-tables/send/', sendInfo, config)
+    console.log('send Time Table response', response)
+  } catch (error) {
+    console.log('send Time Table error', error.response)
+  }
+}
+
 function* watchSignIn() {
   while (true) {
     const { username, password } = yield take(actions.SIGN_IN_REQUEST)
@@ -330,6 +339,13 @@ function* watchBookmark() {
   }
 }
 
+function* watchSendTimeTable() {
+  while (true) {
+    const { sendInfo } = yield take(actions.SEND_TIME_TABLE)
+    yield call(sendTimeTable, sendInfo)
+  }
+}
+
 export default function* () {
   yield call(getInitialInfo)
   yield fork(watchSignIn)
@@ -340,4 +356,5 @@ export default function* () {
   yield fork(watchSelectBookmarkedTimeTable)
   yield fork(watchUpdateBookmarkedTimeTable)
   yield fork(watchBookmark)
+  yield fork(watchSendTimeTable)
 }

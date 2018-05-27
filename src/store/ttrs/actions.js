@@ -24,6 +24,7 @@ export const UPDATE_BOOKMARKED_TIME_TABLE_INFO = 'UPDATE_BOOKMARKED_TIME_TABLE_I
 export const BOOKMARK_REQUEST = 'BOOKMARK_REQUEST'
 export const BOOKMARK_RESPONSE = 'BOOKMARK_RESPONSE'
 export const DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE = 'DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE'
+export const SEND_TIME_TABLE = 'SEND_TIME_TABLE'
 
 
 export const signInRequest = (username, password) => {
@@ -212,5 +213,12 @@ export const deleteLectureFromBookmarkedTimeTable = (index, deleteLectureId) => 
     type: DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE,
     index,
     deleteLectureId,
+  }
+}
+
+export const sendTimeTable = (sendInfo) => {
+  return {
+    type: SEND_TIME_TABLE,
+    sendInfo,
   }
 }
