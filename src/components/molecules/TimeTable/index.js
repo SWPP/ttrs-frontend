@@ -48,18 +48,15 @@ const TimeTable = ({ username, id, memo, title, lectures, canModify, canCopyToMy
     let end = _end.split(':').map((i) => Number(i))
     end = end[0] * 60 + end[1]
 
-    if (time < end && start < time + 30) {
-      return true
-    }
-    return false
+    return time < end && start < (time + 30)
   }
 
   function hasLecture(lectures, day, time) {
     let i
     let j
-    for (i = 0; i < lectures.length; ++i) {
+    for (i = 0; i < lectures.length; i += 1) {
       const timeSlots = lectures[i].timeSlots
-      for (j = 0; j < timeSlots.length; ++j) {
+      for (j = 0; j < timeSlots.length; j += 1) {
         const timeSlot = timeSlots[j]
         const d = timeSlot.dayOfWeek
         const s = timeSlot.startTime
@@ -81,18 +78,15 @@ const TimeTable = ({ username, id, memo, title, lectures, canModify, canCopyToMy
     let start = _start.split(':').map((i) => Number(i))
     start = start[0] * 60 + start[1]
 
-    if (time <= start && start < time + 30) {
-      return true
-    }
-    return false
+    return time <= start && start < (time + 30)
   }
 
   function isLectureStart(lectures, day, time) {
     let i
     let j
-    for (i = 0; i < lectures.length; ++i) {
+    for (i = 0; i < lectures.length; i += 1) {
       const timeSlots = lectures[i].timeSlots
-      for (j = 0; j < timeSlots.length; ++j) {
+      for (j = 0; j < timeSlots.length; j += 1) {
         const timeSlot = timeSlots[j]
 
         const d = timeSlot.dayOfWeek
@@ -111,11 +105,9 @@ const TimeTable = ({ username, id, memo, title, lectures, canModify, canCopyToMy
     let i
 
     const timeSlots = lecture.timeSlots
-    console.log(timeSlots)
 
-    for (i = 0; i < timeSlots.length; ++i) {
+    for (i = 0; i < timeSlots.length; i += 1) {
       const timeSlot = timeSlots[i]
-      console.log('timeSlot', timeSlot)
 
       if (timeSlot.dayOfWeek === day) {
         const s = timeSlot.startTime
@@ -139,39 +131,34 @@ const TimeTable = ({ username, id, memo, title, lectures, canModify, canCopyToMy
       if (lectureIndex >= 0) {
         const span = getRowSpan(lectures[lectureIndex], day)
         return (
-          <td key={day + time.toString()} style={{border: '1px solid black'}} rowSpan={span}>
-            <LecturePopup props={{lecture: lectures[lectureIndex], height: span, deleteLecture: onDeleteLecture}}/>
+          <td style={{border: '1px solid black'}} rowSpan={span}>
+            <LecturePopup props={{ lecture: lectures[lectureIndex], height: span, deleteLecture: onDeleteLecture }} />
           </td>
         )
-      } else {
-        // return <td key={day + time.toString()}>&nbsp;</td>
-        return null
       }
+      return null
     }
 
-    return (<td key={day + time.toString()} style={{ border: '1px solid black', width: '200px', height: '30px' }} />)
+    return (<td style={{ border: '1px solid black', width: '200px', height: '30px' }} />)
   }
-
 
   function createRow(time) {
     return ['월', '화', '수', '목', '금', '토'].map((day) => createTimeSlot(day, time))
   }
 
   function createTimeTable() {
-    const tableHeader = (
+    return (
       <table>
         <tbody>
           <tr><th>Time</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thr</th><th>Fri</th><th>Sat</th></tr>
           {['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
             '13:30', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
             '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30'].map((time) => (
-              <tr><td key={time}>{time}</td>{createRow(time)}</tr>
+              <tr><td>{time}</td>{createRow(time)}</tr>
           ))}
         </tbody>
       </table>
     )
-
-    return tableHeader
   }
 
   return (
