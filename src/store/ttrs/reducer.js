@@ -159,7 +159,7 @@ const timeTable = (state = [], action) => {
         receivedTimeTables: action.receivedTimeTables.map((timeTable) => ({
           ...timeTable,
         })),
-        receivedTimeTable: action.receivedTimeTables.length === 0 ? state.receivedTimeTable : action.receivedTimeTables[0],
+        receivedTimeTable: action.receivedTimeTables.length === 0 ? initialTimeTable.receivedTimeTable : action.receivedTimeTables[0],
       }
     case actions.SELECT_RECEIVED_TIME_TABLE_RESPONSE:
       return {

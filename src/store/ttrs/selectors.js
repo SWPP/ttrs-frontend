@@ -37,6 +37,7 @@ export const initialTimeTable = {
     title: '',
     memo: '',
     lectures: [],
+    sender: null,
   },
   receivedTimeTables: [],
 }

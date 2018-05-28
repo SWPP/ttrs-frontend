@@ -29,6 +29,7 @@ const ReceiveTab = ({ isMainPage, currentTab, myTimeTable, receivedTimeTables, r
             >{value.title}</option>
           )}
         </select>
+        <h2>sender: {receivedTimeTable.sender}</h2>
         <TimeTable
           {...receivedTimeTable}
           canModify={false}
