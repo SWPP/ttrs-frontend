@@ -30,6 +30,7 @@ export const SELECT_RECEIVED_TIME_TABLE_REQUEST = 'SELECT_RECEIVED_TIME_TABLE_RE
 export const SELECT_RECEIVED_TIME_TABLE_RESPONSE = 'SELECT_RECEIVED_TIME_TABLE_RESPONSE'
 export const COPY_TO_MY_TIME_TABLE_REQUEST = 'COPY_TO_MY_TIME_TABLE_REQUEST'
 export const COPY_TO_MY_TIME_TABLE_RESPONSE = 'COPY_TO_MY_TIME_TABLE_RESPONSE'
+export const CHANGE_PASSWORD = 'CHANGE_PASSWORD'
 
 
 export const signInRequest = (username, password) => {
@@ -262,5 +263,12 @@ export const copyToMyTimeTableResponse = (myTimeTable) => {
   return {
     type: COPY_TO_MY_TIME_TABLE_RESPONSE,
     myTimeTable,
+  }
+}
+
+export const changePassword = (password) => {
+  return {
+    type: CHANGE_PASSWORD,
+    password,
   }
 }

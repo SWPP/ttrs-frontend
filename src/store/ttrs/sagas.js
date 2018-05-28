@@ -110,6 +110,7 @@ function* signIn(username, password) {
   try {
     const response = yield call(axios.get, 'ttrs/students/my/', config)
     console.log('signIn response', response)
+    response.data.password = password
     yield put(actions.signInResponse(response.data))
   } catch (error) {
     console.log('signIn error', error.response)
@@ -333,7 +334,7 @@ function* selectReceivedTimeTable(receivedTimeTable, index) {
 
 function* copyToMyTimeTable(timeTableId) {
   try {
-    const copyToMyResponse = yield call(axios.post, '/ttrs/time-tables/copy-to-my/', { timeTableId }, config)
+    const copyToMyResponse = yield call(axios.post, 'ttrs/time-tables/copy-to-my/', { timeTableId }, config)
     console.log('copyToMy response', copyToMyResponse)
     const getMyTimeTableResponse = yield call(axios.get, `ttrs/my-time-tables/${copyToMyResponse.data.createdTimeTable}/`, config)
     const lectures = []
@@ -345,6 +346,16 @@ function* copyToMyTimeTable(timeTableId) {
     yield put(actions.copyToMyTimeTableResponse(getMyTimeTableResponse.data))
   } catch (error) {
     console.log('copyToMy error', error.response)
+  }
+}
+
+function* changePassword(password) {
+  try {
+    const response = yield call(axios.patch, 'ttrs/students/my/', { password }, config)
+    console.log('change password response', response)
+    yield put(actions.clearState())
+  } catch (error) {
+    console.log('change password error', error.response)
   }
 }
 
@@ -425,6 +436,13 @@ function* watchCopyToMyTimeTable() {
   }
 }
 
+function* watchChangePassword() {
+  while (true) {
+    const { password } = yield take(actions.CHANGE_PASSWORD)
+    yield call(changePassword, password)
+  }
+}
+
 export default function* () {
   yield call(getInitialInfo)
   yield fork(watchSignIn)
@@ -438,4 +456,5 @@ export default function* () {
   yield fork(watchSendTimeTable)
   yield fork(watchSelectReceivedTimeTable)
   yield fork(watchCopyToMyTimeTable)
+  yield fork(watchChangePassword)
 }
