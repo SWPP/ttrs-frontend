@@ -67,6 +67,24 @@ function* getBookmarkedTimeTables(response) {
   yield put(actions.createBookmarkedTimeTables(bookmarkedTimeTables))
 }
 
+function* getReceivedTimeTables(response) {
+  let receivedTimeTables = []
+  if (response.data.length !== 0) {
+    receivedTimeTables = response.data.map((timeTable) => ({
+      ...timeTable,
+    }))
+    const receiveResponse = yield call(axios.get, `ttrs/received-time-tables/${receivedTimeTables[0].id}/receive/`, config)
+    console.log('receiveResponse', receiveResponse)
+    receivedTimeTables[0].lectures = []
+    receivedTimeTables[0].receivedAt = receiveResponse.data.receivedAt
+    for (let i = 0; i < response.data[0].lectures.length; i += 1) {
+      const lectureResponse = yield call(axios.get, `ttrs/lectures/${response.data[0].lectures[i]}/`, config)
+      receivedTimeTables[0].lectures.push(lectureResponse.data)
+    }
+  }
+  yield put(actions.createReceivedTimeTables(receivedTimeTables))
+}
+
 function* getInitialInfo() {
   try {
     const response = yield call(axios.get, 'ttrs/colleges/', config)
@@ -92,6 +110,7 @@ function* signIn(username, password) {
   try {
     const response = yield call(axios.get, 'ttrs/students/my/', config)
     console.log('signIn response', response)
+    response.data.password = password
     yield put(actions.signInResponse(response.data))
   } catch (error) {
     console.log('signIn error', error.response)
@@ -117,6 +136,13 @@ function* signIn(username, password) {
   } catch (error) {
     console.log('getCurrent Bookmarked TimeTables error', error.response)
   }
+  try {
+    const response = yield call(axios.get, updateURLParams('ttrs/received-time-tables/', params), config)
+    console.log('getCurrent Received TimeTables response', response)
+    yield call(getReceivedTimeTables, response)
+  } catch (error) {
+    console.log('getCurrent Received TimeTables error', error.response)
+  }
 }
 
 function* signUp(studentInfo) {
@@ -132,7 +158,7 @@ function* signUp(studentInfo) {
 function* searchLecture(courseName) {
   try {
     const params = {
-      'course.name.contains': courseName,
+      'course.name.abbrev': courseName,
       year,
       semester,
     }
@@ -212,6 +238,9 @@ function* switchSemester(newYear, newSemester) {
     const bookmarkedTimeTableResponse = yield call(axios.get, updateURLParams('ttrs/bookmarked-time-tables/', params), config)
     console.log('getCurrent bookmarkedTimeTable response', bookmarkedTimeTableResponse)
     yield call(getBookmarkedTimeTables, bookmarkedTimeTableResponse)
+    const receivedTimeTableResponse = yield call(axios.get, updateURLParams('ttrs/received-time-tables/', params), config)
+    console.log('getCurrent receivedTimeTable response', receivedTimeTableResponse)
+    yield call(getReceivedTimeTables, receivedTimeTableResponse)
     yield put(actions.searchLectureResponse([]))
   } catch (error) {
     console.log('switchSemester error', error.response)
@@ -274,6 +303,82 @@ function* bookmark(timeTableId) {
   }
 }
 
+function* sendTimeTable(sendInfo) {
+  try {
+    const response = yield call(axios.post, 'ttrs/time-tables/send/', sendInfo, config)
+    console.log('send Time Table response', response)
+  } catch (error) {
+    console.log('send Time Table error', error.response)
+  }
+}
+
+function* selectReceivedTimeTable(receivedTimeTable, index) {
+  const lectures = []
+  try {
+    for (let i = 0; i < receivedTimeTable.lectures.length; i += 1) {
+      const response = yield call(axios.get, `ttrs/lectures/${receivedTimeTable.lectures[i]}/`, config)
+      lectures.push(response.data)
+    }
+    receivedTimeTable.lectures = [
+      ...lectures,
+    ]
+    const receiveResponse = yield call(axios.get, `ttrs/received-time-tables/${receivedTimeTable.id}/receive/`, config)
+    console.log('receiveResponse', receiveResponse)
+    receivedTimeTable.receivedAt = receiveResponse.data.receivedAt
+    yield put(actions.selectReceivedTimeTableResponse(receivedTimeTable, index))
+  } catch (error) {
+    // Error happens when receivedTimeTable.lectures is list of Lecture Info (already updated)
+    yield put(actions.selectReceivedTimeTableResponse(receivedTimeTable, index))
+  }
+}
+
+function* copyToMyTimeTable(timeTableId) {
+  try {
+    const copyToMyResponse = yield call(axios.post, 'ttrs/time-tables/copy-to-my/', { timeTableId }, config)
+    console.log('copyToMy response', copyToMyResponse)
+    const getMyTimeTableResponse = yield call(axios.get, `ttrs/my-time-tables/${copyToMyResponse.data.createdTimeTable}/`, config)
+    const lectures = []
+    for (let i = 0; i < getMyTimeTableResponse.data.lectures.length; i += 1) {
+      const response = yield call(axios.get, `ttrs/lectures/${getMyTimeTableResponse.data.lectures[i]}/`, config)
+      lectures.push(response.data)
+    }
+    getMyTimeTableResponse.data.lectures = lectures
+    yield put(actions.copyToMyTimeTableResponse(getMyTimeTableResponse.data))
+  } catch (error) {
+    console.log('copyToMy error', error.response)
+  }
+}
+
+function* changePassword(password) {
+  try {
+    const response = yield call(axios.patch, 'ttrs/students/my/', { password }, config)
+    console.log('change password response', response)
+    yield put(actions.clearState())
+  } catch (error) {
+    console.log('change password error', error.response)
+  }
+}
+
+function* withdraw() {
+  try {
+    yield call(axios.delete, 'ttrs/students/my/', config)
+    yield put(actions.clearState())
+  } catch (error) {
+    console.log('failed to withdraw')
+  }
+}
+
+function* deleteTimeTable(timeTableId, timeTableType) {
+  if (timeTableType === 'my') {
+    try {
+      yield call(axios.delete, `ttrs/my-time-tables/${timeTableId}/`, config)
+      yield put(actions.deleteMyTimeTable())
+    } catch (error) {
+      console.log('failed to delete my time table')
+    }
+  }
+}
+
 function* watchSignIn() {
   while (true) {
     const { username, password } = yield take(actions.SIGN_IN_REQUEST)
@@ -330,6 +435,48 @@ function* watchBookmark() {
   }
 }
 
+function* watchSendTimeTable() {
+  while (true) {
+    const { sendInfo } = yield take(actions.SEND_TIME_TABLE)
+    yield call(sendTimeTable, sendInfo)
+  }
+}
+
+function* watchSelectReceivedTimeTable() {
+  while (true) {
+    const { receivedTimeTable, index } = yield take(actions.SELECT_RECEIVED_TIME_TABLE_REQUEST)
+    yield call(selectReceivedTimeTable, receivedTimeTable, index)
+  }
+}
+
+function* watchCopyToMyTimeTable() {
+  while (true) {
+    const { timeTableId } = yield take(actions.COPY_TO_MY_TIME_TABLE_REQUEST)
+    yield call(copyToMyTimeTable, timeTableId)
+  }
+}
+
+function* watchChangePassword() {
+  while (true) {
+    const { password } = yield take(actions.CHANGE_PASSWORD)
+    yield call(changePassword, password)
+  }
+}
+
+function* watchWithdraw() {
+  while (true) {
+    yield take(actions.WITHDRAW)
+    yield call(withdraw)
+  }
+}
+
+function* watchDeleteTimeTable() {
+  while (true) {
+    const { timeTableId, timeTableType } = yield take(actions.DELETE_TIME_TABLE)
+    yield call(deleteTimeTable, timeTableId, timeTableType)
+  }
+}
+
 export default function* () {
   yield call(getInitialInfo)
   yield fork(watchSignIn)
@@ -340,4 +487,10 @@ export default function* () {
   yield fork(watchSelectBookmarkedTimeTable)
   yield fork(watchUpdateBookmarkedTimeTable)
   yield fork(watchBookmark)
+  yield fork(watchSendTimeTable)
+  yield fork(watchSelectReceivedTimeTable)
+  yield fork(watchCopyToMyTimeTable)
+  yield fork(watchChangePassword)
+  yield fork(watchWithdraw)
+  yield fork(watchDeleteTimeTable)
 }

@@ -21,7 +21,7 @@ export const getLectureIdsWithout = (lectureId, timeTable) => {
   return lectureIds
 }
 
-const RecommendTab = ({ isMainPage, currentTab, myTimeTable, onUpdateMyTimeTable }) => {
+const RecommendTab = ({ isMainPage, currentTab, myTimeTable, onUpdateMyTimeTable, onDeleteTimeTable }) => {
   if (isMainPage && currentTab === RECOMMEND_TAB) {
     return (
       <div>
@@ -29,11 +29,14 @@ const RecommendTab = ({ isMainPage, currentTab, myTimeTable, onUpdateMyTimeTable
           onAddLecture={(newLectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIds(myTimeTable) }, newLectureId)}
         />
         <hr />
+        <h1>My TimeTable</h1>
         <TimeTable
           onModifyContent={(content) => onUpdateMyTimeTable(myTimeTable.id, content, null)}
           onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, myTimeTable) }, -lectureId)}
           {...myTimeTable}
-          canDeleteLecture
+          canModify
+          canCopyToMy={false}
+          onDeleteTimeTable={(timeTableId) => onDeleteTimeTable(timeTableId, 'my')}
         />
       </div>
     )

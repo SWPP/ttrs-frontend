@@ -24,6 +24,16 @@ export const UPDATE_BOOKMARKED_TIME_TABLE_INFO = 'UPDATE_BOOKMARKED_TIME_TABLE_I
 export const BOOKMARK_REQUEST = 'BOOKMARK_REQUEST'
 export const BOOKMARK_RESPONSE = 'BOOKMARK_RESPONSE'
 export const DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE = 'DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE'
+export const SEND_TIME_TABLE = 'SEND_TIME_TABLE'
+export const CREATE_RECEIVED_TIME_TABLES = 'CREATE_RECEIVED_TIME_TABLES'
+export const SELECT_RECEIVED_TIME_TABLE_REQUEST = 'SELECT_RECEIVED_TIME_TABLE_REQUEST'
+export const SELECT_RECEIVED_TIME_TABLE_RESPONSE = 'SELECT_RECEIVED_TIME_TABLE_RESPONSE'
+export const COPY_TO_MY_TIME_TABLE_REQUEST = 'COPY_TO_MY_TIME_TABLE_REQUEST'
+export const COPY_TO_MY_TIME_TABLE_RESPONSE = 'COPY_TO_MY_TIME_TABLE_RESPONSE'
+export const CHANGE_PASSWORD = 'CHANGE_PASSWORD'
+export const WITHDRAW = 'WITHDRAW'
+export const DELETE_TIME_TABLE = 'DELETE_TIME_TABLE'
+export const DELETE_MY_TIME_TABLE = 'DELETE_MY_TIME_TABLE'
 
 
 export const signInRequest = (username, password) => {
@@ -212,5 +222,76 @@ export const deleteLectureFromBookmarkedTimeTable = (index, deleteLectureId) => 
     type: DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE,
     index,
     deleteLectureId,
+  }
+}
+
+export const sendTimeTable = (sendInfo) => {
+  return {
+    type: SEND_TIME_TABLE,
+    sendInfo,
+  }
+}
+
+export const createReceivedTimeTables = (receivedTimeTables) => {
+  return {
+    type: CREATE_RECEIVED_TIME_TABLES,
+    receivedTimeTables,
+  }
+}
+
+export const selectReceivedTimeTableRequest = (receivedTimeTable, index) => {
+  return {
+    type: SELECT_RECEIVED_TIME_TABLE_REQUEST,
+    receivedTimeTable,
+    index,
+  }
+}
+
+export const selectReceivedTimeTableResponse = (receivedTimeTable, index) => {
+  return {
+    type: SELECT_RECEIVED_TIME_TABLE_RESPONSE,
+    receivedTimeTable,
+    index,
+  }
+}
+
+export const copyToMyTimeTableRequest = (timeTableId) => {
+  return {
+    type: COPY_TO_MY_TIME_TABLE_REQUEST,
+    timeTableId,
+  }
+}
+
+export const copyToMyTimeTableResponse = (myTimeTable) => {
+  return {
+    type: COPY_TO_MY_TIME_TABLE_RESPONSE,
+    myTimeTable,
+  }
+}
+
+export const changePassword = (password) => {
+  return {
+    type: CHANGE_PASSWORD,
+    password,
+  }
+}
+
+export const withdraw = () => {
+  return {
+    type: WITHDRAW,
+  }
+}
+
+export const deleteTimeTable = (timeTableId, timeTableType) => {
+  return {
+    type: DELETE_TIME_TABLE,
+    timeTableId,
+    timeTableType,
+  }
+}
+
+export const deleteMyTimeTable = () => {
+  return {
+    type: DELETE_MY_TIME_TABLE,
   }
 }

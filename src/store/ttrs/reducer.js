@@ -1,4 +1,4 @@
-import { initialState } from './selectors'
+import { initialState, initialTimeTable } from './selectors'
 import * as actions from './actions'
 
 const studentInfo = (state = [], action) => {
@@ -47,6 +47,7 @@ const belongInfo = (state = [], action) => {
 
 const timeTable = (state = [], action) => {
   let bookmarkedTimeTables
+  let receivedTimeTables
   let lectures
   switch (action.type) {
     case actions.CREATE_MY_TIME_TABLE:
@@ -90,10 +91,8 @@ const timeTable = (state = [], action) => {
     case actions.CREATE_BOOKMARKED_TIME_TABLES:
       return {
         ...state,
-        bookmarkedTimeTables: action.bookmarkedTimeTables.map((timeTable) => ({
-          ...timeTable,
-        })),
-        bookmarkedTimeTable: action.bookmarkedTimeTables.length === 0 ? state.bookmarkedTimeTable : action.bookmarkedTimeTables[0],
+        bookmarkedTimeTables: [...action.bookmarkedTimeTables],
+        bookmarkedTimeTable: action.bookmarkedTimeTables.length === 0 ? initialTimeTable.bookmarkedTimeTable : action.bookmarkedTimeTables[0],
       }
     case actions.SELECT_BOOKMARKED_TIME_TABLE_RESPONSE:
       return {
@@ -101,31 +100,23 @@ const timeTable = (state = [], action) => {
         bookmarkedTimeTable: action.bookmarkedTimeTable,
       }
     case actions.UPDATE_BOOKMARKED_TIME_TABLE_INFO:
-      bookmarkedTimeTables = state.bookmarkedTimeTables.map((timeTable) => ({
-        ...timeTable,
-      }))
+      bookmarkedTimeTables = [...state.bookmarkedTimeTables]
       bookmarkedTimeTables[action.index] = {
         ...state.bookmarkedTimeTable,
         ...action.updatedInfo,
       }
       return {
         ...state,
-        bookmarkedTimeTables: bookmarkedTimeTables.map((timeTable) => ({
-          ...timeTable,
-        })),
+        bookmarkedTimeTables: [...bookmarkedTimeTables],
         bookmarkedTimeTable: bookmarkedTimeTables[action.index],
       }
     case actions.BOOKMARK_RESPONSE:
-      bookmarkedTimeTables = state.bookmarkedTimeTables.map((timeTable) => ({
-        ...timeTable,
-      }))
+      bookmarkedTimeTables = [...state.bookmarkedTimeTables]
       bookmarkedTimeTables.push(action.bookmarkedTimeTable)
       return {
         ...state,
-        bookmarkedTimeTables: bookmarkedTimeTables.map((timeTable) => ({
-          ...timeTable,
-        })),
-        bookmarkedTimeTable: action.bookmarkedTimeTable,
+        bookmarkedTimeTables: [...bookmarkedTimeTables],
+        bookmarkedTimeTable: bookmarkedTimeTables.length === 1 ? action.bookmarkedTimeTable : state.bookmarkedTimeTable,
       }
     case actions.DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE:
       lectures = []
@@ -134,24 +125,46 @@ const timeTable = (state = [], action) => {
           lectures.push(lecture)
         }
       })
-      bookmarkedTimeTables = state.bookmarkedTimeTables.map((timeTable) => ({
-        ...timeTable,
-      }))
+      bookmarkedTimeTables = [...state.bookmarkedTimeTables]
       bookmarkedTimeTables[action.index] = {
         ...state.bookmarkedTimeTable,
         lectures,
       }
       return {
         ...state,
-        bookmarkedTimeTables: bookmarkedTimeTables.map((timeTable) => ({
-          ...timeTable,
-        })),
+        bookmarkedTimeTables: [...bookmarkedTimeTables],
         bookmarkedTimeTable: {
           ...state.bookmarkedTimeTable,
           lectures: [
             ...lectures,
           ],
         },
+      }
+    case actions.CREATE_RECEIVED_TIME_TABLES:
+      return {
+        ...state,
+        receivedTimeTables: [...action.receivedTimeTables],
+        receivedTimeTable: action.receivedTimeTables.length === 0 ? initialTimeTable.receivedTimeTable : action.receivedTimeTables[0],
+      }
+    case actions.SELECT_RECEIVED_TIME_TABLE_RESPONSE:
+      receivedTimeTables = [...state.receivedTimeTables]
+      receivedTimeTables[action.index] = {
+        ...action.receivedTimeTable,
+      }
+      return {
+        ...state,
+        receivedTimeTables: [...receivedTimeTables],
+        receivedTimeTable: action.receivedTimeTable,
+      }
+    case actions.COPY_TO_MY_TIME_TABLE_RESPONSE:
+      return {
+        ...state,
+        myTimeTable: action.myTimeTable,
+      }
+    case actions.DELETE_MY_TIME_TABLE:
+      return {
+        ...state,
+        myTimeTable: initialTimeTable.myTimeTable,
       }
     default:
       return state
@@ -197,7 +210,7 @@ const ttrsReducer = (state = initialState, action) => {
     case actions.CHANGE_TAB:
       return {
         ...state,
-        currentTab: action.tab
+        currentTab: action.tab,
       }
     default:
       return {
