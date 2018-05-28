@@ -91,9 +91,7 @@ const timeTable = (state = [], action) => {
     case actions.CREATE_BOOKMARKED_TIME_TABLES:
       return {
         ...state,
-        bookmarkedTimeTables: action.bookmarkedTimeTables.map((timeTable) => ({
-          ...timeTable,
-        })),
+        bookmarkedTimeTables: [...action.bookmarkedTimeTables],
         bookmarkedTimeTable: action.bookmarkedTimeTables.length === 0 ? initialTimeTable.bookmarkedTimeTable : action.bookmarkedTimeTables[0],
       }
     case actions.SELECT_BOOKMARKED_TIME_TABLE_RESPONSE:
@@ -109,9 +107,7 @@ const timeTable = (state = [], action) => {
       }
       return {
         ...state,
-        bookmarkedTimeTables: bookmarkedTimeTables.map((timeTable) => ({
-          ...timeTable,
-        })),
+        bookmarkedTimeTables: [...bookmarkedTimeTables],
         bookmarkedTimeTable: bookmarkedTimeTables[action.index],
       }
     case actions.BOOKMARK_RESPONSE:
@@ -119,9 +115,7 @@ const timeTable = (state = [], action) => {
       bookmarkedTimeTables.push(action.bookmarkedTimeTable)
       return {
         ...state,
-        bookmarkedTimeTables: bookmarkedTimeTables.map((timeTable) => ({
-          ...timeTable,
-        })),
+        bookmarkedTimeTables: [...bookmarkedTimeTables],
         bookmarkedTimeTable: bookmarkedTimeTables.length === 1 ? action.bookmarkedTimeTable : state.bookmarkedTimeTable,
       }
     case actions.DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE:
@@ -138,9 +132,7 @@ const timeTable = (state = [], action) => {
       }
       return {
         ...state,
-        bookmarkedTimeTables: bookmarkedTimeTables.map((timeTable) => ({
-          ...timeTable,
-        })),
+        bookmarkedTimeTables: [...bookmarkedTimeTables],
         bookmarkedTimeTable: {
           ...state.bookmarkedTimeTable,
           lectures: [
@@ -151,9 +143,7 @@ const timeTable = (state = [], action) => {
     case actions.CREATE_RECEIVED_TIME_TABLES:
       return {
         ...state,
-        receivedTimeTables: action.receivedTimeTables.map((timeTable) => ({
-          ...timeTable,
-        })),
+        receivedTimeTables: [...action.receivedTimeTables],
         receivedTimeTable: action.receivedTimeTables.length === 0 ? initialTimeTable.receivedTimeTable : action.receivedTimeTables[0],
       }
     case actions.SELECT_RECEIVED_TIME_TABLE_RESPONSE:
@@ -163,9 +153,7 @@ const timeTable = (state = [], action) => {
       }
       return {
         ...state,
-        receivedTimeTables: receivedTimeTables.map((timeTable) => ({
-          ...timeTable,
-        })),
+        receivedTimeTables: [...receivedTimeTables],
         receivedTimeTable: action.receivedTimeTable,
       }
     case actions.COPY_TO_MY_TIME_TABLE_RESPONSE:
