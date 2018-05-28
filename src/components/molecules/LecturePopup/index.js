@@ -10,8 +10,10 @@ class LecturePopup extends React.Component {
 
     this.handleOpenPopup = this.handleOpenPopup.bind(this)
     this.handleClosePopup = this.handleClosePopup.bind(this)
-    this.deleteLecture = props.props.deleteLecture
+
     this.lecture = props.props.lecture
+    this.height = props.props.height
+    this.deleteLecture = props.props.deleteLecture
   }
 
   handleOpenPopup() {
@@ -25,7 +27,7 @@ class LecturePopup extends React.Component {
   render() {
     return (
       <div>
-        <button style={{ width: '200' }} onClick={this.handleOpenPopup}>{this.lecture.course.name}</button>
+        <button style={{ width: '200', height: (this.height * 40).toString() }} onClick={this.handleOpenPopup}>{this.lecture.course.name}</button>
         <ReactModal isOpen={this.state.pop} contentLabel={'Modal'}>
           <p>{this.lecture.course.name}</p>
           <button onClick={() => this.deleteLecture(this.lecture.id)}>Delete</button>

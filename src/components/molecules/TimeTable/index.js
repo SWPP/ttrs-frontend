@@ -50,24 +50,90 @@ const TimeTable = ({ id, memo, title, lectures, canDeleteLecture, onModifyConten
         const s = timeSlot.startTime
         const e = timeSlot.endTime
 
-        if (d === day && overlap(time, s, e)) { return i }
+        if (d === day && overlap(time, s, e)) {
+          return i
+        }
       }
     }
 
     return -1
   }
 
-  function createTimeSlot(day, time) {
-    const lec = hasLecture(lectures, day, time)
-    if (lec >= 0) {
-      return (
-        <td>
-          <LecturePopup props={{ lecture: lectures[lec], deleteLecture: onDeleteLecture }} />
-        </td>
-      )
+  function isStart(_time, _start) {
+    let time = _time.split(':').map((i) => Number(i))
+    time = time[0] * 60 + time[1]
+
+    let start = _start.split(':').map((i) => Number(i))
+    start = start[0] * 60 + start[1]
+
+    if (time <= start && start < time + 30) {
+      return true
+    }
+    return false
+  }
+
+  function isLectureStart(lectures, day, time) {
+    let i
+    let j
+    for (i = 0; i < lectures.length; ++i) {
+      const timeSlots = lectures[i].timeSlots
+      for (j = 0; j < timeSlots.length; ++j) {
+        const timeSlot = timeSlots[j]
+
+        const d = timeSlot.dayOfWeek
+        const s = timeSlot.startTime
+
+        if (d === day && isStart(time, s)) {
+          return i
+        }
+      }
     }
 
-    return (<td width="200" height="30" />)
+    return -1
+  }
+
+  function getRowSpan(lecture, day) {
+    let i
+
+    const timeSlots = lecture.timeSlots
+    console.log(timeSlots)
+
+    for (i = 0; i < timeSlots.length; ++i) {
+      const timeSlot = timeSlots[i]
+      console.log('timeSlot', timeSlot)
+
+      if (timeSlot.dayOfWeek === day) {
+        const s = timeSlot.startTime
+        const e = timeSlot.endTime
+
+        let start = s.split(':').map((i) => Number(i))
+        start = start[0] * 60 + start[1]
+
+        let end = e.split(':').map((i) => Number(i))
+        end = end[0] * 60 + end[1]
+
+        return Math.ceil((end - start) / 30)
+      }
+    }
+    return 0
+  }
+
+  function createTimeSlot(day, time) {
+    if (hasLecture(lectures, day, time) >= 0) {
+      const lectureIndex = isLectureStart(lectures, day, time)
+      if (lectureIndex >= 0) {
+        const span = getRowSpan(lectures[lectureIndex], day)
+        return (
+          <td style={{border: '1px solid black'}} rowSpan={span}>
+            <LecturePopup props={{lecture: lectures[lectureIndex], height: span, deleteLecture: onDeleteLecture}}/>
+          </td>
+        )
+      } else {
+        return
+      }
+    }
+
+    return (<td style={{ border: '1px solid black', width: '200', height: '30' }} />)
   }
 
 
