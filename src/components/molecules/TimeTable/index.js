@@ -139,16 +139,17 @@ const TimeTable = ({ username, id, memo, title, lectures, canModify, canCopyToMy
       if (lectureIndex >= 0) {
         const span = getRowSpan(lectures[lectureIndex], day)
         return (
-          <td style={{border: '1px solid black'}} rowSpan={span}>
+          <td key={day + time.toString()} style={{border: '1px solid black'}} rowSpan={span}>
             <LecturePopup props={{lecture: lectures[lectureIndex], height: span, deleteLecture: onDeleteLecture}}/>
           </td>
         )
       } else {
-        return
+        // return <td key={day + time.toString()}>&nbsp;</td>
+        return null
       }
     }
 
-    return (<td style={{ border: '1px solid black', width: '200px', height: '30px' }} />)
+    return (<td key={day + time.toString()} style={{ border: '1px solid black', width: '200px', height: '30px' }} />)
   }
 
 
@@ -164,7 +165,7 @@ const TimeTable = ({ username, id, memo, title, lectures, canModify, canCopyToMy
           {['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
             '13:30', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
             '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30'].map((time) => (
-              <tr><td>{time}</td>{createRow(time)}</tr>
+              <tr><td key={time}>{time}</td>{createRow(time)}</tr>
           ))}
         </tbody>
       </table>
