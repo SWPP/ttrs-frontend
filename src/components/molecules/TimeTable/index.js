@@ -133,7 +133,7 @@ const TimeTable = ({ id, memo, title, lectures, canDeleteLecture, onModifyConten
       }
     }
 
-    return (<td style={{ border: '1px solid black', width: '200', height: '30' }} />)
+    return (<td style={{ border: '1px solid black', width: '200px', height: '30px' }} />)
   }
 
 
