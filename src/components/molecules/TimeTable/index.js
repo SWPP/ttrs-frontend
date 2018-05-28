@@ -3,7 +3,7 @@ import Button from '../../atoms/Button'
 import LecturePopup from '../LecturePopup'
 
 
-const TimeTable = ({ username, id, memo, title, lectures, canModify, canCopyToMy, onModifyContent, onDeleteLecture, onBookmark, onSendTimeTable, onCopyToMy }) => {
+const TimeTable = ({ username, id, memo, title, lectures, canModify, canCopyToMy, onModifyContent, onDeleteLecture, onBookmark, onSend, onCopyToMy }) => {
   let titleContent = title
   let memoContent = memo
   let inputReceiverName
@@ -35,7 +35,7 @@ const TimeTable = ({ username, id, memo, title, lectures, canModify, canCopyToMy
       timeTableId: id,
       receiverName: inputReceiverName.value,
     }
-    onSendTimeTable(sendInfo)
+    onSend(sendInfo)
   }
 
   function overlap(_time, _start, _end) {

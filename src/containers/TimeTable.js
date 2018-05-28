@@ -14,7 +14,7 @@ const mapDispatchToProps = (dispatch, props) => {
     onBookmark: (timeTableId) => {
       dispatch(bookmarkRequest(timeTableId))
     },
-    onSendTimeTable: (sendInfo) => {
+    onSend: (sendInfo) => {
       dispatch(sendTimeTable(sendInfo))
     },
     onCopyToMy: (timeTableId) => {
