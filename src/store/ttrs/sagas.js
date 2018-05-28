@@ -331,6 +331,23 @@ function* selectReceivedTimeTable(receivedTimeTable, index) {
   }
 }
 
+function* copyToMyTimeTable(timeTableId) {
+  try {
+    const copyToMyResponse = yield call(axios.post, '/ttrs/time-tables/copy-to-my/', { timeTableId }, config)
+    console.log('copyToMy response', copyToMyResponse)
+    const getMyTimeTableResponse = yield call(axios.get, `ttrs/my-time-tables/${copyToMyResponse.data.createdTimeTable}/`, config)
+    const lectures = []
+    for (let i = 0; i < getMyTimeTableResponse.data.lectures.length; i += 1) {
+      const response = yield call(axios.get, `ttrs/lectures/${getMyTimeTableResponse.data.lectures[i]}/`, config)
+      lectures.push(response.data)
+    }
+    getMyTimeTableResponse.data.lectures = lectures
+    yield put(actions.copyToMyTimeTableResponse(getMyTimeTableResponse.data))
+  } catch (error) {
+    console.log('copyToMy error', error.response)
+  }
+}
+
 function* watchSignIn() {
   while (true) {
     const { username, password } = yield take(actions.SIGN_IN_REQUEST)
@@ -401,6 +418,13 @@ function* watchSelectReceivedTimeTable() {
   }
 }
 
+function* watchCopyToMyTimeTable() {
+  while (true) {
+    const { timeTableId } = yield take(actions.COPY_TO_MY_TIME_TABLE_REQUEST)
+    yield call(copyToMyTimeTable, timeTableId)
+  }
+}
+
 export default function* () {
   yield call(getInitialInfo)
   yield fork(watchSignIn)
@@ -413,4 +437,5 @@ export default function* () {
   yield fork(watchBookmark)
   yield fork(watchSendTimeTable)
   yield fork(watchSelectReceivedTimeTable)
+  yield fork(watchCopyToMyTimeTable)
 }

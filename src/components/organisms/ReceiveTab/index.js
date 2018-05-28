@@ -15,6 +15,7 @@ const ReceiveTab = ({ isMainPage, currentTab, myTimeTable, receivedTimeTables, r
           onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, myTimeTable) }, -lectureId)}
           {...myTimeTable}
           canModify
+          canCopyToMy={false}
         />
         <hr />
         <h1>Received TimeTable</h1>
@@ -33,6 +34,7 @@ const ReceiveTab = ({ isMainPage, currentTab, myTimeTable, receivedTimeTables, r
         <TimeTable
           {...receivedTimeTable}
           canModify={false}
+          canCopyToMy
         />
       </div>
     )

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import TimeTable from '../components/molecules/TimeTable'
-import { bookmarkRequest, sendTimeTable } from '../store/ttrs/actions'
+import { bookmarkRequest, copyToMyTimeTableRequest, sendTimeTable } from '../store/ttrs/actions'
 
 const mapStateToProps = (state, props) => {
   return {
@@ -16,6 +16,9 @@ const mapDispatchToProps = (dispatch, props) => {
     },
     onSendTimeTable: (sendInfo) => {
       dispatch(sendTimeTable(sendInfo))
+    },
+    onCopyToMy: (timeTableId) => {
+      dispatch(copyToMyTimeTableRequest(timeTableId))
     },
     ...props,
   }

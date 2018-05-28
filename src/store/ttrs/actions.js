@@ -28,6 +28,8 @@ export const SEND_TIME_TABLE = 'SEND_TIME_TABLE'
 export const CREATE_RECEIVED_TIME_TABLES = 'CREATE_RECEIVED_TIME_TABLES'
 export const SELECT_RECEIVED_TIME_TABLE_REQUEST = 'SELECT_RECEIVED_TIME_TABLE_REQUEST'
 export const SELECT_RECEIVED_TIME_TABLE_RESPONSE = 'SELECT_RECEIVED_TIME_TABLE_RESPONSE'
+export const COPY_TO_MY_TIME_TABLE_REQUEST = 'COPY_TO_MY_TIME_TABLE_REQUEST'
+export const COPY_TO_MY_TIME_TABLE_RESPONSE = 'COPY_TO_MY_TIME_TABLE_RESPONSE'
 
 
 export const signInRequest = (username, password) => {
@@ -246,5 +248,19 @@ export const selectReceivedTimeTableResponse = (receivedTimeTable, index) => {
     type: SELECT_RECEIVED_TIME_TABLE_RESPONSE,
     receivedTimeTable,
     index,
+  }
+}
+
+export const copyToMyTimeTableRequest = (timeTableId) => {
+  return {
+    type: COPY_TO_MY_TIME_TABLE_REQUEST,
+    timeTableId,
+  }
+}
+
+export const copyToMyTimeTableResponse = (myTimeTable) => {
+  return {
+    type: COPY_TO_MY_TIME_TABLE_RESPONSE,
+    myTimeTable,
   }
 }

@@ -3,7 +3,7 @@ import Button from '../../atoms/Button'
 import Lecture from '../../atoms/Lecture'
 
 
-const TimeTable = ({ username, id, memo, title, lectures, canModify, onModifyContent, onDeleteLecture, onBookmark, onSendTimeTable }) => {
+const TimeTable = ({ username, id, memo, title, lectures, canModify, canCopyToMy, onModifyContent, onDeleteLecture, onBookmark, onSendTimeTable, onCopyToMy }) => {
   let titleContent = title
   let memoContent = memo
   let inputReceiverName
@@ -44,6 +44,7 @@ const TimeTable = ({ username, id, memo, title, lectures, canModify, onModifyCon
       { canModify && <Button type="submit" onClick={onSubmitTitle}>Modify Title</Button> } <br />
       <h2>{titleContent}</h2>
       <Button type="submit" onClick={() => onBookmark(id)}>Bookmark</Button> <br />
+      { canCopyToMy && <Button type="submit" onClick={() => onCopyToMy(id)}>Copy to My</Button> } <br />
       <input ref={node => { inputReceiverName = node }} placeholder={'username'} />
       <Button type="submit" onClick={onSubmitSend}>Send TimeTable</Button> <br />
       {lectures.map(lecture =>

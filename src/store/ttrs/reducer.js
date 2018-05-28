@@ -176,6 +176,11 @@ const timeTable = (state = [], action) => {
         })),
         receivedTimeTable: action.receivedTimeTable,
       }
+    case actions.COPY_TO_MY_TIME_TABLE_RESPONSE:
+      return {
+        ...state,
+        myTimeTable: action.myTimeTable,
+      }
     default:
       return state
   }
