@@ -32,6 +32,7 @@ export const COPY_TO_MY_TIME_TABLE_REQUEST = 'COPY_TO_MY_TIME_TABLE_REQUEST'
 export const COPY_TO_MY_TIME_TABLE_RESPONSE = 'COPY_TO_MY_TIME_TABLE_RESPONSE'
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD'
 export const WITHDRAW = 'WITHDRAW'
+export const DELETE_TIME_TABLE = 'DELETE_TIME_TABLE'
 
 
 export const signInRequest = (username, password) => {
@@ -277,5 +278,13 @@ export const changePassword = (password) => {
 export const withdraw = () => {
   return {
     type: WITHDRAW,
+  }
+}
+
+export const deleteTimeTable = (timeTableId, timeTableType) => {
+  return {
+    type: DELETE_TIME_TABLE,
+    timeTableId,
+    timeTableType,
   }
 }
