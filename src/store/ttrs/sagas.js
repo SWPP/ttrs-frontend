@@ -368,6 +368,17 @@ function* withdraw() {
   }
 }
 
+function* deleteTimeTable(timeTableId, timeTableType) {
+  if (timeTableType === 'my') {
+    try {
+      yield call(axios.delete, `ttrs/my-time-tables/${timeTableId}/`, config)
+      yield put(actions.deleteMyTimeTable(initialTimeTable.myTimeTable))
+    } catch (error) {
+      console.log('failed to delete my time table')
+    }
+  }
+}
+
 function* watchSignIn() {
   while (true) {
     const { username, password } = yield take(actions.SIGN_IN_REQUEST)
@@ -459,6 +470,13 @@ function* watchWithdraw() {
   }
 }
 
+function* watchDeleteTimeTable() {
+  while (true) {
+    const { timeTableId, timeTableType } = yield take(actions.DELETE_TIME_TABLE)
+    yield call(deleteTimeTable, timeTableId, timeTableType)
+  }
+}
+
 export default function* () {
   yield call(getInitialInfo)
   yield fork(watchSignIn)
@@ -474,4 +492,5 @@ export default function* () {
   yield fork(watchCopyToMyTimeTable)
   yield fork(watchChangePassword)
   yield fork(watchWithdraw)
+  yield fork(watchDeleteTimeTable)
 }
