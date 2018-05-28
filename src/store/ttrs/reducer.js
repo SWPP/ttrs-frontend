@@ -102,9 +102,7 @@ const timeTable = (state = [], action) => {
         bookmarkedTimeTable: action.bookmarkedTimeTable,
       }
     case actions.UPDATE_BOOKMARKED_TIME_TABLE_INFO:
-      bookmarkedTimeTables = state.bookmarkedTimeTables.map((timeTable) => ({
-        ...timeTable,
-      }))
+      bookmarkedTimeTables = [...state.bookmarkedTimeTables]
       bookmarkedTimeTables[action.index] = {
         ...state.bookmarkedTimeTable,
         ...action.updatedInfo,
@@ -117,9 +115,7 @@ const timeTable = (state = [], action) => {
         bookmarkedTimeTable: bookmarkedTimeTables[action.index],
       }
     case actions.BOOKMARK_RESPONSE:
-      bookmarkedTimeTables = state.bookmarkedTimeTables.map((timeTable) => ({
-        ...timeTable,
-      }))
+      bookmarkedTimeTables = [...state.bookmarkedTimeTables]
       bookmarkedTimeTables.push(action.bookmarkedTimeTable)
       return {
         ...state,
@@ -135,9 +131,7 @@ const timeTable = (state = [], action) => {
           lectures.push(lecture)
         }
       })
-      bookmarkedTimeTables = state.bookmarkedTimeTables.map((timeTable) => ({
-        ...timeTable,
-      }))
+      bookmarkedTimeTables = [...state.bookmarkedTimeTables]
       bookmarkedTimeTables[action.index] = {
         ...state.bookmarkedTimeTable,
         lectures,
@@ -163,9 +157,7 @@ const timeTable = (state = [], action) => {
         receivedTimeTable: action.receivedTimeTables.length === 0 ? initialTimeTable.receivedTimeTable : action.receivedTimeTables[0],
       }
     case actions.SELECT_RECEIVED_TIME_TABLE_RESPONSE:
-      receivedTimeTables = state.receivedTimeTables.map((timeTable) => ({
-        ...timeTable,
-      }))
+      receivedTimeTables = [...state.receivedTimeTables]
       receivedTimeTables[action.index] = {
         ...action.receivedTimeTable,
       }
