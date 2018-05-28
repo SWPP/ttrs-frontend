@@ -9,13 +9,16 @@ const BookmarkTab = ({ isMainPage, currentTab, myTimeTable, bookmarkedTimeTables
   if (isMainPage && currentTab === BOOKMARK_TAB) {
     return (
       <div>
+        <h1>My TimeTable</h1>
         <TimeTable
           onModifyContent={(content) => onUpdateMyTimeTable(myTimeTable.id, content, null)}
           onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, myTimeTable) }, -lectureId)}
           {...myTimeTable}
-          canDeleteLecture
+          canModify
+          canCopyToMy={false}
         />
         <hr />
+        <h1>Bookmarked TimeTable</h1>
         <select
           ref={node => { inputBookmarkedTimeTableIndex = node }}
           onChange={() => onSelectBookmarkedTimeTable(bookmarkedTimeTables[inputBookmarkedTimeTableIndex.value])}
@@ -31,7 +34,8 @@ const BookmarkTab = ({ isMainPage, currentTab, myTimeTable, bookmarkedTimeTables
           onModifyContent={(content) => onUpdateBookmarkedTimeTable(inputBookmarkedTimeTableIndex.value, bookmarkedTimeTable.id, content, null)}
           onDeleteLecture={(lectureId) => onUpdateBookmarkedTimeTable(inputBookmarkedTimeTableIndex.value, bookmarkedTimeTable.id, { lectures: getLectureIdsWithout(lectureId, bookmarkedTimeTable) }, lectureId)}
           {...bookmarkedTimeTable}
-          canDeleteLecture
+          canModify
+          canCopyToMy
         />
       </div>
     )
