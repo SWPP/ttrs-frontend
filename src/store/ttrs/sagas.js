@@ -73,7 +73,10 @@ function* getReceivedTimeTables(response) {
     receivedTimeTables = response.data.map((timeTable) => ({
       ...timeTable,
     }))
+    const receiveResponse = yield call(axios.get, `ttrs/received-time-tables/${receivedTimeTables[0].id}/receive`, config)
+    console.log('receiveResponse', receiveResponse)
     receivedTimeTables[0].lectures = []
+    receivedTimeTables[0].receivedAt = receiveResponse.data.receivedAt
     for (let i = 0; i < response.data[0].lectures.length; i += 1) {
       const lectureResponse = yield call(axios.get, `ttrs/lectures/${response.data[0].lectures[i]}/`, config)
       receivedTimeTables[0].lectures.push(lectureResponse.data)
@@ -308,7 +311,7 @@ function* sendTimeTable(sendInfo) {
   }
 }
 
-function* selectReceivedTimeTable(receivedTimeTable) {
+function* selectReceivedTimeTable(receivedTimeTable, index) {
   const lectures = []
   try {
     for (let i = 0; i < receivedTimeTable.lectures.length; i += 1) {
@@ -318,10 +321,13 @@ function* selectReceivedTimeTable(receivedTimeTable) {
     receivedTimeTable.lectures = [
       ...lectures,
     ]
-    yield put(actions.selectReceivedTimeTableResponse(receivedTimeTable))
+    const receiveResponse = yield call(axios.get, `ttrs/received-time-tables/${receivedTimeTable.id}/receive`, config)
+    console.log('receiveResponse', receiveResponse)
+    receivedTimeTable.receivedAt = receiveResponse.data.receivedAt
+    yield put(actions.selectReceivedTimeTableResponse(receivedTimeTable, index))
   } catch (error) {
     // Error happens when receivedTimeTable.lectures is list of Lecture Info (already updated)
-    yield put(actions.selectReceivedTimeTableResponse(receivedTimeTable))
+    yield put(actions.selectReceivedTimeTableResponse(receivedTimeTable, index))
   }
 }
 
@@ -390,8 +396,8 @@ function* watchSendTimeTable() {
 
 function* watchSelectReceivedTimeTable() {
   while (true) {
-    const { receivedTimeTable } = yield take(actions.SELECT_RECEIVED_TIME_TABLE_REQUEST)
-    yield call(selectReceivedTimeTable, receivedTimeTable)
+    const { receivedTimeTable, index } = yield take(actions.SELECT_RECEIVED_TIME_TABLE_REQUEST)
+    yield call(selectReceivedTimeTable, receivedTimeTable, index)
   }
 }
 

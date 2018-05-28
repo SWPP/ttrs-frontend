@@ -20,13 +20,13 @@ const ReceiveTab = ({ isMainPage, currentTab, myTimeTable, receivedTimeTables, r
         <h1>Received TimeTable</h1>
         <select
           ref={node => { inputReceivedTimeTableIndex = node }}
-          onChange={() => onSelectReceivedTimeTable(receivedTimeTables[inputReceivedTimeTableIndex.value])}
+          onChange={() => onSelectReceivedTimeTable(receivedTimeTables[inputReceivedTimeTableIndex.value], inputReceivedTimeTableIndex.value)}
         >
           {receivedTimeTables.map((value, index) =>
             <option
               key={value.id}
               value={index}
-            >{value.title}</option>
+            >{value.receivedAt === null ? '[New] ' : ''}{value.title}{' '}[From]{' '}{value.sender}</option>
           )}
         </select>
         <h2>sender: {receivedTimeTable.sender}</h2>
