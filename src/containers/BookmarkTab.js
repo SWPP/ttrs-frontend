@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import BookmarkTab from '../components/organisms/BookmarkTab'
-import { selectBookmarkedTimeTableRequest, updateBookmarkedTimeTableRequest, updateMyTimeTableRequest } from '../store/ttrs/actions'
+import { deleteTimeTable, selectBookmarkedTimeTableRequest, updateBookmarkedTimeTableRequest, updateMyTimeTableRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -22,6 +22,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onUpdateBookmarkedTimeTable: (index, timeTableId, updatedInfo, deleteLectureId) => {
       dispatch(updateBookmarkedTimeTableRequest(index, timeTableId, updatedInfo, deleteLectureId))
+    },
+    onDeleteTimeTable: (timeTableId, timeTableType) => {
+      dispatch(deleteTimeTable(timeTableId, timeTableType))
     },
   }
 }

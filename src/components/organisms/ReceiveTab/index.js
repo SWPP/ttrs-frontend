@@ -3,7 +3,7 @@ import { RECEIVE_TAB } from '../../../store/ttrs/selectors'
 import TimeTable from '../../../containers/TimeTable'
 import { getLectureIdsWithout } from '../RecommendTab'
 
-const ReceiveTab = ({ isMainPage, currentTab, myTimeTable, receivedTimeTables, receivedTimeTable, onSelectReceivedTimeTable, onUpdateMyTimeTable }) => {
+const ReceiveTab = ({ isMainPage, currentTab, myTimeTable, receivedTimeTables, receivedTimeTable, onSelectReceivedTimeTable, onUpdateMyTimeTable, onDeleteTimeTable }) => {
   let inputReceivedTimeTableIndex = { value: 0 }
 
   if (isMainPage && currentTab === RECEIVE_TAB) {
@@ -16,6 +16,7 @@ const ReceiveTab = ({ isMainPage, currentTab, myTimeTable, receivedTimeTables, r
           {...myTimeTable}
           canModify
           canCopyToMy={false}
+          onDeleteTimeTable={(timeTableId) => onDeleteTimeTable(timeTableId, 'my')}
         />
         <hr />
         <h1>Received TimeTable</h1>
