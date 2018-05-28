@@ -1,46 +1,9 @@
 import React from 'react'
-import ReactModal from 'react-modal'
 import Button from '../../atoms/Button'
+import LecturePopup from '../LecturePopup'
 
 
 const TimeTable = ({ id, memo, title, lectures, canDeleteLecture, onModifyContent, onDeleteLecture, onBookmark }) => {
-  class Popup extends React.Component {
-    constructor(lecture/* , onDeleteLecture */) {
-      super()
-      this.state = {
-        pop: false,
-      }
-
-      this.handleOpenPopup = this.handleOpenPopup.bind(this)
-      this.handleClosePopup = this.handleClosePopup.bind(this)
-      // this.deleteLecture = onDeleteLecture.bind(this)
-      this.lecture = lecture.lecture
-
-      console.log(this.lecture, onDeleteLecture)
-    }
-
-    handleOpenPopup() {
-      this.setState({ pop: true })
-    }
-
-    handleClosePopup() {
-      this.setState({ pop: false })
-    }
-
-    render() {
-      return (
-        <div>
-          <button width="200" onClick={this.handleOpenPopup}>{this.lecture.course.name}</button>
-          <ReactModal isOpen={this.state.pop} contentLabel={'Modal'}>
-            <p>{this.lecture.course.name}</p>
-            <button onClick={() => onDeleteLecture(this.lecture.id)}>Delete</button>
-            <button onClick={this.handleClosePopup}>Close</button>
-          </ReactModal>
-        </div>
-      )
-    }
-  }
-
   let titleContent = title
   let memoContent = memo
 
@@ -99,14 +62,12 @@ const TimeTable = ({ id, memo, title, lectures, canDeleteLecture, onModifyConten
     if (lec >= 0) {
       return (
         <td>
-          <Popup lecture={lectures[lec]} />
+          <LecturePopup props={{ lecture: lectures[lec], deleteLecture: onDeleteLecture }} />
         </td>
       )
     }
 
-    // return (<td><button styles={{ height: '200px', width: '200px' }} /></td>)
-    return (<td width="200" height="30"></td>)
-    // return (<select size="1" ><option /></select>)
+    return (<td width="200" height="30" />)
   }
 
 
@@ -145,5 +106,6 @@ const TimeTable = ({ id, memo, title, lectures, canDeleteLecture, onModifyConten
     </div>
   )
 }
+
 
 export default TimeTable
