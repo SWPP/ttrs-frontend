@@ -164,7 +164,7 @@ const timeTable = (state = [], action) => {
     case actions.DELETE_MY_TIME_TABLE:
       return {
         ...state,
-        myTimeTable: action.myTimeTable,
+        myTimeTable: initialTimeTable.myTimeTable,
       }
     default:
       return state

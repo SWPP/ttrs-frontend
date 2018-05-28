@@ -290,9 +290,8 @@ export const deleteTimeTable = (timeTableId, timeTableType) => {
   }
 }
 
-export const deleteMyTimeTable = (myTimeTable) => {
+export const deleteMyTimeTable = () => {
   return {
     type: DELETE_MY_TIME_TABLE,
-    myTimeTable,
   }
 }
