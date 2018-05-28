@@ -158,7 +158,7 @@ function* signUp(studentInfo) {
 function* searchLecture(courseName) {
   try {
     const params = {
-      'course.name.contains': courseName,
+      'course.name.abbrev': courseName,
       year,
       semester,
     }
