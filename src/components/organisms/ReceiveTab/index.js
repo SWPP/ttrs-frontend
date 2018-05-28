@@ -9,6 +9,7 @@ const ReceiveTab = ({ isMainPage, currentTab, myTimeTable, receivedTimeTables, r
   if (isMainPage && currentTab === RECEIVE_TAB) {
     return (
       <div>
+        <h1>My TimeTable</h1>
         <TimeTable
           onModifyContent={(content) => onUpdateMyTimeTable(myTimeTable.id, content, null)}
           onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, myTimeTable) }, -lectureId)}
@@ -16,6 +17,7 @@ const ReceiveTab = ({ isMainPage, currentTab, myTimeTable, receivedTimeTables, r
           canModify
         />
         <hr />
+        <h1>Received TimeTable</h1>
         <select
           ref={node => { inputReceivedTimeTableIndex = node }}
           onChange={() => onSelectReceivedTimeTable(receivedTimeTables[inputReceivedTimeTableIndex.value])}
