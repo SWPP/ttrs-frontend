@@ -31,6 +31,7 @@ export const SELECT_RECEIVED_TIME_TABLE_RESPONSE = 'SELECT_RECEIVED_TIME_TABLE_R
 export const COPY_TO_MY_TIME_TABLE_REQUEST = 'COPY_TO_MY_TIME_TABLE_REQUEST'
 export const COPY_TO_MY_TIME_TABLE_RESPONSE = 'COPY_TO_MY_TIME_TABLE_RESPONSE'
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD'
+export const WITHDRAW = 'WITHDRAW'
 
 
 export const signInRequest = (username, password) => {
@@ -270,5 +271,11 @@ export const changePassword = (password) => {
   return {
     type: CHANGE_PASSWORD,
     password,
+  }
+}
+
+export const withdraw = () => {
+  return {
+    type: WITHDRAW,
   }
 }

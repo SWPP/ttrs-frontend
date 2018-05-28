@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import SettingsTab from '../components/organisms/SettingsTab'
-import { changePassword } from '../store/ttrs/actions'
+import { changePassword, withdraw } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -14,6 +14,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onChangePassword: (password) => {
       dispatch(changePassword(password))
+    },
+    onWithdraw: () => {
+      dispatch(withdraw())
     },
   }
 }

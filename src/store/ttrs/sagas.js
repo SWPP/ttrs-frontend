@@ -73,7 +73,7 @@ function* getReceivedTimeTables(response) {
     receivedTimeTables = response.data.map((timeTable) => ({
       ...timeTable,
     }))
-    const receiveResponse = yield call(axios.get, `ttrs/received-time-tables/${receivedTimeTables[0].id}/receive`, config)
+    const receiveResponse = yield call(axios.get, `ttrs/received-time-tables/${receivedTimeTables[0].id}/receive/`, config)
     console.log('receiveResponse', receiveResponse)
     receivedTimeTables[0].lectures = []
     receivedTimeTables[0].receivedAt = receiveResponse.data.receivedAt
@@ -322,7 +322,7 @@ function* selectReceivedTimeTable(receivedTimeTable, index) {
     receivedTimeTable.lectures = [
       ...lectures,
     ]
-    const receiveResponse = yield call(axios.get, `ttrs/received-time-tables/${receivedTimeTable.id}/receive`, config)
+    const receiveResponse = yield call(axios.get, `ttrs/received-time-tables/${receivedTimeTable.id}/receive/`, config)
     console.log('receiveResponse', receiveResponse)
     receivedTimeTable.receivedAt = receiveResponse.data.receivedAt
     yield put(actions.selectReceivedTimeTableResponse(receivedTimeTable, index))
@@ -356,6 +356,15 @@ function* changePassword(password) {
     yield put(actions.clearState())
   } catch (error) {
     console.log('change password error', error.response)
+  }
+}
+
+function* withdraw() {
+  try {
+    yield call(axios.delete, 'ttrs/students/my/', config)
+    yield put(actions.clearState())
+  } catch (error) {
+    console.log('failed to withdraw')
   }
 }
 
@@ -443,6 +452,13 @@ function* watchChangePassword() {
   }
 }
 
+function* watchWithdraw() {
+  while (true) {
+    yield take(actions.WITHDRAW)
+    yield call(withdraw)
+  }
+}
+
 export default function* () {
   yield call(getInitialInfo)
   yield fork(watchSignIn)
@@ -457,4 +473,5 @@ export default function* () {
   yield fork(watchSelectReceivedTimeTable)
   yield fork(watchCopyToMyTimeTable)
   yield fork(watchChangePassword)
+  yield fork(watchWithdraw)
 }
