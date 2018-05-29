@@ -171,18 +171,16 @@ const search = (state = [], action) => {
 const error = (state = initialError, action) => {
   switch (action.type) {
     case actions.CLEAR_STATE:
-    case actions.SIGN_UP_REQUEST:
       return initialError
-    case actions.SIGN_UP_ERROR:
-      return {
-        ...state,
-        signUp: action.errors,
-      }
-    case actions.SIGN_UP_ERROR_CLEAR:
-      console.log('reducer')
+    case actions.SIGN_UP_REQUEST:
       return {
         ...state,
         signUp: {},
+      }
+    case actions.SET_ERRORS:
+      return {
+        ...state,
+        [action.identifier]: action.errors,
       }
     default:
       return state

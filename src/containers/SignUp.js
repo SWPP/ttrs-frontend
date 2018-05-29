@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import SignUp from '../components/molecules/SignUp'
-import { clearState, signUpErrorClear, signUpRequest } from '../store/ttrs/actions'
+import { clearState, setErrors, signUpRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(clearState())
     },
     onClearError: () => {
-      dispatch(signUpErrorClear())
+      dispatch(setErrors('signUp', {}))
     },
   }
 }

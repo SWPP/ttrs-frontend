@@ -152,7 +152,7 @@ function* signUp(studentInfo) {
     yield put(actions.clearState())
   } catch (error) {
     console.log('signUp error', error.response)
-    yield put(actions.signUpError(error.response.data))
+    yield put(actions.setErrors('signUp', error.response.data))
   }
 }
 
