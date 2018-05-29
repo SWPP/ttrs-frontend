@@ -177,6 +177,11 @@ const error = (state = initialError, action) => {
         ...state,
         signUp: {},
       }
+    case actions.SIGN_IN_REQUEST:
+      return {
+        ...state,
+        signIn: {},
+      }
     case actions.SET_ERRORS:
       return {
         ...state,

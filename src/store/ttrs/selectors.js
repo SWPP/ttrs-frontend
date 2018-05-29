@@ -46,6 +46,7 @@ export const initialSearch = {
 }
 
 export const initialError = {
+  signIn: {},
   signUp: {},
 }
 

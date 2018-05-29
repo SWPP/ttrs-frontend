@@ -114,6 +114,7 @@ function* signIn(username, password) {
     yield put(actions.signInResponse(response.data))
   } catch (error) {
     console.log('signIn error', error.response)
+    yield put(actions.setErrors('signIn', error.response.data))
     return undefined
   }
   year = initialState.year

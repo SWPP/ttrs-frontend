@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 
 class SignIn extends React.Component {
   state = {
@@ -12,13 +12,8 @@ class SignIn extends React.Component {
     this.setState({ [name]: value })
   }
 
-  handleSubmitSignIn = () => {
-    if (this.state.username.trim() && this.state.password.trim()) {
-      this.props.onSignIn(this.state.username, this.state.password)
-      this.setState({ username: '', password: '' })
-    } else {
-      console.log('blank input not allowed')
-    }
+  handleSignIn = () => {
+    this.props.onSignIn(this.state.username, this.state.password)
   }
 
   render() {
@@ -41,10 +36,11 @@ class SignIn extends React.Component {
               <Header as="h1" color="teal" textAlign="center">
                 TTRS
               </Header>
-              <Form size="large" onSubmit={this.handleSubmitSignIn}>
+              <Form size="large" onSubmit={this.handleSignIn}>
                 <Segment raised>
                   <Form.Input
                     fluid
+                    required
                     icon="user"
                     iconPosition="left"
                     placeholder="Username"
@@ -54,6 +50,7 @@ class SignIn extends React.Component {
                   />
                   <Form.Input
                     fluid
+                    required
                     icon="lock"
                     iconPosition="left"
                     placeholder="Password"
@@ -68,6 +65,11 @@ class SignIn extends React.Component {
                   </Button.Group>
                 </Segment>
               </Form>
+              {Object.keys(this.props.errors).length > 0 &&
+              <Message
+                negative
+                header="Incorrect username or password."
+              />}
             </Grid.Column>
           </Grid>
         </div>
@@ -80,8 +82,10 @@ class SignIn extends React.Component {
 SignIn.propTypes = {
   onSignIn: PropTypes.func,
   onGoSignUpPage: PropTypes.func,
+  onClearError: PropTypes.func,
   isMainPage: PropTypes.bool,
   isSignUpPage: PropTypes.bool,
+  errors: PropTypes.object,
 }
 
 export default SignIn

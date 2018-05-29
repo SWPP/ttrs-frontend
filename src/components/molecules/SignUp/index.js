@@ -15,13 +15,12 @@ class SignUp extends React.Component {
     majorIndex: null,
   }
   errors = supportErrors()
-  // tempErrors = {}
 
   handleChange = (e, { name, value }) => {
     this.setState({ [name]: value })
   }
 
-  handleSubmit = () => {
+  handleSignUp = () => {
     const errors = customErrors({
       passwordConfirm: [this.state.password === this.state.passwordConfirm, 'Two passwords should be same.'],
       grade: [this.state.grade !== null, 'This field may not be blank.'],
@@ -91,7 +90,7 @@ class SignUp extends React.Component {
             <Header as="h1" color="teal" textAlign="center">
               TTRS
             </Header>
-            <Form size="large" onSubmit={this.handleSubmit}>
+            <Form size="large" onSubmit={this.handleSignUp}>
               <Segment raised>
                 <Form.Input
                   fluid
