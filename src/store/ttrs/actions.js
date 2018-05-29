@@ -307,9 +307,10 @@ export const deleteBookmarkedTimeTable = (timeTableId, timeTable) => {
   }
 }
 
-export const deleteReceivedTimeTable = (timeTableId) => {
+export const deleteReceivedTimeTable = (timeTableId, timeTable) => {
   return {
     type: DELETE_RECEIVED_TIME_TABLE,
     timeTableId,
+    timeTable,
   }
 }

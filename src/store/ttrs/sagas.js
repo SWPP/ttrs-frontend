@@ -363,12 +363,25 @@ function* deleteTimeTable(timeTableId, timeTableType, timeTables) {
     }
   }
   else if (timeTableType === 'received') {
-    try {
-      yield call(axios.delete, `ttrs/received-time-tables/${timeTableId}/`, config)
-      console.log('delete received time table')
-      yield put(actions.deleteReceivedTimeTable(timeTableId))
-    } catch (error) {
-      console.log('failed to delete received time table')
+    yield call(axios.delete, `ttrs/received-time-tables/${timeTableId}/`, config)
+    console.log('delete received time table')
+    if (timeTables[0].id === timeTableId) {
+      if (timeTables.length === 1) {
+        yield put(actions.deleteReceivedTimeTable(timeTableId, initialTimeTable.receivedTimeTable))
+      } else {
+        const response = yield call(axios.get, `ttrs/received-time-tables/${timeTables[1].id}/receive/`, config)
+        console.log('receiveResponse', response)
+        timeTables[1].receivedAt = response.data.receivedAt
+        try {
+          timeTables[1].lectures = yield call(getLecturesFromLectureIds, timeTables[1])
+          yield put(actions.deleteReceivedTimeTable(timeTableId, timeTables[1]))
+        } catch (error) {
+          // Error happens when receivedTimeTable.lectures is list of Lecture Info (already updated)
+          yield put(actions.deleteReceivedTimeTable(timeTableId, timeTables[1]))
+        }
+      }
+    } else {
+      yield put(actions.deleteReceivedTimeTable(timeTableId, timeTables[0]))
     }
   }
 }

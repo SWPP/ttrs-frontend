@@ -178,6 +178,18 @@ const timeTable = (state = [], action) => {
         bookmarkedTimeTables: [...bookmarkedTimeTables],
         bookmarkedTimeTable: action.timeTable,
       }
+    case actions.DELETE_RECEIVED_TIME_TABLE:
+      receivedTimeTables = []
+      state.receivedTimeTables.forEach((timeTable) => {
+        if (timeTable.id !== action.timeTableId) {
+          receivedTimeTables.push(timeTable)
+        }
+      })
+      return {
+        ...state,
+        receivedTimeTables: [...receivedTimeTables],
+        receivedTimeTable: action.timeTable,
+      }
     default:
       return state
   }
