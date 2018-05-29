@@ -156,6 +156,17 @@ const timeTable = (state = [], action) => {
         receivedTimeTables: [...receivedTimeTables],
         receivedTimeTable: action.receivedTimeTable,
       }
+    case actions.CREATE_RECOMMENDED_TIME_TABLES:
+      return {
+        ...state,
+        recommendedTimeTables: [...action.recommendedTimeTables],
+        recommendedTimeTable: action.recommendedTimeTables.length === 0 ? initialTimeTable.recommendedTimeTable : action.recommendedTimeTables[0],
+      }
+    case actions.SELECT_RECOMMENDED_TIME_TABLE_RESPONSE:
+      return {
+        ...state,
+        recommendedTimeTable: action.recommendedTimeTable,
+      }
     case actions.COPY_TO_MY_TIME_TABLE_RESPONSE:
       return {
         ...state,
