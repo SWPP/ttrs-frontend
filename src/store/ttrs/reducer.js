@@ -20,20 +20,20 @@ const belongInfo = (state = [], action) => {
         ...state,
         colleges: state.colleges,
         departments: state.colleges[0].departments,
-        majors: state.colleges[0].departments[0].majors,
+        majors: [],
       }
     case actions.GET_COLLEGE_LIST:
       return {
         ...state,
         colleges: action.colleges,
         departments: action.colleges[0].departments,
-        majors: action.colleges[0].departments[0].majors,
+        majors: [],
       }
     case actions.CHANGE_DEPARTMENT_LIST:
       return {
         ...state,
         departments: state.colleges[action.collegeIndex].departments,
-        majors: state.colleges[action.collegeIndex].departments.length === 0 ? [] : state.colleges[action.collegeIndex].departments[0].majors,
+        majors: [],
       }
     case actions.CHANGE_MAJOR_LIST:
       return {
@@ -155,6 +155,17 @@ const timeTable = (state = [], action) => {
         ...state,
         receivedTimeTables: [...receivedTimeTables],
         receivedTimeTable: action.receivedTimeTable,
+      }
+    case actions.CREATE_RECOMMENDED_TIME_TABLES:
+      return {
+        ...state,
+        recommendedTimeTables: [...action.recommendedTimeTables],
+        recommendedTimeTable: action.recommendedTimeTables.length === 0 ? initialTimeTable.recommendedTimeTable : action.recommendedTimeTables[0],
+      }
+    case actions.SELECT_RECOMMENDED_TIME_TABLE_RESPONSE:
+      return {
+        ...state,
+        recommendedTimeTable: action.recommendedTimeTable,
       }
     case actions.COPY_TO_MY_TIME_TABLE_RESPONSE:
       return {

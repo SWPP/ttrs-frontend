@@ -15,6 +15,7 @@ const BookmarkTab = ({ isMainPage, currentTab, myTimeTable, bookmarkedTimeTables
           onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, myTimeTable) }, -lectureId)}
           {...myTimeTable}
           canModify
+          canDelete
           canCopyToMy={false}
           onDeleteTimeTable={(timeTableId) => timeTableId !== null ? onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
         />
@@ -36,6 +37,7 @@ const BookmarkTab = ({ isMainPage, currentTab, myTimeTable, bookmarkedTimeTables
           onDeleteLecture={(lectureId) => onUpdateBookmarkedTimeTable(inputBookmarkedTimeTableIndex.value, bookmarkedTimeTable.id, { lectures: getLectureIdsWithout(lectureId, bookmarkedTimeTable) }, lectureId)}
           {...bookmarkedTimeTable}
           canModify
+          canDelete
           canCopyToMy
           onDeleteTimeTable={(timeTableId) => timeTableId !== null ? onDeleteTimeTable(timeTableId, 'bookmarked', bookmarkedTimeTables) : console.log('There is no timetable')}
         />

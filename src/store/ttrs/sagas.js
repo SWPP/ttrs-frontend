@@ -78,6 +78,15 @@ function* getReceivedTimeTables(response) {
   yield put(actions.createReceivedTimeTables(receivedTimeTables))
 }
 
+function* getRecommendedTimeTables(response) {
+  let recommendedTimeTables = []
+  if (response.data.length !== 0) {
+    recommendedTimeTables = [...response.data]
+    recommendedTimeTables[0].lectures = yield call(getLecturesFromLectureIds, response.data[0])
+  }
+  yield put(actions.createRecommendedTimeTables(recommendedTimeTables))
+}
+
 function* getInitialInfo() {
   try {
     const response = yield call(axios.get, 'ttrs/colleges/', config)
@@ -135,6 +144,13 @@ function* signIn(username, password) {
     yield call(getReceivedTimeTables, response)
   } catch (error) {
     console.log('getCurrent Received TimeTables error', error.response)
+  }
+  try {
+    const response = yield call(axios.get, updateURLParams('ttrs/recommends/', params), config)
+    console.log('getCurrent Recommended TimeTables response', response)
+    yield call(getRecommendedTimeTables, response)
+  } catch (error) {
+    console.log('getCurrent Recommended TimeTables error', error.response)
   }
 }
 
@@ -234,6 +250,9 @@ function* switchSemester(newYear, newSemester) {
     const receivedTimeTableResponse = yield call(axios.get, updateURLParams('ttrs/received-time-tables/', params), config)
     console.log('getCurrent receivedTimeTable response', receivedTimeTableResponse)
     yield call(getReceivedTimeTables, receivedTimeTableResponse)
+    const recommendedTimeTableResponse = yield call(axios.get, updateURLParams('ttrs/recommends/', params), config)
+    console.log('getCurrent recommendedTimeTable response', recommendedTimeTableResponse)
+    yield call(getRecommendedTimeTables, recommendedTimeTableResponse)
     yield put(actions.searchLectureResponse([]))
   } catch (error) {
     console.log('switchSemester error', error.response)
@@ -303,6 +322,16 @@ function* selectReceivedTimeTable(receivedTimeTable, index) {
   } catch (error) {
     // Error happens when receivedTimeTable.lectures is list of Lecture Info (already updated)
     yield put(actions.selectReceivedTimeTableResponse(receivedTimeTable, index))
+  }
+}
+
+function* selectRecommendedTimeTable(recommendedTimeTable) {
+  try {
+    recommendedTimeTable.lectures = yield call(getLecturesFromLectureIds, recommendedTimeTable)
+    yield put(actions.selectRecommendedTimeTableResponse(recommendedTimeTable))
+  } catch (error) {
+    // Error happens when recommendedTimeTable.lectures is list of Lecture Info (already updated)
+    yield put(actions.selectRecommendedTimeTableResponse(recommendedTimeTable))
   }
 }
 
@@ -456,6 +485,13 @@ function* watchSelectReceivedTimeTable() {
   }
 }
 
+function* watchSelectRecommendedTimeTable() {
+  while (true) {
+    const { recommendedTimeTable } = yield take(actions.SELECT_RECOMMENDED_TIME_TABLE_REQUEST)
+    yield call(selectRecommendedTimeTable, recommendedTimeTable)
+  }
+}
+
 function* watchCopyToMyTimeTable() {
   while (true) {
     const { timeTableId } = yield take(actions.COPY_TO_MY_TIME_TABLE_REQUEST)
@@ -496,6 +532,7 @@ export default function* () {
   yield fork(watchBookmark)
   yield fork(watchSendTimeTable)
   yield fork(watchSelectReceivedTimeTable)
+  yield fork(watchSelectRecommendedTimeTable)
   yield fork(watchCopyToMyTimeTable)
   yield fork(watchChangePassword)
   yield fork(watchWithdraw)
