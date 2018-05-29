@@ -20,20 +20,20 @@ const belongInfo = (state = [], action) => {
         ...state,
         colleges: state.colleges,
         departments: state.colleges[0].departments,
-        majors: state.colleges[0].departments[0].majors,
+        majors: [],
       }
     case actions.GET_COLLEGE_LIST:
       return {
         ...state,
         colleges: action.colleges,
         departments: action.colleges[0].departments,
-        majors: action.colleges[0].departments[0].majors,
+        majors: [],
       }
     case actions.CHANGE_DEPARTMENT_LIST:
       return {
         ...state,
         departments: state.colleges[action.collegeIndex].departments,
-        majors: state.colleges[action.collegeIndex].departments.length === 0 ? [] : state.colleges[action.collegeIndex].departments[0].majors,
+        majors: [],
       }
     case actions.CHANGE_MAJOR_LIST:
       return {
