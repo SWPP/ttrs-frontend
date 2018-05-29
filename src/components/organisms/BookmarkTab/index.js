@@ -3,7 +3,7 @@ import { BOOKMARK_TAB } from '../../../store/ttrs/selectors'
 import TimeTable from '../../../containers/TimeTable'
 import { getLectureIdsWithout } from '../RecommendTab'
 
-const BookmarkTab = ({ isMainPage, currentTab, myTimeTable, bookmarkedTimeTables, bookmarkedTimeTable, onSelectBookmarkedTimeTable, onUpdateMyTimeTable, onUpdateBookmarkedTimeTable }) => {
+const BookmarkTab = ({ isMainPage, currentTab, myTimeTable, bookmarkedTimeTables, bookmarkedTimeTable, onSelectBookmarkedTimeTable, onUpdateMyTimeTable, onUpdateBookmarkedTimeTable, onDeleteTimeTable }) => {
   let inputBookmarkedTimeTableIndex = { value: 0 }
 
   if (isMainPage && currentTab === BOOKMARK_TAB) {
@@ -16,6 +16,7 @@ const BookmarkTab = ({ isMainPage, currentTab, myTimeTable, bookmarkedTimeTables
           {...myTimeTable}
           canModify
           canCopyToMy={false}
+          onDeleteTimeTable={(timeTableId) => timeTableId !== null ? onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
         />
         <hr />
         <h1>Bookmarked TimeTable</h1>
@@ -36,6 +37,7 @@ const BookmarkTab = ({ isMainPage, currentTab, myTimeTable, bookmarkedTimeTables
           {...bookmarkedTimeTable}
           canModify
           canCopyToMy
+          onDeleteTimeTable={(timeTableId) => timeTableId !== null ? onDeleteTimeTable(timeTableId, 'bookmarked', bookmarkedTimeTables) : console.log('There is no timetable')}
         />
       </div>
     )

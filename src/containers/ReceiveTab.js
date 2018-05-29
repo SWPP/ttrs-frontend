@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import ReceiveTab from '../components/organisms/ReceiveTab'
-import { selectReceivedTimeTableRequest, updateMyTimeTableRequest } from '../store/ttrs/actions'
+import { deleteTimeTable, selectReceivedTimeTableRequest, updateMyTimeTableRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -19,6 +19,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onUpdateMyTimeTable: (myTimeTableId, updatedInfo, newLectureId) => {
       dispatch(updateMyTimeTableRequest(myTimeTableId, updatedInfo, newLectureId))
+    },
+    onDeleteTimeTable: (timeTableId, timeTableType, timeTables) => {
+      dispatch(deleteTimeTable(timeTableId, timeTableType, timeTables))
     },
   }
 }
