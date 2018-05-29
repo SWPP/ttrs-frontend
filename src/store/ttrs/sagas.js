@@ -152,6 +152,7 @@ function* signUp(studentInfo) {
     yield put(actions.clearState())
   } catch (error) {
     console.log('signUp error', error.response)
+    yield put(actions.signUpError(error.response.data))
   }
 }
 
@@ -388,7 +389,7 @@ function* watchSignIn() {
 
 function* watchSignUp() {
   while (true) {
-    const { studentInfo } = yield take(actions.SIGN_UP)
+    const { studentInfo } = yield take(actions.SIGN_UP_REQUEST)
     yield call(signUp, studentInfo)
   }
 }

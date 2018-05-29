@@ -14,8 +14,6 @@ export const initialStudentInfo = {
 
 export const initialBelongInfo = {
   colleges: [],
-  departments: [],
-  majors: [],
 }
 
 export const initialTimeTable = {
@@ -47,6 +45,10 @@ export const initialSearch = {
   lectures: [],
 }
 
+export const initialError = {
+  signUp: {},
+}
+
 export const RECOMMEND_TAB = 0
 export const BOOKMARK_TAB = 1
 export const RECEIVE_TAB = 2
@@ -57,6 +59,7 @@ export const initialState = {
   belongInfo: initialBelongInfo,
   timeTable: initialTimeTable,
   search: initialSearch,
+  error: initialError,
   isMainPage: false,
   isSignUpPage: false,
   currentTab: RECOMMEND_TAB,

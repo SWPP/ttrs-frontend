@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import SignIn from '../components/molecules/SignIn'
-import { signInRequest, goSignUpPage } from '../store/ttrs/actions'
+import { signInRequest, goSignUpPage, signUpErrorClear } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {

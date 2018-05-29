@@ -1,4 +1,4 @@
-import { initialState, initialTimeTable } from './selectors'
+import { initialState, initialTimeTable, initialError } from './selectors'
 import * as actions from './actions'
 
 const studentInfo = (state = [], action) => {
@@ -19,26 +19,11 @@ const belongInfo = (state = [], action) => {
       return {
         ...state,
         colleges: state.colleges,
-        departments: state.colleges[0].departments,
-        majors: state.colleges[0].departments[0].majors,
       }
     case actions.GET_COLLEGE_LIST:
       return {
         ...state,
         colleges: action.colleges,
-        departments: action.colleges[0].departments,
-        majors: action.colleges[0].departments[0].majors,
-      }
-    case actions.CHANGE_DEPARTMENT_LIST:
-      return {
-        ...state,
-        departments: state.colleges[action.collegeIndex].departments,
-        majors: state.colleges[action.collegeIndex].departments.length === 0 ? [] : state.colleges[action.collegeIndex].departments[0].majors,
-      }
-    case actions.CHANGE_MAJOR_LIST:
-      return {
-        ...state,
-        majors: action.departmentIndex === '' ? [] : state.departments[action.departmentIndex].majors,
       }
     default:
       return state
@@ -183,6 +168,27 @@ const search = (state = [], action) => {
   }
 }
 
+const error = (state = initialError, action) => {
+  switch (action.type) {
+    case actions.CLEAR_STATE:
+    case actions.SIGN_UP_REQUEST:
+      return initialError
+    case actions.SIGN_UP_ERROR:
+      return {
+        ...state,
+        signUp: action.errors,
+      }
+    case actions.SIGN_UP_ERROR_CLEAR:
+      console.log('reducer')
+      return {
+        ...state,
+        signUp: {},
+      }
+    default:
+      return state
+  }
+}
+
 const ttrsReducer = (state = initialState, action) => {
   switch (action.type) {
     case actions.GET_SEMESTER_LIST:
@@ -218,6 +224,7 @@ const ttrsReducer = (state = initialState, action) => {
         belongInfo: belongInfo(state.belongInfo, action),
         timeTable: timeTable(state.timeTable, action),
         search: search(state.search, action),
+        error: error(state.error, action),
       }
   }
 }

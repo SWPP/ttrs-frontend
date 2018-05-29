@@ -1,88 +1,221 @@
 import React from 'react'
-import Button from '../../atoms/Button'
+import PropTypes from 'prop-types'
+import { Form, Grid, Header, Segment, Button, Message } from 'semantic-ui-react'
+import { customErrors, supportErrors, updateErrors } from '../../../services/error_utility'
 
-const SignUp = ({ onSignUp, onReturnToSignInPage, onChangeDepartmentList, onChangeMajorList, isSignUpPage, colleges, departments, majors }) => {
-  let inputUsername
-  let inputPassword
-  let inputPasswordConfirm
-  let inputEmail
-  let inputGrade
-  let inputCollegeIndex = { value: 0 }
-  let inputDepartmentIndex = { value: 0 }
-  let inputMajorIndex
-  const gradeOption = [1, 2, 3, 4]
+class SignUp extends React.Component {
+  state = {
+    username: '',
+    password: '',
+    passwordConfirm: '',
+    email: '',
+    grade: null,
+    collegeIndex: null,
+    departmentIndex: null,
+    majorIndex: null,
+  }
+  errors = supportErrors()
+  // tempErrors = {}
 
-  const onSubmit = () => {
-    if (inputUsername.value.trim() && inputPassword.value.trim() && inputPasswordConfirm.value.trim() && inputEmail.value.trim()) {
-      if (inputPassword.value === inputPasswordConfirm.value) {
-        onSignUp(
-          inputUsername.value,
-          inputPassword.value,
-          `${inputEmail.value}@snu.ac.kr`,
-          parseInt(inputGrade.value, 10),
-          colleges[inputCollegeIndex.value].id,
-          inputDepartmentIndex.value === '' ? null : departments[inputDepartmentIndex.value].id,
-          inputMajorIndex.value === '' ? null : majors[inputMajorIndex.value].id,
-        )
-      } else {
-        console.log('password not same')
-      }
-    } else {
-      console.log('blank input not allowed')
-    }
+  handleChange = (e, { name, value }) => {
+    this.setState({ [name]: value })
   }
 
-  if (isSignUpPage) {
+  handleSubmit = () => {
+    const errors = customErrors({
+      passwordConfirm: [this.state.password === this.state.passwordConfirm, 'Two passwords should be same.'],
+      grade: [this.state.grade !== null, 'This field may not be blank.'],
+      college: [this.state.collegeIndex !== null, 'This field may not be blank.'],
+    })
+    if (errors !== null) {
+      this.errors = errors
+      this.props.onClearError()
+      this.forceUpdate()
+      return
+    }
+    this.errors = supportErrors()
+
+    this.props.onSignUp(
+      this.state.username,
+      this.state.password,
+      // `${this.state.email}@snu.ac.kr`,
+      this.state.email,
+      this.state.grade,
+      this.state.collegeIndex === null ? null : this.props.colleges[this.state.collegeIndex].id,
+      this.state.departmentIndex === null ? null : this.props.colleges[this.state.collegeIndex].departments[this.state.departmentIndex].id,
+      this.state.majorIndex === null ? null : this.props.colleges[this.state.collegeIndex].departments[this.state.departmentIndex].majors[this.state.majorIndex].id,
+    )
+  }
+
+  render() {
+    if (!this.props.isSignUpPage) {
+      return null
+    }
+
+    this.errors = updateErrors(this.errors, this.props.errors)
+
+    const gradeOptions = [1, 2, 3, 4].map(grade => ({ key: grade, text: grade, value: grade }))
+    const collegeOptions = this.props.colleges.map((college, index) => ({ key: college.id, text: college.name, value: index }))
+    const departmentOptions = [{ key: -1, text: '---', value: null }]
+    if (this.state.collegeIndex !== null) {
+      departmentOptions.push(...this.props.colleges[this.state.collegeIndex].departments.map((department, index) => ({
+        key: department.id,
+        text: department.name,
+        value: index,
+      })))
+    }
+    const majorOptions = [{ key: -1, text: '---', value: null }]
+    if (this.state.departmentIndex !== null) {
+      majorOptions.push(...this.props.colleges[this.state.collegeIndex].departments[this.state.departmentIndex].majors.map((major, index) => ({
+        key: major.id,
+        text: major.name,
+        value: index,
+      })))
+    }
+
     return (
-      <div>
-        <input ref={node => { inputUsername = node }} placeholder={'username'} /> <br />
-        <input ref={node => { inputPassword = node }} placeholder={'password'} type="password" /> <br />
-        <input ref={node => { inputPasswordConfirm = node }} placeholder={'password confirm'} type="password" /> <br />
-        <input ref={node => { inputEmail = node }} placeholder={'email'} />@snu.ac.kr <br />
-        Grade
-        <select ref={node => { inputGrade = node }}>
-          {gradeOption.map(value =>
-            <option
-              key={value}
-              value={value}
-            >{value}</option>
-          )}
-        </select> <br />
-        College
-        <select ref={node => { inputCollegeIndex = node }} onChange={() => onChangeDepartmentList(inputCollegeIndex.value)}>
-          {colleges.map((value, index) =>
-            <option
-              key={value.id}
-              value={index}
-            >{value.name}</option>
-          )}
-        </select> <br />
-        Department
-        <select ref={node => { inputDepartmentIndex = node }} onChange={() => onChangeMajorList(inputDepartmentIndex.value)}>
-          <option value="">----</option>
-          {departments.map((value, index) =>
-            <option
-              key={value.id}
-              value={index}
-            >{value.name}</option>
-          )}
-        </select> <br />
-        Major
-        <select ref={node => { inputMajorIndex = node }}>
-          <option value="">----</option>
-          {majors.map((value, index) =>
-            <option
-              key={value.id}
-              value={index}
-            >{value.name}</option>
-          )}
-        </select> <br />
-        <Button type="submit" onClick={onSubmit}>Sign Up</Button>
-        <Button type="submit" onClick={onReturnToSignInPage}>Return</Button>
+      <div className="sign-up-form">
+        <style>{`
+          body > main,
+          body > main > div,
+          body > main > div > div.sign-up-form {
+            height: 100%;
+          }`}
+        </style>
+        <Grid
+          style={{ height: '100%' }}
+          verticalAlign="middle"
+          centered
+        >
+          <Grid.Column style={{ maxWidth: 450 }}>
+            <Header as="h1" color="teal" textAlign="center">
+              TTRS
+            </Header>
+            <Form size="large" onSubmit={this.handleSubmit}>
+              <Segment raised>
+                <Form.Input
+                  fluid
+                  required
+                  label="Username"
+                  icon="user"
+                  iconPosition="left"
+                  placeholder="Username"
+                  name="username"
+                  value={this.state.username}
+                  error={this.errors.bools.username}
+                  onChange={this.handleChange}
+                />
+                <Form.Group widths="equal">
+                  <Form.Input
+                    fluid
+                    required
+                    label="Password"
+                    icon="lock"
+                    iconPosition="left"
+                    placeholder="Password"
+                    type="password"
+                    name="password"
+                    value={this.state.password}
+                    error={this.errors.bools.password}
+                    onChange={this.handleChange}
+                  />
+                  <Form.Input
+                    fluid
+                    required
+                    label="Password Confirm"
+                    icon="lock"
+                    iconPosition="left"
+                    placeholder="Password Confirm"
+                    type="password"
+                    name="passwordConfirm"
+                    value={this.state.passwordConfirm}
+                    error={this.errors.bools.passwordConfirm}
+                    onChange={this.handleChange}
+                  />
+                </Form.Group>
+                <Form.Input
+                  icon="mail"
+                  required
+                  label="Email Address"
+                  iconPosition="left"
+                  placeholder="Email Address"
+                  type="email"
+                  name="email"
+                  value={this.state.email}
+                  error={this.errors.bools.email}
+                  onChange={this.handleChange}
+                />
+                <Form.Select
+                  label="Grade"
+                  required
+                  placeholder="Grade"
+                  options={gradeOptions}
+                  name="grade"
+                  value={this.state.grade}
+                  error={this.errors.bools.grade}
+                  onChange={this.handleChange}
+                />
+                <Form.Select
+                  label="College"
+                  required
+                  placeholder="College"
+                  options={collegeOptions}
+                  name="collegeIndex"
+                  value={this.state.collegeIndex}
+                  error={this.errors.bools.college}
+                  onChange={(e, { name, value }) => {
+                    this.setState({ [name]: value })
+                    this.setState({ departmentIndex: null })
+                    this.setState({ majorIndex: null })
+                  }}
+                />
+                <Form.Select
+                  label="Department"
+                  placeholder="Department"
+                  options={departmentOptions}
+                  name="departmentIndex"
+                  value={this.state.departmentIndex}
+                  error={this.errors.bools.department}
+                  onChange={(e, { name, value }) => {
+                    this.setState({ [name]: value })
+                    this.setState({ majorIndex: null })
+                  }}
+                />
+                <Form.Select
+                  label="Major"
+                  placeholder="Major"
+                  options={majorOptions}
+                  name="majorIndex"
+                  value={this.state.majorIndex}
+                  error={this.errors.bools.major}
+                  onChange={this.handleChange}
+                />
+                <Button.Group widths="2" >
+                  <Button type="button" color="teal" size="large" onClick={this.props.onReturnToSignInPage}>Return</Button>
+                  <Button type="submit" color="teal" size="large">Sign Up</Button>
+                </Button.Group>
+              </Segment>
+            </Form>
+            {Object.keys(this.errors.bools).length > 0 &&
+            <Message
+              negative
+              header="There are some errors with your submission"
+              list={Object.keys(this.errors.texts).map(key => this.errors.texts[key])}
+            />}
+          </Grid.Column>
+        </Grid>
       </div>
     )
   }
-  return null
+}
+
+SignUp.propTypes = {
+  onSignUp: PropTypes.func,
+  onReturnToSignInPage: PropTypes.func,
+  onClearError: PropTypes.func,
+  isSignUpPage: PropTypes.bool,
+  colleges: PropTypes.array,
+  errors: PropTypes.object,
 }
 
 export default SignUp

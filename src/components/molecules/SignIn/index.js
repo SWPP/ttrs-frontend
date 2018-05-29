@@ -3,7 +3,10 @@ import PropTypes from 'prop-types'
 import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react'
 
 class SignIn extends React.Component {
-  state = {}
+  state = {
+    username: '',
+    password: '',
+  }
 
   handleChange = (e, { name, value }) => {
     this.setState({ [name]: value })
@@ -19,8 +22,6 @@ class SignIn extends React.Component {
   }
 
   render() {
-    const { username, password } = this.state
-
     if (!this.props.isMainPage && !this.props.isSignUpPage) {
       return (
         <div className="sign-in-form">
@@ -36,19 +37,19 @@ class SignIn extends React.Component {
             style={{ height: '100%' }}
             verticalAlign="middle"
           >
-            <Grid.Column style={{ maxWidth: 450 }}>
+            <Grid.Column style={{ maxWidth: 400 }}>
               <Header as="h1" color="teal" textAlign="center">
                 TTRS
               </Header>
-              <Form size="large">
-                <Segment stacked>
+              <Form size="large" onSubmit={this.handleSubmitSignIn}>
+                <Segment raised>
                   <Form.Input
                     fluid
                     icon="user"
                     iconPosition="left"
                     placeholder="Username"
                     name="username"
-                    value={username}
+                    value={this.state.username}
                     onChange={this.handleChange}
                   />
                   <Form.Input
@@ -58,12 +59,12 @@ class SignIn extends React.Component {
                     placeholder="Password"
                     type="password"
                     name="password"
-                    value={password}
+                    value={this.state.password}
                     onChange={this.handleChange}
                   />
                   <Button.Group widths="2">
-                    <Button color="teal" size="large" onClick={this.props.onGoSignUpPage}>Sign Up</Button>
-                    <Button color="teal" size="large" onClick={this.handleSubmitSignIn}>Sign In</Button>
+                    <Button type="button" color="teal" size="large" onClick={this.props.onGoSignUpPage}>Sign Up</Button>
+                    <Button type="submit" color="teal" size="large">Sign In</Button>
                   </Button.Group>
                 </Segment>
               </Form>
