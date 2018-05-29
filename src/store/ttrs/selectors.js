@@ -39,6 +39,13 @@ export const initialTimeTable = {
     receivedAt: null,
   },
   receivedTimeTables: [],
+  recommendedTimeTable: {
+    id: null,
+    title: '',
+    memo: '',
+    lectures: [],
+  },
+  recommendedTimeTables: [],
 }
 
 export const initialSearch = {

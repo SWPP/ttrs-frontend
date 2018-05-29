@@ -27,12 +27,17 @@ export const SEND_TIME_TABLE = 'SEND_TIME_TABLE'
 export const CREATE_RECEIVED_TIME_TABLES = 'CREATE_RECEIVED_TIME_TABLES'
 export const SELECT_RECEIVED_TIME_TABLE_REQUEST = 'SELECT_RECEIVED_TIME_TABLE_REQUEST'
 export const SELECT_RECEIVED_TIME_TABLE_RESPONSE = 'SELECT_RECEIVED_TIME_TABLE_RESPONSE'
+export const CREATE_RECOMMENDED_TIME_TABLES = 'CREATE_RECOMMENDED_TIME_TABLES'
+export const SELECT_RECOMMENDED_TIME_TABLE_REQUEST = 'SELECT_RECOMMENDED_TIME_TABLE_REQUEST'
+export const SELECT_RECOMMENDED_TIME_TABLE_RESPONSE = 'SELECT_RECOMMENDED_TIME_TABLE_RESPONSE'
 export const COPY_TO_MY_TIME_TABLE_REQUEST = 'COPY_TO_MY_TIME_TABLE_REQUEST'
 export const COPY_TO_MY_TIME_TABLE_RESPONSE = 'COPY_TO_MY_TIME_TABLE_RESPONSE'
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD'
 export const WITHDRAW = 'WITHDRAW'
 export const DELETE_TIME_TABLE = 'DELETE_TIME_TABLE'
 export const DELETE_MY_TIME_TABLE = 'DELETE_MY_TIME_TABLE'
+export const DELETE_BOOKMARKED_TIME_TABLE = 'DELETE_BOOKMARKED_TIME_TABLE'
+export const DELETE_RECEIVED_TIME_TABLE = 'DELETE_RECEIVED_TIME_TABLE'
 
 
 export const setErrors = (identifier, errors) => {
@@ -248,6 +253,27 @@ export const selectReceivedTimeTableResponse = (receivedTimeTable, index) => {
   }
 }
 
+export const createRecommendedTimeTables = (recommendedTimeTables) => {
+  return {
+    type: CREATE_RECOMMENDED_TIME_TABLES,
+    recommendedTimeTables,
+  }
+}
+
+export const selectRecommendedTimeTableRequest = (recommendedTimeTable) => {
+  return {
+    type: SELECT_RECOMMENDED_TIME_TABLE_REQUEST,
+    recommendedTimeTable,
+  }
+}
+
+export const selectRecommendedTimeTableResponse = (recommendedTimeTable) => {
+  return {
+    type: SELECT_RECOMMENDED_TIME_TABLE_RESPONSE,
+    recommendedTimeTable,
+  }
+}
+
 export const copyToMyTimeTableRequest = (timeTableId) => {
   return {
     type: COPY_TO_MY_TIME_TABLE_REQUEST,
@@ -275,16 +301,33 @@ export const withdraw = () => {
   }
 }
 
-export const deleteTimeTable = (timeTableId, timeTableType) => {
+export const deleteTimeTable = (timeTableId, timeTableType, timeTables) => {
   return {
     type: DELETE_TIME_TABLE,
     timeTableId,
     timeTableType,
+    timeTables,
   }
 }
 
 export const deleteMyTimeTable = () => {
   return {
     type: DELETE_MY_TIME_TABLE,
+  }
+}
+
+export const deleteBookmarkedTimeTable = (timeTableId, timeTable) => {
+  return {
+    type: DELETE_BOOKMARKED_TIME_TABLE,
+    timeTableId,
+    timeTable,
+  }
+}
+
+export const deleteReceivedTimeTable = (timeTableId, timeTable) => {
+  return {
+    type: DELETE_RECEIVED_TIME_TABLE,
+    timeTableId,
+    timeTable,
   }
 }

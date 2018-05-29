@@ -141,6 +141,17 @@ const timeTable = (state = [], action) => {
         receivedTimeTables: [...receivedTimeTables],
         receivedTimeTable: action.receivedTimeTable,
       }
+    case actions.CREATE_RECOMMENDED_TIME_TABLES:
+      return {
+        ...state,
+        recommendedTimeTables: [...action.recommendedTimeTables],
+        recommendedTimeTable: action.recommendedTimeTables.length === 0 ? initialTimeTable.recommendedTimeTable : action.recommendedTimeTables[0],
+      }
+    case actions.SELECT_RECOMMENDED_TIME_TABLE_RESPONSE:
+      return {
+        ...state,
+        recommendedTimeTable: action.recommendedTimeTable,
+      }
     case actions.COPY_TO_MY_TIME_TABLE_RESPONSE:
       return {
         ...state,
@@ -150,6 +161,30 @@ const timeTable = (state = [], action) => {
       return {
         ...state,
         myTimeTable: initialTimeTable.myTimeTable,
+      }
+    case actions.DELETE_BOOKMARKED_TIME_TABLE:
+      bookmarkedTimeTables = []
+      state.bookmarkedTimeTables.forEach((timeTable) => {
+        if (timeTable.id !== action.timeTableId) {
+          bookmarkedTimeTables.push(timeTable)
+        }
+      })
+      return {
+        ...state,
+        bookmarkedTimeTables: [...bookmarkedTimeTables],
+        bookmarkedTimeTable: action.timeTable,
+      }
+    case actions.DELETE_RECEIVED_TIME_TABLE:
+      receivedTimeTables = []
+      state.receivedTimeTables.forEach((timeTable) => {
+        if (timeTable.id !== action.timeTableId) {
+          receivedTimeTables.push(timeTable)
+        }
+      })
+      return {
+        ...state,
+        receivedTimeTables: [...receivedTimeTables],
+        receivedTimeTable: action.timeTable,
       }
     default:
       return state

@@ -21,7 +21,9 @@ export const getLectureIdsWithout = (lectureId, timeTable) => {
   return lectureIds
 }
 
-const RecommendTab = ({ isMainPage, currentTab, myTimeTable, onUpdateMyTimeTable, onDeleteTimeTable }) => {
+const RecommendTab = ({ isMainPage, currentTab, myTimeTable, recommendedTimeTables, recommendedTimeTable, onSelectRecommendedTimeTable, onUpdateMyTimeTable, onDeleteTimeTable }) => {
+  let inputRecommendedTimeTableIndex = { value: 0 }
+
   if (isMainPage && currentTab === RECOMMEND_TAB) {
     return (
       <div>
@@ -35,8 +37,28 @@ const RecommendTab = ({ isMainPage, currentTab, myTimeTable, onUpdateMyTimeTable
           onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, myTimeTable) }, -lectureId)}
           {...myTimeTable}
           canModify
+          canDelete
           canCopyToMy={false}
-          onDeleteTimeTable={(timeTableId) => onDeleteTimeTable(timeTableId, 'my')}
+          onDeleteTimeTable={(timeTableId) => timeTableId !== null ? onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
+        />
+        <hr />
+        <h1>Recommended TimeTable</h1>
+        <select
+          ref={node => { inputRecommendedTimeTableIndex = node }}
+          onChange={() => onSelectRecommendedTimeTable(recommendedTimeTables[inputRecommendedTimeTableIndex.value])}
+        >
+          {recommendedTimeTables.map((value, index) =>
+            <option
+              key={value.id}
+              value={index}
+            >{value.title}</option>
+          )}
+        </select>
+        <TimeTable
+          {...recommendedTimeTable}
+          canModify={false}
+          canDelete={false}
+          canCopyToMy
         />
       </div>
     )
