@@ -37,6 +37,7 @@ const RecommendTab = ({ isMainPage, currentTab, myTimeTable, recommendedTimeTabl
           onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, myTimeTable) }, -lectureId)}
           {...myTimeTable}
           canModify
+          canDelete
           canCopyToMy={false}
           onDeleteTimeTable={(timeTableId) => timeTableId !== null ? onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
         />
@@ -56,6 +57,7 @@ const RecommendTab = ({ isMainPage, currentTab, myTimeTable, recommendedTimeTabl
         <TimeTable
           {...recommendedTimeTable}
           canModify={false}
+          canDelete={false}
           canCopyToMy
         />
       </div>
