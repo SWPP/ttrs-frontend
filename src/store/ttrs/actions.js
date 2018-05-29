@@ -34,6 +34,8 @@ export const CHANGE_PASSWORD = 'CHANGE_PASSWORD'
 export const WITHDRAW = 'WITHDRAW'
 export const DELETE_TIME_TABLE = 'DELETE_TIME_TABLE'
 export const DELETE_MY_TIME_TABLE = 'DELETE_MY_TIME_TABLE'
+export const DELETE_BOOKMARKED_TIME_TABLE = 'DELETE_BOOKMARKED_TIME_TABLE'
+export const DELETE_RECEIVED_TIME_TABLE = 'DELETE_RECEIVED_TIME_TABLE'
 
 
 export const signInRequest = (username, password) => {
@@ -282,16 +284,32 @@ export const withdraw = () => {
   }
 }
 
-export const deleteTimeTable = (timeTableId, timeTableType) => {
+export const deleteTimeTable = (timeTableId, timeTableType, timeTables) => {
   return {
     type: DELETE_TIME_TABLE,
     timeTableId,
     timeTableType,
+    timeTables,
   }
 }
 
 export const deleteMyTimeTable = () => {
   return {
     type: DELETE_MY_TIME_TABLE,
+  }
+}
+
+export const deleteBookmarkedTimeTable = (timeTableId, timeTable) => {
+  return {
+    type: DELETE_BOOKMARKED_TIME_TABLE,
+    timeTableId,
+    timeTable,
+  }
+}
+
+export const deleteReceivedTimeTable = (timeTableId) => {
+  return {
+    type: DELETE_RECEIVED_TIME_TABLE,
+    timeTableId,
   }
 }

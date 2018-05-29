@@ -15,8 +15,8 @@ const mapDispatchToProps = (dispatch) => {
     onUpdateMyTimeTable: (myTimeTableId, updatedInfo, newLectureId) => {
       dispatch(updateMyTimeTableRequest(myTimeTableId, updatedInfo, newLectureId))
     },
-    onDeleteTimeTable: (timeTableId, timeTableType) => {
-      dispatch(deleteTimeTable(timeTableId, timeTableType))
+    onDeleteTimeTable: (timeTableId, timeTableType, timeTables) => {
+      dispatch(deleteTimeTable(timeTableId, timeTableType, timeTables))
     },
   }
 }

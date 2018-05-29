@@ -35,6 +35,15 @@ const config = {}
 let year
 let semester
 
+function* getLecturesFromLectureIds(timeTable) {
+  const lectures = []
+  for (let i = 0; i < timeTable.lectures.length; i += 1) {
+    const response = yield call(axios.get, `ttrs/lectures/${timeTable.lectures[i]}/`, config)
+    lectures.push(response.data)
+  }
+  return lectures
+}
+
 function* getCurrentMyTimeTable(response) {
   let myTimeTable = {
     ...initialTimeTable.myTimeTable,
@@ -42,12 +51,8 @@ function* getCurrentMyTimeTable(response) {
   if (response.data.length !== 0) {
     myTimeTable = {
       ...response.data[0],
-      lectures: [],
     }
-    for (let i = 0; i < response.data[0].lectures.length; i += 1) {
-      const lectureResponse = yield call(axios.get, `ttrs/lectures/${response.data[0].lectures[i]}/`, config)
-      myTimeTable.lectures.push(lectureResponse.data)
-    }
+    myTimeTable.lectures = yield call(getLecturesFromLectureIds, response.data[0])
   }
   yield put(actions.createMyTimeTable(myTimeTable))
 }
@@ -55,14 +60,8 @@ function* getCurrentMyTimeTable(response) {
 function* getBookmarkedTimeTables(response) {
   let bookmarkedTimeTables = []
   if (response.data.length !== 0) {
-    bookmarkedTimeTables = response.data.map((timeTable) => ({
-      ...timeTable,
-    }))
-    bookmarkedTimeTables[0].lectures = []
-    for (let i = 0; i < response.data[0].lectures.length; i += 1) {
-      const lectureResponse = yield call(axios.get, `ttrs/lectures/${response.data[0].lectures[i]}/`, config)
-      bookmarkedTimeTables[0].lectures.push(lectureResponse.data)
-    }
+    bookmarkedTimeTables = [...response.data]
+    bookmarkedTimeTables[0].lectures = yield call(getLecturesFromLectureIds, response.data[0])
   }
   yield put(actions.createBookmarkedTimeTables(bookmarkedTimeTables))
 }
@@ -70,17 +69,11 @@ function* getBookmarkedTimeTables(response) {
 function* getReceivedTimeTables(response) {
   let receivedTimeTables = []
   if (response.data.length !== 0) {
-    receivedTimeTables = response.data.map((timeTable) => ({
-      ...timeTable,
-    }))
+    receivedTimeTables = [...response.data]
     const receiveResponse = yield call(axios.get, `ttrs/received-time-tables/${receivedTimeTables[0].id}/receive/`, config)
     console.log('receiveResponse', receiveResponse)
-    receivedTimeTables[0].lectures = []
+    receivedTimeTables[0].lectures = yield call(getLecturesFromLectureIds, response.data[0])
     receivedTimeTables[0].receivedAt = receiveResponse.data.receivedAt
-    for (let i = 0; i < response.data[0].lectures.length; i += 1) {
-      const lectureResponse = yield call(axios.get, `ttrs/lectures/${response.data[0].lectures[i]}/`, config)
-      receivedTimeTables[0].lectures.push(lectureResponse.data)
-    }
   }
   yield put(actions.createReceivedTimeTables(receivedTimeTables))
 }
@@ -248,15 +241,8 @@ function* switchSemester(newYear, newSemester) {
 }
 
 function* selectBookmarkedTimeTable(bookmarkedTimeTable) {
-  const lectures = []
   try {
-    for (let i = 0; i < bookmarkedTimeTable.lectures.length; i += 1) {
-      const response = yield call(axios.get, `ttrs/lectures/${bookmarkedTimeTable.lectures[i]}/`, config)
-      lectures.push(response.data)
-    }
-    bookmarkedTimeTable.lectures = [
-      ...lectures,
-    ]
+    bookmarkedTimeTable.lectures = yield call(getLecturesFromLectureIds, bookmarkedTimeTable)
     yield put(actions.selectBookmarkedTimeTableResponse(bookmarkedTimeTable))
   } catch (error) {
     // Error happens when bookmarkedTimeTable.lectures is list of Lecture Info (already updated)
@@ -291,12 +277,7 @@ function* bookmark(timeTableId) {
     console.log('bookmark response', bookmarkResponse)
     const getBookmarkedTimeTableResponse = yield call(axios.get, `ttrs/bookmarked-time-tables/${bookmarkResponse.data.createdTimeTable}/`, config)
     console.log('get added bookmarked time table response', getBookmarkedTimeTableResponse)
-    const lectures = []
-    for (let i = 0; i < getBookmarkedTimeTableResponse.data.lectures.length; i += 1) {
-      const getLectureInfoResponse = yield call(axios.get, `ttrs/lectures/${getBookmarkedTimeTableResponse.data.lectures[i]}/`, config)
-      lectures.push(getLectureInfoResponse.data)
-    }
-    getBookmarkedTimeTableResponse.data.lectures = lectures
+    getBookmarkedTimeTableResponse.data.lectures = yield call(getLecturesFromLectureIds, getBookmarkedTimeTableResponse.data)
     yield put(actions.bookmarkResponse(getBookmarkedTimeTableResponse.data))
   } catch (error) {
     console.log('bookmark error', error.response)
@@ -313,15 +294,8 @@ function* sendTimeTable(sendInfo) {
 }
 
 function* selectReceivedTimeTable(receivedTimeTable, index) {
-  const lectures = []
   try {
-    for (let i = 0; i < receivedTimeTable.lectures.length; i += 1) {
-      const response = yield call(axios.get, `ttrs/lectures/${receivedTimeTable.lectures[i]}/`, config)
-      lectures.push(response.data)
-    }
-    receivedTimeTable.lectures = [
-      ...lectures,
-    ]
+    receivedTimeTable.lectures = yield call(getLecturesFromLectureIds, receivedTimeTable)
     const receiveResponse = yield call(axios.get, `ttrs/received-time-tables/${receivedTimeTable.id}/receive/`, config)
     console.log('receiveResponse', receiveResponse)
     receivedTimeTable.receivedAt = receiveResponse.data.receivedAt
@@ -337,12 +311,7 @@ function* copyToMyTimeTable(timeTableId) {
     const copyToMyResponse = yield call(axios.post, 'ttrs/time-tables/copy-to-my/', { timeTableId }, config)
     console.log('copyToMy response', copyToMyResponse)
     const getMyTimeTableResponse = yield call(axios.get, `ttrs/my-time-tables/${copyToMyResponse.data.createdTimeTable}/`, config)
-    const lectures = []
-    for (let i = 0; i < getMyTimeTableResponse.data.lectures.length; i += 1) {
-      const response = yield call(axios.get, `ttrs/lectures/${getMyTimeTableResponse.data.lectures[i]}/`, config)
-      lectures.push(response.data)
-    }
-    getMyTimeTableResponse.data.lectures = lectures
+    getMyTimeTableResponse.data.lectures = yield call(getLecturesFromLectureIds, getMyTimeTableResponse.data)
     yield put(actions.copyToMyTimeTableResponse(getMyTimeTableResponse.data))
   } catch (error) {
     console.log('copyToMy error', error.response)
@@ -368,13 +337,38 @@ function* withdraw() {
   }
 }
 
-function* deleteTimeTable(timeTableId, timeTableType) {
+function* deleteTimeTable(timeTableId, timeTableType, timeTables) {
   if (timeTableType === 'my') {
+    yield call(axios.delete, `ttrs/my-time-tables/${timeTableId}/`, config)
+    console.log('delete my time table')
+    yield put(actions.deleteMyTimeTable())
+  }
+  else if (timeTableType === 'bookmarked') {
+    yield call(axios.delete, `ttrs/bookmarked-time-tables/${timeTableId}/`, config)
+    console.log('delete bookmarked time table')
+    if (timeTables[0].id === timeTableId) {
+      if (timeTables.length === 1) {
+        yield put(actions.deleteBookmarkedTimeTable(timeTableId, initialTimeTable.bookmarkedTimeTable))
+      } else {
+        try {
+          timeTables[1].lectures = yield call(getLecturesFromLectureIds, timeTables[1])
+          yield put(actions.deleteBookmarkedTimeTable(timeTableId, timeTables[1]))
+        } catch (error) {
+          // Error happens when bookmarkedTimeTable.lectures is list of Lecture Info (already updated)
+          yield put(actions.deleteBookmarkedTimeTable(timeTableId, timeTables[1]))
+        }
+      }
+    } else {
+      yield put(actions.deleteBookmarkedTimeTable(timeTableId, timeTables[0]))
+    }
+  }
+  else if (timeTableType === 'received') {
     try {
-      yield call(axios.delete, `ttrs/my-time-tables/${timeTableId}/`, config)
-      yield put(actions.deleteMyTimeTable())
+      yield call(axios.delete, `ttrs/received-time-tables/${timeTableId}/`, config)
+      console.log('delete received time table')
+      yield put(actions.deleteReceivedTimeTable(timeTableId))
     } catch (error) {
-      console.log('failed to delete my time table')
+      console.log('failed to delete received time table')
     }
   }
 }
@@ -472,8 +466,8 @@ function* watchWithdraw() {
 
 function* watchDeleteTimeTable() {
   while (true) {
-    const { timeTableId, timeTableType } = yield take(actions.DELETE_TIME_TABLE)
-    yield call(deleteTimeTable, timeTableId, timeTableType)
+    const { timeTableId, timeTableType, timeTables } = yield take(actions.DELETE_TIME_TABLE)
+    yield call(deleteTimeTable, timeTableId, timeTableType, timeTables)
   }
 }
 

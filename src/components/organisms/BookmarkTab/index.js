@@ -16,7 +16,7 @@ const BookmarkTab = ({ isMainPage, currentTab, myTimeTable, bookmarkedTimeTables
           {...myTimeTable}
           canModify
           canCopyToMy={false}
-          onDeleteTimeTable={(timeTableId) => onDeleteTimeTable(timeTableId, 'my')}
+          onDeleteTimeTable={(timeTableId) => timeTableId !== null ? onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
         />
         <hr />
         <h1>Bookmarked TimeTable</h1>
@@ -37,6 +37,7 @@ const BookmarkTab = ({ isMainPage, currentTab, myTimeTable, bookmarkedTimeTables
           {...bookmarkedTimeTable}
           canModify
           canCopyToMy
+          onDeleteTimeTable={(timeTableId) => timeTableId !== null ? onDeleteTimeTable(timeTableId, 'bookmarked', bookmarkedTimeTables) : console.log('There is no timetable')}
         />
       </div>
     )

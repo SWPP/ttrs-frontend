@@ -36,7 +36,7 @@ const RecommendTab = ({ isMainPage, currentTab, myTimeTable, onUpdateMyTimeTable
           {...myTimeTable}
           canModify
           canCopyToMy={false}
-          onDeleteTimeTable={(timeTableId) => onDeleteTimeTable(timeTableId, 'my')}
+          onDeleteTimeTable={(timeTableId) => timeTableId !== null ? onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
         />
       </div>
     )

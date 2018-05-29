@@ -16,7 +16,7 @@ const ReceiveTab = ({ isMainPage, currentTab, myTimeTable, receivedTimeTables, r
           {...myTimeTable}
           canModify
           canCopyToMy={false}
-          onDeleteTimeTable={(timeTableId) => onDeleteTimeTable(timeTableId, 'my')}
+          onDeleteTimeTable={(timeTableId) => timeTableId !== null ? onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
         />
         <hr />
         <h1>Received TimeTable</h1>
@@ -36,6 +36,7 @@ const ReceiveTab = ({ isMainPage, currentTab, myTimeTable, receivedTimeTables, r
           {...receivedTimeTable}
           canModify={false}
           canCopyToMy
+          onDeleteTimeTable={(timeTableId) => timeTableId !== null ? onDeleteTimeTable(timeTableId, 'received', receivedTimeTables) : console.log('There is no timetable')}
         />
       </div>
     )

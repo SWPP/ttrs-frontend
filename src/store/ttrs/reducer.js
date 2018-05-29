@@ -166,6 +166,18 @@ const timeTable = (state = [], action) => {
         ...state,
         myTimeTable: initialTimeTable.myTimeTable,
       }
+    case actions.DELETE_BOOKMARKED_TIME_TABLE:
+      bookmarkedTimeTables = []
+      state.bookmarkedTimeTables.forEach((timeTable) => {
+        if (timeTable.id !== action.timeTableId) {
+          bookmarkedTimeTables.push(timeTable)
+        }
+      })
+      return {
+        ...state,
+        bookmarkedTimeTables: [...bookmarkedTimeTables],
+        bookmarkedTimeTable: action.timeTable,
+      }
     default:
       return state
   }
