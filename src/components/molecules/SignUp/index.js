@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Form, Grid, Header, Segment, Button, Message } from 'semantic-ui-react'
-import { customErrors, supportErrors, updateErrors } from '../../../services/error_utility'
+import { customErrors, initErrors, updateErrors } from '../../../services/error_utility'
 
 class SignUp extends React.Component {
   state = {
@@ -14,7 +14,7 @@ class SignUp extends React.Component {
     departmentIndex: null,
     majorIndex: null,
   }
-  errors = supportErrors()
+  errors = initErrors()
 
   handleChange = (e, { name, value }) => {
     this.setState({ [name]: value })
@@ -32,7 +32,7 @@ class SignUp extends React.Component {
       this.forceUpdate()
       return
     }
-    this.errors = supportErrors()
+    this.errors = initErrors()
 
     this.props.onSignUp(
       this.state.username,
