@@ -252,9 +252,9 @@ function* switchSemester(newYear, newSemester) {
     const receivedTimeTableResponse = yield call(axios.get, updateURLParams('ttrs/received-time-tables/', params), config)
     console.log('getCurrent receivedTimeTable response', receivedTimeTableResponse)
     yield call(getReceivedTimeTables, receivedTimeTableResponse)
-    const recommendedTimeTableResponse = yield call(axios.get, updateURLParams('ttrs/recommends/', params), config)
-    console.log('getCurrent recommendedTimeTable response', recommendedTimeTableResponse)
-    yield call(getRecommendedTimeTables, recommendedTimeTableResponse)
+    // const recommendedTimeTableResponse = yield call(axios.get, updateURLParams('ttrs/recommends/', params), config)
+    // console.log('getCurrent recommendedTimeTable response', recommendedTimeTableResponse)
+    // yield call(getRecommendedTimeTables, recommendedTimeTableResponse)
     yield put(actions.searchLectureResponse([]))
   } catch (error) {
     console.log('switchSemester error', error.response)

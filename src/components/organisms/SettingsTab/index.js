@@ -1,8 +1,8 @@
 import React from 'react'
-import { SETTINGS_TAB } from '../../../store/ttrs/selectors'
+import PropTypes from 'prop-types'
 import Button from '../../atoms/Button'
 
-const SettingsTab = ({ isMainPage, currentTab, oldPassword, onChangePassword, onWithdraw }) => {
+const SettingsTab = ({ oldPassword, onChangePassword, onWithdraw }) => {
   let inputOldPassword
   let inputNewPassword
   let inputNewPasswordConfirm
@@ -25,19 +25,23 @@ const SettingsTab = ({ isMainPage, currentTab, oldPassword, onChangePassword, on
     }
     onWithdraw()
   }
-  if (isMainPage && currentTab === SETTINGS_TAB) {
-    return (
-      <div>
-        <input ref={node => { inputOldPassword = node }} placeholder={'old password'} /> <br />
-        <input ref={node => { inputNewPassword = node }} placeholder={'new password'} /> <br />
-        <input ref={node => { inputNewPasswordConfirm = node }} placeholder={'new password confirm'} /> <br />
-        <Button type="submit" onClick={onSubmitChangePassword}>Change Password</Button> <hr />
-        <input ref={node => { inputPassword = node }} placeholder={'password'} />
-        <Button type="submit" onClick={onSubmitWithdraw}>Withdraw</Button>
-      </div>
-    )
-  }
-  return null
+
+  return (
+    <div>
+      <input ref={node => { inputOldPassword = node }} placeholder={'old password'} /> <br />
+      <input ref={node => { inputNewPassword = node }} placeholder={'new password'} /> <br />
+      <input ref={node => { inputNewPasswordConfirm = node }} placeholder={'new password confirm'} /> <br />
+      <Button type="submit" onClick={onSubmitChangePassword}>Change Password</Button> <hr />
+      <input ref={node => { inputPassword = node }} placeholder={'password'} />
+      <Button type="submit" onClick={onSubmitWithdraw}>Withdraw</Button>
+    </div>
+  )
+}
+
+SettingsTab.propTypes = {
+  oldPassword: PropTypes.func,
+  onChangePassword: PropTypes.func,
+  onWithdraw: PropTypes.func,
 }
 
 export default SettingsTab
