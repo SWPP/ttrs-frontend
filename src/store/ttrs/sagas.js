@@ -415,6 +415,27 @@ function* deleteTimeTable(timeTableId, timeTableType, timeTables) {
   }
 }
 
+function* addToNotRecommends(notRecommends, courseId) {
+  try {
+    let alreadyAdded = false
+    notRecommends.forEach((id) => {
+      if (id === courseId) {
+        alreadyAdded = true
+      }
+    })
+    if (!alreadyAdded) {
+      notRecommends.push(courseId)
+      const response = yield call(axios.patch, 'ttrs/students/my/', { notRecommends }, config)
+      console.log('addToNotRecommends response', response)
+      yield put(actions.addToNotRecommendsResponse(notRecommends))
+    } else {
+      console.log('already added to not Recommends')
+    }
+  } catch (error) {
+    console.log('addToNotRecommends error', error.response)
+  }
+}
+
 function* watchSignIn() {
   while (true) {
     const { username, password } = yield take(actions.SIGN_IN_REQUEST)
@@ -520,6 +541,13 @@ function* watchDeleteTimeTable() {
   }
 }
 
+function* watchAddToNotRecommends() {
+  while (true) {
+    const { notRecommends, courseId } = yield take(actions.ADD_TO_NOT_RECOMMENDS_REQUEST)
+    yield call(addToNotRecommends, notRecommends, courseId)
+  }
+}
+
 export default function* () {
   yield call(getInitialInfo)
   yield fork(watchSignIn)
@@ -537,4 +565,5 @@ export default function* () {
   yield fork(watchChangePassword)
   yield fork(watchWithdraw)
   yield fork(watchDeleteTimeTable)
+  yield fork(watchAddToNotRecommends)
 }

@@ -8,6 +8,11 @@ const studentInfo = (state = [], action) => {
         ...state,
         ...action.studentInfo,
       }
+    case actions.ADD_TO_NOT_RECOMMENDS_RESPONSE:
+      return {
+        ...state,
+        notRecommends: [...action.notRecommends],
+      }
     default:
       return state
   }
@@ -250,6 +255,7 @@ const ttrsReducer = (state = initialState, action) => {
     default:
       return {
         ...state,
+        studentInfo: studentInfo(state.studentInfo, action),
         belongInfo: belongInfo(state.belongInfo, action),
         timeTable: timeTable(state.timeTable, action),
         search: search(state.search, action),
