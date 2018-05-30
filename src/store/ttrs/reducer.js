@@ -11,12 +11,12 @@ const studentInfo = (state = [], action) => {
     case actions.ADD_TO_NOT_RECOMMENDS_RESPONSE:
       return {
         ...state,
-        notRecommends: [...action.notRecommends],
+        notRecommends: action.notRecommends,
       }
     case actions.DELETE_FROM_NOT_RECOMMENDS_RESPONSE:
       return {
         ...state,
-        notRecommends: [...action.notRecommends],
+        notRecommends: action.notRecommends,
       }
     default:
       return state
