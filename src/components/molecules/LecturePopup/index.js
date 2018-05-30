@@ -14,6 +14,8 @@ class LecturePopup extends React.Component {
     this.lecture = props.props.lecture
     this.height = props.props.height
     this.deleteLecture = props.props.deleteLecture
+    this.addToNotRecommends = props.props.addToNotRecommends
+    this.notRecommends = props.props.notRecommends
   }
 
   handleOpenPopup() {
@@ -31,6 +33,7 @@ class LecturePopup extends React.Component {
         <ReactModal isOpen={this.state.pop} contentLabel={'Modal'}>
           <p>{this.lecture.course.name}</p>
           <button onClick={() => this.deleteLecture(this.lecture.id)}>Delete</button>
+          <button onClick={() => this.addToNotRecommends(this.notRecommends, this.lecture.course.id)}>Not Recommend</button>
           <button onClick={this.handleClosePopup}>Close</button>
         </ReactModal>
       </div>
