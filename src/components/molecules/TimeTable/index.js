@@ -3,7 +3,7 @@ import Button from '../../atoms/Button'
 import LecturePopup from '../LecturePopup'
 
 
-const TimeTable = ({ username, id, memo, title, lectures, canModify, canCopyToMy, canDelete, onModifyContent, onDeleteLecture, onBookmark, onSend, onCopyToMy, onDeleteTimeTable }) => {
+const TimeTable = ({ username, id, memo, title, lectures, notRecommends, canModify, canCopyToMy, canDelete, onModifyContent, onDeleteLecture, onAddToNotRecommends, onBookmark, onSend, onCopyToMy, onDeleteTimeTable }) => {
   let titleContent = title
   let memoContent = memo
   let inputReceiverName
@@ -132,7 +132,7 @@ const TimeTable = ({ username, id, memo, title, lectures, canModify, canCopyToMy
         const span = getRowSpan(lectures[lectureIndex], day)
         return (
           <td style={{border: '1px solid black'}} rowSpan={span}>
-            <LecturePopup props={{ lecture: lectures[lectureIndex], height: span, deleteLecture: onDeleteLecture }} />
+            <LecturePopup props={{ lecture: lectures[lectureIndex], height: span, deleteLecture: onDeleteLecture, addToNotRecommends: onAddToNotRecommends, notRecommends: notRecommends }} />
           </td>
         )
       }

@@ -1,10 +1,14 @@
 import { connect } from 'react-redux'
 import TimeTable from '../components/molecules/TimeTable'
-import { bookmarkRequest, copyToMyTimeTableRequest, sendTimeTable } from '../store/ttrs/actions'
+import {
+  addToNotRecommendsRequest, bookmarkRequest, copyToMyTimeTableRequest,
+  sendTimeTable
+} from '../store/ttrs/actions'
 
 const mapStateToProps = (state, props) => {
   return {
     username: state.ttrs.studentInfo.username,
+    notRecommends: state.ttrs.studentInfo.notRecommends,
     ...props,
   }
 }
@@ -19,6 +23,9 @@ const mapDispatchToProps = (dispatch, props) => {
     },
     onCopyToMy: (timeTableId) => {
       dispatch(copyToMyTimeTableRequest(timeTableId))
+    },
+    onAddToNotRecommends: (notRecommends, courseId) => {
+      dispatch(addToNotRecommendsRequest(notRecommends, courseId))
     },
     ...props,
   }

@@ -3,7 +3,7 @@ import Lecture from '../../atoms/Lecture'
 import Button from '../../atoms/Button'
 
 
-const SearchLecture = ({ searchLectures, onSearchLecture, onAddLecture }) => {
+const SearchLecture = ({ searchLectures, onSearchLecture, onAddLecture, notRecommends, onAddToNotRecommends }) => {
   let inputCourseName
 
   const onSubmitCourseName = () => {
@@ -26,6 +26,10 @@ const SearchLecture = ({ searchLectures, onSearchLecture, onAddLecture }) => {
             type="submit"
             onClick={() => onAddLecture(lecture.id)}
           >Add To TimeTable</Button>
+          <Button
+            type="submit"
+            onClick={() => onAddToNotRecommends(notRecommends, lecture.course.id)}
+          >Not Recommend</Button>
         </div>
       )}
     </div>

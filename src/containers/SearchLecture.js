@@ -1,10 +1,11 @@
 import { connect } from 'react-redux'
 import SearchLecture from '../components/molecules/SearchLecture'
-import { searchLectureRequest } from '../store/ttrs/actions'
+import { addToNotRecommendsRequest, searchLectureRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
     searchLectures: state.ttrs.search.lectures,
+    notRecommends: state.ttrs.studentInfo.notRecommends,
   }
 }
 
@@ -14,6 +15,9 @@ const mapDispatchToProps = (dispatch, props) => {
       dispatch(searchLectureRequest(courseName))
     },
     onAddLecture: props.onAddLecture,
+    onAddToNotRecommends: (notRecommends, courseId) => {
+      dispatch(addToNotRecommendsRequest(notRecommends, courseId))
+    },
   }
 }
 

@@ -7,24 +7,28 @@ import ReceiveTab from '../../../containers/ReceiveTab'
 import SettingsTab from '../../../containers/SettingsTab'
 
 const panes = [
-  { menuItem: 'Recommend', render: () => <Tab.Pane><RecommendTab/></Tab.Pane> },
-  { menuItem: 'Bookmark', render: () => <Tab.Pane><BookmarkTab/></Tab.Pane> },
-  { menuItem: 'Receive', render: () => <Tab.Pane><ReceiveTab/></Tab.Pane> },
-  { menuItem: 'Settings', render: () => <Tab.Pane><SettingsTab/></Tab.Pane> },
+  { menuItem: 'Recommend', render: () => <Tab.Pane><RecommendTab /></Tab.Pane> },
+  { menuItem: 'Bookmark', render: () => <Tab.Pane><BookmarkTab /></Tab.Pane> },
+  { menuItem: 'Receive', render: () => <Tab.Pane><ReceiveTab /></Tab.Pane> },
+  { menuItem: 'Settings', render: () => <Tab.Pane><SettingsTab /></Tab.Pane> },
 ]
 
+class Tabs extends React.Component {
+  state = {}
 
-const Tabs = ({ isMainPage }) => {
-  if (isMainPage) {
-    return (
-      <Tab panes={panes} />
+  handleChange = (e, data) => this.setState(data)
+
+  render() {
+    return this.props.isMainPage && (
+      // TODO: handle onTabChange
+      <Tab panes={panes} onTabChange={(e, data) => { console.log(data) }} />
     )
   }
-  return null
 }
 
 Tabs.propTypes = {
   isMainPage: PropTypes.bool,
+  onGetNotRecommendCourses: PropTypes.bool,
 }
 
 export default Tabs

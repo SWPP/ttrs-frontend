@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Button from '../../atoms/Button'
 
-const SettingsTab = ({ oldPassword, onChangePassword, onWithdraw }) => {
+const SettingsTab = ({ oldPassword, notRecommends, notRecommendCourses, onChangePassword, onWithdraw, onDeleteFromNotRecommends }) => {
   let inputOldPassword
   let inputNewPassword
   let inputNewPasswordConfirm
@@ -32,6 +32,14 @@ const SettingsTab = ({ oldPassword, onChangePassword, onWithdraw }) => {
       <input ref={node => { inputNewPassword = node }} placeholder={'new password'} /> <br />
       <input ref={node => { inputNewPasswordConfirm = node }} placeholder={'new password confirm'} /> <br />
       <Button type="submit" onClick={onSubmitChangePassword}>Change Password</Button> <hr />
+      <h2>Not Recommends</h2>
+      {notRecommendCourses.map((course) => (
+        <div key={course.id}>
+          {course.name}
+          <button onClick={() => onDeleteFromNotRecommends(notRecommends, course.id)}>X</button>
+        </div>
+      ))}
+      <hr />
       <input ref={node => { inputPassword = node }} placeholder={'password'} />
       <Button type="submit" onClick={onSubmitWithdraw}>Withdraw</Button>
     </div>
@@ -40,6 +48,8 @@ const SettingsTab = ({ oldPassword, onChangePassword, onWithdraw }) => {
 
 SettingsTab.propTypes = {
   oldPassword: PropTypes.func,
+  notRecommends: PropTypes.array,
+  notRecommendCourses: PropTypes.array,
   onChangePassword: PropTypes.func,
   onWithdraw: PropTypes.func,
 }

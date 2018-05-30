@@ -38,6 +38,12 @@ export const DELETE_TIME_TABLE = 'DELETE_TIME_TABLE'
 export const DELETE_MY_TIME_TABLE = 'DELETE_MY_TIME_TABLE'
 export const DELETE_BOOKMARKED_TIME_TABLE = 'DELETE_BOOKMARKED_TIME_TABLE'
 export const DELETE_RECEIVED_TIME_TABLE = 'DELETE_RECEIVED_TIME_TABLE'
+export const ADD_TO_NOT_RECOMMENDS_REQUEST = 'ADD_TO_NOT_RECOMMENDS_REQUEST'
+export const ADD_TO_NOT_RECOMMENDS_RESPONSE = 'ADD_TO_NOT_RECOMMENDS_RESPONSE'
+export const SET_NOT_RECOMMEND_COURSES = 'SET_NOT_RECOMMEND_COURSE_NAMES'
+export const DELETE_FROM_NOT_RECOMMENDS_REQUEST = 'DELETE_FROM_NOT_RECOMMENDS_REQUEST'
+export const DELETE_FROM_NOT_RECOMMENDS_RESPONSE = 'DELETE_FROM_NOT_RECOMMENDS_RESPONSE'
+export const GET_NOT_RECOMMEND_COURSES_REQUEST = 'GET_NOT_RECOMMEND_COURSES_REQUEST'
 
 
 export const setErrors = (identifier, errors) => {
@@ -329,5 +335,49 @@ export const deleteReceivedTimeTable = (timeTableId, timeTable) => {
     type: DELETE_RECEIVED_TIME_TABLE,
     timeTableId,
     timeTable,
+  }
+}
+
+export const addToNotRecommendsRequest = (notRecommends, courseId) => {
+  return {
+    type: ADD_TO_NOT_RECOMMENDS_REQUEST,
+    notRecommends,
+    courseId,
+  }
+}
+
+export const addToNotRecommendsResponse = (notRecommends) => {
+  return {
+    type: ADD_TO_NOT_RECOMMENDS_RESPONSE,
+    notRecommends,
+  }
+}
+
+export const setNotRecommendCourses = (notRecommendCourses) => {
+  return {
+    type: SET_NOT_RECOMMEND_COURSES,
+    notRecommendCourses,
+  }
+}
+
+export const deleteFromNotRecommendsRequest = (notRecommends, courseId) => {
+  return {
+    type: DELETE_FROM_NOT_RECOMMENDS_REQUEST,
+    notRecommends,
+    courseId,
+  }
+}
+
+export const deleteFromNotRecommendsResponse = (notRecommends) => {
+  return {
+    type: DELETE_FROM_NOT_RECOMMENDS_RESPONSE,
+    notRecommends,
+  }
+}
+
+export const getNotRecommendCoursesRequest = (notRecommends) => {
+  return {
+    type: GET_NOT_RECOMMEND_COURSES_REQUEST,
+    notRecommends,
   }
 }
