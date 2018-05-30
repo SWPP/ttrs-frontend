@@ -33,11 +33,12 @@ const SettingsTab = ({ isMainPage, currentTab, oldPassword, notRecommendCourseNa
         <input ref={node => { inputNewPassword = node }} placeholder={'new password'} /> <br />
         <input ref={node => { inputNewPasswordConfirm = node }} placeholder={'new password confirm'} /> <br />
         <Button type="submit" onClick={onSubmitChangePassword}>Change Password</Button> <hr />
+        <h2>Not Recommends</h2>
         {notRecommendCourseNames.map((name) =>
           <div key={name}>
             {name}
           </div>
-        )}
+        )} <hr />
         <input ref={node => { inputPassword = node }} placeholder={'password'} />
         <Button type="submit" onClick={onSubmitWithdraw}>Withdraw</Button>
       </div>

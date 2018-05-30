@@ -438,6 +438,7 @@ function* addToNotRecommends(notRecommends, courseId) {
       const response = yield call(axios.patch, 'ttrs/students/my/', { notRecommends }, config)
       console.log('addToNotRecommends response', response)
       yield put(actions.addToNotRecommendsResponse(notRecommends))
+      yield call(getNotRecommendCourseName, notRecommends)
     } else {
       console.log('already added to not Recommends')
     }
