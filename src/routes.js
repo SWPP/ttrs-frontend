@@ -8,6 +8,9 @@ const routes = (
   <Route path="/" component={App}>
     <IndexRoute component={HomePage} />
   </Route>
+  // <Route
+  // <Route path="/sign-in/" component={App}>
+  // </Route>
 )
 
 export default routes
