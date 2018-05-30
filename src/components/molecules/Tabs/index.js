@@ -20,15 +20,20 @@ class Tabs extends React.Component {
 
   render() {
     return this.props.isMainPage && (
-      // TODO: handle onTabChange
-      <Tab panes={panes} onTabChange={(e, data) => { console.log(data) }} />
+      <Tab
+        panes={panes}
+        onTabChange={(e, data) => {
+          data.activeIndex && this.props.onGetNotRecommendCourses(this.props.notRecommends)
+        }}
+      />
     )
   }
 }
 
 Tabs.propTypes = {
   isMainPage: PropTypes.bool,
-  onGetNotRecommendCourses: PropTypes.bool,
+  notRecommends: PropTypes.array,
+  onGetNotRecommendCourses: PropTypes.func,
 }
 
 export default Tabs
