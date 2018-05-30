@@ -1,4 +1,4 @@
-import { initialState, initialTimeTable } from './selectors'
+import { initialState, initialTimeTable, initialError } from './selectors'
 import * as actions from './actions'
 
 const studentInfo = (state = [], action) => {
@@ -29,26 +29,11 @@ const belongInfo = (state = [], action) => {
       return {
         ...state,
         colleges: state.colleges,
-        departments: state.colleges[0].departments,
-        majors: [],
       }
     case actions.GET_COLLEGE_LIST:
       return {
         ...state,
         colleges: action.colleges,
-        departments: action.colleges[0].departments,
-        majors: [],
-      }
-    case actions.CHANGE_DEPARTMENT_LIST:
-      return {
-        ...state,
-        departments: state.colleges[action.collegeIndex].departments,
-        majors: [],
-      }
-    case actions.CHANGE_MAJOR_LIST:
-      return {
-        ...state,
-        majors: action.departmentIndex === '' ? [] : state.departments[action.departmentIndex].majors,
       }
     default:
       return state
@@ -228,6 +213,30 @@ const search = (state = [], action) => {
   }
 }
 
+const error = (state = initialError, action) => {
+  switch (action.type) {
+    case actions.CLEAR_STATE:
+      return initialError
+    case actions.SIGN_UP_REQUEST:
+      return {
+        ...state,
+        signUp: {},
+      }
+    case actions.SIGN_IN_REQUEST:
+      return {
+        ...state,
+        signIn: {},
+      }
+    case actions.SET_ERRORS:
+      return {
+        ...state,
+        [action.identifier]: action.errors,
+      }
+    default:
+      return state
+  }
+}
+
 const ttrsReducer = (state = initialState, action) => {
   switch (action.type) {
     case actions.GET_SEMESTER_LIST:
@@ -269,6 +278,7 @@ const ttrsReducer = (state = initialState, action) => {
         belongInfo: belongInfo(state.belongInfo, action),
         timeTable: timeTable(state.timeTable, action),
         search: search(state.search, action),
+        error: error(state.error, action),
       }
   }
 }

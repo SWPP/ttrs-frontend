@@ -12,6 +12,11 @@ $ npm install
 $ npm install --save axios
 ```
 
+#### Semantic UI for React
+```
+$ npm install --save semantic-ui-react semantic-ui-css
+```
+
 ## Notice
 If you use WebStorm for this project,
 1. File -> Settings -> Language and Frameworks -> JavaScript -> React JSX -> Apply -> OK

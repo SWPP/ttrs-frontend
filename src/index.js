@@ -1,3 +1,4 @@
+import 'semantic-ui-css/semantic.css'
 import 'react-hot-loader/patch'
 import 'babel-polyfill'
 import React from 'react'
