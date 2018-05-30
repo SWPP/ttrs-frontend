@@ -87,13 +87,13 @@ function* getRecommendedTimeTables(response) {
   yield put(actions.createRecommendedTimeTables(recommendedTimeTables))
 }
 
-function* getNotRecommendCourseName(notRecommends) {
-  const notRecommendCourseNames = []
+function* getNotRecommendCourses(notRecommends) {
+  const notRecommendCourses = []
   for (let i = 0; i < notRecommends.length; i += 1) {
-    const getNotRecommendCourseNameResponse = yield call(axios.get, `/ttrs/courses/${notRecommends[i]}/`, config)
-    notRecommendCourseNames.push(getNotRecommendCourseNameResponse.data.name)
+    const getNotRecommendCourseResponse = yield call(axios.get, `/ttrs/courses/${notRecommends[i]}/`, config)
+    notRecommendCourses.push({ id: notRecommends[i], name: getNotRecommendCourseResponse.data.name })
   }
-  yield put(actions.setNotRecommendCourseNames(notRecommendCourseNames))
+  yield put(actions.setNotRecommendCourses(notRecommendCourses))
 }
 
 function* getInitialInfo() {
@@ -123,7 +123,7 @@ function* signIn(username, password) {
     console.log('signIn response', response)
     response.data.password = password
     yield put(actions.signInResponse(response.data))
-    yield call(getNotRecommendCourseName, response.data.notRecommends)
+    yield call(getNotRecommendCourses, response.data.notRecommends)
   } catch (error) {
     console.log('signIn error', error.response)
     return undefined
@@ -438,12 +438,29 @@ function* addToNotRecommends(notRecommends, courseId) {
       const response = yield call(axios.patch, 'ttrs/students/my/', { notRecommends }, config)
       console.log('addToNotRecommends response', response)
       yield put(actions.addToNotRecommendsResponse(notRecommends))
-      yield call(getNotRecommendCourseName, notRecommends)
+      yield call(getNotRecommendCourses, notRecommends)
     } else {
       console.log('already added to not Recommends')
     }
   } catch (error) {
     console.log('addToNotRecommends error', error.response)
+  }
+}
+
+function* deleteFromNotRecommends(notRecommends, courseId) {
+  const newNotRecommends = []
+  notRecommends.forEach((id) => {
+    if (id !== courseId) {
+      newNotRecommends.push(id)
+    }
+  })
+  try {
+    const response = yield call(axios.patch, 'ttrs/students/my/', { notRecommends: newNotRecommends }, config)
+    console.log('deleteFromNotRecommends response', response)
+    yield put(actions.deleteFromNotRecommendsResponse(newNotRecommends))
+    yield call(getNotRecommendCourses, newNotRecommends)
+  } catch (error) {
+    console.log('deleteFromNotRecommends error', error.response)
   }
 }
 
@@ -559,6 +576,13 @@ function* watchAddToNotRecommends() {
   }
 }
 
+function* watchDeleteFromNotRecommends() {
+  while (true) {
+    const { notRecommends, courseId } = yield take(actions.DELETE_FROM_NOT_RECOMMENDS_REQUEST)
+    yield call(deleteFromNotRecommends, notRecommends, courseId)
+  }
+}
+
 export default function* () {
   yield call(getInitialInfo)
   yield fork(watchSignIn)
@@ -577,4 +601,5 @@ export default function* () {
   yield fork(watchWithdraw)
   yield fork(watchDeleteTimeTable)
   yield fork(watchAddToNotRecommends)
+  yield fork(watchDeleteFromNotRecommends)
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import { SETTINGS_TAB } from '../../../store/ttrs/selectors'
 import Button from '../../atoms/Button'
 
-const SettingsTab = ({ isMainPage, currentTab, oldPassword, notRecommendCourseNames, onChangePassword, onWithdraw }) => {
+const SettingsTab = ({ isMainPage, currentTab, oldPassword, notRecommends, notRecommendCourses, onChangePassword, onWithdraw, onDeleteFromNotRecommends }) => {
   let inputOldPassword
   let inputNewPassword
   let inputNewPasswordConfirm
@@ -26,7 +26,6 @@ const SettingsTab = ({ isMainPage, currentTab, oldPassword, notRecommendCourseNa
     onWithdraw()
   }
   if (isMainPage && currentTab === SETTINGS_TAB) {
-    console.log(notRecommendCourseNames)
     return (
       <div>
         <input ref={node => { inputOldPassword = node }} placeholder={'old password'} /> <br />
@@ -34,9 +33,10 @@ const SettingsTab = ({ isMainPage, currentTab, oldPassword, notRecommendCourseNa
         <input ref={node => { inputNewPasswordConfirm = node }} placeholder={'new password confirm'} /> <br />
         <Button type="submit" onClick={onSubmitChangePassword}>Change Password</Button> <hr />
         <h2>Not Recommends</h2>
-        {notRecommendCourseNames.map((name) =>
-          <div key={name}>
-            {name}
+        {notRecommendCourses.map((course) =>
+          <div key={course.id}>
+            {course.name}
+            <button onClick={() => onDeleteFromNotRecommends(notRecommends, course.id)}>X</button>
           </div>
         )} <hr />
         <input ref={node => { inputPassword = node }} placeholder={'password'} />

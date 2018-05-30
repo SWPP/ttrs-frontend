@@ -13,6 +13,11 @@ const studentInfo = (state = [], action) => {
         ...state,
         notRecommends: [...action.notRecommends],
       }
+    case actions.DELETE_FROM_NOT_RECOMMENDS_RESPONSE:
+      return {
+        ...state,
+        notRecommends: [...action.notRecommends],
+      }
     default:
       return state
   }
@@ -252,10 +257,10 @@ const ttrsReducer = (state = initialState, action) => {
         ...state,
         currentTab: action.tab,
       }
-    case actions.SET_NOT_RECOMMEND_COURSE_NAMES:
+    case actions.SET_NOT_RECOMMEND_COURSES:
       return {
         ...state,
-        notRecommendCourseNames: [...action.notRecommendCourseNames],
+        notRecommendCourses: [...action.notRecommendCourses],
       }
     default:
       return {
