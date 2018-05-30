@@ -41,6 +41,7 @@ export const DELETE_BOOKMARKED_TIME_TABLE = 'DELETE_BOOKMARKED_TIME_TABLE'
 export const DELETE_RECEIVED_TIME_TABLE = 'DELETE_RECEIVED_TIME_TABLE'
 export const ADD_TO_NOT_RECOMMENDS_REQUEST = 'ADD_TO_NOT_RECOMMENDS_REQUEST'
 export const ADD_TO_NOT_RECOMMENDS_RESPONSE = 'ADD_TO_NOT_RECOMMENDS_RESPONSE'
+export const SET_NOT_RECOMMEND_COURSE_NAMES = 'SET_NOT_RECOMMEND_COURSE_NAMES'
 
 
 export const signInRequest = (username, password) => {
@@ -353,5 +354,12 @@ export const addToNotRecommendsResponse = (notRecommends) => {
   return {
     type: ADD_TO_NOT_RECOMMENDS_RESPONSE,
     notRecommends,
+  }
+}
+
+export const setNotRecommendCourseNames = (notRecommendCourseNames) => {
+  return {
+    type: SET_NOT_RECOMMEND_COURSE_NAMES,
+    notRecommendCourseNames,
   }
 }

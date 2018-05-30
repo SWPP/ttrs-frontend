@@ -7,6 +7,7 @@ const mapStateToProps = (state) => {
     isMainPage: state.ttrs.isMainPage,
     currentTab: state.ttrs.currentTab,
     oldPassword: state.ttrs.studentInfo.password,
+    notRecommendCourseNames: state.ttrs.notRecommendCourseNames,
   }
 }
 

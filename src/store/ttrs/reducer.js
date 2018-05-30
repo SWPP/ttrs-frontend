@@ -252,6 +252,11 @@ const ttrsReducer = (state = initialState, action) => {
         ...state,
         currentTab: action.tab,
       }
+    case actions.SET_NOT_RECOMMEND_COURSE_NAMES:
+      return {
+        ...state,
+        notRecommendCourseNames: [...action.notRecommendCourseNames],
+      }
     default:
       return {
         ...state,

@@ -87,6 +87,15 @@ function* getRecommendedTimeTables(response) {
   yield put(actions.createRecommendedTimeTables(recommendedTimeTables))
 }
 
+function* getNotRecommendCourseName(notRecommends) {
+  const notRecommendCourseNames = []
+  for (let i = 0; i < notRecommends.length; i += 1) {
+    const getNotRecommendCourseNameResponse = yield call(axios.get, `/ttrs/courses/${notRecommends[i]}/`, config)
+    notRecommendCourseNames.push(getNotRecommendCourseNameResponse.data.name)
+  }
+  yield put(actions.setNotRecommendCourseNames(notRecommendCourseNames))
+}
+
 function* getInitialInfo() {
   try {
     const response = yield call(axios.get, 'ttrs/colleges/', config)
@@ -114,6 +123,7 @@ function* signIn(username, password) {
     console.log('signIn response', response)
     response.data.password = password
     yield put(actions.signInResponse(response.data))
+    yield call(getNotRecommendCourseName, response.data.notRecommends)
   } catch (error) {
     console.log('signIn error', error.response)
     return undefined
