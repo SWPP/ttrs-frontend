@@ -83,3 +83,24 @@ export const updateURLParams = (url, params) => {
   })
   return `${url}?${attrs.join('&')}`
 }
+
+export const convertToReadable = (key) => {
+  const words = []
+  let start = 0
+  for (let i = 0; i < key.length; i += 1) {
+    if (isUpperCase(key[i])) {
+      if (start === 0) {
+        words.push(key[start].toUpperCase() + key.slice(start + 1, i))
+      } else {
+        words.push(key.slice(start, i))
+      }
+      start = i
+    }
+  }
+  if (start === 0) {
+    words.push(key[start].toUpperCase() + key.slice(start + 1))
+  } else {
+    words.push(key.slice(start))
+  }
+  return words.join(' ')
+}

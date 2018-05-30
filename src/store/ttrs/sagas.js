@@ -116,6 +116,7 @@ function* signIn(username, password) {
     yield put(actions.signInResponse(response.data))
   } catch (error) {
     console.log('signIn error', error.response)
+    yield put(actions.setErrors('signIn', error.response.data))
     return undefined
   }
   year = initialState.year
@@ -161,6 +162,7 @@ function* signUp(studentInfo) {
     yield put(actions.clearState())
   } catch (error) {
     console.log('signUp error', error.response)
+    yield put(actions.setErrors('signUp', error.response.data))
   }
 }
 
@@ -424,7 +426,7 @@ function* watchSignIn() {
 
 function* watchSignUp() {
   while (true) {
-    const { studentInfo } = yield take(actions.SIGN_UP)
+    const { studentInfo } = yield take(actions.SIGN_UP_REQUEST)
     yield call(signUp, studentInfo)
   }
 }

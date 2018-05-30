@@ -19,6 +19,14 @@ const babel = () => () => ({
   module: {
     rules: [
       { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader' },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+        include: [
+          path.join(__dirname, 'src'),
+          /node_modules/,
+        ],
+      },
     ],
   },
 })

@@ -1,13 +1,12 @@
+export const SET_ERRORS = 'SET_ERRORS'
 export const SIGN_IN_REQUEST = 'SIGN_IN_REQUEST'
 export const SIGN_IN_RESPONSE = 'SIGN_IN_RESPONSE'
 export const GO_SIGN_UP_PAGE = 'GO_SIGN_UP_PAGE'
-export const SIGN_UP = 'SIGN_UP'
+export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST'
 export const CLEAR_STATE = 'CLEAR_STATE'
 export const CHANGE_TAB = 'CHANGE_TAB'
 export const GET_COLLEGE_LIST = 'GET_COLLEGE_LIST'
 export const GET_SEMESTER_LIST = 'GET_SEMESTER_LIST'
-export const CHANGE_DEPARTMENT_LIST = 'CHANGE_DEPARTMENT_LIST'
-export const CHANGE_MAJOR_LIST = 'CHANGE_MAJOR_LIST'
 export const SEARCH_LECTURE_REQUEST = 'SEARCH_LECTURE_REQUEST'
 export const SEARCH_LECTURE_RESPONSE = 'SEARCH_LECTURE_RESPONSE'
 export const CREATE_MY_TIME_TABLE = 'CREATE_MY_TIME_TABLE'
@@ -41,6 +40,14 @@ export const DELETE_BOOKMARKED_TIME_TABLE = 'DELETE_BOOKMARKED_TIME_TABLE'
 export const DELETE_RECEIVED_TIME_TABLE = 'DELETE_RECEIVED_TIME_TABLE'
 
 
+export const setErrors = (identifier, errors) => {
+  return {
+    type: SET_ERRORS,
+    identifier,
+    errors,
+  }
+}
+
 export const signInRequest = (username, password) => {
   return {
     type: SIGN_IN_REQUEST,
@@ -62,9 +69,9 @@ export const goSignUpPage = () => {
   }
 }
 
-export const signUp = (studentInfo) => {
+export const signUpRequest = (studentInfo) => {
   return {
-    type: SIGN_UP,
+    type: SIGN_UP_REQUEST,
     studentInfo,
   }
 }
@@ -93,20 +100,6 @@ export const getSemesterList = (semesters) => {
   return {
     type: GET_SEMESTER_LIST,
     semesters,
-  }
-}
-
-export const changeDepartmentList = (collegeIndex) => {
-  return {
-    type: CHANGE_DEPARTMENT_LIST,
-    collegeIndex,
-  }
-}
-
-export const changeMajorList = (departmentIndex) => {
-  return {
-    type: CHANGE_MAJOR_LIST,
-    departmentIndex,
   }
 }
 
