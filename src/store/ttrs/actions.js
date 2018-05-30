@@ -43,6 +43,7 @@ export const ADD_TO_NOT_RECOMMENDS_RESPONSE = 'ADD_TO_NOT_RECOMMENDS_RESPONSE'
 export const SET_NOT_RECOMMEND_COURSES = 'SET_NOT_RECOMMEND_COURSE_NAMES'
 export const DELETE_FROM_NOT_RECOMMENDS_REQUEST = 'DELETE_FROM_NOT_RECOMMENDS_REQUEST'
 export const DELETE_FROM_NOT_RECOMMENDS_RESPONSE = 'DELETE_FROM_NOT_RECOMMENDS_RESPONSE'
+export const GET_NOT_RECOMMEND_COURSES_REQUEST = 'GET_NOT_RECOMMEND_COURSES_REQUEST'
 
 
 export const setErrors = (identifier, errors) => {
@@ -370,6 +371,13 @@ export const deleteFromNotRecommendsRequest = (notRecommends, courseId) => {
 export const deleteFromNotRecommendsResponse = (notRecommends) => {
   return {
     type: DELETE_FROM_NOT_RECOMMENDS_RESPONSE,
+    notRecommends,
+  }
+}
+
+export const getNotRecommendCoursesRequest = (notRecommends) => {
+  return {
+    type: GET_NOT_RECOMMEND_COURSES_REQUEST,
     notRecommends,
   }
 }

@@ -123,7 +123,6 @@ function* signIn(username, password) {
     console.log('signIn response', response)
     response.data.password = password
     yield put(actions.signInResponse(response.data))
-    yield call(getNotRecommendCourses, response.data.notRecommends)
   } catch (error) {
     console.log('signIn error', error.response)
     yield put(actions.setErrors('signIn', error.response.data))
@@ -440,7 +439,6 @@ function* addToNotRecommends(notRecommends, courseId) {
       const response = yield call(axios.patch, 'ttrs/students/my/', { notRecommends }, config)
       console.log('addToNotRecommends response', response)
       yield put(actions.addToNotRecommendsResponse(notRecommends))
-      yield call(getNotRecommendCourses, notRecommends)
     } else {
       console.log('already added to not Recommends')
     }
@@ -585,6 +583,13 @@ function* watchDeleteFromNotRecommends() {
   }
 }
 
+function* watchGetNotRecommendCourses() {
+  while (true) {
+    const { notRecommends } = yield take(actions.GET_NOT_RECOMMEND_COURSES_REQUEST)
+    yield call(getNotRecommendCourses, notRecommends)
+  }
+}
+
 export default function* () {
   yield call(getInitialInfo)
   yield fork(watchSignIn)
@@ -604,4 +609,5 @@ export default function* () {
   yield fork(watchDeleteTimeTable)
   yield fork(watchAddToNotRecommends)
   yield fork(watchDeleteFromNotRecommends)
+  yield fork(watchGetNotRecommendCourses)
 }
