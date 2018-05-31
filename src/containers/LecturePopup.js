@@ -1,9 +1,13 @@
 import { connect } from 'react-redux'
 import LecturePopup from '../components/molecules/LecturePopup'
-import { addEvaluationRequest, deleteEvaluationRequest, getEvaluationsRequest, modifyEvaluationRequest } from '../store/ttrs/actions'
+import {
+  addEvaluationRequest, deleteEvaluationRequest, getEvaluationsRequest, modifyEvaluationRequest,
+  toggleLikeItRequest
+} from '../store/ttrs/actions'
 
 const mapStateToProps = (state, props) => {
   return {
+    userId: state.ttrs.studentInfo.id,
     username: state.ttrs.studentInfo.username,
     evaluations: state.ttrs.evaluations,
     lectureDetail: state.ttrs.lectureDetail,
@@ -24,6 +28,9 @@ const mapDispatchToProps = (dispatch, props) => {
     },
     onModifyEvaluation: (lectureId, evaluation) => {
       dispatch(modifyEvaluationRequest(lectureId, evaluation))
+    },
+    onToggleLikeIt: (lectureId, isAdd, evaluationId) => {
+      dispatch(toggleLikeItRequest(lectureId, isAdd, evaluationId))
     },
     ...props,
   }

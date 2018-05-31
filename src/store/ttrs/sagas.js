@@ -509,6 +509,21 @@ function* modifyEvaluation(lectureId, evaluation) {
   }
 }
 
+function* toggleLikeIt(lectureId, isAdd, evaluationId) {
+  try {
+    if (isAdd) {
+      const response = yield call(axios.get, `ttrs/evaluations/${evaluationId}/likeit/`, config)
+      console.log('add likeit response', response)
+    } else {
+      const response = yield call(axios.delete, `ttrs/evaluations/${evaluationId}/likeit/`, config)
+      console.log('delete likeit response', response)
+    }
+    yield call(getEvaluations, lectureId)
+  } catch (error) {
+    console.log('toggle likeit error', error.response)
+  }
+}
+
 function* watchSignIn() {
   while (true) {
     const { username, password } = yield take(actions.SIGN_IN_REQUEST)
@@ -663,6 +678,13 @@ function* watchModifyEvaluation() {
   }
 }
 
+function* watchToggleLikeIt() {
+  while (true) {
+    const { lectureId, isAdd, evaluationId } = yield take(actions.TOGGLE_LIKE_IT_REQUEST)
+    yield call(toggleLikeIt, lectureId, isAdd, evaluationId)
+  }
+}
+
 export default function* () {
   yield call(getInitialInfo)
   yield fork(watchSignIn)
@@ -687,4 +709,5 @@ export default function* () {
   yield fork(watchAddEvaluation)
   yield fork(watchDeleteEvaluation)
   yield fork(watchModifyEvaluation)
+  yield fork(watchToggleLikeIt)
 }

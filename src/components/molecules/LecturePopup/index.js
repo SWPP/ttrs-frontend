@@ -43,6 +43,16 @@ class LecturePopup extends React.Component {
     }
   }
 
+  handleToggleLikeIt = (evaluation) => {
+    let isAdd = true
+    evaluation.likeIt.forEach((id) => {
+      if (this.props.userId === id) {
+        isAdd = false
+      }
+    })
+    this.props.onToggleLikeIt(this.props.lecture.id, isAdd, evaluation.id)
+  }
+
   render() {
     const rateOption = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
@@ -93,6 +103,10 @@ class LecturePopup extends React.Component {
                   <button onClick={() => this.props.onDeleteEvaluation(this.props.lecture.id, evaluation.id)}>Delete</button>
                 </div>
               }
+              <h4>Like = {evaluation.likeIt.length}</h4>
+              {this.props.username !== evaluation.author &&
+                <button onClick={() => this.handleToggleLikeIt(evaluation)}>Toggle LikeIt</button>
+              }
             </div>
           )}
         </ReactModal>
@@ -103,6 +117,7 @@ class LecturePopup extends React.Component {
 
 LecturePopup.propTypes = {
   username: PropTypes.string,
+  userId: PropTypes.number,
   evaluations: PropTypes.array,
   lecture: PropTypes.object,
   height: PropTypes.number,
@@ -115,6 +130,7 @@ LecturePopup.propTypes = {
   onDeleteEvaluation: PropTypes.func,
   onModifyEvaluation: PropTypes.func,
   lectureDetail: PropTypes.object,
+  onToggleLikeIt: PropTypes.func,
 }
 
 export default LecturePopup
