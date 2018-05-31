@@ -14,16 +14,14 @@ const panes = [
 ]
 
 class Tabs extends React.Component {
-  state = {}
-
-  handleChange = (e, data) => this.setState(data)
-
   render() {
     return this.props.isMainPage && (
       <Tab
         panes={panes}
         onTabChange={(e, data) => {
-          data.activeIndex && this.props.onGetNotRecommendCourses(this.props.notRecommends)
+          if (data.activeIndex === 3) {
+            this.props.onGetNotRecommendCourses(this.props.notRecommends)
+          }
         }}
       />
     )

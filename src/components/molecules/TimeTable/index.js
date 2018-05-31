@@ -210,7 +210,7 @@ class TimeTable extends React.Component {
   render() {
     const iconButtonStyle = {
       backgroundColor: 'white',
-      padding: '5',
+      padding: 5,
     }
 
     return (
