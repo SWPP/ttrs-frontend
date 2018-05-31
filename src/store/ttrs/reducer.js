@@ -202,11 +202,23 @@ const timeTable = (state = [], action) => {
 }
 
 const search = (state = [], action) => {
+  let lectures = []
   switch (action.type) {
     case actions.SEARCH_LECTURE_RESPONSE:
       return {
         ...state,
         lectures: action.lectures,
+      }
+    case actions.SET_EVALUATIONS_RESPONSE:
+      lectures = state.lectures
+      lectures.forEach((lecture, index) => {
+        if (lecture.id === action.lectureDetail.id) {
+          lectures[index] = action.lectureDetail
+        }
+      })
+      return {
+        ...state,
+        lectures: [...lectures],
       }
     default:
       return state
@@ -276,6 +288,7 @@ const ttrsReducer = (state = initialState, action) => {
         ...state,
         evaluations: action.evaluations,
         lectureDetail: action.lectureDetail,
+        search: search(state.search, action),
       }
     default:
       return {
