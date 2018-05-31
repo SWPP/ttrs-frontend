@@ -132,7 +132,7 @@ const TimeTable = ({ username, id, memo, title, lectures, notRecommends, canModi
         const span = getRowSpan(lectures[lectureIndex], day)
         return (
           <td style={{border: '1px solid black'}} rowSpan={span}>
-            <LecturePopup props={{ lecture: lectures[lectureIndex], height: span, deleteLecture: onDeleteLecture, addToNotRecommends: onAddToNotRecommends, notRecommends: notRecommends }} />
+            <LecturePopup props={{ lecture: lectures[lectureIndex], height: span, deleteLecture: onDeleteLecture, addToNotRecommends: onAddToNotRecommends, notRecommends: notRecommends, canDelete: canDelete }} />
           </td>
         )
       }
