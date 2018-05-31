@@ -261,11 +261,6 @@ const ttrsReducer = (state = initialState, action) => {
         belongInfo: belongInfo(state.belongInfo, action),
         semesters: state.semesters,
       }
-    case actions.CHANGE_TAB:
-      return {
-        ...state,
-        currentTab: action.tab,
-      }
     case actions.SET_NOT_RECOMMEND_COURSES:
       return {
         ...state,
