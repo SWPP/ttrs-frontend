@@ -1,6 +1,7 @@
 import React from 'react'
 import Lecture from '../../atoms/Lecture'
 import Button from '../../atoms/Button'
+import LecturePopup from '../../../containers/LecturePopup'
 
 
 const SearchLecture = ({ searchLectures, onSearchLecture, onAddLecture, notRecommends, onAddToNotRecommends }) => {
@@ -26,10 +27,13 @@ const SearchLecture = ({ searchLectures, onSearchLecture, onAddLecture, notRecom
             type="submit"
             onClick={() => onAddLecture(lecture.id)}
           >Add To TimeTable</Button>
-          <Button
-            type="submit"
-            onClick={() => onAddToNotRecommends(notRecommends, lecture.course.id)}
-          >Not Recommend</Button>
+          <LecturePopup
+            lecture={lecture}
+            height={1}
+            addToNotRecommends={(notRecommends, courseId) => onAddToNotRecommends(notRecommends, courseId)}
+            notRecommends={notRecommends}
+            canDelete={false}
+          />
         </div>
       )}
     </div>
