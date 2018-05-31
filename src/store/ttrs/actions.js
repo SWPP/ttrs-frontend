@@ -4,7 +4,6 @@ export const SIGN_IN_RESPONSE = 'SIGN_IN_RESPONSE'
 export const GO_SIGN_UP_PAGE = 'GO_SIGN_UP_PAGE'
 export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST'
 export const CLEAR_STATE = 'CLEAR_STATE'
-export const CHANGE_TAB = 'CHANGE_TAB'
 export const GET_COLLEGE_LIST = 'GET_COLLEGE_LIST'
 export const GET_SEMESTER_LIST = 'GET_SEMESTER_LIST'
 export const SEARCH_LECTURE_REQUEST = 'SEARCH_LECTURE_REQUEST'
@@ -85,13 +84,6 @@ export const signUpRequest = (studentInfo) => {
 export const clearState = () => {
   return {
     type: CLEAR_STATE,
-  }
-}
-
-export const changeTab = (tab) => {
-  return {
-    type: CHANGE_TAB,
-    tab,
   }
 }
 
