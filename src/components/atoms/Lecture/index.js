@@ -3,7 +3,7 @@ import Course from '../Course'
 import TimeSlot from '../TimeSlot'
 
 
-const Lecture = ({ id, course, timeSlots, instructor, note }) => {
+const Lecture = ({ id, course, timeSlots, rating, instructor, note }) => {
   function showLectureInfo() {
     const info = `${course.name}\n${instructor}\n${note}`
     alert(info)
@@ -11,6 +11,7 @@ const Lecture = ({ id, course, timeSlots, instructor, note }) => {
 
   return (
     <div>
+      <h3>Rating = {rating}</h3>
       <Course {...course} />
       {timeSlots.map(timeSlot =>
         <TimeSlot
