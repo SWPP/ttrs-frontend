@@ -47,7 +47,7 @@ const SettingsTab = ({ oldPassword, notRecommends, notRecommendCourses, onChange
 }
 
 SettingsTab.propTypes = {
-  oldPassword: PropTypes.func,
+  oldPassword: PropTypes.string,
   notRecommends: PropTypes.array,
   notRecommendCourses: PropTypes.array,
   onChangePassword: PropTypes.func,
