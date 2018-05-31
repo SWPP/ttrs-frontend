@@ -5,6 +5,8 @@ import TimeSlot from '../../atoms/TimeSlot'
 
 let inputRate = { value: 1 }
 let inputComment = ''
+let inputNewRate = { value: 1 }
+let inputNewComment = ''
 
 class LecturePopup extends React.Component {
   state = {
@@ -34,9 +36,10 @@ class LecturePopup extends React.Component {
   }
 
   handleModifyEvaluation = (evaluation) => {
-    if (inputComment.value.trim()) {
-      evaluation.rate = inputRate.value
-      evaluation.comment = inputComment.value
+    console.log(inputNewComment.value)
+    if (inputNewComment.value.trim()) {
+      evaluation.rate = inputNewRate.value
+      evaluation.comment = inputNewComment.value
       this.props.onModifyEvaluation(this.props.lecture.id, evaluation)
     } else {
       console.log('There is no comment')
@@ -58,7 +61,7 @@ class LecturePopup extends React.Component {
 
     return (
       <div>
-        <button style={{ padding: '0', width: '100px', height: (this.height * 35).toString() + 'px' }} onClick={this.handleOpenPopup}>{this.lecture.course.name}</button>
+        <button style={{ padding: '0', width: '100px', height: (this.props.height * 35).toString() + 'px' }} onClick={this.handleOpenPopup}>{this.props.lecture.course.name}</button>
         <ReactModal isOpen={this.state.pop} contentLabel={'Modal'}>
           <h2>{this.props.lecture.course.name}</h2>
           <h3>instructor = {this.props.lecture.instructor}</h3>
@@ -90,7 +93,7 @@ class LecturePopup extends React.Component {
               {evaluation.comment}
               {this.props.username === evaluation.author &&
                 <div>
-                  <select ref={node => { inputRate = node }}>
+                  <select ref={node => { inputNewRate = node }}>
                     {rateOption.map((value) =>
                       <option
                         key={value}
@@ -98,7 +101,7 @@ class LecturePopup extends React.Component {
                       >{value}</option>
                     )}
                   </select>
-                  <input ref={node => { inputComment = node }} placeholder={'Comment'} /> <br />
+                  <input ref={node => { inputNewComment = node }} placeholder={'New Comment'} /> <br />
                   <button onClick={() => this.handleModifyEvaluation(evaluation)}>Modify</button>
                   <button onClick={() => this.props.onDeleteEvaluation(this.props.lecture.id, evaluation.id)}>Delete</button>
                 </div>

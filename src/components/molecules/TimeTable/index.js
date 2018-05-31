@@ -287,7 +287,7 @@ class TimeTable extends React.Component {
                 <Popup
                   trigger={<button
                     className="ui icon button"
-                    onClick={() => this.props.onSend(this.props.id)}
+                    onClick={this.onSubmitSend}
                     style={iconButtonStyle}
                   >
                     <Icon name="send" />
