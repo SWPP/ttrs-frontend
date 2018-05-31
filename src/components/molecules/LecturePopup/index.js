@@ -58,7 +58,7 @@ class LecturePopup extends React.Component {
 
     return (
       <div>
-        <button style={{ width: '200px', height: (this.props.height * 35).toString() + 'px' }} onClick={this.handleOpenPopup}>{this.props.lecture.course.name}</button>
+        <button style={{ padding: '0', width: '100px', height: (this.height * 35).toString() + 'px' }} onClick={this.handleOpenPopup}>{this.lecture.course.name}</button>
         <ReactModal isOpen={this.state.pop} contentLabel={'Modal'}>
           <h2>{this.props.lecture.course.name}</h2>
           <h3>instructor = {this.props.lecture.instructor}</h3>

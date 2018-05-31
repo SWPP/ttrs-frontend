@@ -57,11 +57,6 @@ export const initialError = {
   signUp: {},
 }
 
-export const RECOMMEND_TAB = 0
-export const BOOKMARK_TAB = 1
-export const RECEIVE_TAB = 2
-export const SETTINGS_TAB = 3
-
 export const initialState = {
   studentInfo: initialStudentInfo,
   belongInfo: initialBelongInfo,
@@ -70,7 +65,6 @@ export const initialState = {
   error: initialError,
   isMainPage: false,
   isSignUpPage: false,
-  currentTab: RECOMMEND_TAB,
   semesters: [],
   year: null,
   semester: null,
