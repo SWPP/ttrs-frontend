@@ -1,25 +1,37 @@
 import React from 'react'
-import Button from '../../atoms/Button'
-import { BOOKMARK_TAB, RECEIVE_TAB, RECOMMEND_TAB, SETTINGS_TAB } from '../../../store/ttrs/selectors'
+import PropTypes from 'prop-types'
+import { Tab } from 'semantic-ui-react'
+import RecommendTab from '../../../containers/RecommendTab'
+import BookmarkTab from '../../../containers/BookmarkTab'
+import ReceiveTab from '../../../containers/ReceiveTab'
+import SettingsTab from '../../../containers/SettingsTab'
 
+const panes = [
+  { menuItem: 'Recommend', render: () => <Tab.Pane><RecommendTab /></Tab.Pane> },
+  { menuItem: 'Bookmark', render: () => <Tab.Pane><BookmarkTab /></Tab.Pane> },
+  { menuItem: 'Receive', render: () => <Tab.Pane><ReceiveTab /></Tab.Pane> },
+  { menuItem: 'Settings', render: () => <Tab.Pane><SettingsTab /></Tab.Pane> },
+]
 
-const Tabs = ({ isMainPage, notRecommends, onChangeTab, onGetNotRecommendCourses }) => {
-  const onSubmit = () => {
-    onGetNotRecommendCourses(notRecommends)
-    onChangeTab(SETTINGS_TAB)
-  }
-
-  if (isMainPage) {
-    return (
-      <div>
-        <Button type="submit" onClick={() => onChangeTab(RECOMMEND_TAB)}>Recommend</Button>
-        <Button type="submit" onClick={() => onChangeTab(BOOKMARK_TAB)}>Bookmark</Button>
-        <Button type="submit" onClick={() => onChangeTab(RECEIVE_TAB)}>Receive</Button>
-        <Button type="submit" onClick={onSubmit}>Settings</Button>
-      </div>
+class Tabs extends React.Component {
+  render() {
+    return this.props.isMainPage && (
+      <Tab
+        panes={panes}
+        onTabChange={(e, data) => {
+          if (data.activeIndex === 3) {
+            this.props.onGetNotRecommendCourses(this.props.notRecommends)
+          }
+        }}
+      />
     )
   }
-  return null
+}
+
+Tabs.propTypes = {
+  isMainPage: PropTypes.bool,
+  notRecommends: PropTypes.array,
+  onGetNotRecommendCourses: PropTypes.func,
 }
 
 export default Tabs

@@ -1,33 +1,35 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import { Dropdown, Menu } from 'semantic-ui-react'
 
 const SemesterSwitcher = ({ isMainPage, semesters, onSwitchSemester }) => {
-  let input
-  const option = []
-  semesters.forEach(semester => {
-    option.push(`${semester.year}-${semester.semester}`)
-  })
-
-  const onSubmit = () => {
-    const newYear = semesters[input.value].year
-    const newSemester = semesters[input.value].semester
-    onSwitchSemester(newYear, newSemester)
-  }
+  const options = semesters.map((semester) => ({
+    key: `${semester.year}-${semester.semester}`,
+    text: `${semester.year}-${semester.semester}`,
+    value: semester,
+  }))
 
   if (isMainPage) {
     return (
-      <div>
-        <select ref={node => { input = node }} onChange={onSubmit}>
-          {option.map((value, index) =>
-            <option
-              key={value}
-              value={index}
-            >{value}</option>
-          )}
-        </select>
-      </div>
+      <Menu compact>
+        <Dropdown
+          item
+          options={options}
+          defaultValue={options[0].value}
+          onChange={(e, { value }) => {
+            onSwitchSemester(value.year, value.semester)
+          }}
+        />
+      </Menu>
     )
   }
   return null
+}
+
+SemesterSwitcher.propTypes = {
+  isMainPage: PropTypes.bool,
+  semesters: PropTypes.array,
+  onSwitchSemester: PropTypes.func,
 }
 
 export default SemesterSwitcher
