@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '../../atoms/Button'
-import LecturePopup from '../LecturePopup'
+import LecturePopup from '../../../containers/LecturePopup'
 
 
 const TimeTable = ({ username, id, memo, title, lectures, notRecommends, canModify, canCopyToMy, canDelete, onModifyContent, onDeleteLecture, onAddToNotRecommends, onBookmark, onSend, onCopyToMy, onDeleteTimeTable }) => {
@@ -132,7 +132,14 @@ const TimeTable = ({ username, id, memo, title, lectures, notRecommends, canModi
         const span = getRowSpan(lectures[lectureIndex], day)
         return (
           <td style={{border: '1px solid black'}} rowSpan={span}>
-            <LecturePopup props={{ lecture: lectures[lectureIndex], height: span, deleteLecture: onDeleteLecture, addToNotRecommends: onAddToNotRecommends, notRecommends: notRecommends, canDelete: canDelete }} />
+            <LecturePopup
+              lecture={lectures[lectureIndex]}
+              height={span}
+              deleteLecture={(lectureId) => onDeleteLecture(lectureId)}
+              addToNotRecommends={(notRecommends, courseId) => onAddToNotRecommends(notRecommends, courseId)}
+              notRecommends={notRecommends}
+              canDelete={canDelete}
+            />
           </td>
         )
       }
