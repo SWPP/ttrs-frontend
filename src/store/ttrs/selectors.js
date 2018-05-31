@@ -75,4 +75,9 @@ export const initialState = {
   year: null,
   semester: null,
   notRecommendCourses: [],
+  evaluations: [],
+  lectureDetail: {
+    id: null,
+    rate: null,
+  },
 }

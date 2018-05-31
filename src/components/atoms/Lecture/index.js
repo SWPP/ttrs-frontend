@@ -6,7 +6,7 @@ import TimeSlot from '../TimeSlot'
 const Lecture = ({ id, course, timeSlots, rating }) => {
   return (
     <div>
-      <h3>Rating = {rating}</h3>
+      <h3>Rating = {Math.round(rating * 10) / 10}</h3>
       <Course {...course} />
       {timeSlots.map(timeSlot =>
         <TimeSlot

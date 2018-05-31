@@ -269,7 +269,13 @@ const ttrsReducer = (state = initialState, action) => {
     case actions.SET_NOT_RECOMMEND_COURSES:
       return {
         ...state,
-        notRecommendCourses: [...action.notRecommendCourses],
+        notRecommendCourses: action.notRecommendCourses,
+      }
+    case actions.SET_EVALUATIONS_RESPONSE:
+      return {
+        ...state,
+        evaluations: action.evaluations,
+        lectureDetail: action.lectureDetail,
       }
     default:
       return {

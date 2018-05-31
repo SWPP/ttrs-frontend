@@ -44,7 +44,11 @@ export const SET_NOT_RECOMMEND_COURSES = 'SET_NOT_RECOMMEND_COURSE_NAMES'
 export const DELETE_FROM_NOT_RECOMMENDS_REQUEST = 'DELETE_FROM_NOT_RECOMMENDS_REQUEST'
 export const DELETE_FROM_NOT_RECOMMENDS_RESPONSE = 'DELETE_FROM_NOT_RECOMMENDS_RESPONSE'
 export const GET_NOT_RECOMMEND_COURSES_REQUEST = 'GET_NOT_RECOMMEND_COURSES_REQUEST'
-
+export const GET_EVALUATIONS_REQUEST = 'GET_EVALUATIONS_REQUEST'
+export const ADD_EVALUATION_REQUEST = 'ADD_EVALUATION_REQUEST'
+export const DELETE_EVALUATION_REQUEST = 'DELETE_EVALUATION_REQUEST'
+export const MODIFY_EVALUATION_REQUEST = 'MODIFY_EVALUATION_REQUEST'
+export const SET_EVALUATIONS_RESPONSE = 'MODIFY_EVALUATIONS_RESPONSE'
 
 export const setErrors = (identifier, errors) => {
   return {
@@ -379,5 +383,44 @@ export const getNotRecommendCoursesRequest = (notRecommends) => {
   return {
     type: GET_NOT_RECOMMEND_COURSES_REQUEST,
     notRecommends,
+  }
+}
+
+export const getEvaluationsRequest = (lectureId) => {
+  return {
+    type: GET_EVALUATIONS_REQUEST,
+    lectureId,
+  }
+}
+
+export const addEvaluationRequest = (lectureId, evaluation) => {
+  return {
+    type: ADD_EVALUATION_REQUEST,
+    lectureId,
+    evaluation,
+  }
+}
+
+export const deleteEvaluationRequest = (lectureId, evaluationId) => {
+  return {
+    type: DELETE_EVALUATION_REQUEST,
+    lectureId,
+    evaluationId,
+  }
+}
+
+export const modifyEvaluationRequest = (lectureId, evaluation) => {
+  return {
+    type: MODIFY_EVALUATION_REQUEST,
+    lectureId,
+    evaluation,
+  }
+}
+
+export const setEvaluationsResponse = (evaluations, lectureDetail) => {
+  return {
+    type: SET_EVALUATIONS_RESPONSE,
+    evaluations,
+    lectureDetail,
   }
 }
