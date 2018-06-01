@@ -4,6 +4,13 @@ import { Form, Grid, Header, Segment, Button, Message } from 'semantic-ui-react'
 import { customErrors, initErrors, updateErrors } from '../../../services/error_utility'
 
 class SignUp extends React.Component {
+  static getDerivedStateFromProps(props) {
+    if (props.toSignIn) {
+      props.router.push('/sign-in')
+    }
+    return null
+  }
+
   state = {
     username: '',
     password: '',
@@ -47,10 +54,6 @@ class SignUp extends React.Component {
   }
 
   render() {
-    if (!this.props.isSignUpPage) {
-      return null
-    }
-
     this.errors = updateErrors(this.errors, this.props.errors)
 
     const gradeOptions = [1, 2, 3, 4].map(grade => ({ key: grade, text: grade, value: grade }))
@@ -190,7 +193,7 @@ class SignUp extends React.Component {
                   onChange={this.handleChange}
                 />
                 <Button.Group widths="2" >
-                  <Button type="button" color="teal" size="large" onClick={this.props.onReturnToSignInPage}>Return</Button>
+                  <Button type="button" color="teal" size="large" onClick={() => this.props.router.push('/sign-in')}>Return</Button>
                   <Button type="submit" color="teal" size="large">Sign Up</Button>
                 </Button.Group>
               </Segment>
@@ -210,11 +213,11 @@ class SignUp extends React.Component {
 
 SignUp.propTypes = {
   onSignUp: PropTypes.func,
-  onReturnToSignInPage: PropTypes.func,
   onClearError: PropTypes.func,
-  isSignUpPage: PropTypes.bool,
+  toSignIn: PropTypes.bool,
   colleges: PropTypes.array,
   errors: PropTypes.object,
+  router: PropTypes.object,
 }
 
 export default SignUp

@@ -153,12 +153,13 @@ class TimeTable extends React.Component {
   }
 
   createTimeSlot = (day, time) => {
+    const key = `${day}-${time}`
     if (hasLecture(this.props.lectures, day, time) >= 0) {
       const lectureIndex = isLectureStart(this.props.lectures, day, time)
       if (lectureIndex >= 0) {
         const span = getRowSpan(this.props.lectures[lectureIndex], day)
         return (
-          <td style={{ border: '1px solid black' }} rowSpan={span}>
+          <td key={key} style={{ border: '1px solid black' }} rowSpan={span}>
             <LecturePopup
               props={{
                 lecture: this.props.lectures[lectureIndex],
@@ -174,7 +175,7 @@ class TimeTable extends React.Component {
       return null
     }
 
-    return (<td style={{ border: '1px solid black', width: '100px', height: '30px' }} />)
+    return (<td key={key} style={{ border: '1px solid black', width: '100px', height: '30px' }} />)
   }
 
   createRow = (time) => {
@@ -195,9 +196,9 @@ class TimeTable extends React.Component {
             <th>Sat</th>
           </tr>
           {['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
-            '13:30', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
+            '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
             '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30'].map((time) => (
-              <tr>
+              <tr key={time}>
                 <td>{time}</td>
                 {this.createRow(time)}
               </tr>

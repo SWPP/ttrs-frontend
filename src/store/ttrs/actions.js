@@ -1,8 +1,8 @@
 export const SET_ERRORS = 'SET_ERRORS'
 export const SIGN_IN_REQUEST = 'SIGN_IN_REQUEST'
 export const SIGN_IN_RESPONSE = 'SIGN_IN_RESPONSE'
-export const GO_SIGN_UP_PAGE = 'GO_SIGN_UP_PAGE'
 export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST'
+export const SIGN_UP_RESPONSE = 'SIGN_UP_RESPONSE'
 export const CLEAR_STATE = 'CLEAR_STATE'
 export const GET_COLLEGE_LIST = 'GET_COLLEGE_LIST'
 export const GET_SEMESTER_LIST = 'GET_SEMESTER_LIST'
@@ -68,16 +68,16 @@ export const signInResponse = (studentInfo) => {
   }
 }
 
-export const goSignUpPage = () => {
-  return {
-    type: GO_SIGN_UP_PAGE,
-  }
-}
-
 export const signUpRequest = (studentInfo) => {
   return {
     type: SIGN_UP_REQUEST,
     studentInfo,
+  }
+}
+
+export const signUpResponse = () => {
+  return {
+    type: SIGN_UP_RESPONSE,
   }
 }
 

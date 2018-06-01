@@ -15,7 +15,7 @@ const panes = [
 
 class Tabs extends React.Component {
   render() {
-    return this.props.isMainPage && (
+    return (
       <Tab
         panes={panes}
         onTabChange={(e, data) => {
@@ -29,7 +29,6 @@ class Tabs extends React.Component {
 }
 
 Tabs.propTypes = {
-  isMainPage: PropTypes.bool,
   notRecommends: PropTypes.array,
   onGetNotRecommendCourses: PropTypes.func,
 }

@@ -1,17 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Button } from 'semantic-ui-react'
+import { Link } from 'react-router'
 
-const SignOut = ({ onSignOut, isMainPage, username }) => {
-  if (isMainPage) {
-    return (
-      <Button.Group floated="right">
-        <Button attached="left" active={false}>Hello, {username}!</Button>
-        <Button attached="right" color="teal" onClick={onSignOut}>Sign Out</Button>
-      </Button.Group>
-    )
-  }
-  return null
+const SignOut = ({ onSignOut, username }) => {
+  return (
+    <Button.Group floated="right">
+      <Button attached="left" active={false}>Hello, {username}!</Button>
+      <Link to={'/sign-in'}><Button attached="right" color="teal" onClick={onSignOut}>Sign Out</Button></Link>
+    </Button.Group>
+  )
 }
 
 SignOut.propTypes = {

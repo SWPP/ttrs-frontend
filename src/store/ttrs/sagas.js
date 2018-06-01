@@ -162,13 +162,14 @@ function* signIn(username, password) {
   } catch (error) {
     console.log('getCurrent Recommended TimeTables error', error.response)
   }
+  return undefined
 }
 
 function* signUp(studentInfo) {
   try {
     const response = yield call(axios.post, 'ttrs/students/signup/', studentInfo)
     console.log('signUp response', response)
-    yield put(actions.clearState())
+    yield put(actions.signUpResponse())
   } catch (error) {
     console.log('signUp error', error.response)
     yield put(actions.setErrors('signUp', error.response.data))
