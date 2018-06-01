@@ -6,6 +6,7 @@ import { customErrors, initErrors, updateErrors } from '../../../services/error_
 class SignUp extends React.Component {
   static getDerivedStateFromProps(props) {
     if (props.toSignIn) {
+      props.onExit()
       props.router.push('/sign-in')
     }
     return null
