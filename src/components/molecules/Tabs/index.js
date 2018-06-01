@@ -7,24 +7,31 @@ import ReceiveTab from '../../../containers/ReceiveTab'
 import SettingsTab from '../../../containers/SettingsTab'
 
 const panes = [
-  { menuItem: 'Recommend', render: () => <Tab.Pane><RecommendTab/></Tab.Pane> },
-  { menuItem: 'Bookmark', render: () => <Tab.Pane><BookmarkTab/></Tab.Pane> },
-  { menuItem: 'Receive', render: () => <Tab.Pane><ReceiveTab/></Tab.Pane> },
-  { menuItem: 'Settings', render: () => <Tab.Pane><SettingsTab/></Tab.Pane> },
+  { menuItem: 'Recommend', render: () => <Tab.Pane><RecommendTab /></Tab.Pane> },
+  { menuItem: 'Bookmark', render: () => <Tab.Pane><BookmarkTab /></Tab.Pane> },
+  { menuItem: 'Receive', render: () => <Tab.Pane><ReceiveTab /></Tab.Pane> },
+  { menuItem: 'Settings', render: () => <Tab.Pane><SettingsTab /></Tab.Pane> },
 ]
 
-
-const Tabs = ({ isMainPage }) => {
-  if (isMainPage) {
-    return (
-      <Tab panes={panes} />
+class Tabs extends React.Component {
+  render() {
+    return this.props.isMainPage && (
+      <Tab
+        panes={panes}
+        onTabChange={(e, data) => {
+          if (data.activeIndex === 3) {
+            this.props.onGetNotRecommendCourses(this.props.notRecommends)
+          }
+        }}
+      />
     )
   }
-  return null
 }
 
 Tabs.propTypes = {
   isMainPage: PropTypes.bool,
+  notRecommends: PropTypes.array,
+  onGetNotRecommendCourses: PropTypes.func,
 }
 
 export default Tabs

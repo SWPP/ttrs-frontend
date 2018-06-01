@@ -1,17 +1,18 @@
 import { connect } from 'react-redux'
 import Tabs from '../components/molecules/Tabs'
-import { changeTab } from '../store/ttrs/actions'
+import { getNotRecommendCoursesRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
     isMainPage: state.ttrs.isMainPage,
+    notRecommends: state.ttrs.studentInfo.notRecommends,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onChangeTab: (tab) => {
-      dispatch(changeTab(tab))
+    onGetNotRecommendCourses: (notRecommends) => {
+      dispatch(getNotRecommendCoursesRequest(notRecommends))
     },
   }
 }

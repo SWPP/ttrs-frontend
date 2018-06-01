@@ -87,6 +87,15 @@ function* getRecommendedTimeTables(response) {
   yield put(actions.createRecommendedTimeTables(recommendedTimeTables))
 }
 
+function* getNotRecommendCourses(notRecommends) {
+  const notRecommendCourses = []
+  for (let i = 0; i < notRecommends.length; i += 1) {
+    const getNotRecommendCourseResponse = yield call(axios.get, `/ttrs/courses/${notRecommends[i]}/`, config)
+    notRecommendCourses.push({ id: notRecommends[i], name: getNotRecommendCourseResponse.data.name })
+  }
+  yield put(actions.setNotRecommendCourses(notRecommendCourses))
+}
+
 function* getInitialInfo() {
   try {
     const response = yield call(axios.get, 'ttrs/colleges/', config)
@@ -252,9 +261,9 @@ function* switchSemester(newYear, newSemester) {
     const receivedTimeTableResponse = yield call(axios.get, updateURLParams('ttrs/received-time-tables/', params), config)
     console.log('getCurrent receivedTimeTable response', receivedTimeTableResponse)
     yield call(getReceivedTimeTables, receivedTimeTableResponse)
-    // const recommendedTimeTableResponse = yield call(axios.get, updateURLParams('ttrs/recommends/', params), config)
-    // console.log('getCurrent recommendedTimeTable response', recommendedTimeTableResponse)
-    // yield call(getRecommendedTimeTables, recommendedTimeTableResponse)
+    const recommendedTimeTableResponse = yield call(axios.get, updateURLParams('ttrs/recommends/', params), config)
+    console.log('getCurrent recommendedTimeTable response', recommendedTimeTableResponse)
+    yield call(getRecommendedTimeTables, recommendedTimeTableResponse)
     yield put(actions.searchLectureResponse([]))
   } catch (error) {
     console.log('switchSemester error', error.response)
@@ -417,6 +426,44 @@ function* deleteTimeTable(timeTableId, timeTableType, timeTables) {
   }
 }
 
+function* addToNotRecommends(notRecommends, courseId) {
+  try {
+    let alreadyAdded = false
+    notRecommends.forEach((id) => {
+      if (id === courseId) {
+        alreadyAdded = true
+      }
+    })
+    if (!alreadyAdded) {
+      notRecommends.push(courseId)
+      const response = yield call(axios.patch, 'ttrs/students/my/', { notRecommends }, config)
+      console.log('addToNotRecommends response', response)
+      yield put(actions.addToNotRecommendsResponse(notRecommends))
+    } else {
+      console.log('already added to not Recommends')
+    }
+  } catch (error) {
+    console.log('addToNotRecommends error', error.response)
+  }
+}
+
+function* deleteFromNotRecommends(notRecommends, courseId) {
+  const newNotRecommends = []
+  notRecommends.forEach((id) => {
+    if (id !== courseId) {
+      newNotRecommends.push(id)
+    }
+  })
+  try {
+    const response = yield call(axios.patch, 'ttrs/students/my/', { notRecommends: newNotRecommends }, config)
+    console.log('deleteFromNotRecommends response', response)
+    yield put(actions.deleteFromNotRecommendsResponse(newNotRecommends))
+    yield call(getNotRecommendCourses, newNotRecommends)
+  } catch (error) {
+    console.log('deleteFromNotRecommends error', error.response)
+  }
+}
+
 function* watchSignIn() {
   while (true) {
     const { username, password } = yield take(actions.SIGN_IN_REQUEST)
@@ -522,6 +569,27 @@ function* watchDeleteTimeTable() {
   }
 }
 
+function* watchAddToNotRecommends() {
+  while (true) {
+    const { notRecommends, courseId } = yield take(actions.ADD_TO_NOT_RECOMMENDS_REQUEST)
+    yield call(addToNotRecommends, notRecommends, courseId)
+  }
+}
+
+function* watchDeleteFromNotRecommends() {
+  while (true) {
+    const { notRecommends, courseId } = yield take(actions.DELETE_FROM_NOT_RECOMMENDS_REQUEST)
+    yield call(deleteFromNotRecommends, notRecommends, courseId)
+  }
+}
+
+function* watchGetNotRecommendCourses() {
+  while (true) {
+    const { notRecommends } = yield take(actions.GET_NOT_RECOMMEND_COURSES_REQUEST)
+    yield call(getNotRecommendCourses, notRecommends)
+  }
+}
+
 export default function* () {
   yield call(getInitialInfo)
   yield fork(watchSignIn)
@@ -539,4 +607,7 @@ export default function* () {
   yield fork(watchChangePassword)
   yield fork(watchWithdraw)
   yield fork(watchDeleteTimeTable)
+  yield fork(watchAddToNotRecommends)
+  yield fork(watchDeleteFromNotRecommends)
+  yield fork(watchGetNotRecommendCourses)
 }

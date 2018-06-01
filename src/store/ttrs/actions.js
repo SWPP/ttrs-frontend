@@ -4,7 +4,6 @@ export const SIGN_IN_RESPONSE = 'SIGN_IN_RESPONSE'
 export const GO_SIGN_UP_PAGE = 'GO_SIGN_UP_PAGE'
 export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST'
 export const CLEAR_STATE = 'CLEAR_STATE'
-export const CHANGE_TAB = 'CHANGE_TAB'
 export const GET_COLLEGE_LIST = 'GET_COLLEGE_LIST'
 export const GET_SEMESTER_LIST = 'GET_SEMESTER_LIST'
 export const SEARCH_LECTURE_REQUEST = 'SEARCH_LECTURE_REQUEST'
@@ -38,6 +37,12 @@ export const DELETE_TIME_TABLE = 'DELETE_TIME_TABLE'
 export const DELETE_MY_TIME_TABLE = 'DELETE_MY_TIME_TABLE'
 export const DELETE_BOOKMARKED_TIME_TABLE = 'DELETE_BOOKMARKED_TIME_TABLE'
 export const DELETE_RECEIVED_TIME_TABLE = 'DELETE_RECEIVED_TIME_TABLE'
+export const ADD_TO_NOT_RECOMMENDS_REQUEST = 'ADD_TO_NOT_RECOMMENDS_REQUEST'
+export const ADD_TO_NOT_RECOMMENDS_RESPONSE = 'ADD_TO_NOT_RECOMMENDS_RESPONSE'
+export const SET_NOT_RECOMMEND_COURSES = 'SET_NOT_RECOMMEND_COURSE_NAMES'
+export const DELETE_FROM_NOT_RECOMMENDS_REQUEST = 'DELETE_FROM_NOT_RECOMMENDS_REQUEST'
+export const DELETE_FROM_NOT_RECOMMENDS_RESPONSE = 'DELETE_FROM_NOT_RECOMMENDS_RESPONSE'
+export const GET_NOT_RECOMMEND_COURSES_REQUEST = 'GET_NOT_RECOMMEND_COURSES_REQUEST'
 
 
 export const setErrors = (identifier, errors) => {
@@ -79,13 +84,6 @@ export const signUpRequest = (studentInfo) => {
 export const clearState = () => {
   return {
     type: CLEAR_STATE,
-  }
-}
-
-export const changeTab = (tab) => {
-  return {
-    type: CHANGE_TAB,
-    tab,
   }
 }
 
@@ -329,5 +327,49 @@ export const deleteReceivedTimeTable = (timeTableId, timeTable) => {
     type: DELETE_RECEIVED_TIME_TABLE,
     timeTableId,
     timeTable,
+  }
+}
+
+export const addToNotRecommendsRequest = (notRecommends, courseId) => {
+  return {
+    type: ADD_TO_NOT_RECOMMENDS_REQUEST,
+    notRecommends,
+    courseId,
+  }
+}
+
+export const addToNotRecommendsResponse = (notRecommends) => {
+  return {
+    type: ADD_TO_NOT_RECOMMENDS_RESPONSE,
+    notRecommends,
+  }
+}
+
+export const setNotRecommendCourses = (notRecommendCourses) => {
+  return {
+    type: SET_NOT_RECOMMEND_COURSES,
+    notRecommendCourses,
+  }
+}
+
+export const deleteFromNotRecommendsRequest = (notRecommends, courseId) => {
+  return {
+    type: DELETE_FROM_NOT_RECOMMENDS_REQUEST,
+    notRecommends,
+    courseId,
+  }
+}
+
+export const deleteFromNotRecommendsResponse = (notRecommends) => {
+  return {
+    type: DELETE_FROM_NOT_RECOMMENDS_RESPONSE,
+    notRecommends,
+  }
+}
+
+export const getNotRecommendCoursesRequest = (notRecommends) => {
+  return {
+    type: GET_NOT_RECOMMEND_COURSES_REQUEST,
+    notRecommends,
   }
 }

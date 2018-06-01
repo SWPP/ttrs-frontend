@@ -8,6 +8,16 @@ const studentInfo = (state = [], action) => {
         ...state,
         ...action.studentInfo,
       }
+    case actions.ADD_TO_NOT_RECOMMENDS_RESPONSE:
+      return {
+        ...state,
+        notRecommends: action.notRecommends,
+      }
+    case actions.DELETE_FROM_NOT_RECOMMENDS_RESPONSE:
+      return {
+        ...state,
+        notRecommends: action.notRecommends,
+      }
     default:
       return state
   }
@@ -251,14 +261,15 @@ const ttrsReducer = (state = initialState, action) => {
         belongInfo: belongInfo(state.belongInfo, action),
         semesters: state.semesters,
       }
-    case actions.CHANGE_TAB:
+    case actions.SET_NOT_RECOMMEND_COURSES:
       return {
         ...state,
-        currentTab: action.tab,
+        notRecommendCourses: [...action.notRecommendCourses],
       }
     default:
       return {
         ...state,
+        studentInfo: studentInfo(state.studentInfo, action),
         belongInfo: belongInfo(state.belongInfo, action),
         timeTable: timeTable(state.timeTable, action),
         search: search(state.search, action),
