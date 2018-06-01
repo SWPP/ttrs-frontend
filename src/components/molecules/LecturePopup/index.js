@@ -1,9 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  Button, Divider, Feed, Form, Grid, Header, Icon, List, Modal, Popup, Rating, Statistic,
-  TextArea
-} from 'semantic-ui-react'
+import { Button, Divider, Feed, Form, Grid, Header, Icon, List, Modal, Popup, Rating, Statistic, TextArea } from 'semantic-ui-react'
 import TimeSlot from '../../atoms/TimeSlot'
 
 class LecturePopup extends React.Component {

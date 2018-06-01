@@ -8,7 +8,6 @@ import SemesterSwitcher from '../../../containers/SemesterSwitcher'
 class Home extends React.Component {
   static getDerivedStateFromProps(props) {
     if (!props.isSignedIn) {
-      console.log('go to sign in')
       props.router.push('/sign-in')
     }
     return null

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { Icon, Form, Menu, Popup, Segment, TextArea, Button } from 'semantic-ui-react'
 import LecturePopup from '../../../containers/LecturePopup'
 
-
 const overlap = (_time, _start, _end) => {
   let time = _time.split(':').map((i) => Number(i))
   time = (time[0] * 60) + time[1]

@@ -3,7 +3,6 @@ import Lecture from '../../atoms/Lecture'
 import Button from '../../atoms/Button'
 import LecturePopup from '../../../containers/LecturePopup'
 
-
 const SearchLecture = ({ searchLectures, onSearchLecture, onAddLecture, notRecommends, onAddToNotRecommends }) => {
   let inputCourseName
 
