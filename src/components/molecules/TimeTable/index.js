@@ -99,6 +99,7 @@ class TimeTable extends React.Component {
     titleInput: this.props.title,
     isModifyingTitle: false,
     receiverName: '',
+    isSending: false,
   }
 
   componentWillReceiveProps(nextProps) {
@@ -287,31 +288,31 @@ class TimeTable extends React.Component {
                 <Popup
                   trigger={<button
                     className="ui icon button"
+                    onClick={() => this.setState({ isSending: true })}
                     style={iconButtonStyle}
                   >
                     <Icon name="send" />
                   </button>}
-                  on="click"
-                  content={<Form>
-                    <Form.Input
-                      action={
-                        <Popup
-                          trigger={<Form.Button
-                            attached="right"
-                            type="submit"
-                            icon="send outline"
-                            color="teal"
-                            onClick={this.onSubmitSend}
-                          />}
-                          content="Send this timetable to other student"
-                          inverted
+                  content={this.state.isSending ?
+                    <Form>
+                      <Form.Input
+                        action={<Form.Button
+                          attached="right"
+                          type="submit"
+                          icon="send outline"
+                          color="teal"
+                          onClick={this.onSubmitSend}
                         />}
-                      value={this.state.receiverName}
-                      name="receiverName"
-                      placeholder="Input receiver..."
-                      onChange={this.handleChange}
-                    />
-                  </Form>}
+                        value={this.state.receiverName}
+                        name="receiverName"
+                        placeholder="Input receiver..."
+                        onChange={this.handleChange}
+                      />
+                    </Form> :
+                    'Send this timetable to other student'}
+                  onClose={() => this.setState({ isSending: false })}
+                  on={this.state.isSending ? 'click' : 'hover'}
+                  inverted={!this.state.isSending}
                 />
                 {this.props.canDelete &&
                 <Popup
