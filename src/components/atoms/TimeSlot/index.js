@@ -2,10 +2,10 @@ import React from 'react'
 import Classroom from '../Classroom'
 
 const TimeSlot = ({ dayOfWeek, startTime, endTime, classroom }) => (
-  <div>
-    {`${dayOfWeek}요일 ${startTime}-${endTime}`}
+  <span>
+    {`${dayOfWeek}요일 ${startTime}-${endTime} `}
     <Classroom {...classroom} />
-  </div>
+  </span>
 )
 
 export default TimeSlot
