@@ -253,6 +253,7 @@ function* switchSemester(newYear, newSemester) {
     semester,
   }
   try {
+    yield put(actions.searchLectureResponse([]))
     const myTimeTableResponse = yield call(axios.get, updateURLParams('ttrs/my-time-tables/', params), config)
     console.log('getCurrent myTimeTable response', myTimeTableResponse)
     yield call(getCurrentMyTimeTable, myTimeTableResponse)
@@ -265,7 +266,6 @@ function* switchSemester(newYear, newSemester) {
     const recommendedTimeTableResponse = yield call(axios.get, updateURLParams('ttrs/recommends/', params), config)
     console.log('getCurrent recommendedTimeTable response', recommendedTimeTableResponse)
     yield call(getRecommendedTimeTables, recommendedTimeTableResponse)
-    yield put(actions.searchLectureResponse([]))
   } catch (error) {
     console.log('switchSemester error', error.response)
   }
@@ -465,6 +465,66 @@ function* deleteFromNotRecommends(notRecommends, courseId) {
   }
 }
 
+function* getEvaluations(lectureId) {
+  const params = {
+    lecture: lectureId,
+  }
+  try {
+    const response = yield call(axios.get, updateURLParams('ttrs/evaluations/', params), config)
+    console.log('get evaluations response', response)
+    const lectureResponse = yield call(axios.get, `ttrs/lectures/${lectureId}/`, config)
+    console.log('get lecture response', lectureResponse)
+    yield put(actions.setEvaluationsResponse(response.data, lectureResponse.data))
+  } catch (error) {
+    console.log('get evaluations response', error.response)
+  }
+}
+
+function* addEvaluation(lectureId, evaluation) {
+  try {
+    const response = yield call(axios.post, 'ttrs/evaluations/', evaluation, config)
+    console.log('add evaluation response', response)
+    yield call(getEvaluations, lectureId)
+  } catch (error) {
+    console.log('add evaluation error', error.response)
+  }
+}
+
+function* deleteEvaluation(lectureId, evaluationId) {
+  try {
+    const response = yield call(axios.delete, `ttrs/evaluations/${evaluationId}/`, config)
+    console.log('delete evaluation response', response)
+    yield call(getEvaluations, lectureId)
+  } catch (error) {
+    console.log('delete evaluation error', error.response)
+  }
+}
+
+function* modifyEvaluation(lectureId, evaluation) {
+  try {
+    const response = yield call(axios.patch, `ttrs/evaluations/${evaluation.id}/`, evaluation, config)
+    console.log('modify evaluation response', response)
+    yield call(getEvaluations, lectureId)
+  } catch (error) {
+    console.log('modify evaluation error', error.response)
+  }
+}
+
+function* toggleLikeIt(lectureId, isAdd, evaluationId) {
+  try {
+    if (isAdd) {
+      const response = yield call(axios.get, `ttrs/evaluations/${evaluationId}/likeit/`, config)
+      console.log('add likeit response', response)
+    } else {
+      const response = yield call(axios.delete, `ttrs/evaluations/${evaluationId}/likeit/`, config)
+      console.log('delete likeit response', response)
+    }
+    yield call(getEvaluations, lectureId)
+  } catch (error) {
+    console.log('toggle likeit error', error.response)
+  }
+}
+
 function* watchSignIn() {
   while (true) {
     const { username, password } = yield take(actions.SIGN_IN_REQUEST)
@@ -591,6 +651,41 @@ function* watchGetNotRecommendCourses() {
   }
 }
 
+function* watchGetEvaluations() {
+  while (true) {
+    const { lectureId } = yield take(actions.GET_EVALUATIONS_REQUEST)
+    yield call(getEvaluations, lectureId)
+  }
+}
+
+function* watchAddEvaluation() {
+  while (true) {
+    const { lectureId, evaluation } = yield take(actions.ADD_EVALUATION_REQUEST)
+    yield call(addEvaluation, lectureId, evaluation)
+  }
+}
+
+function* watchDeleteEvaluation() {
+  while (true) {
+    const { lectureId, evaluationId } = yield take(actions.DELETE_EVALUATION_REQUEST)
+    yield call(deleteEvaluation, lectureId, evaluationId)
+  }
+}
+
+function* watchModifyEvaluation() {
+  while (true) {
+    const { lectureId, evaluation } = yield take(actions.MODIFY_EVALUATION_REQUEST)
+    yield call(modifyEvaluation, lectureId, evaluation)
+  }
+}
+
+function* watchToggleLikeIt() {
+  while (true) {
+    const { lectureId, isAdd, evaluationId } = yield take(actions.TOGGLE_LIKE_IT_REQUEST)
+    yield call(toggleLikeIt, lectureId, isAdd, evaluationId)
+  }
+}
+
 export default function* () {
   yield call(getInitialInfo)
   yield fork(watchSignIn)
@@ -611,4 +706,9 @@ export default function* () {
   yield fork(watchAddToNotRecommends)
   yield fork(watchDeleteFromNotRecommends)
   yield fork(watchGetNotRecommendCourses)
+  yield fork(watchGetEvaluations)
+  yield fork(watchAddEvaluation)
+  yield fork(watchDeleteEvaluation)
+  yield fork(watchModifyEvaluation)
+  yield fork(watchToggleLikeIt)
 }

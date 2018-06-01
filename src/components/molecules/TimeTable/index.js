@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Icon, Form, Menu, Popup, Segment, TextArea } from 'semantic-ui-react'
-import LecturePopup from '../LecturePopup'
+import { Icon, Form, Menu, Popup, Segment, TextArea, Button } from 'semantic-ui-react'
+import LecturePopup from '../../../containers/LecturePopup'
+
 
 const overlap = (_time, _start, _end) => {
   let time = _time.split(':').map((i) => Number(i))
@@ -98,6 +99,8 @@ class TimeTable extends React.Component {
     titleInput: this.props.title,
     isModifyingTitle: false,
     receiverName: '',
+    isSending: false,
+    isDeleting: false,
   }
 
   componentWillReceiveProps(nextProps) {
@@ -161,13 +164,12 @@ class TimeTable extends React.Component {
         return (
           <td key={key} style={{ border: '1px solid black' }} rowSpan={span}>
             <LecturePopup
-              props={{
-                lecture: this.props.lectures[lectureIndex],
-                height: span,
-                deleteLecture: this.props.onDeleteLecture,
-                addToNotRecommends: this.props.onAddToNotRecommends,
-                notRecommends: this.props.notRecommends,
-              }}
+              lecture={this.props.lectures[lectureIndex]}
+              height={span}
+              deleteLecture={(lectureId) => this.props.onDeleteLecture(lectureId)}
+              addToNotRecommends={(notRecommends, courseId) => this.props.onAddToNotRecommends(notRecommends, courseId)}
+              notRecommends={this.props.notRecommends}
+              canDelete={this.props.canDelete}
             />
           </td>
         )
@@ -288,25 +290,47 @@ class TimeTable extends React.Component {
                 <Popup
                   trigger={<button
                     className="ui icon button"
-                    onClick={() => this.props.onSend(this.props.id)}
+                    onClick={() => this.setState({ isSending: true })}
                     style={iconButtonStyle}
                   >
                     <Icon name="send" />
                   </button>}
-                  content="Send this timetable to other student"
-                  inverted
+                  content={this.state.isSending ?
+                    <Form>
+                      <Form.Input
+                        action={<Form.Button
+                          attached="right"
+                          type="submit"
+                          icon="send outline"
+                          color="teal"
+                          onClick={this.onSubmitSend}
+                        />}
+                        value={this.state.receiverName}
+                        name="receiverName"
+                        placeholder="Input receiver..."
+                        onChange={this.handleChange}
+                      />
+                    </Form> :
+                    'Send this timetable to other student'}
+                  onClose={() => this.setState({ isSending: false })}
+                  on={this.state.isSending ? 'click' : 'hover'}
+                  inverted={!this.state.isSending}
                 />
                 {this.props.canDelete &&
                 <Popup
                   trigger={<button
                     className="ui icon button"
-                    onClick={() => this.props.onDeleteTimeTable(this.props.id)}
+                    onClick={() => this.setState({ isDeleting: true })}
                     style={iconButtonStyle}
                   >
                     <Icon name="trash" color="red" />
                   </button>}
-                  content="Delete this timetable"
-                  inverted
+                  content={this.state.isDeleting ?
+                    <Button color="red" content="Delete" onClick={() => this.props.onDeleteTimeTable(this.props.id)} /> :
+                    'Delete this timetable'}
+                  onClose={() => this.setState({ isDeleting: false })}
+                  on={this.state.isDeleting ? 'click' : 'hover'}
+                  inverted={!this.state.isDeleting}
                 />}
               </div>
             </Menu.Item>
