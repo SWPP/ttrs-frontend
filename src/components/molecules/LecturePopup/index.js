@@ -50,6 +50,7 @@ class LecturePopup extends React.Component {
   handleDeleteEvaluation = (evaluationId) => {
     this.props.onDeleteEvaluation(this.props.lecture.id, evaluationId)
     this.setState({
+      editingId: null,
       rate: 0,
       comment: '',
     })
@@ -212,7 +213,9 @@ class LecturePopup extends React.Component {
                                   content={<Button
                                     color="red"
                                     content="Delete"
-                                    onClick={() => this.handleDeleteEvaluation(evaluation.id)}
+                                    onClick={() => {
+                                      this.handleDeleteEvaluation(evaluation.id)
+                                    }}
                                   />}
                                   on="click"
                                 />
