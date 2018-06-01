@@ -287,13 +287,31 @@ class TimeTable extends React.Component {
                 <Popup
                   trigger={<button
                     className="ui icon button"
-                    onClick={this.onSubmitSend}
                     style={iconButtonStyle}
                   >
                     <Icon name="send" />
                   </button>}
-                  content="Send this timetable to other student"
-                  inverted
+                  on="click"
+                  content={<Form>
+                    <Form.Input
+                      action={
+                        <Popup
+                          trigger={<Form.Button
+                            attached="right"
+                            type="submit"
+                            icon="send outline"
+                            color="teal"
+                            onClick={this.onSubmitSend}
+                          />}
+                          content="Send this timetable to other student"
+                          inverted
+                        />}
+                      value={this.state.receiverName}
+                      name="receiverName"
+                      placeholder="Input receiver..."
+                      onChange={this.handleChange}
+                    />
+                  </Form>}
                 />
                 {this.props.canDelete &&
                 <Popup
