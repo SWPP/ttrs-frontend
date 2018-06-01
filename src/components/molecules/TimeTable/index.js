@@ -324,12 +324,12 @@ class TimeTable extends React.Component {
                   >
                     <Icon name="trash" color="red" />
                   </button>}
-                  content={this.state.isDeletingLecture ?
+                  content={this.state.isDeleting ?
                     <Button color="red" content="Delete" onClick={() => this.props.onDeleteTimeTable(this.props.id)} /> :
                     'Delete this timetable'}
                   onClose={() => this.setState({ isDeleting: false })}
-                  on={this.state.isDeletingLecture ? 'click' : 'hover'}
-                  inverted={!this.state.isDeletingLecture}
+                  on={this.state.isDeleting ? 'click' : 'hover'}
+                  inverted={!this.state.isDeleting}
                 />}
               </div>
             </Menu.Item>
