@@ -9,6 +9,8 @@ class LecturePopup extends React.Component {
     editingId: null,
     rate: 10,
     comment: '',
+    isIgnoringLecture: false,
+    isDeletingLecture: false,
   }
 
   handleChange = (e, { name, value }) => {
