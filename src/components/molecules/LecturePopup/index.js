@@ -7,7 +7,7 @@ class LecturePopup extends React.Component {
   state = {
     pop: false,
     editingId: null,
-    rate: 0,
+    rate: 10,
     comment: '',
   }
 
@@ -51,7 +51,7 @@ class LecturePopup extends React.Component {
     this.props.onDeleteEvaluation(this.props.lecture.id, evaluationId)
     this.setState({
       editingId: null,
-      rate: 0,
+      rate: 10,
       comment: '',
     })
   }
