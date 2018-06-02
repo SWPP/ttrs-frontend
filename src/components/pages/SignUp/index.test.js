@@ -1,6 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import SignUp from '.'
+import SignUp from './index'
 
 const wrap = (props = {}) => shallow(<SignUp {...props} />)
 

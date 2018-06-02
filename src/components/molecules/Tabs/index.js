@@ -13,23 +13,20 @@ const panes = [
   { menuItem: 'Settings', render: () => <Tab.Pane><SettingsTab /></Tab.Pane> },
 ]
 
-class Tabs extends React.Component {
-  render() {
-    return this.props.isMainPage && (
-      <Tab
-        panes={panes}
-        onTabChange={(e, data) => {
-          if (data.activeIndex === 3) {
-            this.props.onGetNotRecommendCourses(this.props.notRecommends)
-          }
-        }}
-      />
-    )
-  }
+const Tabs = ({ notRecommends, onGetNotRecommendCourses }) => {
+  return (
+    <Tab
+      panes={panes}
+      onTabChange={(e, data) => {
+        if (data.activeIndex === 3) {
+          onGetNotRecommendCourses(notRecommends)
+        }
+      }}
+    />
+  )
 }
 
 Tabs.propTypes = {
-  isMainPage: PropTypes.bool,
   notRecommends: PropTypes.array,
   onGetNotRecommendCourses: PropTypes.func,
 }

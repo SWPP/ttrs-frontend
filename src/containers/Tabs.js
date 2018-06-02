@@ -4,7 +4,6 @@ import { getNotRecommendCoursesRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
-    isMainPage: state.ttrs.isMainPage,
     notRecommends: state.ttrs.studentInfo.notRecommends,
   }
 }

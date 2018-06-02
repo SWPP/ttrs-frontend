@@ -3,7 +3,6 @@ import Lecture from '../../atoms/Lecture'
 import Button from '../../atoms/Button'
 import LecturePopup from '../../../containers/LecturePopup'
 
-
 const SearchLecture = ({ searchLectures, onSearchLecture, onAddLecture, notRecommends, onAddToNotRecommends }) => {
   let inputCourseName
 
@@ -30,7 +29,7 @@ const SearchLecture = ({ searchLectures, onSearchLecture, onAddLecture, notRecom
           <LecturePopup
             lecture={lecture}
             height={1}
-            addToNotRecommends={(notRecommends, courseId) => onAddToNotRecommends(notRecommends, courseId)}
+            onAddToNotRecommends={(notRecommends, courseId) => onAddToNotRecommends(notRecommends, courseId)}
             notRecommends={notRecommends}
             canDelete={false}
           />

@@ -25,14 +25,8 @@ const studentInfo = (state = [], action) => {
 
 const belongInfo = (state = [], action) => {
   switch (action.type) {
-    case actions.CLEAR_STATE:
-      return {
-        ...state,
-        colleges: state.colleges,
-      }
     case actions.GET_COLLEGE_LIST:
       return {
-        ...state,
         colleges: action.colleges,
       }
     default:
@@ -260,12 +254,12 @@ const ttrsReducer = (state = initialState, action) => {
       return {
         ...state,
         studentInfo: studentInfo(state.studentInfo, action),
-        isMainPage: true,
+        toHome: true,
       }
-    case actions.GO_SIGN_UP_PAGE:
+    case actions.SIGN_UP_RESPONSE:
       return {
         ...state,
-        isSignUpPage: true,
+        toSignIn: true,
       }
     case actions.CLEAR_STATE:
       return {

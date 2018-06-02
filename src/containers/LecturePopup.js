@@ -1,9 +1,6 @@
 import { connect } from 'react-redux'
 import LecturePopup from '../components/molecules/LecturePopup'
-import {
-  addEvaluationRequest, deleteEvaluationRequest, getEvaluationsRequest, modifyEvaluationRequest,
-  toggleLikeItRequest
-} from '../store/ttrs/actions'
+import { addEvaluationRequest, deleteEvaluationRequest, getEvaluationsRequest, modifyEvaluationRequest, toggleLikeItRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state, props) => {
   return {

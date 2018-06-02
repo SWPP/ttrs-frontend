@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
-import SignUp from '../components/molecules/SignUp'
+import SignUp from '../components/pages/SignUp'
 import { clearState, setErrors, signUpRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
-    isSignUpPage: state.ttrs.isSignUpPage,
+    toSignIn: state.ttrs.toSignIn,
     colleges: state.ttrs.belongInfo.colleges,
     departments: state.ttrs.belongInfo.departments,
     majors: state.ttrs.belongInfo.majors,
@@ -17,11 +17,11 @@ const mapDispatchToProps = (dispatch) => {
     onSignUp: (username, password, email, grade, college, department, major) => {
       dispatch(signUpRequest({ username, password, email, grade, college, department, major }))
     },
-    onReturnToSignInPage: () => {
-      dispatch(clearState())
-    },
     onClearError: () => {
       dispatch(setErrors('signUp', {}))
+    },
+    onExit: () => {
+      dispatch(clearState())
     },
   }
 }

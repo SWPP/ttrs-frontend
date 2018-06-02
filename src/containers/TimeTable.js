@@ -1,9 +1,6 @@
 import { connect } from 'react-redux'
 import TimeTable from '../components/molecules/TimeTable'
-import {
-  addToNotRecommendsRequest, bookmarkRequest, copyToMyTimeTableRequest,
-  sendTimeTable
-} from '../store/ttrs/actions'
+import { addToNotRecommendsRequest, bookmarkRequest, copyToMyTimeTableRequest, sendTimeTable } from '../store/ttrs/actions'
 
 const mapStateToProps = (state, props) => {
   return {

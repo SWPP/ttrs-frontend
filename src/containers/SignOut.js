@@ -5,7 +5,6 @@ import { clearState } from '../store/ttrs/actions'
 const mapStateToProps = (state) => {
   return {
     username: state.ttrs.studentInfo.username,
-    isMainPage: state.ttrs.isMainPage,
   }
 }
 
