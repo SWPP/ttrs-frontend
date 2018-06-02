@@ -7,7 +7,7 @@ class LecturePopup extends React.Component {
   state = {
     pop: false,
     editingId: null,
-    rate: '',
+    rate: 0,
     comment: '',
   }
 
