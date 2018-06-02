@@ -233,7 +233,7 @@ class LecturePopup extends React.Component {
                             </Feed.Extra>
                             <Feed.Extra text>
                               {this.state.editingId === evaluation.id ?
-                                <Form>
+                                <Form onSubmit={() => this.handleModifyEvaluation()}>
                                   <Form.Field
                                     required
                                     control={TextArea}
@@ -244,7 +244,7 @@ class LecturePopup extends React.Component {
                                   />
                                   <Form.Button
                                     color="teal"
-                                    onClick={() => this.handleModifyEvaluation()}
+                                    type="submit"
                                   >Save</Form.Button>
                                 </Form> :
                                 evaluation.comment}
@@ -273,7 +273,7 @@ class LecturePopup extends React.Component {
                           rating={this.state.rate}
                           onRate={(event, data) => this.setState({ rate: data.rating })}
                         />
-                        <Form>
+                        <Form onSubmit={() => this.handleAddEvaluation()}>
                           <Form.Field
                             required
                             label="Comment"
@@ -285,7 +285,7 @@ class LecturePopup extends React.Component {
                           />
                           <Form.Button
                             color="teal"
-                            onClick={() => this.handleAddEvaluation()}
+                            type="submit"
                           >Submit</Form.Button>
                         </Form>
                       </div>}
