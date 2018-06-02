@@ -96,7 +96,7 @@ class LecturePopup extends React.Component {
                 onClick={() => this.setState({ isIgnoringLecture: true })}
                 style={iconButtonStyle}
               >
-                <Icon name="remove" color="red" />
+                <Icon name="ban" color="red" />
               </button>}
               content={this.state.isIgnoringLecture ?
                 <Button color="red" content="Not Recommend" onClick={() => this.props.onAddToNotRecommends(this.props.notRecommends, this.props.lecture.course.id)} /> :
@@ -178,7 +178,7 @@ class LecturePopup extends React.Component {
 
                 <Grid.Column width={9}>
                   <div className="scrolling content">
-                    <Header icon="comments">Evaluations</Header>
+                    <Header content="Evaluations" />
                     {evaluations.length === 0 && 'No evaluations'}
                     <Feed>
                       {evaluations.map(evaluation =>
@@ -222,14 +222,17 @@ class LecturePopup extends React.Component {
                               </span>}
                             </Feed.Summary>
                             <Feed.Extra>
-                              <Rating
-                                icon="star"
-                                name="rate"
-                                maxRating={10}
-                                rating={this.state.editingId === evaluation.id ? this.state.rate : evaluation.rate}
-                                onRate={(event, data) => this.setState({ rate: data.rating })}
-                                disabled={this.state.editingId !== evaluation.id}
-                              />
+                              <span>
+                                <Rating
+                                  icon="star"
+                                  name="rate"
+                                  maxRating={10}
+                                  rating={this.state.editingId === evaluation.id ? this.state.rate : evaluation.rate}
+                                  onRate={(event, data) => this.setState({ rate: data.rating })}
+                                  disabled={this.state.editingId !== evaluation.id}
+                                />
+                                {this.state.editingId === evaluation.id ? this.state.rate : evaluation.rate} / 10
+                              </span>
                             </Feed.Extra>
                             <Feed.Extra text>
                               {this.state.editingId === evaluation.id ?
@@ -265,14 +268,17 @@ class LecturePopup extends React.Component {
                       {!evaluations.map(evaluation => evaluation.author).includes(this.props.username) &&
                       <div>
                         <Divider />
-                        <Header>New Evaluation</Header>
-                        <Rating
-                          icon="star"
-                          name="rate"
-                          maxRating={10}
-                          rating={this.state.rate}
-                          onRate={(event, data) => this.setState({ rate: data.rating })}
-                        />
+                        <Header content="New Evaluation" />
+                        <span>
+                          <Rating
+                            icon="star"
+                            name="rate"
+                            maxRating={10}
+                            rating={this.state.rate}
+                            onRate={(event, data) => this.setState({ rate: data.rating })}
+                          />
+                          {this.state.rate} / 10
+                        </span>
                         <Form onSubmit={() => this.handleAddEvaluation()}>
                           <Form.Field
                             required
