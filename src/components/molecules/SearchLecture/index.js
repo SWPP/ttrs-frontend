@@ -4,29 +4,6 @@ import { Button, Form, Modal, Card } from 'semantic-ui-react'
 import Lecture from '../../../containers/Lecture'
 
 class SearchLecture extends React.Component {
-// <input ref={node => { inputCourseName = node }} placeholder={'type course name'} /> <br />
-// <Button type="submit" onClick={onSubmitCourseName}>Search</Button>
-// <br />
-// <h2>Lectures</h2>
-//   {searchLectures.map(lecture =>
-//     <div key={lecture.id}>
-//       <hr />
-//       <Lecture
-//         {...lecture}
-//       />
-//       <Button
-//         type="submit"
-//         onClick={() => onAddLecture(lecture.id)}
-//       >Add To TimeTable</Button>
-//       <LecturePopup
-//         lecture={lecture}
-//         height={1}
-//         onAddToNotRecommends={(notRecommends, courseId) => onAddToNotRecommends(notRecommends, courseId)}
-//         notRecommends={notRecommends}
-//         canDelete={false}
-//       />
-//     </div>
-//   )}
   state = {
     'course.name.abbrev': '',
   }
@@ -54,7 +31,6 @@ class SearchLecture extends React.Component {
             marginLeft: 'auto',
             marginRight: 'auto',
           }}
-          dimmer="blurring"
         >
           <Modal.Header>
             Search Lecture
@@ -74,7 +50,7 @@ class SearchLecture extends React.Component {
             </Form>
           </Modal.Content>
           <div className="scrolling content">
-            <Card.Group itemsPerRow={4} doubling stackable>
+            <Card.Group itemsPerRow={3} doubling stackable>
               {this.props.searchLectures.map(lecture =>
                 <Lecture
                   key={lecture.id}

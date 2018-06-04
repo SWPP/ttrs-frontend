@@ -18,6 +18,7 @@ export const CREATE_BOOKMARKED_TIME_TABLES = 'CREATE_BOOKMARKED_TIME_TABLES'
 export const SELECT_BOOKMARKED_TIME_TABLE_REQUEST = 'SELECT_BOOKMARKED_TIME_TABLE_REQUEST'
 export const SELECT_BOOKMARKED_TIME_TABLE_RESPONSE = 'SELECT_BOOKMARKED_TIME_TABLE_RESPONSE'
 export const UPDATE_BOOKMARKED_TIME_TABLE_REQUEST = 'UPDATE_BOOKMARKED_TIME_TABLE_REQUEST'
+export const ADD_LECTURE_TO_BOOKMARKED_TIME_TABLE = 'ADD_LECTURE_TO_BOOKMARKED_TIME_TABLE'
 export const UPDATE_BOOKMARKED_TIME_TABLE_INFO = 'UPDATE_BOOKMARKED_TIME_TABLE_INFO'
 export const BOOKMARK_REQUEST = 'BOOKMARK_REQUEST'
 export const BOOKMARK_RESPONSE = 'BOOKMARK_RESPONSE'
@@ -194,6 +195,14 @@ export const updateBookmarkedTimeTableRequest = (index, timeTableId, updatedInfo
     timeTableId,
     updatedInfo,
     deleteLectureId,
+  }
+}
+
+export const addLectureToBookmarkedTimeTable = (index, newLecture) => {
+  return {
+    type: ADD_LECTURE_TO_BOOKMARKED_TIME_TABLE,
+    index,
+    newLecture,
   }
 }
 

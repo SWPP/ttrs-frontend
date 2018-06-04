@@ -283,19 +283,28 @@ function* selectBookmarkedTimeTable(bookmarkedTimeTable) {
 
 /**
  * If deleteLectureId > 0:
- *   Delete Lecture from Bookmarked TimeTable
+ *   Add Lecture to Bookmarked TimeTable
  *
  * If deleteLectureId === null:
  *   Modify Title or Memo of Bookmarked TimeTable
+ *
+ * If deleteLectureId < 0:
+ *   Delete Lecture from Bookmarked TimeTable
  */
-function* updateBookmarkedTimeTable(index, timeTableId, updatedInfo, deleteLectureId) {
+function* updateBookmarkedTimeTable(index, timeTableId, updatedInfo, newLectureId) {
   try {
     const response = yield call(axios.patch, `ttrs/bookmarked-time-tables/${timeTableId}/`, updatedInfo, config)
     console.log('update BookmarkedTimeTable response', response)
-    if (deleteLectureId === null) {
-      yield put(actions.updateBookmarkedTimeTableInfo(index, updatedInfo))
+
+    if (newLectureId !== null) {
+      if (newLectureId > 0) {
+        const lectureResposne = yield call(axios.get, `ttrs/lectures/${newLectureId}/`, config)
+        yield put(actions.addLectureToBookmarkedTimeTable(index, lectureResposne.data))
+      } else {
+        yield put(actions.deleteLectureFromBookmarkedTimeTable(index, -newLectureId))
+      }
     } else {
-      yield put(actions.deleteLectureFromBookmarkedTimeTable(index, deleteLectureId))
+      yield put(actions.updateBookmarkedTimeTableInfo(index, updatedInfo))
     }
   } catch (error) {
     console.log('update BookmarkedTimeTable error', error.response)

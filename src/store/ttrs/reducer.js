@@ -93,6 +93,26 @@ const timeTable = (state = [], action) => {
         ...state,
         bookmarkedTimeTable: action.bookmarkedTimeTable,
       }
+    case actions.ADD_LECTURE_TO_BOOKMARKED_TIME_TABLE:
+      bookmarkedTimeTables = [...state.bookmarkedTimeTables]
+      bookmarkedTimeTables[action.index] = {
+        ...state.bookmarkedTimeTable,
+        lectures: [
+          ...state.bookmarkedTimeTable.lectures,
+          action.newLecture,
+        ],
+      }
+      return {
+        ...state,
+        bookmarkedTimeTables: [...bookmarkedTimeTables],
+        bookmarkedTimeTable: {
+          ...state.bookmarkedTimeTable,
+          lectures: [
+            ...state.bookmarkedTimeTable.lectures,
+            action.newLecture,
+          ],
+        },
+      }
     case actions.UPDATE_BOOKMARKED_TIME_TABLE_INFO:
       bookmarkedTimeTables = [...state.bookmarkedTimeTables]
       bookmarkedTimeTables[action.index] = {

@@ -56,7 +56,7 @@ class Lecture extends React.Component {
                 </List.Content>
               </List.Item>}
               <List.Item>
-                <List.Icon name="star" />
+                <List.Icon name="star" color="black" />
                 <List.Content>
                   <List.Header>Rating</List.Header>
                   {Math.round(lecture.rating * 10) / 10} / 10
