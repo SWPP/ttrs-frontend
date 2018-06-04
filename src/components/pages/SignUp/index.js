@@ -219,6 +219,7 @@ SignUp.propTypes = {
   colleges: PropTypes.array,
   errors: PropTypes.object,
   router: PropTypes.object,
+  onExit: PropTypes.func,
 }
 
 export default SignUp

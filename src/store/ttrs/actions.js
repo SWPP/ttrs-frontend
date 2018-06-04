@@ -31,7 +31,8 @@ export const SELECT_RECOMMENDED_TIME_TABLE_REQUEST = 'SELECT_RECOMMENDED_TIME_TA
 export const SELECT_RECOMMENDED_TIME_TABLE_RESPONSE = 'SELECT_RECOMMENDED_TIME_TABLE_RESPONSE'
 export const COPY_TO_MY_TIME_TABLE_REQUEST = 'COPY_TO_MY_TIME_TABLE_REQUEST'
 export const COPY_TO_MY_TIME_TABLE_RESPONSE = 'COPY_TO_MY_TIME_TABLE_RESPONSE'
-export const CHANGE_PASSWORD = 'CHANGE_PASSWORD'
+export const UPDATE_STUDENT_INFO_REQUEST = 'UPDATE_STUDENT_INFO_REQUEST'
+export const UPDATE_STUDENT_INFO_RESPONSE = 'UPDATE_STUDENT_INFO_RESPONSE'
 export const WITHDRAW = 'WITHDRAW'
 export const DELETE_TIME_TABLE = 'DELETE_TIME_TABLE'
 export const DELETE_MY_TIME_TABLE = 'DELETE_MY_TIME_TABLE'
@@ -291,10 +292,17 @@ export const copyToMyTimeTableResponse = (myTimeTable) => {
   }
 }
 
-export const changePassword = (password) => {
+export const updateStudentInfoRequest = (info) => {
   return {
-    type: CHANGE_PASSWORD,
-    password,
+    type: UPDATE_STUDENT_INFO_REQUEST,
+    info,
+  }
+}
+
+export const updateStudentInfoResponse = (info) => {
+  return {
+    type: UPDATE_STUDENT_INFO_RESPONSE,
+    info,
   }
 }
 

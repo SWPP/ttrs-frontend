@@ -359,13 +359,19 @@ function* copyToMyTimeTable(timeTableId) {
   }
 }
 
-function* changePassword(password) {
+function* updateStudentInfo(info) {
   try {
-    const response = yield call(axios.patch, 'ttrs/students/my/', { password }, config)
-    console.log('change password response', response)
-    yield put(actions.clearState())
+    const response = yield call(axios.patch, 'ttrs/students/my/', info, config)
+    console.log('update student info response', response)
+    if (info.password) {
+      yield put(actions.clearState())
+    } else {
+      delete response.password
+      yield put(actions.updateStudentInfoResponse(info))
+    }
   } catch (error) {
-    console.log('change password error', error.response)
+    console.log('update student info error', error.response)
+    yield put(actions.setErrors('settingsTab', error.response.data))
   }
 }
 
@@ -609,10 +615,10 @@ function* watchCopyToMyTimeTable() {
   }
 }
 
-function* watchChangePassword() {
+function* watchUpdateStudentInfo() {
   while (true) {
-    const { password } = yield take(actions.CHANGE_PASSWORD)
-    yield call(changePassword, password)
+    const { info } = yield take(actions.UPDATE_STUDENT_INFO_REQUEST)
+    yield call(updateStudentInfo, info)
   }
 }
 
@@ -700,7 +706,7 @@ export default function* () {
   yield fork(watchSelectReceivedTimeTable)
   yield fork(watchSelectRecommendedTimeTable)
   yield fork(watchCopyToMyTimeTable)
-  yield fork(watchChangePassword)
+  yield fork(watchUpdateStudentInfo)
   yield fork(watchWithdraw)
   yield fork(watchDeleteTimeTable)
   yield fork(watchAddToNotRecommends)

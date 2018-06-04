@@ -1,6 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import Tabs from '.'
+import Tabs from './index'
 
 const wrap = (props = {}) => shallow(<Tabs {...props} />)
 

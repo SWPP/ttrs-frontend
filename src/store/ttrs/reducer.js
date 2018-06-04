@@ -1,4 +1,4 @@
-import { initialState, initialTimeTable, initialError } from './selectors'
+import { initialState, initialTimeTable, initialError, initialResponse } from './selectors'
 import * as actions from './actions'
 
 const studentInfo = (state = [], action) => {
@@ -7,6 +7,11 @@ const studentInfo = (state = [], action) => {
       return {
         ...state,
         ...action.studentInfo,
+      }
+    case actions.UPDATE_STUDENT_INFO_RESPONSE:
+      return {
+        ...state,
+        ...action.info,
       }
     case actions.ADD_TO_NOT_RECOMMENDS_RESPONSE:
       return {
@@ -233,10 +238,38 @@ const error = (state = initialError, action) => {
         ...state,
         signIn: {},
       }
+    case actions.UPDATE_STUDENT_INFO_REQUEST:
+      return {
+        ...state,
+        settingsTab: {},
+      }
     case actions.SET_ERRORS:
       return {
         ...state,
         [action.identifier]: action.errors,
+      }
+    default:
+      return state
+  }
+}
+
+const newResponse = (response, success) => {
+  return success ? Math.max(1, response + 1) : Math.min(-1, response - 1)
+}
+
+const response = (state = initialResponse, action) => {
+  switch (action.type) {
+    case actions.CLEAR_STATE:
+      return initialResponse
+    case actions.UPDATE_STUDENT_INFO_RESPONSE:
+      return {
+        ...state,
+        settingsTab: newResponse(state.settingsTab, true),
+      }
+    case actions.SET_ERRORS:
+      return {
+        ...state,
+        [action.identifier]: newResponse(state[action.identifier], false),
       }
     default:
       return state
@@ -287,6 +320,7 @@ const ttrsReducer = (state = initialState, action) => {
         timeTable: timeTable(state.timeTable, action),
         search: search(state.search, action),
         error: error(state.error, action),
+        response: response(state.response, action),
       }
   }
 }

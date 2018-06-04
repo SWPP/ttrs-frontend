@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Lecture from '../../atoms/Lecture'
 import Button from '../../atoms/Button'
 import LecturePopup from '../../../containers/LecturePopup'
@@ -37,6 +38,14 @@ const SearchLecture = ({ searchLectures, onSearchLecture, onAddLecture, notRecom
       )}
     </div>
   )
+}
+
+SearchLecture.propTypes = {
+  searchLectures: PropTypes.array,
+  onSearchLecture: PropTypes.func,
+  onAddLecture: PropTypes.func,
+  notRecommends: PropTypes.array,
+  onAddToNotRecommends: PropTypes.func,
 }
 
 export default SearchLecture

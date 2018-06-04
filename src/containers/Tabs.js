@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import Tabs from '../components/molecules/Tabs'
+import Tabs from '../components/organisms/Tabs'
 import { getNotRecommendCoursesRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
