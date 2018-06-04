@@ -107,10 +107,10 @@ export const getSemesterList = (semesters) => {
   }
 }
 
-export const searchLectureRequest = (courseName) => {
+export const searchLectureRequest = (options) => {
   return {
     type: SEARCH_LECTURE_REQUEST,
-    courseName,
+    options,
   }
 }
 

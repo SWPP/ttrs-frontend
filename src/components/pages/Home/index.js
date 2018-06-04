@@ -67,14 +67,8 @@ class Home extends React.Component {
           </Container>
         </Menu>
 
-        <Container style={{ marginTop: 50 }}>
-          <Grid padded container>
-            <Grid.Row>
-              <Grid.Column>
-                {tab}
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
+        <Container style={{ marginTop: 70 }}>
+          {tab}
         </Container>
 
         <Segment inverted vertical style={{ padding: '5em 0em', marginTop: 100 }}>

@@ -176,10 +176,10 @@ function* signUp(studentInfo) {
   }
 }
 
-function* searchLecture(courseName) {
+function* searchLecture(options) {
   try {
     const params = {
-      'course.name.abbrev': courseName,
+      ...options,
       year,
       semester,
     }
@@ -547,8 +547,8 @@ function* watchSignUp() {
 
 function* watchSearchLecture() {
   while (true) {
-    const { courseName } = yield take(actions.SEARCH_LECTURE_REQUEST)
-    yield call(searchLecture, courseName)
+    const { options } = yield take(actions.SEARCH_LECTURE_REQUEST)
+    yield call(searchLecture, options)
   }
 }
 
