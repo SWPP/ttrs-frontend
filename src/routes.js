@@ -5,6 +5,7 @@ import App from 'components/App'
 import Home from './containers/Home'
 import SignIn from './containers/SignIn'
 import SignUp from './containers/SignUp'
+import NotFoundPage from './components/pages/NotFoundPage'
 
 const routes = (
   <div>
@@ -16,6 +17,7 @@ const routes = (
       <Route path="/bookmark" component={Home} currentTab="bookmark" />
       <Route path="/receive" component={Home} currentTab="receive" />
       <Route path="/settings" component={Home} currentTab="settings" />
+      <Route exact path="*" component={NotFoundPage} />
     </App>
   </div>
 )

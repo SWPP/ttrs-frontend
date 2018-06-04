@@ -82,15 +82,9 @@ class Home extends React.Component {
             <Grid divided stackable inverted verticalAlign="middle">
               <Grid.Row>
                 <Grid.Column width={10}>
-                  <h1>
-                    TTRS
-                  </h1>
-                  <h3>
-                    Time Table Recommendation Service
-                  </h3>
-                  <h5>
-                    for Seoul National University Students
-                  </h5>
+                  <h1>TTRS</h1>
+                  <h3>Time Table Recommendation Service</h3>
+                  <h5>for Seoul National University Students</h5>
                 </Grid.Column>
                 <Grid.Column width={6}>
                   <Header inverted content="About" />
