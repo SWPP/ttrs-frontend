@@ -71,6 +71,8 @@ class SettingsTab extends React.Component {
         value: index,
       })))
     }
+
+    this.props.onGetNotRecommendCourses(this.props.notRecommends)
   }
 
   handleChange = (e, { name, value }) => {
@@ -237,7 +239,7 @@ class SettingsTab extends React.Component {
               error={this.errors.bools.major}
               onChange={this.handleChange}
             />
-            <Button type="submit" color="teal" size="large">Update</Button>
+            <Button type="submit" color="teal">Update</Button>
           </Form>
           {Object.keys(this.errors.bools).length > 0 &&
           <Message
@@ -307,6 +309,7 @@ SettingsTab.propTypes = {
   response: PropTypes.number,
   onUpdateInfo: PropTypes.func,
   onWithdraw: PropTypes.func,
+  onGetNotRecommendCourses: PropTypes.func,
   onDeleteFromNotRecommends: PropTypes.func,
   onClearError: PropTypes.func,
   onExit: PropTypes.func,

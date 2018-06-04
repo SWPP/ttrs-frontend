@@ -1,7 +1,8 @@
 import { connect } from 'react-redux'
 import SettingsTab from '../components/organisms/SettingsTab'
 import {
-  clearState, deleteFromNotRecommendsRequest, setErrors, setSuccess, updateStudentInfoRequest,
+  clearState, deleteFromNotRecommendsRequest, getNotRecommendCoursesRequest, setErrors, setSuccess,
+  updateStudentInfoRequest,
   withdraw
 } from '../store/ttrs/actions'
 
@@ -29,6 +30,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onWithdraw: () => {
       dispatch(withdraw())
+    },
+    onGetNotRecommendCourses: (notRecommends) => {
+      dispatch(getNotRecommendCoursesRequest(notRecommends))
     },
     onDeleteFromNotRecommends: (notRecommends, courseId) => {
       dispatch(deleteFromNotRecommendsRequest(notRecommends, courseId))

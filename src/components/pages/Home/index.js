@@ -1,8 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Container, Grid, Header, List, Menu, Popup, Segment } from 'semantic-ui-react'
-import Tabs from '../../../containers/Tabs'
 import SemesterSwitcher from '../../../containers/SemesterSwitcher'
+import RecommendTab from '../../../containers/RecommendTab'
+import BookmarkTab from '../../../containers/BookmarkTab'
+import ReceiveTab from '../../../containers/ReceiveTab'
+import SettingsTab from '../../../containers/SettingsTab'
 
 class Home extends React.Component {
   static getDerivedStateFromProps(props) {
@@ -14,6 +17,20 @@ class Home extends React.Component {
 
   render() {
     if (!this.props.isSignedIn) {
+      return null
+    }
+    const tabName = this.props.route.currentTab
+    let tab = null
+    if (tabName === 'recommend') {
+      tab = <RecommendTab />
+    } else if (tabName === 'bookmark') {
+      tab = <BookmarkTab />
+    } else if (tabName === 'receive') {
+      tab = <ReceiveTab />
+    } else if (tabName === 'settings') {
+      tab = <SettingsTab />
+    } else {
+      this.props.router.push('/404')
       return null
     }
 
@@ -49,19 +66,20 @@ class Home extends React.Component {
             </Menu.Menu>
           </Container>
         </Menu>
-        <Container style={{ marginTop: 40 }}>
+
+        <Container style={{ marginTop: 50 }}>
           <Grid padded container>
             <Grid.Row>
               <Grid.Column>
-                <Tabs />
+                {tab}
               </Grid.Column>
             </Grid.Row>
           </Grid>
         </Container>
 
-        <Segment inverted vertical style={{ padding: '5em 0em' }}>
+        <Segment inverted vertical style={{ padding: '5em 0em', marginTop: 100 }}>
           <Container textAlign="center">
-            <Grid divided stackable inverted verticalAlign="center">
+            <Grid divided stackable inverted verticalAlign="middle">
               <Grid.Row>
                 <Grid.Column width={10}>
                   <h1>
@@ -95,6 +113,7 @@ Home.propTypes = {
   username: PropTypes.string,
   onSignOut: PropTypes.func,
   router: PropTypes.object,
+  route: PropTypes.object,
 }
 
 export default Home
