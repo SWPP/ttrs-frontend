@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Dropdown, Menu } from 'semantic-ui-react'
+import { Dropdown } from 'semantic-ui-react'
 
 const SemesterSwitcher = ({ semesters, onSwitchSemester }) => {
   const options = semesters.map((semester, index) => ({
@@ -10,16 +10,15 @@ const SemesterSwitcher = ({ semesters, onSwitchSemester }) => {
   }))
 
   return (
-    <Menu compact>
-      <Dropdown
-        item
-        options={options}
-        defaultValue={options.length > 0 ? options[0].value : null}
-        onChange={(e, { value }) => {
-          onSwitchSemester(semesters[value].year, semesters[value].semester)
-        }}
-      />
-    </Menu>
+    <Dropdown
+      simple
+      item
+      options={options}
+      defaultValue={options.length > 0 ? options[0].value : null}
+      onChange={(e, { value }) => {
+        onSwitchSemester(semesters[value].year, semesters[value].semester)
+      }}
+    />
   )
 }
 
