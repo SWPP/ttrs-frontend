@@ -14,17 +14,7 @@
  * texts has key-value pairs where key is field name of the error and value is the error message
  */
 
-import { convertToReadable } from './parser'
-
-/**
- * get initial error structure
- */
-export const initErrors = () => {
-  return {
-    bools: {},
-    texts: {},
-  }
-}
+import { convertToReadable, isInstanceOf } from './parser'
 
 /**
  * get semantic error structure from raw errors
@@ -49,41 +39,20 @@ export const initErrors = () => {
  *   },
  * }
  */
-export const getErrors = (rawErrors) => {
+export const processErrors = (rawErrors) => {
   const bools = {}
   const texts = {}
   Object.keys(rawErrors).forEach(field => {
     bools[field] = true
-    texts[field] = `${convertToReadable(field)}: ${rawErrors[field].join('\n')}`
+    if (isInstanceOf(rawErrors, 'Array')) {
+      texts[field] = `${convertToReadable(field)}: ${rawErrors[field].join('\n')}`
+    } else {
+      texts[field] = `${convertToReadable(field)}: ${rawErrors[field]}`
+    }
   })
   return {
     bools,
     texts,
-  }
-}
-
-/**
- * update semantic-UI-style error structure based on original error structure
- * @param original: original error structure
- * @param rawErrors: raw errors from backend
- * @returns updated semantic-UI-style error structure
- */
-export const updateErrors = (original, rawErrors) => {
-  const bools = {}
-  const texts = {}
-  Object.keys(rawErrors).forEach(field => {
-    bools[field] = true
-    texts[field] = `${convertToReadable(field)}: ${rawErrors[field].join('\n')}`
-  })
-  return {
-    bools: {
-      ...original.bools,
-      ...bools,
-    },
-    texts: {
-      ...original.texts,
-      ...texts,
-    },
   }
 }
 

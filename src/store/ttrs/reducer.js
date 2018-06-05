@@ -244,21 +244,6 @@ const error = (state = initialError, action) => {
   switch (action.type) {
     case actions.CLEAR_STATE:
       return initialError
-    case actions.SIGN_UP_REQUEST:
-      return {
-        ...state,
-        signUp: {},
-      }
-    case actions.SIGN_IN_REQUEST:
-      return {
-        ...state,
-        signIn: {},
-      }
-    case actions.UPDATE_STUDENT_INFO_REQUEST:
-      return {
-        ...state,
-        settingsTab: {},
-      }
     case actions.SET_ERRORS:
       return {
         ...state,
@@ -277,16 +262,23 @@ const response = (state = initialResponse, action) => {
   switch (action.type) {
     case actions.CLEAR_STATE:
       return initialResponse
+    case actions.SIGN_UP_RESPONSE:
+      return {
+        ...state,
+        signUp: newResponse(state.signUp, true),
+      }
     case actions.UPDATE_STUDENT_INFO_RESPONSE:
       return {
         ...state,
         settingsTab: newResponse(state.settingsTab, true),
       }
     case actions.SET_ERRORS:
-      return {
-        ...state,
-        [action.identifier]: newResponse(state[action.identifier], false),
-      }
+      return (Object.keys(action.errors.bools).length > 0 || Object.keys(action.errors.texts).length > 0)
+        ? {
+          ...state,
+          [action.identifier]: newResponse(state[action.identifier], false),
+        }
+        : state
     default:
       return state
   }
@@ -309,6 +301,7 @@ const ttrsReducer = (state = initialState, action) => {
       return {
         ...state,
         toSignIn: true,
+        response: response(state.response, action),
       }
     case actions.CLEAR_STATE:
       return {

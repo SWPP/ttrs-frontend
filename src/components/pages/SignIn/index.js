@@ -42,7 +42,13 @@ class SignIn extends React.Component {
             <Header as="h1" color="teal" textAlign="center">
               TTRS
             </Header>
-            <Form size="large" onSubmit={this.handleSignIn}>
+            <Form
+              size="large"
+              onSubmit={() => {
+                this.props.onClearError()
+                this.handleSignIn()
+              }}
+            >
               <Segment raised>
                 <Form.Input
                   fluid
@@ -71,10 +77,10 @@ class SignIn extends React.Component {
                 </Button.Group>
               </Segment>
             </Form>
-            {Object.keys(this.props.errors).length > 0 &&
+            {this.props.errors.texts.detail &&
             <Message
               negative
-              header="Incorrect username or password."
+              header={this.props.errors.texts.detail.substring(8)}
             />}
           </Grid.Column>
         </Grid>

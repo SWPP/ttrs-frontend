@@ -37,8 +37,8 @@ const mapDispatchToProps = (dispatch) => {
     onDeleteFromNotRecommends: (notRecommends, courseId) => {
       dispatch(deleteFromNotRecommendsRequest(notRecommends, courseId))
     },
-    onClearError: () => {
-      dispatch(setErrors('settingsTab', {}))
+    onSetError: (errors) => {
+      dispatch(setErrors('settingsTab', errors))
     },
     onExit: () => {
       dispatch(clearState())

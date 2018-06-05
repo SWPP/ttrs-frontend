@@ -1,4 +1,4 @@
-const isInstanceOf = (obj, typeString) => Object.prototype.toString.call(obj).slice(8, -1) === typeString
+export const isInstanceOf = (obj, typeString) => Object.prototype.toString.call(obj).slice(8, -1) === typeString
 const isUpperCase = (char) => char.toLowerCase() !== char
 // const isLowerCase = (char) => char.toUpperCase() !== char
 

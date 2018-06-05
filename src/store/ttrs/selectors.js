@@ -53,13 +53,19 @@ export const initialSearch = {
   lectures: [],
 }
 
+export const initialErrorUnit = {
+  bools: {},
+  texts: {},
+}
+
 export const initialError = {
-  signIn: {},
-  signUp: {},
-  settingsTab: {},
+  signIn: initialErrorUnit,
+  signUp: initialErrorUnit,
+  settingsTab: initialErrorUnit,
 }
 
 export const initialResponse = {
+  signUp: 0,
   settingsTab: 0,
 }
 

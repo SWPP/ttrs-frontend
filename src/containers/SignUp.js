@@ -7,6 +7,7 @@ const mapStateToProps = (state) => {
     toSignIn: state.ttrs.toSignIn,
     colleges: state.ttrs.belongInfo.colleges,
     errors: state.ttrs.error.signUp,
+    response: state.ttrs.response.signUp,
   }
 }
 
@@ -15,8 +16,8 @@ const mapDispatchToProps = (dispatch) => {
     onSignUp: (username, password, email, grade, college, department, major) => {
       dispatch(signUpRequest({ username, password, email, grade, college, department, major }))
     },
-    onClearError: () => {
-      dispatch(setErrors('signUp', {}))
+    onSetError: (errors) => {
+      dispatch(setErrors('signUp', errors))
     },
     onExit: () => {
       dispatch(clearState())

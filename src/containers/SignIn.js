@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import SignIn from '../components/pages/SignIn'
 import { signInRequest, setErrors } from '../store/ttrs/actions'
+import { initialErrorUnit } from '../store/ttrs/selectors'
 
 const mapStateToProps = (state) => {
   return {
@@ -15,7 +16,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(signInRequest(username, password))
     },
     onClearError: () => {
-      dispatch(setErrors('signIn', {}))
+      dispatch(setErrors('signIn', initialErrorUnit))
     },
   }
 }
