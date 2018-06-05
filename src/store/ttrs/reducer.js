@@ -1,4 +1,4 @@
-import { initialState, initialTimeTable, initialError, initialResponse } from './selectors'
+import { initialState, initialTimeTable, initialError, initialResponse, initialSearch } from './selectors'
 import * as actions from './actions'
 
 const studentInfo = (state = [], action) => {
@@ -239,6 +239,8 @@ const search = (state = [], action) => {
         ...state,
         lectures: [...lectures],
       }
+    case actions.CLEAR_SEARCH_LECTURE:
+      return initialSearch
     default:
       return state
   }

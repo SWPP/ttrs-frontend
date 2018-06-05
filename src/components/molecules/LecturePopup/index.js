@@ -75,12 +75,12 @@ class LecturePopup extends React.Component {
     return (
       <Modal
         open={this.props.open}
-        onClose={() => this.setState({ editingId: null })}
         style={{
           marginTop: '0px !important',
           marginLeft: 'auto',
           marginRight: 'auto',
         }}
+        closeOnDimmerClick={false}
       >
         <Modal.Header>
           {course.name}
@@ -296,7 +296,12 @@ class LecturePopup extends React.Component {
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
-          <Button onClick={() => this.props.onClose()}>
+          <Button
+            onClick={() => {
+              this.props.onClose()
+              this.setState({ editingId: null })
+            }}
+          >
             Close
           </Button>
         </Modal.Actions>

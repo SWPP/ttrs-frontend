@@ -31,6 +31,7 @@ class SearchLecture extends React.Component {
             marginLeft: 'auto',
             marginRight: 'auto',
           }}
+          closeOnDimmerClick={false}
         >
           <Modal.Header>
             Search Lecture
@@ -62,7 +63,7 @@ class SearchLecture extends React.Component {
             </Card.Group>
           </div>
           <Modal.Actions>
-            <Button onClick={() => this.props.onClose()} content="Close" />
+            <Button onClick={this.props.onClose} content="Close" />
           </Modal.Actions>
         </Modal>
       </div>

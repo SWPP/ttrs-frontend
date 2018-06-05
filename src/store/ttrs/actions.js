@@ -8,6 +8,7 @@ export const GET_COLLEGE_LIST = 'GET_COLLEGE_LIST'
 export const GET_SEMESTER_LIST = 'GET_SEMESTER_LIST'
 export const SEARCH_LECTURE_REQUEST = 'SEARCH_LECTURE_REQUEST'
 export const SEARCH_LECTURE_RESPONSE = 'SEARCH_LECTURE_RESPONSE'
+export const CLEAR_SEARCH_LECTURE = 'CLEAR_SEARCH_LECTURE'
 export const CREATE_MY_TIME_TABLE = 'CREATE_MY_TIME_TABLE'
 export const UPDATE_MY_TIME_TABLE_REQUEST = 'UPDATE_MY_TIME_TABLE_REQUEST'
 export const ADD_LECTURE_TO_MY_TIME_TABLE = 'ADD_LECTURE_TO_MY_TIME_TABLE'
@@ -119,6 +120,12 @@ export const searchLectureResponse = (lectures) => {
   return {
     type: SEARCH_LECTURE_RESPONSE,
     lectures,
+  }
+}
+
+export const clearSearchLecture = () => {
+  return {
+    type: CLEAR_SEARCH_LECTURE,
   }
 }
 

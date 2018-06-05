@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import SearchLecture from '../components/molecules/SearchLecture'
-import { addToNotRecommendsRequest, searchLectureRequest } from '../store/ttrs/actions'
+import { addToNotRecommendsRequest, clearSearchLecture, searchLectureRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -14,6 +14,10 @@ const mapDispatchToProps = (dispatch, props) => {
       dispatch(searchLectureRequest(options))
     },
     ...props,
+    onClose: () => {
+      props.onClose()
+      dispatch(clearSearchLecture())
+    },
   }
 }
 
