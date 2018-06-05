@@ -9,11 +9,9 @@ class Tmp extends React.Component {
             startPoint: null,
             endPoint: null,
             blocks: [
-                [0,0,0,0,0],
-                [0,0,0,0,0],
-                [0,0,0,0,0],
-                [0,0,0,0,0],
-                [0,0,0,0,0]
+                [0,0,0],
+                [0,0,0],
+                [0,0,0],
             ]
         }
     }
@@ -49,11 +47,11 @@ class Tmp extends React.Component {
 
         const topLeft = {
             x: Math.min(this.state.startPoint.x, this.state.endPoint.x)-eltLeft,
-            y: Math.max(this.state.startPoint.y, this.state.endPoint.y)-eltTop
+            y: Math.min(this.state.startPoint.y, this.state.endPoint.y)-eltTop
         }
         const botRight = {
             x: Math.max(this.state.startPoint.x, this.state.endPoint.x)-eltLeft,
-            y: Math.min(this.state.startPoint.y, this.state.endPoint.y)-eltTop
+            y: Math.max(this.state.startPoint.y, this.state.endPoint.y)-eltTop
         }
         console.log(topLeft, botRight)
 
@@ -76,22 +74,21 @@ class Tmp extends React.Component {
         const tl2 = tl
         const br2 = br
 
-        // console.log(tl1, br1, tl2, br2)
+        console.log('block[',i,'][',j,']')
+        console.log(tl1, br1, tl2, br2)
 
-        if (tl1.x > br2.x || tl2.x > br1.x)
+        if (tl1.x > br2.x || tl2.x > br1.x) {
+            console.log('false 1')
             return false
+        }
 
-        if (tl1.y < br2.y || tl2.y < br1.y)
+        if (tl1.y > br2.y || tl2.y > br1.y) {
+            console.log('false 2')
             return false
+        }
 
+        console.log('true')
         return true
-    }
-
-    included = (i, j, tl, br) => {
-        console.log(br.y, '<=', 100*i, '<=', tl.y, ':', (br.y <= 100*i) && (100*i <= tl.y))
-        if ((br.y <= 100*i+50) && (100*i+50 <= tl.y) && (tl.x <= 100*j+50) && (100*j+50 <= br.x))
-            return true
-        return false
     }
 
     renderRow = (row) => {
