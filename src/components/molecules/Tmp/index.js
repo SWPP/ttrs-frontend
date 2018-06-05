@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 
-const block_width = 100
+const block_width = 130
 const block_height = 26
 
 class Tmp extends React.Component {
@@ -50,6 +50,13 @@ class Tmp extends React.Component {
     }
 
     _onMouseDown = (e) => {
+        if (!e.ctrlKey) {
+            const startPoint = null
+            const endPoint = null
+            this.setState({startPoint, endPoint})
+            return;
+        }
+
         const startPoint = {x: e.clientX, y: e.clientY}
         const endPoint = {x: e.clientX, y: e.clientY}
         this.setState({startPoint, endPoint})
@@ -62,6 +69,9 @@ class Tmp extends React.Component {
     }
 
     _onMouseUp = (e) => {
+        if (!this.state.startPoint || !this.state.endPoint)
+            return
+
         window.document.removeEventListener('mousemove', this._onMouseMove)
 
         const elt = ReactDOM.findDOMNode(this)
@@ -102,16 +112,13 @@ class Tmp extends React.Component {
         // console.log(tl1, br1, tl2, br2)
 
         if (tl1.x > br2.x || tl2.x > br1.x) {
-            console.log('false 1')
             return false
         }
 
         if (tl1.y > br2.y || tl2.y > br1.y) {
-            console.log('false 2')
             return false
         }
 
-        console.log('true')
         return true
     }
 
@@ -122,10 +129,12 @@ class Tmp extends React.Component {
                 ondragstart="return false;"
                 draggable="false"
                 style={{ 
-                    backgroundColor: (elt==1?'#000000': '#FFFF00'), 
+                    backgroundColor: (elt==1?'#123400': '#FFFFFF'), 
+                    border: '1px solid #999999',
                     width: block_width.toString(), 
                     height: block_height.toString() 
                 }}>
+                <button />
             </td>)
         )
 
@@ -133,6 +142,11 @@ class Tmp extends React.Component {
 
     renderBlocks = () => {
         const blocks = this.state.blocks
+        return (
+            ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
+            '13:30', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
+            '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30'].map((time, index) => (<tr><th>{time}</th>{this.renderRow(blocks[index])}</tr>))
+        )
         return (blocks.map((row) => (<tr><th>as</th>{this.renderRow(row)}</tr>)))
     }
 
