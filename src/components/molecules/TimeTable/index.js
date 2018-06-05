@@ -175,7 +175,6 @@ class TimeTable extends React.Component {
             <LecturePopup
               open={lecture.id === this.state.openId}
               lecture={lecture}
-              height={span}
               onDeleteLecture={() => this.props.onDeleteLecture(lecture.id)}
               onAddToNotRecommends={() => this.props.onAddToNotRecommends(this.props.notRecommends, lecture.course.id)}
               canDelete={this.props.canModify}
