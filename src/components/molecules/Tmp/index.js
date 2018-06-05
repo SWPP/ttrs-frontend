@@ -92,7 +92,14 @@ class Tmp extends React.Component {
     }
 
     renderRow = (row) => {
-        return row.map((elt) => (<td style={{ border: '1px solid black', width: '100px', height: '100px' }}>{elt}</td>))
+        return row.map((elt) => (<td 
+            style={{ 
+                backgroundColor: (elt==1?'#FF0000': '#00FF00'), 
+                border: '1px solid black', 
+                width: '100px', 
+                height: '100px' 
+            }}></td>))
+
     }
 
     renderBlocks = () => {
