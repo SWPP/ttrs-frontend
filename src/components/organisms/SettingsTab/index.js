@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Message, Button, Header, Transition, Divider, Popup, List } from 'semantic-ui-react'
+import { Form, Message, Button, Header, Divider, Popup, List } from 'semantic-ui-react'
 import { customErrors } from '../../../services/error_utility'
 import { initialErrorUnit } from '../../../store/ttrs/selectors'
 import Notice from '../../atoms/Notice'
@@ -55,25 +55,6 @@ class SettingsTab extends React.Component {
       notice: false,
     }
 
-    this.gradeOptions = [1, 2, 3, 4, 5, 6].map(grade => ({ key: grade, text: grade, value: grade }))
-    this.collegeOptions = props.colleges.map((college, index) => ({ key: college.id, text: college.name, value: index }))
-    this.departmentOptions = [{ key: -1, text: '---', value: null }]
-    if (this.state.collegeIndex !== null) {
-      this.departmentOptions.push(...props.colleges[this.state.collegeIndex].departments.map((department, index) => ({
-        key: department.id,
-        text: department.name,
-        value: index,
-      })))
-    }
-    this.majorOptions = [{ key: -1, text: '---', value: null }]
-    if (this.state.departmentIndex !== null) {
-      this.majorOptions.push(...props.colleges[this.state.collegeIndex].departments[this.state.departmentIndex].majors.map((major, index) => ({
-        key: major.id,
-        text: major.name,
-        value: index,
-      })))
-    }
-
     this.props.onGetNotRecommendCourses(this.props.notRecommends)
   }
 
@@ -95,19 +76,21 @@ class SettingsTab extends React.Component {
     let info = {
       username: this.state.username,
       grade: this.state.grade,
-      college: this.props.colleges[this.state.collegeIndex].id,
     }
+    const college = this.props.colleges[this.state.collegeIndex].id
+    let department = null
+    let major = null
     if (this.state.departmentIndex !== null) {
-      info = {
-        ...info,
-        department: this.props.colleges[this.state.collegeIndex].departments[this.state.departmentIndex].id,
-      }
+      department = this.props.colleges[this.state.collegeIndex].departments[this.state.departmentIndex].id
       if (this.state.majorIndex !== null) {
-        info = {
-          ...info,
-          major: this.props.colleges[this.state.collegeIndex].departments[this.state.departmentIndex].majors[this.state.majorIndex].id,
-        }
+        major = this.props.colleges[this.state.collegeIndex].departments[this.state.departmentIndex].majors[this.state.majorIndex].id
       }
+    }
+    info = {
+      ...info,
+      college,
+      department,
+      major,
     }
     if (this.state.password.trim()) {
       info = {
@@ -138,6 +121,25 @@ class SettingsTab extends React.Component {
       }, 2000)
     }
     const errors = this.props.errors
+
+    const gradeOptions = [1, 2, 3, 4, 5, 6].map(grade => ({ key: grade, text: grade, value: grade }))
+    const collegeOptions = this.props.colleges.map((college, index) => ({ key: college.id, text: college.name, value: index }))
+    const departmentOptions = [{ key: -1, text: '---', value: null }]
+    if (this.state.collegeIndex !== null) {
+      departmentOptions.push(...this.props.colleges[this.state.collegeIndex].departments.map((department, index) => ({
+        key: department.id,
+        text: department.name,
+        value: index,
+      })))
+    }
+    const majorOptions = [{ key: -1, text: '---', value: null }]
+    if (this.state.departmentIndex !== null) {
+      majorOptions.push(...this.props.colleges[this.state.collegeIndex].departments[this.state.departmentIndex].majors.map((major, index) => ({
+        key: major.id,
+        text: major.name,
+        value: index,
+      })))
+    }
 
     return (
       <div>
@@ -186,7 +188,7 @@ class SettingsTab extends React.Component {
               label="Grade"
               required
               placeholder="Grade"
-              options={this.gradeOptions}
+              options={gradeOptions}
               name="grade"
               value={this.state.grade}
               error={errors.bools.grade}
@@ -196,7 +198,7 @@ class SettingsTab extends React.Component {
               label="College"
               required
               placeholder="College"
-              options={this.collegeOptions}
+              options={collegeOptions}
               name="collegeIndex"
               value={this.state.collegeIndex}
               error={errors.bools.college}
@@ -209,7 +211,7 @@ class SettingsTab extends React.Component {
             <Form.Select
               label="Department"
               placeholder="Department"
-              options={this.departmentOptions}
+              options={departmentOptions}
               name="departmentIndex"
               value={this.state.departmentIndex}
               error={errors.bools.department}
@@ -221,7 +223,7 @@ class SettingsTab extends React.Component {
             <Form.Select
               label="Major"
               placeholder="Major"
-              options={this.majorOptions}
+              options={majorOptions}
               name="majorIndex"
               value={this.state.majorIndex}
               error={errors.bools.major}

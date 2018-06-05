@@ -37,25 +37,6 @@ class SignUp extends React.Component {
       response: props.response,
       notice: false,
     }
-
-    this.gradeOptions = [1, 2, 3, 4, 5, 6].map(grade => ({ key: grade, text: grade, value: grade }))
-    this.collegeOptions = props.colleges.map((college, index) => ({ key: college.id, text: college.name, value: index }))
-    this.departmentOptions = [{ key: -1, text: '---', value: null }]
-    if (this.state.collegeIndex !== null) {
-      this.departmentOptions.push(...props.colleges[this.state.collegeIndex].departments.map((department, index) => ({
-        key: department.id,
-        text: department.name,
-        value: index,
-      })))
-    }
-    this.majorOptions = [{ key: -1, text: '---', value: null }]
-    if (this.state.departmentIndex !== null) {
-      this.majorOptions.push(...props.colleges[this.state.collegeIndex].departments[this.state.departmentIndex].majors.map((major, index) => ({
-        key: major.id,
-        text: major.name,
-        value: index,
-      })))
-    }
   }
 
   handleChange = (e, { name, value }) => {
@@ -93,7 +74,8 @@ class SignUp extends React.Component {
       }, this.state.response > 0 ? 4000 : 2000)
     }
     const errors = this.props.errors
-    const gradeOptions = [1, 2, 3, 4].map(grade => ({ key: grade, text: grade, value: grade }))
+
+    const gradeOptions = [1, 2, 3, 4, 5, 6].map(grade => ({ key: grade, text: grade, value: grade }))
     const collegeOptions = this.props.colleges.map((college, index) => ({ key: college.id, text: college.name, value: index }))
     const departmentOptions = [{ key: -1, text: '---', value: null }]
     if (this.state.collegeIndex !== null) {

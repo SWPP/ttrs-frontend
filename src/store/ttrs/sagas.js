@@ -376,8 +376,8 @@ function* updateStudentInfo(info) {
     if (info.password) {
       yield put(actions.clearState())
     } else {
-      delete response.password
-      yield put(actions.updateStudentInfoResponse(info))
+      delete response.data.password
+      yield put(actions.updateStudentInfoResponse(response.data))
     }
   } catch (error) {
     console.log('update student info error', error.response)

@@ -1,16 +1,10 @@
 import { connect } from 'react-redux'
 import SettingsTab from '../components/organisms/SettingsTab'
-import {
-  clearState, deleteFromNotRecommendsRequest, getNotRecommendCoursesRequest, setErrors, setSuccess,
-  updateStudentInfoRequest,
-  withdraw
-} from '../store/ttrs/actions'
+import { clearState, deleteFromNotRecommendsRequest, getNotRecommendCoursesRequest, setErrors, updateStudentInfoRequest, withdraw } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
-    username: state.ttrs.studentInfo.username,
     password: state.ttrs.studentInfo.password,
-    email: state.ttrs.studentInfo.email,
     grade: state.ttrs.studentInfo.grade,
     college: state.ttrs.studentInfo.college,
     department: state.ttrs.studentInfo.department,
