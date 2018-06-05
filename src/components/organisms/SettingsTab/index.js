@@ -48,6 +48,7 @@ class SettingsTab extends React.Component {
       collegeIndex,
       departmentIndex,
       majorIndex,
+      passwordOld2: '',
       response: props.response,
       notice: false,
     }
@@ -118,17 +119,12 @@ class SettingsTab extends React.Component {
   }
 
   handleWithdraw = () => {
-    const errors = customErrors({
-      passwordOld2: [this.state.passwordOld2 === this.props.password, 'Incorrect password.'],
-    })
-    if (errors !== null) {
-      this.errors = errors
-      this.props.onClearError()
-      this.forceUpdate()
+    if (this.state.passwordOld2 === this.props.password) {
+      this.props.onWithdraw()
       return
     }
-
-    this.props.onWithdraw()
+    this.errors.bools.passwordOld2 = true
+    this.forceUpdate()
   }
 
   render() {
@@ -241,7 +237,7 @@ class SettingsTab extends React.Component {
             />
             <Button type="submit" color="teal">Update</Button>
           </Form>
-          {Object.keys(this.errors.bools).length > 0 &&
+          {Object.keys(this.errors.texts).length > 0 &&
           <Message
             negative
             header="There are some errors with your submission"
@@ -281,10 +277,20 @@ class SettingsTab extends React.Component {
             trigger={<Button icon="user x" negative content="Withdraw" />}
             content={<Form>
               <Form.Input
+                name="passwordOld2"
+                onChange={this.handleChange}
+                error={this.errors.bools.passwordOld2}
+                type="password"
                 placeholder="Input your password..."
                 action={<Popup
                   inverted
-                  trigger={<Button attached="right" icon="exclamation triangle" color="red" />}
+                  trigger={<Button
+                    type="submit"
+                    attached="right"
+                    icon="exclamation triangle"
+                    color="red"
+                    onClick={this.handleWithdraw}
+                  />}
                   content="You cannot undo this action."
                 />}
               />
