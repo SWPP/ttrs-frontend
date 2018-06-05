@@ -11,8 +11,7 @@ const SemesterSwitcher = ({ semesters, onSwitchSemester }) => {
 
   return (
     <Dropdown
-      simple
-      item
+      simple item scrolling
       options={options}
       defaultValue={options.length > 0 ? options[0].value : null}
       onChange={(e, { value }) => {
