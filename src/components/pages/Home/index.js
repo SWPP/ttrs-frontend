@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Container, Grid, Header, List, Menu, Popup, Segment } from 'semantic-ui-react'
+import { Container, Dropdown, Grid, Header, List, Menu, Segment } from 'semantic-ui-react'
 import SemesterSwitcher from '../../../containers/SemesterSwitcher'
 import RecommendTab from '../../../containers/RecommendTab'
 import BookmarkTab from '../../../containers/BookmarkTab'
@@ -45,23 +45,17 @@ class Home extends React.Component {
             <Menu.Item onClick={() => this.props.router.push('settings/')}>Settings</Menu.Item>
             <Menu.Menu position="right">
               <SemesterSwitcher />
-              <Popup
-                on="click"
-                inverted
-                size="mini"
-                content={<Button
-                  style={{ margin: 0 }}
-                  compact
-                  secondary
-                  onClick={() => {
+              <Dropdown
+                icon={null}
+                text={`Hello, ${this.props.username}`}
+                options={[{ text: 'Sign Out', value: 'sign-out' }]}
+                onChange={(e, { value }) => {
+                  if (value === 'sign-out') {
                     this.props.onSignOut()
                     this.props.router.push('/sign-in')
-                  }}
-                  content="Sign Out"
-                />}
-                trigger={<Menu.Item>
-                  Hello, {this.props.username}
-                </Menu.Item>}
+                  }
+                }}
+                simple item
               />
             </Menu.Menu>
           </Container>
