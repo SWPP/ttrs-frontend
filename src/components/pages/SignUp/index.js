@@ -9,7 +9,6 @@ class SignUp extends React.Component {
   static getDerivedStateFromProps(props, state) {
     if (props.toSignIn) {
       setTimeout(() => {
-        props.onExit()
         props.router.push('/sign-in')
       }, 4000)
     }
