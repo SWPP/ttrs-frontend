@@ -51,6 +51,7 @@ export const initialTimeTable = {
 
 export const initialSearch = {
   lectures: [],
+  count: null,
 }
 
 export const initialError = {

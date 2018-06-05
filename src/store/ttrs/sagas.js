@@ -185,7 +185,7 @@ function* searchLecture(options) {
     }
     const response = yield call(axios.get, updateURLParams('ttrs/lectures/', params), config)
     console.log('searchLecture response', response)
-    yield put(actions.searchLectureResponse(response.data))
+    yield put(actions.searchLectureResponse(response.data.results, response.data.count))
   } catch (error) {
     console.log('searchLecture error', error.response)
   }

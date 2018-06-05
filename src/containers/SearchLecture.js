@@ -5,6 +5,7 @@ import { addToNotRecommendsRequest, clearSearchLecture, searchLectureRequest } f
 const mapStateToProps = (state) => {
   return {
     searchLectures: state.ttrs.search.lectures,
+    count: state.ttrs.search.count,
   }
 }
 
