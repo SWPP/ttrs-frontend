@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import SettingsTab from '../components/organisms/SettingsTab'
-import { clearState, deleteFromNotRecommendsRequest, getNotRecommendCoursesRequest, setErrors, updateStudentInfoRequest, withdraw } from '../store/ttrs/actions'
+import { clearState, deleteFromNotRecommendsRequest, getNotRecommendCoursesRequest, setErrors,
+  updateStudentInfoRequest, withdraw } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -33,9 +34,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     onSetError: (errors) => {
       dispatch(setErrors('settingsTab', errors))
-    },
-    onExit: () => {
-      dispatch(clearState())
     },
   }
 }

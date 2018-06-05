@@ -19,9 +19,6 @@ const mapDispatchToProps = (dispatch) => {
     onSetError: (errors) => {
       dispatch(setErrors('signUp', errors))
     },
-    onExit: () => {
-      dispatch(clearState())
-    },
   }
 }
 

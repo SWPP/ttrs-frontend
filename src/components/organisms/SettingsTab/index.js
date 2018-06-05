@@ -58,6 +58,10 @@ class SettingsTab extends React.Component {
     this.props.onGetNotRecommendCourses(this.props.notRecommends)
   }
 
+  componentWillUnmount() {
+    this.props.onSetError(initialErrorUnit)
+  }
+
   handleChange = (e, { name, value }) => {
     this.setState({ [name]: value })
   }
@@ -312,7 +316,6 @@ SettingsTab.propTypes = {
   onGetNotRecommendCourses: PropTypes.func,
   onDeleteFromNotRecommends: PropTypes.func,
   onSetError: PropTypes.func,
-  onExit: PropTypes.func,
 }
 
 export default SettingsTab

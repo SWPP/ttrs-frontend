@@ -39,6 +39,10 @@ class SignUp extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this.props.onSetError(initialErrorUnit)
+  }
+
   handleChange = (e, { name, value }) => {
     this.setState({ [name]: value })
   }
@@ -243,7 +247,6 @@ SignUp.propTypes = {
   errors: PropTypes.object,
   response: PropTypes.number,
   router: PropTypes.object,
-  onExit: PropTypes.func,
 }
 
 export default SignUp
