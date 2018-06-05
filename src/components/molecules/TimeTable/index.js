@@ -280,12 +280,12 @@ class TimeTable extends React.Component {
                     style={{ ...iconButtonStyle, paddingLeft: 10, paddingRight: 10 }}
                     onClick={() => this.setState({ searchOpen: true })}
                   />
+                  {this.state.searchOpen &&
                   <SearchLecture
-                    open={this.state.searchOpen}
                     onAddLecture={this.props.onAddLecture}
                     onClose={() => this.setState({ searchOpen: false })}
                     onAddToNotRecommends={(courseId) => this.props.onAddToNotRecommends(this.props.notRecommends, courseId)}
-                  />
+                  />}
                 </div>}
                 content="Add a lecture to this timetable"
                 inverted

@@ -221,6 +221,7 @@ const search = (state = [], action) => {
       return {
         ...state,
         lectures: action.lectures,
+        count: action.count,
       }
     case actions.SET_EVALUATIONS_RESPONSE:
       lectures = state.lectures
