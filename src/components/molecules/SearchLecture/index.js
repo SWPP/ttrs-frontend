@@ -74,7 +74,7 @@ class SearchLecture extends React.Component {
             </Card.Group>
           </div>
           <Modal.Actions>
-            {`${this.props.count}` &&
+            {this.props.count > 0 &&
             <div align="center">
               <Pagination
                 ellipsisItem={{ content: <Icon name="ellipsis horizontal" />, icon: true }}
