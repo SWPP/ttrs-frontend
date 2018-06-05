@@ -178,7 +178,7 @@ class TimeTable extends React.Component {
               height={span}
               onDeleteLecture={() => this.props.onDeleteLecture(lecture.id)}
               onAddToNotRecommends={() => this.props.onAddToNotRecommends(this.props.notRecommends, lecture.course.id)}
-              canDelete={this.props.canDelete}
+              canDelete={this.props.canModify}
               onClose={() => this.setState({ openId: null })}
             />
           </td>
@@ -271,6 +271,7 @@ class TimeTable extends React.Component {
             }
           </Menu.Item>
           <Menu.Menu position="right">
+            {this.props.canModify &&
             <Menu.Item active fitted>
               <Button
                 icon="add"
@@ -284,7 +285,7 @@ class TimeTable extends React.Component {
                 onClose={() => this.setState({ searchOpen: false })}
                 onAddToNotRecommends={(courseId) => this.props.onAddToNotRecommends(this.props.notRecommends, courseId)}
               />
-            </Menu.Item>
+            </Menu.Item>}
             <Menu.Item active fitted>
               <div style={{ paddingLeft: 10, paddingRight: 10 }}>
                 {this.props.canCopyToMy &&
