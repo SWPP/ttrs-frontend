@@ -116,10 +116,11 @@ export const searchLectureRequest = (options) => {
   }
 }
 
-export const searchLectureResponse = (lectures) => {
+export const searchLectureResponse = (lectures, count) => {
   return {
     type: SEARCH_LECTURE_RESPONSE,
     lectures,
+    count,
   }
 }
 

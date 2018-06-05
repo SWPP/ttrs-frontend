@@ -5,6 +5,7 @@ import { clearSearchLecture, searchLectureRequest } from '../store/ttrs/actions'
 const mapStateToProps = (state) => {
   return {
     searchLectures: state.ttrs.search.lectures,
+    count: state.ttrs.search.count,
   }
 }
 
