@@ -31,18 +31,12 @@ class SearchLecture extends React.Component {
     this.handleSearchLecture(activePage)
   }
 
-  handleClose = () => {
-    this.setState({ 'course.name.abbrev': '' })
-    this.setState({ page: 1 })
-    this.props.onClose()
-  }
-
   render() {
     return (
       <div>
         <Modal
+          open
           size="fullscreen"
-          open={this.props.open}
           style={{
             marginTop: '0px !important',
             marginLeft: 'auto',
@@ -93,7 +87,7 @@ class SearchLecture extends React.Component {
                 onPageChange={this.handlePageChange}
               />
             </div>}
-            <Button onClick={this.handleClose} content="Close" />
+            <Button onClick={this.props.onClose} content="Close" />
           </Modal.Actions>
         </Modal>
       </div>
@@ -102,7 +96,6 @@ class SearchLecture extends React.Component {
 }
 
 SearchLecture.propTypes = {
-  open: PropTypes.bool,
   searchLectures: PropTypes.array,
   count: PropTypes.number,
   onSearchLecture: PropTypes.func,
