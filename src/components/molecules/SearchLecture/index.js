@@ -31,6 +31,11 @@ class SearchLecture extends React.Component {
     this.handleSearchLecture(activePage)
   }
 
+  handleClose = () => {
+    this.setState({ 'course.name.abbrev': '' })
+    this.props.onClose()
+  }
+
   render() {
     return (
       <div>
@@ -87,7 +92,7 @@ class SearchLecture extends React.Component {
                 onPageChange={this.handlePageChange}
               />
             </div>}
-            <Button onClick={this.props.onClose} content="Close" />
+            <Button onClick={this.handleClose} content="Close" />
           </Modal.Actions>
         </Modal>
       </div>
