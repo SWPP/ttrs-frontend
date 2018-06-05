@@ -273,17 +273,23 @@ class TimeTable extends React.Component {
           <Menu.Menu position="right">
             {this.props.canModify &&
             <Menu.Item active fitted>
-              <Button
-                icon="add"
-                content="Add Lecture"
-                style={{ ...iconButtonStyle, paddingLeft: 10, paddingRight: 10 }}
-                onClick={() => this.setState({ searchOpen: true })}
-              />
-              <SearchLecture
-                open={this.state.searchOpen}
-                onAddLecture={this.props.onAddLecture}
-                onClose={() => this.setState({ searchOpen: false })}
-                onAddToNotRecommends={(courseId) => this.props.onAddToNotRecommends(this.props.notRecommends, courseId)}
+              <Popup
+                trigger={<div>
+                  <Button
+                    icon="add"
+                    content="Add Lecture"
+                    style={{ ...iconButtonStyle, paddingLeft: 10, paddingRight: 10 }}
+                    onClick={() => this.setState({ searchOpen: true })}
+                  />
+                  <SearchLecture
+                    open={this.state.searchOpen}
+                    onAddLecture={this.props.onAddLecture}
+                    onClose={() => this.setState({ searchOpen: false })}
+                    onAddToNotRecommends={(courseId) => this.props.onAddToNotRecommends(this.props.notRecommends, courseId)}
+                  />
+                </div>}
+                content="Add a lecture to this timetable"
+                inverted
               />
             </Menu.Item>}
             <Menu.Item active fitted>
