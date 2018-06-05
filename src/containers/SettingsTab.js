@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import SettingsTab from '../components/organisms/SettingsTab'
-import { clearState, deleteFromNotRecommendsRequest, getNotRecommendCoursesRequest, setErrors,
+import { deleteFromNotRecommendsRequest, getNotRecommendCoursesRequest, setErrors,
   updateStudentInfoRequest, withdraw } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {

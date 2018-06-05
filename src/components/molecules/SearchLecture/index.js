@@ -48,7 +48,12 @@ class SearchLecture extends React.Component {
             Search Lecture
           </Modal.Header>
           <Modal.Content>
-            <Form onSubmit={this.handleSearchLecture}>
+            <Form
+              onSubmit={() => {
+                this.setState({ page: 1 })
+                this.handleSearchLecture()
+              }}
+            >
               <Form.Input
                 label="Course Name"
                 name="course.name.abbrev"
@@ -82,7 +87,7 @@ class SearchLecture extends React.Component {
                 lastItem={{ content: <Icon name="angle double right" />, icon: true }}
                 prevItem={{ content: <Icon name="angle left" />, icon: true }}
                 nextItem={{ content: <Icon name="angle right" />, icon: true }}
-                totalPages={parseInt((this.props.count - 1) / limit) + 1}
+                totalPages={Math.floor((this.props.count - 1) / limit) + 1}
                 activePage={this.state.page}
                 onPageChange={this.handlePageChange}
               />
