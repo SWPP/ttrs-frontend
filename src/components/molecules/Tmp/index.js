@@ -2,6 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 
+const block_width = 100
+const block_height = 26
+
 class Tmp extends React.Component {
    constructor(props) {
         super(props)
@@ -9,9 +12,30 @@ class Tmp extends React.Component {
             startPoint: null,
             endPoint: null,
             blocks: [
-                [0,0,0],
-                [0,0,0],
-                [0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
+                [0,0,0,0,0,0],
             ]
         }
     }
@@ -69,13 +93,13 @@ class Tmp extends React.Component {
     }
 
     overlap = (i, j, tl, br) => {
-        const tl1 = {x: 100*j, y: 100*i}
-        const br1 = {x: 100*(j+1), y: 100*(i+1)}
+        const tl1 = {x: (block_width+2)*(j+1), y: (block_height+2)*(i+1)}
+        const br1 = {x: (block_width+2)*(j+2), y: (block_height+2)*(i+2)}
         const tl2 = tl
         const br2 = br
 
-        console.log('block[',i,'][',j,']')
-        console.log(tl1, br1, tl2, br2)
+        // console.log('block[',i,'][',j,']')
+        // console.log(tl1, br1, tl2, br2)
 
         if (tl1.x > br2.x || tl2.x > br1.x) {
             console.log('false 1')
@@ -92,27 +116,34 @@ class Tmp extends React.Component {
     }
 
     renderRow = (row) => {
-        return row.map((elt) => (<td 
-            style={{ 
-                backgroundColor: (elt==1?'#FF0000': '#00FF00'), 
-                border: '1px solid black', 
-                width: '100px', 
-                height: '100px' 
-            }}></td>))
+        return row.map((elt) => (
+            <td 
+                selectable="false"
+                ondragstart="return false;"
+                draggable="false"
+                style={{ 
+                    backgroundColor: (elt==1?'#000000': '#FFFF00'), 
+                    width: block_width.toString(), 
+                    height: block_height.toString() 
+                }}>
+            </td>)
+        )
 
     }
 
     renderBlocks = () => {
         const blocks = this.state.blocks
-        return (blocks.map((row) => (<tr>{this.renderRow(row)}</tr>)))
+        return (blocks.map((row) => (<tr><th>as</th>{this.renderRow(row)}</tr>)))
     }
 
     render() {
         return (
-            <div draggable="false">
+            <div draggable="false" ondragstart="return false;">
             <div 
+                selectable="false"
                 draggable="false"
-                style={{width: '500px', height: '500px'}} 
+                ondragstart="return false;"
+                style={{width: '1000px', height: '700px'}} 
                 onMouseDown={(e) => this._onMouseDown(e)}
                 onMouseUp={(e) => this._onMouseUp(e)}
                 onDragStart={false}
@@ -121,6 +152,15 @@ class Tmp extends React.Component {
             >
                 <table>
                     <tbody>
+                        <tr>
+                            <th style={{width: block_width.toString(), height:block_height.toString()}}>Time</th>
+                            <th style={{width: block_width.toString(), height:block_height.toString()}}>Mon</th>
+                            <th style={{width: block_width.toString(), height:block_height.toString()}}>Tue</th>
+                            <th style={{width: block_width.toString(), height:block_height.toString()}}>Wed</th>
+                            <th style={{width: block_width.toString(), height:block_height.toString()}}>Thr</th>
+                            <th style={{width: block_width.toString(), height:block_height.toString()}}>Fri</th>
+                            <th style={{width: block_width.toString(), height:block_height.toString()}}>Sat</th>
+                        </tr>
                         {this.renderBlocks()}
                     </tbody>
                 </table>
