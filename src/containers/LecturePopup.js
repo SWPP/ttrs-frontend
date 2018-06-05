@@ -35,7 +35,7 @@ const mapDispatchToProps = (dispatch, props) => {
     ...props,
     onClose: () => {
       props.onClose()
-      dispatch(setEvaluationsResponse([], { id: 0 }))
+      dispatch(setEvaluationsResponse([], { id: null, rating: 0 }))
     },
   }
 }

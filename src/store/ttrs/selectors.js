@@ -85,6 +85,6 @@ export const initialState = {
   evaluations: [],
   lectureDetail: {
     id: null,
-    rate: null,
+    rating: 0,
   },
 }

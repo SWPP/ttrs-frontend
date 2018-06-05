@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import SearchLecture from '../components/molecules/SearchLecture'
-import { addToNotRecommendsRequest, clearSearchLecture, searchLectureRequest } from '../store/ttrs/actions'
+import { clearSearchLecture, searchLectureRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {

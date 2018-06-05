@@ -227,8 +227,8 @@ class TimeTable extends React.Component {
 
     return (
       <div>
-        {this.props.id !== null &&
         <Menu tabular attached="top">
+          {this.props.id !== null &&
           <Menu.Item active fitted>
             {!this.state.isModifyingTitle ?
               <div style={{ paddingLeft: 10, paddingRight: 10 }}>
@@ -268,9 +268,9 @@ class TimeTable extends React.Component {
                 />
               </Form>
             }
-          </Menu.Item>
+          </Menu.Item>}
           <Menu.Menu position="right">
-            {this.props.canModify &&
+            {(this.props.id !== null || (this.props.canModify && this.props.canCreate)) &&
             <Menu.Item active fitted>
               <Popup
                 trigger={<div>
@@ -291,6 +291,7 @@ class TimeTable extends React.Component {
                 inverted
               />
             </Menu.Item>}
+            {this.props.id !== null &&
             <Menu.Item active fitted>
               <div style={{ paddingLeft: 10, paddingRight: 10 }}>
                 {this.props.canCopyToMy &&
@@ -363,10 +364,9 @@ class TimeTable extends React.Component {
                   inverted={!this.state.isDeleting}
                 />}
               </div>
-            </Menu.Item>
+            </Menu.Item>}
           </Menu.Menu>
         </Menu>
-        }
         <Segment attached>
           {this.createTimeTable()}
           {this.props.id !== null &&
@@ -404,6 +404,7 @@ TimeTable.propTypes = {
   canModify: PropTypes.bool,
   canCopyToMy: PropTypes.bool,
   canDelete: PropTypes.bool,
+  canCreate: PropTypes.bool,
   onModifyContent: PropTypes.func,
   onAddLecture: PropTypes.func,
   onDeleteLecture: PropTypes.func,
