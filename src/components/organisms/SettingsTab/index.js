@@ -48,7 +48,7 @@ class SettingsTab extends React.Component {
       collegeIndex,
       departmentIndex,
       majorIndex,
-      passwordOld2: '',
+      passwordWithdraw: '',
       response: props.response,
       notice: false,
     }
@@ -119,11 +119,11 @@ class SettingsTab extends React.Component {
   }
 
   handleWithdraw = () => {
-    if (this.state.passwordOld2 === this.props.password) {
+    if (this.state.passwordWithdraw === this.props.password) {
       this.props.onWithdraw()
       return
     }
-    this.errors.bools.passwordOld2 = true
+    this.errors.bools.passwordWithdraw = true
     this.forceUpdate()
   }
 
@@ -277,9 +277,9 @@ class SettingsTab extends React.Component {
             trigger={<Button icon="user x" negative content="Withdraw" />}
             content={<Form>
               <Form.Input
-                name="passwordOld2"
+                name="passwordWithdraw"
                 onChange={this.handleChange}
-                error={this.errors.bools.passwordOld2}
+                error={this.errors.bools.passwordWithdraw}
                 type="password"
                 placeholder="Input your password..."
                 action={<Popup
