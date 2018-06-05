@@ -33,6 +33,7 @@ class SearchLecture extends React.Component {
 
   handleClose = () => {
     this.setState({ 'course.name.abbrev': '' })
+    this.setState({ page: 1 })
     this.props.onClose()
   }
 
