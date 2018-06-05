@@ -56,6 +56,11 @@ export const initialSearch = {
 export const initialError = {
   signIn: {},
   signUp: {},
+  settingsTab: {},
+}
+
+export const initialResponse = {
+  settingsTab: 0,
 }
 
 export const initialState = {
@@ -64,6 +69,7 @@ export const initialState = {
   timeTable: initialTimeTable,
   search: initialSearch,
   error: initialError,
+  response: initialResponse,
   toHome: false,
   toSignIn: false,
   semesters: [],

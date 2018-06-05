@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import TimeTable from '../../../containers/TimeTable'
-import { getLectureIdsWithout } from '../RecommendTab'
+import { getLectureIds, getLectureIdsWithout } from '../RecommendTab'
 
 const BookmarkTab = ({ myTimeTable, bookmarkedTimeTables, bookmarkedTimeTable, onSelectBookmarkedTimeTable, onUpdateMyTimeTable, onUpdateBookmarkedTimeTable, onDeleteTimeTable }) => {
   let inputBookmarkedTimeTableIndex = { value: 0 }
@@ -10,6 +10,7 @@ const BookmarkTab = ({ myTimeTable, bookmarkedTimeTables, bookmarkedTimeTable, o
     <div>
       <h1>My TimeTable</h1>
       <TimeTable
+        onAddLecture={(newLectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIds(myTimeTable) }, newLectureId)}
         onModifyContent={(content) => onUpdateMyTimeTable(myTimeTable.id, content, null)}
         onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, myTimeTable) }, -lectureId)}
         {...myTimeTable}
@@ -32,8 +33,9 @@ const BookmarkTab = ({ myTimeTable, bookmarkedTimeTables, bookmarkedTimeTable, o
         )}
       </select>
       <TimeTable
+        onAddLecture={(newLectureId) => onUpdateBookmarkedTimeTable(inputBookmarkedTimeTableIndex.value, bookmarkedTimeTable.id, { lectures: getLectureIds(bookmarkedTimeTable) }, newLectureId)}
         onModifyContent={(content) => onUpdateBookmarkedTimeTable(inputBookmarkedTimeTableIndex.value, bookmarkedTimeTable.id, content, null)}
-        onDeleteLecture={(lectureId) => onUpdateBookmarkedTimeTable(inputBookmarkedTimeTableIndex.value, bookmarkedTimeTable.id, { lectures: getLectureIdsWithout(lectureId, bookmarkedTimeTable) }, lectureId)}
+        onDeleteLecture={(lectureId) => onUpdateBookmarkedTimeTable(inputBookmarkedTimeTableIndex.value, bookmarkedTimeTable.id, { lectures: getLectureIdsWithout(lectureId, bookmarkedTimeTable) }, -lectureId)}
         {...bookmarkedTimeTable}
         canModify
         canDelete

@@ -8,6 +8,7 @@ export const GET_COLLEGE_LIST = 'GET_COLLEGE_LIST'
 export const GET_SEMESTER_LIST = 'GET_SEMESTER_LIST'
 export const SEARCH_LECTURE_REQUEST = 'SEARCH_LECTURE_REQUEST'
 export const SEARCH_LECTURE_RESPONSE = 'SEARCH_LECTURE_RESPONSE'
+export const CLEAR_SEARCH_LECTURE = 'CLEAR_SEARCH_LECTURE'
 export const CREATE_MY_TIME_TABLE = 'CREATE_MY_TIME_TABLE'
 export const UPDATE_MY_TIME_TABLE_REQUEST = 'UPDATE_MY_TIME_TABLE_REQUEST'
 export const ADD_LECTURE_TO_MY_TIME_TABLE = 'ADD_LECTURE_TO_MY_TIME_TABLE'
@@ -18,6 +19,7 @@ export const CREATE_BOOKMARKED_TIME_TABLES = 'CREATE_BOOKMARKED_TIME_TABLES'
 export const SELECT_BOOKMARKED_TIME_TABLE_REQUEST = 'SELECT_BOOKMARKED_TIME_TABLE_REQUEST'
 export const SELECT_BOOKMARKED_TIME_TABLE_RESPONSE = 'SELECT_BOOKMARKED_TIME_TABLE_RESPONSE'
 export const UPDATE_BOOKMARKED_TIME_TABLE_REQUEST = 'UPDATE_BOOKMARKED_TIME_TABLE_REQUEST'
+export const ADD_LECTURE_TO_BOOKMARKED_TIME_TABLE = 'ADD_LECTURE_TO_BOOKMARKED_TIME_TABLE'
 export const UPDATE_BOOKMARKED_TIME_TABLE_INFO = 'UPDATE_BOOKMARKED_TIME_TABLE_INFO'
 export const BOOKMARK_REQUEST = 'BOOKMARK_REQUEST'
 export const BOOKMARK_RESPONSE = 'BOOKMARK_RESPONSE'
@@ -31,7 +33,8 @@ export const SELECT_RECOMMENDED_TIME_TABLE_REQUEST = 'SELECT_RECOMMENDED_TIME_TA
 export const SELECT_RECOMMENDED_TIME_TABLE_RESPONSE = 'SELECT_RECOMMENDED_TIME_TABLE_RESPONSE'
 export const COPY_TO_MY_TIME_TABLE_REQUEST = 'COPY_TO_MY_TIME_TABLE_REQUEST'
 export const COPY_TO_MY_TIME_TABLE_RESPONSE = 'COPY_TO_MY_TIME_TABLE_RESPONSE'
-export const CHANGE_PASSWORD = 'CHANGE_PASSWORD'
+export const UPDATE_STUDENT_INFO_REQUEST = 'UPDATE_STUDENT_INFO_REQUEST'
+export const UPDATE_STUDENT_INFO_RESPONSE = 'UPDATE_STUDENT_INFO_RESPONSE'
 export const WITHDRAW = 'WITHDRAW'
 export const DELETE_TIME_TABLE = 'DELETE_TIME_TABLE'
 export const DELETE_MY_TIME_TABLE = 'DELETE_MY_TIME_TABLE'
@@ -106,10 +109,10 @@ export const getSemesterList = (semesters) => {
   }
 }
 
-export const searchLectureRequest = (courseName) => {
+export const searchLectureRequest = (options) => {
   return {
     type: SEARCH_LECTURE_REQUEST,
-    courseName,
+    options,
   }
 }
 
@@ -117,6 +120,12 @@ export const searchLectureResponse = (lectures) => {
   return {
     type: SEARCH_LECTURE_RESPONSE,
     lectures,
+  }
+}
+
+export const clearSearchLecture = () => {
+  return {
+    type: CLEAR_SEARCH_LECTURE,
   }
 }
 
@@ -193,6 +202,14 @@ export const updateBookmarkedTimeTableRequest = (index, timeTableId, updatedInfo
     timeTableId,
     updatedInfo,
     deleteLectureId,
+  }
+}
+
+export const addLectureToBookmarkedTimeTable = (index, newLecture) => {
+  return {
+    type: ADD_LECTURE_TO_BOOKMARKED_TIME_TABLE,
+    index,
+    newLecture,
   }
 }
 
@@ -291,10 +308,17 @@ export const copyToMyTimeTableResponse = (myTimeTable) => {
   }
 }
 
-export const changePassword = (password) => {
+export const updateStudentInfoRequest = (info) => {
   return {
-    type: CHANGE_PASSWORD,
-    password,
+    type: UPDATE_STUDENT_INFO_REQUEST,
+    info,
+  }
+}
+
+export const updateStudentInfoResponse = (info) => {
+  return {
+    type: UPDATE_STUDENT_INFO_RESPONSE,
+    info,
   }
 }
 

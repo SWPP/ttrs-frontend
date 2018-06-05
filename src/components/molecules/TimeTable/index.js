@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Icon, Form, Menu, Popup, Segment, TextArea, Button } from 'semantic-ui-react'
 import LecturePopup from '../../../containers/LecturePopup'
+import SearchLecture from '../../../containers/SearchLecture'
 
 const overlap = (_time, _start, _end) => {
   let time = _time.split(':').map((i) => Number(i))
@@ -100,6 +101,7 @@ class TimeTable extends React.Component {
     receiverName: '',
     isSending: false,
     isDeleting: false,
+    searchOpen: false,
   }
 
   componentWillReceiveProps(nextProps) {
@@ -160,15 +162,23 @@ class TimeTable extends React.Component {
       const lectureIndex = isLectureStart(this.props.lectures, day, time)
       if (lectureIndex >= 0) {
         const span = getRowSpan(this.props.lectures[lectureIndex], day)
+        const lecture = this.props.lectures[lectureIndex]
         return (
           <td key={key} style={{ border: '1px solid black' }} rowSpan={span}>
+            <button
+              style={{ padding: 0, width: 100, height: span * 35 }}
+              onClick={() => {
+                this.setState({ openId: lecture.id })
+                this.props.onGetEvaluations(lecture.id)
+              }}
+            >{lecture.course.name}</button>
             <LecturePopup
-              lecture={this.props.lectures[lectureIndex]}
-              height={span}
-              onDeleteLecture={(lectureId) => this.props.onDeleteLecture(lectureId)}
-              onAddToNotRecommends={(notRecommends, courseId) => this.props.onAddToNotRecommends(notRecommends, courseId)}
-              notRecommends={this.props.notRecommends}
-              canDelete={this.props.canDelete}
+              open={lecture.id === this.state.openId}
+              lecture={lecture}
+              onDeleteLecture={() => this.props.onDeleteLecture(lecture.id)}
+              onAddToNotRecommends={() => this.props.onAddToNotRecommends(this.props.notRecommends, lecture.course.id)}
+              canDelete={this.props.canModify}
+              onClose={() => this.setState({ openId: null })}
             />
           </td>
         )
@@ -260,6 +270,27 @@ class TimeTable extends React.Component {
             }
           </Menu.Item>
           <Menu.Menu position="right">
+            {this.props.canModify &&
+            <Menu.Item active fitted>
+              <Popup
+                trigger={<div>
+                  <Button
+                    icon="add"
+                    content="Add Lecture"
+                    style={{ ...iconButtonStyle, paddingLeft: 10, paddingRight: 10 }}
+                    onClick={() => this.setState({ searchOpen: true })}
+                  />
+                  <SearchLecture
+                    open={this.state.searchOpen}
+                    onAddLecture={this.props.onAddLecture}
+                    onClose={() => this.setState({ searchOpen: false })}
+                    onAddToNotRecommends={(courseId) => this.props.onAddToNotRecommends(this.props.notRecommends, courseId)}
+                  />
+                </div>}
+                content="Add a lecture to this timetable"
+                inverted
+              />
+            </Menu.Item>}
             <Menu.Item active fitted>
               <div style={{ paddingLeft: 10, paddingRight: 10 }}>
                 {this.props.canCopyToMy &&
@@ -306,7 +337,7 @@ class TimeTable extends React.Component {
                         />}
                         value={this.state.receiverName}
                         name="receiverName"
-                        placeholder="Input receiver..."
+                        placeholder="Input receiver name..."
                         onChange={this.handleChange}
                       />
                     </Form> :
@@ -374,8 +405,10 @@ TimeTable.propTypes = {
   canCopyToMy: PropTypes.bool,
   canDelete: PropTypes.bool,
   onModifyContent: PropTypes.func,
+  onAddLecture: PropTypes.func,
   onDeleteLecture: PropTypes.func,
   onAddToNotRecommends: PropTypes.func,
+  onGetEvaluations: PropTypes.func,
   onBookmark: PropTypes.func,
   onSend: PropTypes.func,
   onCopyToMy: PropTypes.func,
