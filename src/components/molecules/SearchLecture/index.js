@@ -208,7 +208,7 @@ class SearchLecture extends React.Component {
                         name="course.credit.gte"
                         onChange={this.handleChange}
                       />
-                      <span style={{ marginTop: 10 }}>~&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                      <span style={{ marginTop: 20 }}>~&nbsp;&nbsp;&nbsp;&nbsp;</span>
                       <Form.Input
                         label={''}
                         placeholder="LTE"
