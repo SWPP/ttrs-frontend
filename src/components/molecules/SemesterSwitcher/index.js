@@ -1,33 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Dropdown, Menu } from 'semantic-ui-react'
+import { Dropdown } from 'semantic-ui-react'
 
-const SemesterSwitcher = ({ isMainPage, semesters, onSwitchSemester }) => {
-  const options = semesters.map((semester) => ({
+const SemesterSwitcher = ({ semesters, onSwitchSemester }) => {
+  const options = semesters.map((semester, index) => ({
     key: `${semester.year}-${semester.semester}`,
     text: `${semester.year}-${semester.semester}`,
-    value: semester,
+    value: index,
   }))
 
-  if (isMainPage) {
-    return (
-      <Menu compact>
-        <Dropdown
-          item
-          options={options}
-          defaultValue={options[0].value}
-          onChange={(e, { value }) => {
-            onSwitchSemester(value.year, value.semester)
-          }}
-        />
-      </Menu>
-    )
-  }
-  return null
+  return (
+    <Dropdown
+      simple item scrolling
+      options={options}
+      defaultValue={options.length > 0 ? options[0].value : null}
+      onChange={(e, { value }) => {
+        onSwitchSemester(semesters[value].year, semesters[value].semester)
+      }}
+    />
+  )
 }
 
 SemesterSwitcher.propTypes = {
-  isMainPage: PropTypes.bool,
   semesters: PropTypes.array,
   onSwitchSemester: PropTypes.func,
 }

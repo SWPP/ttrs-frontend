@@ -1,11 +1,11 @@
 import { connect } from 'react-redux'
-import SignIn from '../components/molecules/SignIn'
-import { signInRequest, goSignUpPage, setErrors } from '../store/ttrs/actions'
+import SignIn from '../components/pages/SignIn'
+import { signInRequest, setErrors } from '../store/ttrs/actions'
+import { initialErrorUnit } from '../store/ttrs/selectors'
 
 const mapStateToProps = (state) => {
   return {
-    isMainPage: state.ttrs.isMainPage,
-    isSignUpPage: state.ttrs.isSignUpPage,
+    toHome: state.ttrs.toHome,
     errors: state.ttrs.error.signIn,
   }
 }
@@ -15,11 +15,8 @@ const mapDispatchToProps = (dispatch) => {
     onSignIn: (username, password) => {
       dispatch(signInRequest(username, password))
     },
-    onGoSignUpPage: () => {
-      dispatch(goSignUpPage())
-    },
     onClearError: () => {
-      dispatch(setErrors('signIn', {}))
+      dispatch(setErrors('signIn', initialErrorUnit))
     },
   }
 }

@@ -1,13 +1,14 @@
 export const SET_ERRORS = 'SET_ERRORS'
 export const SIGN_IN_REQUEST = 'SIGN_IN_REQUEST'
 export const SIGN_IN_RESPONSE = 'SIGN_IN_RESPONSE'
-export const GO_SIGN_UP_PAGE = 'GO_SIGN_UP_PAGE'
 export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST'
+export const SIGN_UP_RESPONSE = 'SIGN_UP_RESPONSE'
 export const CLEAR_STATE = 'CLEAR_STATE'
 export const GET_COLLEGE_LIST = 'GET_COLLEGE_LIST'
 export const GET_SEMESTER_LIST = 'GET_SEMESTER_LIST'
 export const SEARCH_LECTURE_REQUEST = 'SEARCH_LECTURE_REQUEST'
 export const SEARCH_LECTURE_RESPONSE = 'SEARCH_LECTURE_RESPONSE'
+export const CLEAR_SEARCH_LECTURE = 'CLEAR_SEARCH_LECTURE'
 export const CREATE_MY_TIME_TABLE = 'CREATE_MY_TIME_TABLE'
 export const UPDATE_MY_TIME_TABLE_REQUEST = 'UPDATE_MY_TIME_TABLE_REQUEST'
 export const ADD_LECTURE_TO_MY_TIME_TABLE = 'ADD_LECTURE_TO_MY_TIME_TABLE'
@@ -18,6 +19,7 @@ export const CREATE_BOOKMARKED_TIME_TABLES = 'CREATE_BOOKMARKED_TIME_TABLES'
 export const SELECT_BOOKMARKED_TIME_TABLE_REQUEST = 'SELECT_BOOKMARKED_TIME_TABLE_REQUEST'
 export const SELECT_BOOKMARKED_TIME_TABLE_RESPONSE = 'SELECT_BOOKMARKED_TIME_TABLE_RESPONSE'
 export const UPDATE_BOOKMARKED_TIME_TABLE_REQUEST = 'UPDATE_BOOKMARKED_TIME_TABLE_REQUEST'
+export const ADD_LECTURE_TO_BOOKMARKED_TIME_TABLE = 'ADD_LECTURE_TO_BOOKMARKED_TIME_TABLE'
 export const UPDATE_BOOKMARKED_TIME_TABLE_INFO = 'UPDATE_BOOKMARKED_TIME_TABLE_INFO'
 export const BOOKMARK_REQUEST = 'BOOKMARK_REQUEST'
 export const BOOKMARK_RESPONSE = 'BOOKMARK_RESPONSE'
@@ -31,7 +33,8 @@ export const SELECT_RECOMMENDED_TIME_TABLE_REQUEST = 'SELECT_RECOMMENDED_TIME_TA
 export const SELECT_RECOMMENDED_TIME_TABLE_RESPONSE = 'SELECT_RECOMMENDED_TIME_TABLE_RESPONSE'
 export const COPY_TO_MY_TIME_TABLE_REQUEST = 'COPY_TO_MY_TIME_TABLE_REQUEST'
 export const COPY_TO_MY_TIME_TABLE_RESPONSE = 'COPY_TO_MY_TIME_TABLE_RESPONSE'
-export const CHANGE_PASSWORD = 'CHANGE_PASSWORD'
+export const UPDATE_STUDENT_INFO_REQUEST = 'UPDATE_STUDENT_INFO_REQUEST'
+export const UPDATE_STUDENT_INFO_RESPONSE = 'UPDATE_STUDENT_INFO_RESPONSE'
 export const WITHDRAW = 'WITHDRAW'
 export const DELETE_TIME_TABLE = 'DELETE_TIME_TABLE'
 export const DELETE_MY_TIME_TABLE = 'DELETE_MY_TIME_TABLE'
@@ -43,7 +46,12 @@ export const SET_NOT_RECOMMEND_COURSES = 'SET_NOT_RECOMMEND_COURSE_NAMES'
 export const DELETE_FROM_NOT_RECOMMENDS_REQUEST = 'DELETE_FROM_NOT_RECOMMENDS_REQUEST'
 export const DELETE_FROM_NOT_RECOMMENDS_RESPONSE = 'DELETE_FROM_NOT_RECOMMENDS_RESPONSE'
 export const GET_NOT_RECOMMEND_COURSES_REQUEST = 'GET_NOT_RECOMMEND_COURSES_REQUEST'
-
+export const GET_EVALUATIONS_REQUEST = 'GET_EVALUATIONS_REQUEST'
+export const ADD_EVALUATION_REQUEST = 'ADD_EVALUATION_REQUEST'
+export const DELETE_EVALUATION_REQUEST = 'DELETE_EVALUATION_REQUEST'
+export const MODIFY_EVALUATION_REQUEST = 'MODIFY_EVALUATION_REQUEST'
+export const SET_EVALUATIONS_RESPONSE = 'MODIFY_EVALUATIONS_RESPONSE'
+export const TOGGLE_LIKE_IT_REQUEST = 'TOGGLE_LIKE_IT_REQUEST'
 
 export const setErrors = (identifier, errors) => {
   return {
@@ -68,16 +76,16 @@ export const signInResponse = (studentInfo) => {
   }
 }
 
-export const goSignUpPage = () => {
-  return {
-    type: GO_SIGN_UP_PAGE,
-  }
-}
-
 export const signUpRequest = (studentInfo) => {
   return {
     type: SIGN_UP_REQUEST,
     studentInfo,
+  }
+}
+
+export const signUpResponse = () => {
+  return {
+    type: SIGN_UP_RESPONSE,
   }
 }
 
@@ -101,17 +109,24 @@ export const getSemesterList = (semesters) => {
   }
 }
 
-export const searchLectureRequest = (courseName) => {
+export const searchLectureRequest = (options) => {
   return {
     type: SEARCH_LECTURE_REQUEST,
-    courseName,
+    options,
   }
 }
 
-export const searchLectureResponse = (lectures) => {
+export const searchLectureResponse = (lectures, count) => {
   return {
     type: SEARCH_LECTURE_RESPONSE,
     lectures,
+    count,
+  }
+}
+
+export const clearSearchLecture = () => {
+  return {
+    type: CLEAR_SEARCH_LECTURE,
   }
 }
 
@@ -188,6 +203,14 @@ export const updateBookmarkedTimeTableRequest = (index, timeTableId, updatedInfo
     timeTableId,
     updatedInfo,
     deleteLectureId,
+  }
+}
+
+export const addLectureToBookmarkedTimeTable = (index, newLecture) => {
+  return {
+    type: ADD_LECTURE_TO_BOOKMARKED_TIME_TABLE,
+    index,
+    newLecture,
   }
 }
 
@@ -286,10 +309,17 @@ export const copyToMyTimeTableResponse = (myTimeTable) => {
   }
 }
 
-export const changePassword = (password) => {
+export const updateStudentInfoRequest = (info) => {
   return {
-    type: CHANGE_PASSWORD,
-    password,
+    type: UPDATE_STUDENT_INFO_REQUEST,
+    info,
+  }
+}
+
+export const updateStudentInfoResponse = (info) => {
+  return {
+    type: UPDATE_STUDENT_INFO_RESPONSE,
+    info,
   }
 }
 
@@ -371,5 +401,53 @@ export const getNotRecommendCoursesRequest = (notRecommends) => {
   return {
     type: GET_NOT_RECOMMEND_COURSES_REQUEST,
     notRecommends,
+  }
+}
+
+export const getEvaluationsRequest = (lectureId) => {
+  return {
+    type: GET_EVALUATIONS_REQUEST,
+    lectureId,
+  }
+}
+
+export const addEvaluationRequest = (lectureId, evaluation) => {
+  return {
+    type: ADD_EVALUATION_REQUEST,
+    lectureId,
+    evaluation,
+  }
+}
+
+export const deleteEvaluationRequest = (lectureId, evaluationId) => {
+  return {
+    type: DELETE_EVALUATION_REQUEST,
+    lectureId,
+    evaluationId,
+  }
+}
+
+export const modifyEvaluationRequest = (lectureId, evaluation) => {
+  return {
+    type: MODIFY_EVALUATION_REQUEST,
+    lectureId,
+    evaluation,
+  }
+}
+
+export const setEvaluationsResponse = (evaluations, lectureDetail) => {
+  return {
+    type: SET_EVALUATIONS_RESPONSE,
+    evaluations,
+    lectureDetail,
+  }
+}
+
+export const toggleLikeItRequest = (lectureId, isAdd, evaluationId) => {
+  return {
+    type: TOGGLE_LIKE_IT_REQUEST,
+    lectureId,
+    isAdd,
+    evaluationId,
   }
 }

@@ -1,11 +1,11 @@
 import React from 'react'
 import { storiesOf } from '@kadira/storybook'
-import { SignOut } from 'components'
+import Notice from '.'
 
-storiesOf('SignOut', module)
+storiesOf('Notice', module)
   .add('default', () => (
-    <SignOut>Hello</SignOut>
+    <Notice>Hello</Notice>
   ))
   .add('reverse', () => (
-    <SignOut reverse>Hello</SignOut>
+    <Notice reverse>Hello</Notice>
   ))

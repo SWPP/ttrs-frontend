@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Icon, Form, Menu, Popup, Segment, TextArea } from 'semantic-ui-react'
-import LecturePopup from '../LecturePopup'
+import { Icon, Form, Menu, Popup, Segment, TextArea, Button } from 'semantic-ui-react'
+import LecturePopup from '../../../containers/LecturePopup'
+import SearchLecture from '../../../containers/SearchLecture'
 
 import TTRenderer from '../TTRenderer'
 
@@ -14,6 +15,9 @@ class TimeTable extends React.Component {
     titleInput: this.props.title,
     isModifyingTitle: false,
     receiverName: '',
+    isSending: false,
+    isDeleting: false,
+    searchOpen: false,
   }
 
   componentWillReceiveProps(nextProps) {
@@ -82,6 +86,7 @@ class TimeTable extends React.Component {
                 lectures={this.props.lectures} 
                 deleteLecture={this.props.onDeleteLecture} 
                 addToNotRecommends={this.props.onAddToNotRecommends}
+                getEvaluations={this.props.onGetEvaluations}
                 notRecommends={this.props.notRecommends}
             />
         </div>
@@ -96,8 +101,8 @@ class TimeTable extends React.Component {
 
     return (
       <div>
-        {this.props.id !== null &&
         <Menu tabular attached="top">
+          {this.props.id !== null &&
           <Menu.Item active fitted>
             {!this.state.isModifyingTitle ?
               <div style={{ paddingLeft: 10, paddingRight: 10 }}>
@@ -137,8 +142,30 @@ class TimeTable extends React.Component {
                 />
               </Form>
             }
-          </Menu.Item>
+          </Menu.Item>}
           <Menu.Menu position="right">
+            {(this.props.id !== null || (this.props.canModify && this.props.canCreate)) &&
+            <Menu.Item active fitted>
+              <Popup
+                trigger={<div>
+                  <Button
+                    icon="add"
+                    content="Add Lecture"
+                    style={{ ...iconButtonStyle, paddingLeft: 10, paddingRight: 10 }}
+                    onClick={() => this.setState({ searchOpen: true })}
+                  />
+                  {this.state.searchOpen &&
+                  <SearchLecture
+                    onAddLecture={this.props.onAddLecture}
+                    onClose={() => this.setState({ searchOpen: false })}
+                    onAddToNotRecommends={(courseId) => this.props.onAddToNotRecommends(this.props.notRecommends, courseId)}
+                  />}
+                </div>}
+                content="Add a lecture to this timetable"
+                inverted
+              />
+            </Menu.Item>}
+            {this.props.id !== null &&
             <Menu.Item active fitted>
               <div style={{ paddingLeft: 10, paddingRight: 10 }}>
                 {this.props.canCopyToMy &&
@@ -168,31 +195,52 @@ class TimeTable extends React.Component {
                 <Popup
                   trigger={<button
                     className="ui icon button"
-                    onClick={() => this.props.onSend(this.props.id)}
+                    onClick={() => this.setState({ isSending: true })}
                     style={iconButtonStyle}
                   >
                     <Icon name="send" />
                   </button>}
-                  content="Send this timetable to other student"
-                  inverted
+                  content={this.state.isSending ?
+                    <Form>
+                      <Form.Input
+                        action={<Form.Button
+                          attached="right"
+                          type="submit"
+                          icon="send outline"
+                          color="teal"
+                          onClick={this.onSubmitSend}
+                        />}
+                        value={this.state.receiverName}
+                        name="receiverName"
+                        placeholder="Input receiver name..."
+                        onChange={this.handleChange}
+                      />
+                    </Form> :
+                    'Send this timetable to other student'}
+                  onClose={() => this.setState({ isSending: false })}
+                  on={this.state.isSending ? 'click' : 'hover'}
+                  inverted={!this.state.isSending}
                 />
                 {this.props.canDelete &&
                 <Popup
                   trigger={<button
                     className="ui icon button"
-                    onClick={() => this.props.onDeleteTimeTable(this.props.id)}
+                    onClick={() => this.setState({ isDeleting: true })}
                     style={iconButtonStyle}
                   >
                     <Icon name="trash" color="red" />
                   </button>}
-                  content="Delete this timetable"
-                  inverted
+                  content={this.state.isDeleting ?
+                    <Button color="red" content="Delete" onClick={() => this.props.onDeleteTimeTable(this.props.id)} /> :
+                    'Delete this timetable'}
+                  onClose={() => this.setState({ isDeleting: false })}
+                  on={this.state.isDeleting ? 'click' : 'hover'}
+                  inverted={!this.state.isDeleting}
                 />}
               </div>
-            </Menu.Item>
+            </Menu.Item>}
           </Menu.Menu>
         </Menu>
-        }
         <Segment attached>
           {this.createTimeTable()}
           {this.props.id !== null &&
@@ -230,9 +278,12 @@ TimeTable.propTypes = {
   canModify: PropTypes.bool,
   canCopyToMy: PropTypes.bool,
   canDelete: PropTypes.bool,
+  canCreate: PropTypes.bool,
   onModifyContent: PropTypes.func,
+  onAddLecture: PropTypes.func,
   onDeleteLecture: PropTypes.func,
   onAddToNotRecommends: PropTypes.func,
+  onGetEvaluations: PropTypes.func,
   onBookmark: PropTypes.func,
   onSend: PropTypes.func,
   onCopyToMy: PropTypes.func,

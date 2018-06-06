@@ -1,11 +1,11 @@
 import { connect } from 'react-redux'
-import SignOut from '../components/molecules/SignOut'
+import Home from '../components/pages/Home'
 import { clearState } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
+    isSignedIn: state.ttrs.studentInfo.id !== null,
     username: state.ttrs.studentInfo.username,
-    isMainPage: state.ttrs.isMainPage,
   }
 }
 
@@ -17,4 +17,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignOut)
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

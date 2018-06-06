@@ -1,8 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import LecturePopup from '../LecturePopup'
-
+import LecturePopup from '../../../containers/LecturePopup'
 
 const block_width = 130
 const block_height = 30
@@ -58,6 +57,18 @@ class TTRenderer extends React.Component {
             return 'null'
         }
     }
+
+    getName = (name) => {
+        var acronym = ''
+
+        name = name.split(' ')
+        for (var n in name) {
+            acronym += name[n].substr(0,1)
+        }
+
+        return acronym
+    }
+
 
     _onMouseDown = (e) => {
         if (!e.ctrlKey) {
@@ -168,6 +179,7 @@ class TTRenderer extends React.Component {
 
         const bckgrd = ((val===1) ? '#FF0000' : '#FFFFFF')
 
+        const lecture = this.state.lectures[lid]
         if (0 <= lid) {
             return (
                 <td key={day+time}
@@ -177,14 +189,27 @@ class TTRenderer extends React.Component {
                         width: block_width.toString()+'px',
                         height: block_height.toString()+'px'
                     }}>
+                    <button
+                        style={{
+                            fontSize: '10px',
+                            width: (block_width-4).toString()+'px'
+                        }}
+                        onClick={
+                            () => {
+                                this.setState({openId: lecture.id})
+                                this.props.getEvaluations(lecture.id)
+                                console.log(this.props)
+                            }
+                        }
+                    >{this.getName(lecture.course.name)}</button>
                     <LecturePopup
-                        props={{
-                            lecture: this.state.lectures[lid],
-                            height: block_height.toString+'px',
-                            deleteLecture: this.props.deleteLecture,
-                            addToNotRecommends: this.props.addToNotRecommends,
-                            notRecommends: this.props.notRecommends,
-                        }} />
+                        open={lecture.id === this.state.openId}
+                        lecture={lecture}
+                        onDeleteLecture={() => this.props.deleteLecture(lecture.id)}
+                        onAddToNotRecommends={() => this.props.addToNotRecommends(this.props.notRecommends, lecture.course.id)}
+                        canDelete={false}
+                        onClose={() => this.setState({ openId: null })}
+                    />
                 </td>
             )
         } else {
@@ -202,18 +227,8 @@ class TTRenderer extends React.Component {
 
     renderRow = (time, row_index) => {
         const row = this.state.blocks[row_index]
-        return row.map((val, index) => (
-            /*<td key={time + '/' + index.toString()}
-                onDragStart="return false;"
-                draggable="false"
-                style={{ 
-                    backgroundColor: (elt==1?'#123400': '#FFFFFF'), 
-                    border: '1px solid #999999',
-                    width: block_width.toString()+'px', 
-                    height: block_height.toString()+'px' 
-                }}>
-                {*/this.renderBlock(val, index, time)/*}
-            </td>*/)
+        return row.map((val, index) =>
+            this.renderBlock(val, index, time)
         )
 
     }
@@ -231,16 +246,12 @@ class TTRenderer extends React.Component {
 
     render() {
         return (
-            <div draggable="false" onDragStart="return false;">
+            <div draggable="false">
             <div 
                 draggable="false"
-                onDragStart="return false;"
                 style={{width: '1000px', height: '800px'}} 
                 onMouseDown={(e) => this._onMouseDown(e)}
                 onMouseUp={(e) => this._onMouseUp(e)}
-                onDragStart={false}
-                onDrag={false}
-                onDrop={false}
             >
                 <table>
                     <tbody>
@@ -258,7 +269,7 @@ class TTRenderer extends React.Component {
                 </table>
             </div>
             <div>
-                {this.showStatus()}
+                {/* this.showStatus() */}
             </div>
             </div>
         )

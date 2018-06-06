@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import SearchLecture from '../../../containers/SearchLecture'
 import TimeTable from '../../../containers/TimeTable'
 
 export const getLectureIds = (timeTable) => {
@@ -26,17 +25,15 @@ const RecommendTab = ({ myTimeTable, recommendedTimeTables, recommendedTimeTable
 
   return (
     <div>
-      <SearchLecture
-        onAddLecture={(newLectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIds(myTimeTable) }, newLectureId)}
-      />
-      <hr />
       <h1>My TimeTable</h1>
       <TimeTable
-        onModifyContent={(content) => onUpdateMyTimeTable(myTimeTable.id, content, null)}
-        onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, myTimeTable) }, -lectureId)}
         {...myTimeTable}
+        onAddLecture={(newLectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIds(myTimeTable) }, newLectureId)}
+        onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, myTimeTable) }, -lectureId)}
+        onModifyContent={(content) => onUpdateMyTimeTable(myTimeTable.id, content, null)}
         canModify
         canDelete
+        canCreate
         canCopyToMy={false}
         onDeleteTimeTable={(timeTableId) => timeTableId !== null ? onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
       />

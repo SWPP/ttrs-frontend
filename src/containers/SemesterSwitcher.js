@@ -4,7 +4,6 @@ import { switchSemester } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
-    isMainPage: state.ttrs.isMainPage,
     semesters: state.ttrs.semesters,
   }
 }

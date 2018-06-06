@@ -1,11 +1,12 @@
 export const initialStudentInfo = {
-  username: undefined,
-  password: undefined,
-  email: undefined,
-  grade: undefined,
-  college: undefined,
-  department: undefined,
-  major: undefined,
+  id: null,
+  username: null,
+  password: null,
+  email: null,
+  grade: null,
+  college: null,
+  department: null,
+  major: null,
   notRecommends: [],
   myTimeTables: [],
   bookmarkedTimeTables: [],
@@ -50,11 +51,23 @@ export const initialTimeTable = {
 
 export const initialSearch = {
   lectures: [],
+  count: 0,
+}
+
+export const initialErrorUnit = {
+  bools: {},
+  texts: {},
 }
 
 export const initialError = {
-  signIn: {},
-  signUp: {},
+  signIn: initialErrorUnit,
+  signUp: initialErrorUnit,
+  settingsTab: initialErrorUnit,
+}
+
+export const initialResponse = {
+  signUp: 0,
+  settingsTab: 0,
 }
 
 export const initialState = {
@@ -63,10 +76,16 @@ export const initialState = {
   timeTable: initialTimeTable,
   search: initialSearch,
   error: initialError,
-  isMainPage: false,
-  isSignUpPage: false,
+  response: initialResponse,
+  toHome: false,
+  toSignIn: false,
   semesters: [],
   year: null,
   semester: null,
   notRecommendCourses: [],
+  evaluations: [],
+  lectureDetail: {
+    id: null,
+    rating: 0,
+  },
 }

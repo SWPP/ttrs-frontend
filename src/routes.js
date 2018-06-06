@@ -1,13 +1,25 @@
 import React from 'react'
-import { Route, IndexRoute } from 'react-router'
+import { Route } from 'react-router'
 
 import App from 'components/App'
-import { HomePage } from 'components'
+import Home from './containers/Home'
+import SignIn from './containers/SignIn'
+import SignUp from './containers/SignUp'
+import NotFoundPage from './components/pages/NotFoundPage'
 
 const routes = (
-  <Route path="/" component={App}>
-    <IndexRoute component={HomePage} />
-  </Route>
+  <div>
+    <App>
+      <Route exact path="/" component={Home} currentTab="recommend" />
+      <Route path="/sign-in" component={SignIn} />
+      <Route path="/sign-up" component={SignUp} />
+      <Route path="/recommend" component={Home} currentTab="recommend" />
+      <Route path="/bookmark" component={Home} currentTab="bookmark" />
+      <Route path="/receive" component={Home} currentTab="receive" />
+      <Route path="/settings" component={Home} currentTab="settings" />
+      <Route exact path="*" component={NotFoundPage} />
+    </App>
+  </div>
 )
 
 export default routes

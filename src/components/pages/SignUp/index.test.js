@@ -1,8 +1,8 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import SignOut from '.'
+import SignUp from './index'
 
-const wrap = (props = {}) => shallow(<SignOut {...props} />)
+const wrap = (props = {}) => shallow(<SignUp {...props} />)
 
 it('renders children when passed in', () => {
   const wrapper = wrap({ children: 'test' })

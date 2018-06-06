@@ -1,20 +1,46 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Form, Grid, Header, Segment, Button, Message } from 'semantic-ui-react'
-import { customErrors, initErrors, updateErrors } from '../../../services/error_utility'
+import { customErrors } from '../../../services/error_utility'
+import { initialErrorUnit } from '../../../store/ttrs/selectors'
+import Notice from '../../atoms/Notice'
 
 class SignUp extends React.Component {
-  state = {
-    username: '',
-    password: '',
-    passwordConfirm: '',
-    email: '',
-    grade: null,
-    collegeIndex: null,
-    departmentIndex: null,
-    majorIndex: null,
+  static getDerivedStateFromProps(props, state) {
+    if (props.toSignIn) {
+      setTimeout(() => {
+        props.router.push('/sign-in')
+      }, 4000)
+    }
+    if (state.response !== props.response) {
+      return {
+        response: props.response,
+        notice: true,
+      }
+    }
+    return null
   }
-  errors = initErrors()
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      username: '',
+      password: '',
+      passwordConfirm: '',
+      email: '',
+      grade: null,
+      collegeIndex: null,
+      departmentIndex: null,
+      majorIndex: null,
+      response: props.response,
+      notice: false,
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.onSetError(initialErrorUnit)
+  }
 
   handleChange = (e, { name, value }) => {
     this.setState({ [name]: value })
@@ -27,13 +53,11 @@ class SignUp extends React.Component {
       college: [this.state.collegeIndex !== null, 'This field may not be blank.'],
     })
     if (errors !== null) {
-      this.errors = errors
-      this.props.onClearError()
-      this.forceUpdate()
+      this.props.onSetError(errors)
       return
     }
-    this.errors = initErrors()
 
+    this.props.onSetError(initialErrorUnit)
     this.props.onSignUp(
       this.state.username,
       this.state.password,
@@ -47,13 +71,14 @@ class SignUp extends React.Component {
   }
 
   render() {
-    if (!this.props.isSignUpPage) {
-      return null
+    if (this.state.notice) {
+      setTimeout(() => {
+        this.setState({ notice: false })
+      }, this.state.response > 0 ? 4000 : 2000)
     }
+    const errors = this.props.errors
 
-    this.errors = updateErrors(this.errors, this.props.errors)
-
-    const gradeOptions = [1, 2, 3, 4].map(grade => ({ key: grade, text: grade, value: grade }))
+    const gradeOptions = [1, 2, 3, 4, 5, 6].map(grade => ({ key: grade, text: grade, value: grade }))
     const collegeOptions = this.props.colleges.map((college, index) => ({ key: college.id, text: college.name, value: index }))
     const departmentOptions = [{ key: -1, text: '---', value: null }]
     if (this.state.collegeIndex !== null) {
@@ -81,6 +106,11 @@ class SignUp extends React.Component {
             height: 100%;
           }`}
         </style>
+        <Notice
+          openSuccess={this.state.notice && this.state.response > 0}
+          openError={this.state.notice && this.state.response < 0}
+          textSuccess={<div>You have successfully joined the membership.<br />Return to sign in page...</div>}
+        />
         <Grid
           style={{ height: '100%' }}
           verticalAlign="middle"
@@ -101,7 +131,7 @@ class SignUp extends React.Component {
                   placeholder="Username"
                   name="username"
                   value={this.state.username}
-                  error={this.errors.bools.username}
+                  error={errors.bools.username}
                   onChange={this.handleChange}
                 />
                 <Form.Group widths="equal">
@@ -115,7 +145,7 @@ class SignUp extends React.Component {
                     type="password"
                     name="password"
                     value={this.state.password}
-                    error={this.errors.bools.password}
+                    error={errors.bools.password}
                     onChange={this.handleChange}
                   />
                   <Form.Input
@@ -128,7 +158,7 @@ class SignUp extends React.Component {
                     type="password"
                     name="passwordConfirm"
                     value={this.state.passwordConfirm}
-                    error={this.errors.bools.passwordConfirm}
+                    error={errors.bools.passwordConfirm}
                     onChange={this.handleChange}
                   />
                 </Form.Group>
@@ -141,7 +171,7 @@ class SignUp extends React.Component {
                   type="email"
                   name="email"
                   value={this.state.email}
-                  error={this.errors.bools.email}
+                  error={errors.bools.email}
                   onChange={this.handleChange}
                 />
                 <Form.Select
@@ -151,7 +181,7 @@ class SignUp extends React.Component {
                   options={gradeOptions}
                   name="grade"
                   value={this.state.grade}
-                  error={this.errors.bools.grade}
+                  error={errors.bools.grade}
                   onChange={this.handleChange}
                 />
                 <Form.Select
@@ -161,7 +191,7 @@ class SignUp extends React.Component {
                   options={collegeOptions}
                   name="collegeIndex"
                   value={this.state.collegeIndex}
-                  error={this.errors.bools.college}
+                  error={errors.bools.college}
                   onChange={(e, { name, value }) => {
                     this.setState({ [name]: value })
                     this.setState({ departmentIndex: null })
@@ -174,7 +204,7 @@ class SignUp extends React.Component {
                   options={departmentOptions}
                   name="departmentIndex"
                   value={this.state.departmentIndex}
-                  error={this.errors.bools.department}
+                  error={errors.bools.department}
                   onChange={(e, { name, value }) => {
                     this.setState({ [name]: value })
                     this.setState({ majorIndex: null })
@@ -186,20 +216,20 @@ class SignUp extends React.Component {
                   options={majorOptions}
                   name="majorIndex"
                   value={this.state.majorIndex}
-                  error={this.errors.bools.major}
+                  error={errors.bools.major}
                   onChange={this.handleChange}
                 />
                 <Button.Group widths="2" >
-                  <Button type="button" color="teal" size="large" onClick={this.props.onReturnToSignInPage}>Return</Button>
+                  <Button type="button" color="teal" size="large" onClick={() => this.props.router.push('/sign-in')}>Return</Button>
                   <Button type="submit" color="teal" size="large">Sign Up</Button>
                 </Button.Group>
               </Segment>
             </Form>
-            {Object.keys(this.errors.bools).length > 0 &&
+            {Object.keys(errors.texts).length > 0 &&
             <Message
               negative
               header="There are some errors with your submission"
-              list={Object.keys(this.errors.texts).map(key => this.errors.texts[key])}
+              list={Object.keys(errors.texts).map(key => errors.texts[key])}
             />}
           </Grid.Column>
         </Grid>
@@ -210,11 +240,12 @@ class SignUp extends React.Component {
 
 SignUp.propTypes = {
   onSignUp: PropTypes.func,
-  onReturnToSignInPage: PropTypes.func,
-  onClearError: PropTypes.func,
-  isSignUpPage: PropTypes.bool,
+  onSetError: PropTypes.func,
+  toSignIn: PropTypes.bool,
   colleges: PropTypes.array,
   errors: PropTypes.object,
+  response: PropTypes.number,
+  router: PropTypes.object,
 }
 
 export default SignUp

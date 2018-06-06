@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import TimeTable from '../../../containers/TimeTable'
-import { getLectureIdsWithout } from '../RecommendTab'
+import { getLectureIds, getLectureIdsWithout } from '../RecommendTab'
 
 const ReceiveTab = ({ myTimeTable, receivedTimeTables, receivedTimeTable, onSelectReceivedTimeTable, onUpdateMyTimeTable, onDeleteTimeTable }) => {
   let inputReceivedTimeTableIndex = { value: 0 }
@@ -10,11 +10,13 @@ const ReceiveTab = ({ myTimeTable, receivedTimeTables, receivedTimeTable, onSele
     <div>
       <h1>My TimeTable</h1>
       <TimeTable
+        onAddLecture={(newLectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIds(myTimeTable) }, newLectureId)}
         onModifyContent={(content) => onUpdateMyTimeTable(myTimeTable.id, content, null)}
         onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, myTimeTable) }, -lectureId)}
         {...myTimeTable}
         canModify
         canDelete
+        canCreate
         canCopyToMy={false}
         onDeleteTimeTable={(timeTableId) => timeTableId !== null ? onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
       />

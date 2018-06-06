@@ -1,4 +1,4 @@
-import { initialState, initialTimeTable, initialError } from './selectors'
+import { initialState, initialTimeTable, initialError, initialResponse, initialSearch } from './selectors'
 import * as actions from './actions'
 
 const studentInfo = (state = [], action) => {
@@ -7,6 +7,11 @@ const studentInfo = (state = [], action) => {
       return {
         ...state,
         ...action.studentInfo,
+      }
+    case actions.UPDATE_STUDENT_INFO_RESPONSE:
+      return {
+        ...state,
+        ...action.info,
       }
     case actions.ADD_TO_NOT_RECOMMENDS_RESPONSE:
       return {
@@ -25,14 +30,8 @@ const studentInfo = (state = [], action) => {
 
 const belongInfo = (state = [], action) => {
   switch (action.type) {
-    case actions.CLEAR_STATE:
-      return {
-        ...state,
-        colleges: state.colleges,
-      }
     case actions.GET_COLLEGE_LIST:
       return {
-        ...state,
         colleges: action.colleges,
       }
     default:
@@ -93,6 +92,20 @@ const timeTable = (state = [], action) => {
       return {
         ...state,
         bookmarkedTimeTable: action.bookmarkedTimeTable,
+      }
+    case actions.ADD_LECTURE_TO_BOOKMARKED_TIME_TABLE:
+      bookmarkedTimeTables = [...state.bookmarkedTimeTables]
+      bookmarkedTimeTables[action.index] = {
+        ...state.bookmarkedTimeTable,
+        lectures: [
+          ...state.bookmarkedTimeTable.lectures,
+          action.newLecture,
+        ],
+      }
+      return {
+        ...state,
+        bookmarkedTimeTables: [...bookmarkedTimeTables],
+        bookmarkedTimeTable: bookmarkedTimeTables[action.index],
       }
     case actions.UPDATE_BOOKMARKED_TIME_TABLE_INFO:
       bookmarkedTimeTables = [...state.bookmarkedTimeTables]
@@ -202,12 +215,27 @@ const timeTable = (state = [], action) => {
 }
 
 const search = (state = [], action) => {
+  let lectures = []
   switch (action.type) {
     case actions.SEARCH_LECTURE_RESPONSE:
       return {
         ...state,
         lectures: action.lectures,
+        count: action.count,
       }
+    case actions.SET_EVALUATIONS_RESPONSE:
+      lectures = state.lectures
+      lectures.forEach((lecture, index) => {
+        if (lecture.id === action.lectureDetail.id) {
+          lectures[index] = action.lectureDetail
+        }
+      })
+      return {
+        ...state,
+        lectures: [...lectures],
+      }
+    case actions.CLEAR_SEARCH_LECTURE:
+      return initialSearch
     default:
       return state
   }
@@ -217,21 +245,41 @@ const error = (state = initialError, action) => {
   switch (action.type) {
     case actions.CLEAR_STATE:
       return initialError
-    case actions.SIGN_UP_REQUEST:
-      return {
-        ...state,
-        signUp: {},
-      }
-    case actions.SIGN_IN_REQUEST:
-      return {
-        ...state,
-        signIn: {},
-      }
     case actions.SET_ERRORS:
       return {
         ...state,
         [action.identifier]: action.errors,
       }
+    default:
+      return state
+  }
+}
+
+const newResponse = (response, success) => {
+  return success ? Math.max(1, response + 1) : Math.min(-1, response - 1)
+}
+
+const response = (state = initialResponse, action) => {
+  switch (action.type) {
+    case actions.CLEAR_STATE:
+      return initialResponse
+    case actions.SIGN_UP_RESPONSE:
+      return {
+        ...state,
+        signUp: newResponse(state.signUp, true),
+      }
+    case actions.UPDATE_STUDENT_INFO_RESPONSE:
+      return {
+        ...state,
+        settingsTab: newResponse(state.settingsTab, true),
+      }
+    case actions.SET_ERRORS:
+      return (Object.keys(action.errors.bools).length > 0 || Object.keys(action.errors.texts).length > 0)
+        ? {
+          ...state,
+          [action.identifier]: newResponse(state[action.identifier], false),
+        }
+        : state
     default:
       return state
   }
@@ -248,12 +296,13 @@ const ttrsReducer = (state = initialState, action) => {
       return {
         ...state,
         studentInfo: studentInfo(state.studentInfo, action),
-        isMainPage: true,
+        toHome: true,
       }
-    case actions.GO_SIGN_UP_PAGE:
+    case actions.SIGN_UP_RESPONSE:
       return {
         ...state,
-        isSignUpPage: true,
+        toSignIn: true,
+        response: response(state.response, action),
       }
     case actions.CLEAR_STATE:
       return {
@@ -264,7 +313,14 @@ const ttrsReducer = (state = initialState, action) => {
     case actions.SET_NOT_RECOMMEND_COURSES:
       return {
         ...state,
-        notRecommendCourses: [...action.notRecommendCourses],
+        notRecommendCourses: action.notRecommendCourses,
+      }
+    case actions.SET_EVALUATIONS_RESPONSE:
+      return {
+        ...state,
+        evaluations: action.evaluations,
+        lectureDetail: action.lectureDetail,
+        search: search(state.search, action),
       }
     default:
       return {
@@ -274,6 +330,7 @@ const ttrsReducer = (state = initialState, action) => {
         timeTable: timeTable(state.timeTable, action),
         search: search(state.search, action),
         error: error(state.error, action),
+        response: response(state.response, action),
       }
   }
 }

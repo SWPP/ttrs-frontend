@@ -1,9 +1,9 @@
 import React from 'react'
 
 const Classroom = ({ building, roomNo }) => (
-  <div>
+  <span>
     {`${building}-${roomNo}`}
-  </div>
+  </span>
 )
 
 export default Classroom
