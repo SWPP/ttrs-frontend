@@ -3,95 +3,8 @@ import PropTypes from 'prop-types'
 import { Icon, Form, Menu, Popup, Segment, TextArea } from 'semantic-ui-react'
 import LecturePopup from '../LecturePopup'
 
-import Tmp from '../Tmp'
+import TTRenderer from '../TTRenderer'
 
-
-const overlap = (_time, _start, _end) => {
-  let time = _time.split(':').map((i) => Number(i))
-  time = (time[0] * 60) + time[1]
-
-  let start = _start.split(':').map((i) => Number(i))
-  start = (start[0] * 60) + start[1]
-
-  let end = _end.split(':').map((i) => Number(i))
-  end = (end[0] * 60) + end[1]
-
-  return time < end && start < (time + 30)
-}
-
-const hasLecture = (lectures, day, time) => {
-  let i
-  let j
-  for (i = 0; i < lectures.length; i += 1) {
-    const timeSlots = lectures[i].timeSlots
-    for (j = 0; j < timeSlots.length; j += 1) {
-      const timeSlot = timeSlots[j]
-      const d = timeSlot.dayOfWeek
-      const s = timeSlot.startTime
-      const e = timeSlot.endTime
-
-      if (d === day && overlap(time, s, e)) {
-        return i
-      }
-    }
-  }
-
-  return -1
-}
-
-const isStart = (_time, _start) => {
-  let time = _time.split(':').map((i) => Number(i))
-  time = (time[0] * 60) + time[1]
-
-  let start = _start.split(':').map((i) => Number(i))
-  start = (start[0] * 60) + start[1]
-
-  return time <= start && start < (time + 30)
-}
-
-const getRowSpan = (lecture, day) => {
-  let i
-
-  const timeSlots = lecture.timeSlots
-
-  for (i = 0; i < timeSlots.length; i += 1) {
-    const timeSlot = timeSlots[i]
-
-    if (timeSlot.dayOfWeek === day) {
-      const s = timeSlot.startTime
-      const e = timeSlot.endTime
-
-      let start = s.split(':').map((i) => Number(i))
-      start = (start[0] * 60) + start[1]
-
-      let end = e.split(':').map((i) => Number(i))
-      end = (end[0] * 60) + end[1]
-
-      return Math.ceil((end - start) / 30)
-    }
-  }
-  return 0
-}
-
-const isLectureStart = (lectures, day, time) => {
-  let i
-  let j
-  for (i = 0; i < lectures.length; i += 1) {
-    const timeSlots = lectures[i].timeSlots
-    for (j = 0; j < timeSlots.length; j += 1) {
-      const timeSlot = timeSlots[j]
-
-      const d = timeSlot.dayOfWeek
-      const s = timeSlot.startTime
-
-      if (d === day && isStart(time, s)) {
-        return i
-      }
-    }
-  }
-
-  return -1
-}
 
 class TimeTable extends React.Component {
   state = {
@@ -155,36 +68,8 @@ class TimeTable extends React.Component {
     this.setState({ [name]: value })
   }
 
-  createTimeSlot = (day, time) => {
-    if (hasLecture(this.props.lectures, day, time) >= 0) {
-      const lectureIndex = isLectureStart(this.props.lectures, day, time)
-      if (lectureIndex >= 0) {
-        const span = getRowSpan(this.props.lectures[lectureIndex], day)
-        return (
-          <td style={{ border: '1px solid black' }} rowSpan={span}>
-            <LecturePopup
-              props={{
-                lecture: this.props.lectures[lectureIndex],
-                height: span,
-                deleteLecture: this.props.onDeleteLecture,
-                addToNotRecommends: this.props.onAddToNotRecommends,
-                notRecommends: this.props.notRecommends,
-              }}
-            />
-          </td>
-        )
-      }
-      return null
-    }
-
-    return (<td style={{ border: '1px solid black', width: '100px', height: '30px' }} />)
-  }
-
-  createRow = (time) => {
-    return ['월', '화', '수', '목', '금', '토'].map((day) => this.createTimeSlot(day, time))
-  }
-
   getBlocks = (blocks) => {
+      // console.log(this)
       console.log('Change in selected blocks')
       console.log(blocks);
   }
@@ -192,7 +77,7 @@ class TimeTable extends React.Component {
   createTimeTable = () => {
     return (
         <div>
-            <Tmp 
+            <TTRenderer
                 onChange={this.getBlocks}
                 lectures={this.props.lectures} 
                 deleteLecture={this.props.onDeleteLecture} 
@@ -200,29 +85,6 @@ class TimeTable extends React.Component {
                 notRecommends={this.props.notRecommends}
             />
         </div>
-    )
-    return (
-      <table>
-        <tbody>
-          <tr>
-            <th>Time</th>
-            <th>Mon</th>
-            <th>Tue</th>
-            <th>Wed</th>
-            <th>Thr</th>
-            <th>Fri</th>
-            <th>Sat</th>
-          </tr>
-          {['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
-            '13:30', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
-            '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30'].map((time) => (
-              <tr>
-                <td>{time}</td>
-                {this.createRow(time)}
-              </tr>
-          ))}
-        </tbody>
-      </table>
     )
   }
 
