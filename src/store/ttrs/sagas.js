@@ -136,6 +136,13 @@ function* signIn(username, password) {
     semester,
   }
   try {
+    const response = yield call(axios.get, updateURLParams('ttrs/static-information/', params), config)
+    console.log('get Fields and Types response', response)
+    yield put(actions.setFieldsAndTypes(response.data.fields, response.data.types))
+  } catch (error) {
+    console.log('get Fields and Types error', error.response)
+  }
+  try {
     const response = yield call(axios.get, updateURLParams('ttrs/my-time-tables/', params), config)
     console.log('getCurrent myTimeTable response', response)
     yield call(getCurrentMyTimeTable, response)
@@ -255,6 +262,9 @@ function* switchSemester(newYear, newSemester) {
   }
   try {
     yield put(actions.searchLectureResponse([]))
+    const fieldsAndTypesResponse = yield call(axios.get, updateURLParams('ttrs/static-information/', params), config)
+    console.log('get Fields and Types response', fieldsAndTypesResponse)
+    yield put(actions.setFieldsAndTypes(fieldsAndTypesResponse.data.fields, fieldsAndTypesResponse.data.types))
     const myTimeTableResponse = yield call(axios.get, updateURLParams('ttrs/my-time-tables/', params), config)
     console.log('getCurrent myTimeTable response', myTimeTableResponse)
     yield call(getCurrentMyTimeTable, myTimeTableResponse)

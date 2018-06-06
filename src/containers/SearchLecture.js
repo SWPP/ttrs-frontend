@@ -7,6 +7,8 @@ const mapStateToProps = (state) => {
     searchLectures: state.ttrs.search.lectures,
     count: state.ttrs.search.count,
     colleges: state.ttrs.belongInfo.colleges,
+    fields: state.ttrs.fields,
+    types: state.ttrs.types,
   }
 }
 

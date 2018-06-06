@@ -17,6 +17,8 @@ class SearchLecture extends React.Component {
     'course.grade': null,
     'course.credit.gte': '',
     'course.credit.lte': '',
+    'course.field.startswith': null,
+    'course.field.endswith': null,
     page: 1,
   }
 
@@ -59,6 +61,12 @@ class SearchLecture extends React.Component {
     if (this.state['course.credit.lte']) {
       options['course.credit.lte'] = this.state['course.credit.lte']
     }
+    if (this.state['course.field.startswith']) {
+      options['course.field.startswith'] = this.state['course.field.startswith']
+    }
+    if (this.state['course.field.endswith']) {
+      options['course.field.endswith'] = this.state['course.field.endswith']
+    }
     this.props.onSearchLecture(options)
   }
 
@@ -90,8 +98,20 @@ class SearchLecture extends React.Component {
         value: index,
       })))
     }
-    const typeOptions = ['교양', '전필', '전선', '일선', '교직'].map(type => ({ key: type, text: type, value: type }))
-    const gradeOptions = [1, 2, 3, 4, 5, 6].map(grade => ({ key: grade, text: grade, value: grade }))
+    const typeOptions = [{ key: -1, text: '---', value: null }]
+    typeOptions.push(...this.props.types.map(type => ({ key: type, text: type, value: type })))
+    const gradeOptions = [{ key: -1, text: '---', value: null }]
+    gradeOptions.push(...[1, 2, 3, 4, 5, 6].map(grade => ({ key: grade, text: grade, value: grade })))
+    const fieldStartOptions = [{ key: -1, text: '---', value: null }]
+    fieldStartOptions.push(...Object.keys(this.props.fields).map(field => ({ key: field, text: field, value: field })))
+    const fieldEndOptions = [{ key: -1, text: '---', value: null }]
+    if (this.state['course.field.startswith']) {
+      fieldEndOptions.push(...this.props.fields[this.state['course.field.startswith']].map(field => ({
+        key: field,
+        text: field,
+        value: field,
+      })))
+    }
     return (
       <div>
         <Modal
@@ -115,7 +135,7 @@ class SearchLecture extends React.Component {
               }}
             >
               <Grid>
-                <Grid.Row columns={5}>
+                <Grid.Row columns={6} style={{ marginTop: -10 }}>
                   <Grid.Column>
                     <Form.Input
                       label="Course Name"
@@ -137,9 +157,26 @@ class SearchLecture extends React.Component {
                       onChange={this.handleChange}
                     />
                   </Grid.Column>
+                  <Grid.Column>
+                    <Form.Input
+                      label="Credit"
+                      placeholder="GTE"
+                      name="course.credit.gte"
+                      onChange={this.handleChange}
+                    />
+                  </Grid.Column>
+                  <span style={{ marginTop: 32 }}>~</span>
+                  <Grid.Column>
+                    <Form.Input
+                      label="&nbsp;"
+                      placeholder="LTE"
+                      name="course.credit.lte"
+                      onChange={this.handleChange}
+                    />
+                  </Grid.Column>
                 </Grid.Row>
 
-                <Grid.Row columns={5}>
+                <Grid.Row columns={6} style={{ marginTop: -20 }}>
                   <Grid.Column>
                     <Form.Select
                       label="College"
@@ -179,7 +216,7 @@ class SearchLecture extends React.Component {
                   </Grid.Column>
                 </Grid.Row>
 
-                <Grid.Row columns={5}>
+                <Grid.Row columns={6} style={{ marginTop: -20 }}>
                   <Grid.Column>
                     <Form.Select
                       label="Type"
@@ -201,26 +238,32 @@ class SearchLecture extends React.Component {
                     />
                   </Grid.Column>
                   <Grid.Column>
-                    <Form.Group inline>
-                      <Form.Input
-                        label="Credit"
-                        placeholder="GTE"
-                        name="course.credit.gte"
-                        onChange={this.handleChange}
-                      />
-                      <span style={{ marginTop: 20 }}>~&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                      <Form.Input
-                        label={''}
-                        placeholder="LTE"
-                        name="course.credit.lte"
-                        onChange={this.handleChange}
-                      />
-                    </Form.Group>
+                    <Form.Select
+                      label="Field"
+                      placeholder="Field"
+                      options={fieldStartOptions}
+                      name="course.field.startswith"
+                      value={this.state['course.field.startswith']}
+                      onChange={(e, { name, value }) => {
+                        this.setState({ [name]: value })
+                        this.setState({ 'course.field.endswith': null })
+                      }}
+                    />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Form.Select
+                      label="Field Detail"
+                      placeholder="Field Detail"
+                      options={fieldEndOptions}
+                      name="course.field.endswith"
+                      value={this.state['course.field.endswith']}
+                      onChange={this.handleChange}
+                    />
                   </Grid.Column>
                 </Grid.Row>
               </Grid>
               <Form.Button
-                style={{ float: 'right', marginTop: -3 }}
+                style={{ float: 'right', marginTop: -5 }}
                 color="teal"
                 type="submit"
                 content="Search"
@@ -270,6 +313,8 @@ SearchLecture.propTypes = {
   onAddLecture: PropTypes.func,
   onAddToNotRecommends: PropTypes.func,
   onClose: PropTypes.func,
+  fields: PropTypes.object,
+  types: PropTypes.array,
 }
 
 export default SearchLecture
