@@ -293,6 +293,9 @@ function* selectBookmarkedTimeTable(bookmarkedTimeTable) {
  *   Delete Lecture from Bookmarked TimeTable
  */
 function* updateBookmarkedTimeTable(index, timeTableId, updatedInfo, newLectureId) {
+  if (newLectureId !== null && newLectureId > 0) {
+    updatedInfo.lectures.push(newLectureId)
+  }
   try {
     const response = yield call(axios.patch, `ttrs/bookmarked-time-tables/${timeTableId}/`, updatedInfo, config)
     console.log('update BookmarkedTimeTable response', response)
