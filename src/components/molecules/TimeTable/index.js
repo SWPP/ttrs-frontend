@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import { Icon, Form, Menu, Popup, Segment, TextArea } from 'semantic-ui-react'
 import LecturePopup from '../LecturePopup'
 
+import Tmp from '../Tmp'
+
+
 const overlap = (_time, _start, _end) => {
   let time = _time.split(':').map((i) => Number(i))
   time = (time[0] * 60) + time[1]
@@ -182,6 +185,17 @@ class TimeTable extends React.Component {
   }
 
   createTimeTable = () => {
+    console.log('lectures at tt:', this.props.lectures)
+    return (
+        <div>
+            <Tmp 
+                lectures={this.props.lectures} 
+                deleteLecture={this.props.onDeleteLecture} 
+                addToNotRecommends={this.props.onAddToNotRecommends}
+                notRecommends={this.props.notRecommends}
+            />
+        </div>
+    )
     return (
       <table>
         <tbody>

@@ -1,14 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+import LecturePopup from '../LecturePopup'
+
 
 const block_width = 130
 const block_height = 26
 
 class Tmp extends React.Component {
-   constructor(props) {
+    constructor(props) {
         super(props)
+        console.log('props:', props)
         this.state = {
+            lectures: props.lectures,
             startPoint: null,
             endPoint: null,
             blocks: [
@@ -37,6 +41,12 @@ class Tmp extends React.Component {
                 [0,0,0,0,0,0],
                 [0,0,0,0,0,0],
             ]
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.lectures !== nextProps.lectures) {
+            this.setState({lectures: nextProps.lectures})
         }
     }
 
@@ -72,6 +82,8 @@ class Tmp extends React.Component {
         if (!this.state.startPoint || !this.state.endPoint)
             return
 
+        // console.log(this.state.lectures)
+
         window.document.removeEventListener('mousemove', this._onMouseMove)
 
         const elt = ReactDOM.findDOMNode(this)
@@ -87,7 +99,6 @@ class Tmp extends React.Component {
             x: Math.max(this.state.startPoint.x, this.state.endPoint.x)-eltLeft,
             y: Math.max(this.state.startPoint.y, this.state.endPoint.y)-eltTop
         }
-        console.log(topLeft, botRight)
 
         var i, j
         var blocks = this.state.blocks
@@ -99,7 +110,6 @@ class Tmp extends React.Component {
         }
 
         this.setState({blocks})
-        console.log(this.state.blocks)
     }
 
     overlap = (i, j, tl, br) => {
@@ -122,19 +132,67 @@ class Tmp extends React.Component {
         return true
     }
 
-    renderRow = (row) => {
-        return row.map((elt) => (
-            <td 
-                selectable="false"
-                ondragstart="return false;"
+    time_overlap = (_time, _start, _end) => {
+        let time = _time.split(':').map((i) => Number(i))
+        time = (time[0] * 60) + time[1]
+
+        let start = _start.split(':').map((i) => Number(i))
+        start = (start[0] * 60) + start[1]
+
+        let end = _end.split(':').map((i) => Number(i))
+        end = (end[0] * 60) + end[1]
+
+        return time < end && start < (time + 30)
+    }
+
+    hasLecture = (day, time) => {
+        const lectures = this.state.lectures
+
+        for (var i in lectures) {
+            const lecture = lectures[i]
+            for (var j in lecture.timeSlots) {
+                const timeSlot = lecture.timeSlots[j]
+                if (day === timeSlot.dayOfWeek && this.time_overlap(time, timeSlot.startTime, timeSlot.endTime)) {
+                    return i
+                }
+            }
+        }
+        return -1
+    }
+
+    renderBlock = (index, time) => {
+        const day = ['월', '화', '수', '목', '금', '토'][index]
+        const lid = this.hasLecture(day, time)
+
+        if (0 <= lid) {
+            return (
+                <LecturePopup
+                    props={{
+                        lecture: this.state.lectures[lid],
+                        height: block_height.toString+'px',
+                        deleteLecture: this.props.deleteLecture,
+                        addToNotRecommends: this.props.addToNotRecommends,
+                        notRecommends: this.props.notRecommends,
+                    }}
+                />
+            )
+        } else {
+            return null
+        }
+    }
+
+    renderRow = (time, row) => {
+        return row.map((elt, index) => (
+            <td key={time + '/' + index.toString()}
+                onDragStart="return false;"
                 draggable="false"
                 style={{ 
                     backgroundColor: (elt==1?'#123400': '#FFFFFF'), 
                     border: '1px solid #999999',
-                    width: block_width.toString(), 
-                    height: block_height.toString() 
+                    width: block_width.toString()+'px', 
+                    height: block_height.toString()+'px' 
                 }}>
-                <button />
+                {this.renderBlock(index, time)}
             </td>)
         )
 
@@ -144,19 +202,20 @@ class Tmp extends React.Component {
         const blocks = this.state.blocks
         return (
             ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
-            '13:30', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
-            '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30'].map((time, index) => (<tr><th>{time}</th>{this.renderRow(blocks[index])}</tr>))
+            '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
+            '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30'].map(
+                (time, index) => (<tr key={time} ><th>{time}</th>{this.renderRow(time, blocks[index])}</tr>)
+            )
         )
         return (blocks.map((row) => (<tr><th>as</th>{this.renderRow(row)}</tr>)))
     }
 
     render() {
         return (
-            <div draggable="false" ondragstart="return false;">
+            <div draggable="false" onDragStart="return false;">
             <div 
-                selectable="false"
                 draggable="false"
-                ondragstart="return false;"
+                onDragStart="return false;"
                 style={{width: '1000px', height: '700px'}} 
                 onMouseDown={(e) => this._onMouseDown(e)}
                 onMouseUp={(e) => this._onMouseUp(e)}
@@ -167,13 +226,13 @@ class Tmp extends React.Component {
                 <table>
                     <tbody>
                         <tr>
-                            <th style={{width: block_width.toString(), height:block_height.toString()}}>Time</th>
-                            <th style={{width: block_width.toString(), height:block_height.toString()}}>Mon</th>
-                            <th style={{width: block_width.toString(), height:block_height.toString()}}>Tue</th>
-                            <th style={{width: block_width.toString(), height:block_height.toString()}}>Wed</th>
-                            <th style={{width: block_width.toString(), height:block_height.toString()}}>Thr</th>
-                            <th style={{width: block_width.toString(), height:block_height.toString()}}>Fri</th>
-                            <th style={{width: block_width.toString(), height:block_height.toString()}}>Sat</th>
+                            <th style={{ width: block_width.toString()+'px', height: block_height.toString()+'px' }}>Time</th>
+                            <th style={{ width: block_width.toString()+'px', height: block_height.toString()+'px' }}>Mon</th>
+                            <th style={{ width: block_width.toString()+'px', height: block_height.toString()+'px' }}>Tue</th>
+                            <th style={{ width: block_width.toString()+'px', height: block_height.toString()+'px' }}>Wed</th>
+                            <th style={{ width: block_width.toString()+'px', height: block_height.toString()+'px' }}>Thr</th>
+                            <th style={{ width: block_width.toString()+'px', height: block_height.toString()+'px' }}>Fri</th>
+                            <th style={{ width: block_width.toString()+'px', height: block_height.toString()+'px' }}>Sat</th>
                         </tr>
                         {this.renderBlocks()}
                     </tbody>
