@@ -5,7 +5,7 @@ import LecturePopup from '../LecturePopup'
 
 
 const block_width = 130
-const block_height = 26
+const block_height = 30
 
 class TTRenderer extends React.Component {
     constructor(props) {
@@ -162,30 +162,48 @@ class TTRenderer extends React.Component {
         return -1
     }
 
-    renderBlock = (index, time) => {
+    renderBlock = (val, index, time) => {
         const day = ['월', '화', '수', '목', '금', '토'][index]
         const lid = this.hasLecture(day, time)
 
+        const bckgrd = ((val===1) ? '#FF0000' : '#FFFFFF')
+
         if (0 <= lid) {
             return (
-                <LecturePopup
-                    props={{
-                        lecture: this.state.lectures[lid],
-                        height: block_height.toString+'px',
-                        deleteLecture: this.props.deleteLecture,
-                        addToNotRecommends: this.props.addToNotRecommends,
-                        notRecommends: this.props.notRecommends,
-                    }}
-                />
+                <td key={day+time}
+                    style={{
+                        border: '1px solid #999999',
+                        backgroundColor: bckgrd,
+                        width: block_width.toString()+'px',
+                        height: block_height.toString()+'px'
+                    }}>
+                    <LecturePopup
+                        props={{
+                            lecture: this.state.lectures[lid],
+                            height: block_height.toString+'px',
+                            deleteLecture: this.props.deleteLecture,
+                            addToNotRecommends: this.props.addToNotRecommends,
+                            notRecommends: this.props.notRecommends,
+                        }} />
+                </td>
             )
         } else {
-            return null
+            return (
+                <td key={day+time} 
+                    style={{ 
+                        border: '1px solid #999999', 
+                        backgroundColor: bckgrd, 
+                        width: block_width.toString()+'px', 
+                        height: block_height.toString()+'px'
+                }}></td>
+            )
         }
     }
 
-    renderRow = (time, row) => {
-        return row.map((elt, index) => (
-            <td key={time + '/' + index.toString()}
+    renderRow = (time, row_index) => {
+        const row = this.state.blocks[row_index]
+        return row.map((val, index) => (
+            /*<td key={time + '/' + index.toString()}
                 onDragStart="return false;"
                 draggable="false"
                 style={{ 
@@ -194,19 +212,18 @@ class TTRenderer extends React.Component {
                     width: block_width.toString()+'px', 
                     height: block_height.toString()+'px' 
                 }}>
-                {this.renderBlock(index, time)}
-            </td>)
+                {*/this.renderBlock(val, index, time)/*}
+            </td>*/)
         )
 
     }
 
     renderBlocks = () => {
-        const blocks = this.state.blocks
         return (
             ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
             '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
             '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30'].map(
-                (time, index) => (<tr key={time} ><th>{time}</th>{this.renderRow(time, blocks[index])}</tr>)
+                (time, index) => (<tr key={time} ><th>{time}</th>{this.renderRow(time, index)}</tr>)
             )
         )
         return (blocks.map((row) => (<tr><th>as</th>{this.renderRow(row)}</tr>)))
@@ -218,7 +235,7 @@ class TTRenderer extends React.Component {
             <div 
                 draggable="false"
                 onDragStart="return false;"
-                style={{width: '1000px', height: '700px'}} 
+                style={{width: '1000px', height: '800px'}} 
                 onMouseDown={(e) => this._onMouseDown(e)}
                 onMouseUp={(e) => this._onMouseUp(e)}
                 onDragStart={false}

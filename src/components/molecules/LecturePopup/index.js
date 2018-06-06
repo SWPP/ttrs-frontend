@@ -30,10 +30,21 @@ class LecturePopup extends React.Component {
       console.log(datafromchild)
   }
 
+  getName = (name) => {
+      var acronym = ''
+
+      name = name.split(' ')
+      for (var n in name) {
+          acronym += name[n].substr(0,1)
+      }
+
+      return acronym
+  }
+
   render() {
     return (
       <div>
-        <button onClick={this.handleOpenPopup}>{/*this.lecture.course.name*/}</button>
+        <button onClick={this.handleOpenPopup} style={{ fontSize: '10px' }}>{this.getName(this.lecture.course.name)}</button>
         <ReactModal isOpen={this.state.pop} contentLabel={'Modal'}>
           <p>{this.lecture.course.name}</p>
           <button onClick={() => this.deleteLecture(this.lecture.id)}>Delete</button>
