@@ -110,6 +110,8 @@ class Tmp extends React.Component {
         }
 
         this.setState({blocks})
+
+        this.props.onChange(blocks)
     }
 
     overlap = (i, j, tl, br) => {

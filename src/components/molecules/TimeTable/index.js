@@ -184,11 +184,16 @@ class TimeTable extends React.Component {
     return ['월', '화', '수', '목', '금', '토'].map((day) => this.createTimeSlot(day, time))
   }
 
+  getBlocks = (blocks) => {
+      console.log('Change in selected blocks')
+      console.log(blocks);
+  }
+
   createTimeTable = () => {
-    console.log('lectures at tt:', this.props.lectures)
     return (
         <div>
             <Tmp 
+                onChange={this.getBlocks}
                 lectures={this.props.lectures} 
                 deleteLecture={this.props.onDeleteLecture} 
                 addToNotRecommends={this.props.onAddToNotRecommends}
