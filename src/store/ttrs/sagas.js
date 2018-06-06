@@ -3,6 +3,7 @@ import { take, put, call, fork } from 'redux-saga/effects'
 import * as actions from './actions'
 import { convertToCStyle, convertToJavaStyle, updateURLParams } from '../../services/parser'
 import { initialTimeTable, initialState } from './selectors'
+import { processErrors } from '../../services/error_utility'
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000/'
 axios.interceptors.request.use((config) => {
@@ -125,7 +126,7 @@ function* signIn(username, password) {
     yield put(actions.signInResponse(response.data))
   } catch (error) {
     console.log('signIn error', error.response)
-    yield put(actions.setErrors('signIn', error.response.data))
+    yield put(actions.setErrors('signIn', processErrors(error.response.data)))
     return undefined
   }
   year = initialState.year
@@ -172,7 +173,7 @@ function* signUp(studentInfo) {
     yield put(actions.signUpResponse())
   } catch (error) {
     console.log('signUp error', error.response)
-    yield put(actions.setErrors('signUp', error.response.data))
+    yield put(actions.setErrors('signUp', processErrors(error.response.data)))
   }
 }
 
@@ -292,6 +293,9 @@ function* selectBookmarkedTimeTable(bookmarkedTimeTable) {
  *   Delete Lecture from Bookmarked TimeTable
  */
 function* updateBookmarkedTimeTable(index, timeTableId, updatedInfo, newLectureId) {
+  if (newLectureId !== null && newLectureId > 0) {
+    updatedInfo.lectures.push(newLectureId)
+  }
   try {
     const response = yield call(axios.patch, `ttrs/bookmarked-time-tables/${timeTableId}/`, updatedInfo, config)
     console.log('update BookmarkedTimeTable response', response)
@@ -375,12 +379,12 @@ function* updateStudentInfo(info) {
     if (info.password) {
       yield put(actions.clearState())
     } else {
-      delete response.password
-      yield put(actions.updateStudentInfoResponse(info))
+      delete response.data.password
+      yield put(actions.updateStudentInfoResponse(response.data))
     }
   } catch (error) {
     console.log('update student info error', error.response)
-    yield put(actions.setErrors('settingsTab', error.response.data))
+    yield put(actions.setErrors('settingsTab', processErrors(error.response.data)))
   }
 }
 

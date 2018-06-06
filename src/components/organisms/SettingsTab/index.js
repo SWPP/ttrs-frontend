@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Message, Button, Header, Transition, Divider, Popup, List } from 'semantic-ui-react'
-import { customErrors, initErrors, updateErrors } from '../../../services/error_utility'
+import { Form, Message, Button, Header, Divider, Popup, List } from 'semantic-ui-react'
+import { customErrors } from '../../../services/error_utility'
+import { initialErrorUnit } from '../../../store/ttrs/selectors'
+import Notice from '../../atoms/Notice'
 
 class SettingsTab extends React.Component {
   static getDerivedStateFromProps(props, state) {
@@ -52,28 +54,12 @@ class SettingsTab extends React.Component {
       response: props.response,
       notice: false,
     }
-    this.errors = initErrors()
-
-    this.gradeOptions = [1, 2, 3, 4, 5, 6].map(grade => ({ key: grade, text: grade, value: grade }))
-    this.collegeOptions = props.colleges.map((college, index) => ({ key: college.id, text: college.name, value: index }))
-    this.departmentOptions = [{ key: -1, text: '---', value: null }]
-    if (this.state.collegeIndex !== null) {
-      this.departmentOptions.push(...props.colleges[this.state.collegeIndex].departments.map((department, index) => ({
-        key: department.id,
-        text: department.name,
-        value: index,
-      })))
-    }
-    this.majorOptions = [{ key: -1, text: '---', value: null }]
-    if (this.state.departmentIndex !== null) {
-      this.majorOptions.push(...props.colleges[this.state.collegeIndex].departments[this.state.departmentIndex].majors.map((major, index) => ({
-        key: major.id,
-        text: major.name,
-        value: index,
-      })))
-    }
 
     this.props.onGetNotRecommendCourses(this.props.notRecommends)
+  }
+
+  componentWillUnmount() {
+    this.props.onSetError(initialErrorUnit)
   }
 
   handleChange = (e, { name, value }) => {
@@ -86,28 +72,29 @@ class SettingsTab extends React.Component {
       passwordConfirm: [this.state.password === this.state.passwordConfirm, 'Two passwords should be same.'],
     })
     if (errors !== null) {
-      this.errors = errors
-      this.props.onClearError()
-      this.forceUpdate()
+      this.props.onSetError(errors)
       return
     }
 
+    this.props.onSetError(initialErrorUnit)
     let info = {
       username: this.state.username,
       grade: this.state.grade,
-      college: this.props.colleges[this.state.collegeIndex].id,
     }
+    const college = this.props.colleges[this.state.collegeIndex].id
+    let department = null
+    let major = null
     if (this.state.departmentIndex !== null) {
-      info = {
-        ...info,
-        department: this.props.colleges[this.state.collegeIndex].departments[this.state.departmentIndex].id,
-      }
+      department = this.props.colleges[this.state.collegeIndex].departments[this.state.departmentIndex].id
       if (this.state.majorIndex !== null) {
-        info = {
-          ...info,
-          major: this.props.colleges[this.state.collegeIndex].departments[this.state.departmentIndex].majors[this.state.majorIndex].id,
-        }
+        major = this.props.colleges[this.state.collegeIndex].departments[this.state.departmentIndex].majors[this.state.majorIndex].id
       }
+    }
+    info = {
+      ...info,
+      college,
+      department,
+      major,
     }
     if (this.state.password.trim()) {
       info = {
@@ -119,40 +106,51 @@ class SettingsTab extends React.Component {
   }
 
   handleWithdraw = () => {
-    if (this.state.passwordWithdraw === this.props.password) {
-      this.props.onWithdraw()
+    const errors = customErrors({
+      passwordWithdraw: [this.state.passwordWithdraw === this.props.password, 'Incorrect password.'],
+    })
+    if (errors !== null) {
+      this.props.onSetError({ bools: errors.bools, texts: {} })
       return
     }
-    this.errors.bools.passwordWithdraw = true
-    this.forceUpdate()
+
+    this.props.onSetError(initialErrorUnit)
+    this.props.onWithdraw()
   }
 
   render() {
-    this.errors = updateErrors(this.errors, this.props.errors)
     if (this.state.notice) {
       setTimeout(() => {
         this.setState({ notice: false })
       }, 2000)
     }
+    const errors = this.props.errors
+
+    const gradeOptions = [1, 2, 3, 4, 5, 6].map(grade => ({ key: grade, text: grade, value: grade }))
+    const collegeOptions = this.props.colleges.map((college, index) => ({ key: college.id, text: college.name, value: index }))
+    const departmentOptions = [{ key: -1, text: '---', value: null }]
+    if (this.state.collegeIndex !== null) {
+      departmentOptions.push(...this.props.colleges[this.state.collegeIndex].departments.map((department, index) => ({
+        key: department.id,
+        text: department.name,
+        value: index,
+      })))
+    }
+    const majorOptions = [{ key: -1, text: '---', value: null }]
+    if (this.state.departmentIndex !== null) {
+      majorOptions.push(...this.props.colleges[this.state.collegeIndex].departments[this.state.departmentIndex].majors.map((major, index) => ({
+        key: major.id,
+        text: major.name,
+        value: index,
+      })))
+    }
 
     return (
       <div>
-        <Transition visible={this.state.notice && this.state.response > 0}>
-          <Message
-            style={{ left: '50%', transform: 'translateX(-51%)', top: '10%', position: 'fixed', zIndex: 1000 }}
-            success
-          >
-            <Header textAlign="center" content="Updated Successfully." />
-          </Message>
-        </Transition>
-        <Transition visible={this.state.notice && this.state.response < 0}>
-          <Message
-            style={{ left: '50%', transform: 'translateX(-51%)', top: '10%', position: 'fixed', zIndex: 1000 }}
-            negative
-          >
-            <Header textAlign="center" content="Some Errors Occurred." />
-          </Message>
-        </Transition>
+        <Notice
+          openSuccess={this.state.notice && this.state.response > 0}
+          openError={this.state.notice && this.state.response < 0}
+        />
         <div>
           <Header as="h2" content="Update Profile" />
           <Form onSubmit={this.handleUpdateInfo}>
@@ -165,7 +163,7 @@ class SettingsTab extends React.Component {
               type="password"
               name="passwordOld"
               value={this.state.passwordOld}
-              error={this.errors.bools.passwordOld}
+              error={errors.bools.passwordOld}
               onChange={this.handleChange}
             />
             <Form.Input
@@ -176,7 +174,7 @@ class SettingsTab extends React.Component {
               type="password"
               name="password"
               value={this.state.password}
-              error={this.errors.bools.password}
+              error={errors.bools.password}
               onChange={this.handleChange}
             />
             <Form.Input
@@ -187,27 +185,27 @@ class SettingsTab extends React.Component {
               type="password"
               name="passwordConfirm"
               value={this.state.passwordConfirm}
-              error={this.errors.bools.passwordConfirm}
+              error={errors.bools.passwordConfirm}
               onChange={this.handleChange}
             />
             <Form.Select
               label="Grade"
               required
               placeholder="Grade"
-              options={this.gradeOptions}
+              options={gradeOptions}
               name="grade"
               value={this.state.grade}
-              error={this.errors.bools.grade}
+              error={errors.bools.grade}
               onChange={this.handleChange}
             />
             <Form.Select
               label="College"
               required
               placeholder="College"
-              options={this.collegeOptions}
+              options={collegeOptions}
               name="collegeIndex"
               value={this.state.collegeIndex}
-              error={this.errors.bools.college}
+              error={errors.bools.college}
               onChange={(e, { name, value }) => {
                 this.setState({ [name]: value })
                 this.setState({ departmentIndex: null })
@@ -217,10 +215,10 @@ class SettingsTab extends React.Component {
             <Form.Select
               label="Department"
               placeholder="Department"
-              options={this.departmentOptions}
+              options={departmentOptions}
               name="departmentIndex"
               value={this.state.departmentIndex}
-              error={this.errors.bools.department}
+              error={errors.bools.department}
               onChange={(e, { name, value }) => {
                 this.setState({ [name]: value })
                 this.setState({ majorIndex: null })
@@ -229,19 +227,19 @@ class SettingsTab extends React.Component {
             <Form.Select
               label="Major"
               placeholder="Major"
-              options={this.majorOptions}
+              options={majorOptions}
               name="majorIndex"
               value={this.state.majorIndex}
-              error={this.errors.bools.major}
+              error={errors.bools.major}
               onChange={this.handleChange}
             />
             <Button type="submit" color="teal">Update</Button>
           </Form>
-          {Object.keys(this.errors.texts).length > 0 &&
+          {Object.keys(errors.texts).length > 0 &&
           <Message
             negative
             header="There are some errors with your submission"
-            list={Object.keys(this.errors.texts).map(key => this.errors.texts[key])}
+            list={Object.keys(errors.texts).map(key => errors.texts[key])}
           />}
         </div>
         <Divider />
@@ -279,7 +277,7 @@ class SettingsTab extends React.Component {
               <Form.Input
                 name="passwordWithdraw"
                 onChange={this.handleChange}
-                error={this.errors.bools.passwordWithdraw}
+                error={errors.bools.passwordWithdraw}
                 type="password"
                 placeholder="Input your password..."
                 action={<Popup
@@ -317,8 +315,7 @@ SettingsTab.propTypes = {
   onWithdraw: PropTypes.func,
   onGetNotRecommendCourses: PropTypes.func,
   onDeleteFromNotRecommends: PropTypes.func,
-  onClearError: PropTypes.func,
-  onExit: PropTypes.func,
+  onSetError: PropTypes.func,
 }
 
 export default SettingsTab

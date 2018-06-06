@@ -1,16 +1,11 @@
 import { connect } from 'react-redux'
 import SettingsTab from '../components/organisms/SettingsTab'
-import {
-  clearState, deleteFromNotRecommendsRequest, getNotRecommendCoursesRequest, setErrors, setSuccess,
-  updateStudentInfoRequest,
-  withdraw
-} from '../store/ttrs/actions'
+import { deleteFromNotRecommendsRequest, getNotRecommendCoursesRequest, setErrors,
+  updateStudentInfoRequest, withdraw } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
-    username: state.ttrs.studentInfo.username,
     password: state.ttrs.studentInfo.password,
-    email: state.ttrs.studentInfo.email,
     grade: state.ttrs.studentInfo.grade,
     college: state.ttrs.studentInfo.college,
     department: state.ttrs.studentInfo.department,
@@ -37,11 +32,8 @@ const mapDispatchToProps = (dispatch) => {
     onDeleteFromNotRecommends: (notRecommends, courseId) => {
       dispatch(deleteFromNotRecommendsRequest(notRecommends, courseId))
     },
-    onClearError: () => {
-      dispatch(setErrors('settingsTab', {}))
-    },
-    onExit: () => {
-      dispatch(clearState())
+    onSetError: (errors) => {
+      dispatch(setErrors('settingsTab', errors))
     },
   }
 }

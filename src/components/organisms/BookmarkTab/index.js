@@ -16,6 +16,7 @@ const BookmarkTab = ({ myTimeTable, bookmarkedTimeTables, bookmarkedTimeTable, o
         {...myTimeTable}
         canModify
         canDelete
+        canCreate
         canCopyToMy={false}
         onDeleteTimeTable={(timeTableId) => timeTableId !== null ? onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
       />

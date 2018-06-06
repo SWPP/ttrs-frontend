@@ -54,13 +54,19 @@ export const initialSearch = {
   count: 0,
 }
 
+export const initialErrorUnit = {
+  bools: {},
+  texts: {},
+}
+
 export const initialError = {
-  signIn: {},
-  signUp: {},
-  settingsTab: {},
+  signIn: initialErrorUnit,
+  signUp: initialErrorUnit,
+  settingsTab: initialErrorUnit,
 }
 
 export const initialResponse = {
+  signUp: 0,
   settingsTab: 0,
 }
 
@@ -80,6 +86,6 @@ export const initialState = {
   evaluations: [],
   lectureDetail: {
     id: null,
-    rate: null,
+    rating: 0,
   },
 }
