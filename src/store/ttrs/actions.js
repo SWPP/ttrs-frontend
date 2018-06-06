@@ -1,3 +1,5 @@
+export const DISMISS_NOTICE = 'DISMISS_NOTICE'
+export const HIDE_NOTICE = 'HIDE_NOTICE'
 export const SET_ERRORS = 'SET_ERRORS'
 export const SIGN_IN_REQUEST = 'SIGN_IN_REQUEST'
 export const SIGN_IN_RESPONSE = 'SIGN_IN_RESPONSE'
@@ -52,6 +54,20 @@ export const DELETE_EVALUATION_REQUEST = 'DELETE_EVALUATION_REQUEST'
 export const MODIFY_EVALUATION_REQUEST = 'MODIFY_EVALUATION_REQUEST'
 export const SET_EVALUATIONS_RESPONSE = 'MODIFY_EVALUATIONS_RESPONSE'
 export const TOGGLE_LIKE_IT_REQUEST = 'TOGGLE_LIKE_IT_REQUEST'
+
+export const dismissNotice = (id) => {
+  return {
+    type: DISMISS_NOTICE,
+    id,
+  }
+}
+
+export const hideNotice = (id) => {
+  return {
+    type: HIDE_NOTICE,
+    id,
+  }
+}
 
 export const setErrors = (identifier, errors) => {
   return {

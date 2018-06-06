@@ -3,19 +3,8 @@ import PropTypes from 'prop-types'
 import { Form, Message, Button, Header, Divider, Popup, List } from 'semantic-ui-react'
 import { customErrors } from '../../../services/error_utility'
 import { initialErrorUnit } from '../../../store/ttrs/selectors'
-import Notice from '../../atoms/Notice'
 
 class SettingsTab extends React.Component {
-  static getDerivedStateFromProps(props, state) {
-    if (state.response !== props.response) {
-      return {
-        response: props.response,
-        notice: true,
-      }
-    }
-    return null
-  }
-
   constructor(props) {
     super(props)
 
@@ -51,8 +40,6 @@ class SettingsTab extends React.Component {
       departmentIndex,
       majorIndex,
       passwordWithdraw: '',
-      response: props.response,
-      notice: false,
     }
 
     this.props.onGetNotRecommendCourses(this.props.notRecommends)
@@ -119,11 +106,6 @@ class SettingsTab extends React.Component {
   }
 
   render() {
-    if (this.state.notice) {
-      setTimeout(() => {
-        this.setState({ notice: false })
-      }, 2000)
-    }
     const errors = this.props.errors
 
     const gradeOptions = [1, 2, 3, 4, 5, 6].map(grade => ({ key: grade, text: grade, value: grade }))
@@ -147,10 +129,6 @@ class SettingsTab extends React.Component {
 
     return (
       <div>
-        <Notice
-          openSuccess={this.state.notice && this.state.response > 0}
-          openError={this.state.notice && this.state.response < 0}
-        />
         <div>
           <Header as="h2" content="Update Profile" />
           <Form onSubmit={this.handleUpdateInfo}>
@@ -272,6 +250,7 @@ class SettingsTab extends React.Component {
           <Header as="h2" content="Withdraw" />
           <Popup
             on="click"
+            hideOnScroll
             trigger={<Button icon="user x" negative content="Withdraw" />}
             content={<Form>
               <Form.Input
@@ -310,7 +289,6 @@ SettingsTab.propTypes = {
   notRecommendCourses: PropTypes.array,
   colleges: PropTypes.array,
   errors: PropTypes.object,
-  response: PropTypes.number,
   onUpdateInfo: PropTypes.func,
   onWithdraw: PropTypes.func,
   onGetNotRecommendCourses: PropTypes.func,

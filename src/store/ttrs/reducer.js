@@ -1,4 +1,4 @@
-import { initialState, initialTimeTable, initialError, initialResponse, initialSearch } from './selectors'
+import { initialState, initialTimeTable, initialError, initialSearch, initialNotice } from './selectors'
 import * as actions from './actions'
 
 const studentInfo = (state = [], action) => {
@@ -255,29 +255,61 @@ const error = (state = initialError, action) => {
   }
 }
 
-const newResponse = (response, success) => {
-  return success ? Math.max(1, response + 1) : Math.min(-1, response - 1)
-}
-
-const response = (state = initialResponse, action) => {
+const notice = (state = initialNotice, action) => {
+  const newId = state.lastId + 1
+  const notices = []
   switch (action.type) {
-    case actions.CLEAR_STATE:
-      return initialResponse
-    case actions.SIGN_UP_RESPONSE:
+    case actions.DISMISS_NOTICE:
+      state.notices.forEach(notice => {
+        if (notice.id !== action.id) {
+          notices.push(notice)
+        }
+      })
       return {
         ...state,
-        signUp: newResponse(state.signUp, true),
+        notices,
+      }
+    case actions.HIDE_NOTICE:
+      return {
+        ...state,
+        notices: state.notices.map(notice => ({
+          ...notice,
+          invisible: notice.id === action.id ? true : notice.invisible,
+        })),
+      }
+    case actions.SIGN_UP_RESPONSE:
+      return {
+        lastId: newId,
+        notices: [
+          ...state.notices,
+          {
+            id: newId,
+            message: 'You have successfully joined the membership. Return to sign in page...',
+            duration: 4000,
+          },
+        ],
       }
     case actions.UPDATE_STUDENT_INFO_RESPONSE:
       return {
-        ...state,
-        settingsTab: newResponse(state.settingsTab, true),
+        lastId: newId,
+        notices: [
+          ...state.notices,
+          {
+            id: newId,
+          },
+        ],
       }
     case actions.SET_ERRORS:
       return (Object.keys(action.errors.bools).length > 0 || Object.keys(action.errors.texts).length > 0)
         ? {
-          ...state,
-          [action.identifier]: newResponse(state[action.identifier], false),
+          lastId: newId,
+          notices: [
+            ...state.notices,
+            {
+              id: -newId,
+              visible: false,
+            },
+          ],
         }
         : state
     default:
@@ -302,7 +334,7 @@ const ttrsReducer = (state = initialState, action) => {
       return {
         ...state,
         toSignIn: true,
-        response: response(state.response, action),
+        notice: notice(state.notice, action),
       }
     case actions.CLEAR_STATE:
       return {
@@ -330,7 +362,7 @@ const ttrsReducer = (state = initialState, action) => {
         timeTable: timeTable(state.timeTable, action),
         search: search(state.search, action),
         error: error(state.error, action),
-        response: response(state.response, action),
+        notice: notice(state.notice, action),
       }
   }
 }

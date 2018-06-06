@@ -7,7 +7,6 @@ const mapStateToProps = (state) => {
     toSignIn: state.ttrs.toSignIn,
     colleges: state.ttrs.belongInfo.colleges,
     errors: state.ttrs.error.signUp,
-    response: state.ttrs.response.signUp,
   }
 }
 

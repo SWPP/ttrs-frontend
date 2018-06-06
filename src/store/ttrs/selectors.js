@@ -65,9 +65,9 @@ export const initialError = {
   settingsTab: initialErrorUnit,
 }
 
-export const initialResponse = {
-  signUp: 0,
-  settingsTab: 0,
+export const initialNotice = {
+  lastId: 0,
+  notices: [],
 }
 
 export const initialState = {
@@ -76,7 +76,7 @@ export const initialState = {
   timeTable: initialTimeTable,
   search: initialSearch,
   error: initialError,
-  response: initialResponse,
+  notice: initialNotice,
   toHome: false,
   toSignIn: false,
   semesters: [],

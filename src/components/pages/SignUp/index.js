@@ -6,17 +6,11 @@ import { initialErrorUnit } from '../../../store/ttrs/selectors'
 import Notice from '../../atoms/Notice'
 
 class SignUp extends React.Component {
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(props) {
     if (props.toSignIn) {
       setTimeout(() => {
         props.router.push('/sign-in')
       }, 4000)
-    }
-    if (state.response !== props.response) {
-      return {
-        response: props.response,
-        notice: true,
-      }
     }
     return null
   }
@@ -33,8 +27,6 @@ class SignUp extends React.Component {
       collegeIndex: null,
       departmentIndex: null,
       majorIndex: null,
-      response: props.response,
-      notice: false,
     }
   }
 
@@ -71,11 +63,6 @@ class SignUp extends React.Component {
   }
 
   render() {
-    if (this.state.notice) {
-      setTimeout(() => {
-        this.setState({ notice: false })
-      }, this.state.response > 0 ? 4000 : 2000)
-    }
     const errors = this.props.errors
 
     const gradeOptions = [1, 2, 3, 4, 5, 6].map(grade => ({ key: grade, text: grade, value: grade }))
@@ -106,11 +93,6 @@ class SignUp extends React.Component {
             height: 100%;
           }`}
         </style>
-        <Notice
-          openSuccess={this.state.notice && this.state.response > 0}
-          openError={this.state.notice && this.state.response < 0}
-          textSuccess={<div>You have successfully joined the membership.<br />Return to sign in page...</div>}
-        />
         <Grid
           style={{ height: '100%' }}
           verticalAlign="middle"
