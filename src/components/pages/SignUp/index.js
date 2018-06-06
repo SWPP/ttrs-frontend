@@ -3,31 +3,24 @@ import PropTypes from 'prop-types'
 import { Form, Grid, Header, Segment, Button, Message } from 'semantic-ui-react'
 import { customErrors } from '../../../services/error_utility'
 import { initialErrorUnit } from '../../../store/ttrs/selectors'
-import Notice from '../../atoms/Notice'
 
 class SignUp extends React.Component {
   static getDerivedStateFromProps(props) {
     if (props.toSignIn) {
-      setTimeout(() => {
-        props.router.push('/sign-in')
-      }, 4000)
+      props.router.push('/sign-in')
     }
     return null
   }
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      username: '',
-      password: '',
-      passwordConfirm: '',
-      email: '',
-      grade: null,
-      collegeIndex: null,
-      departmentIndex: null,
-      majorIndex: null,
-    }
+  state = {
+    username: '',
+    password: '',
+    passwordConfirm: '',
+    email: '',
+    grade: null,
+    collegeIndex: null,
+    departmentIndex: null,
+    majorIndex: null,
   }
 
   componentWillUnmount() {

@@ -1,8 +1,13 @@
-import { initialState, initialTimeTable, initialError, initialSearch, initialNotice } from './selectors'
+import {
+  initialState, initialTimeTable, initialError, initialSearch, initialNotice,
+  initialStudentInfo,
+} from './selectors'
 import * as actions from './actions'
 
 const studentInfo = (state = [], action) => {
   switch (action.type) {
+    case actions.WITHDRAW_RESPONSE:
+      return initialStudentInfo
     case actions.SIGN_IN_RESPONSE:
       return {
         ...state,
@@ -255,6 +260,19 @@ const error = (state = initialError, action) => {
   }
 }
 
+const newNotice = (state, newId, message = undefined) => {
+  return {
+    lastId: newId,
+    notices: [
+      ...state.notices,
+      {
+        id: newId,
+        message,
+      },
+    ],
+  }
+}
+
 const notice = (state = initialNotice, action) => {
   const newId = state.lastId + 1
   const notices = []
@@ -278,27 +296,11 @@ const notice = (state = initialNotice, action) => {
         })),
       }
     case actions.SIGN_UP_RESPONSE:
-      return {
-        lastId: newId,
-        notices: [
-          ...state.notices,
-          {
-            id: newId,
-            message: 'You have successfully joined the membership. Return to sign in page...',
-            duration: 4000,
-          },
-        ],
-      }
+      return newNotice(state, newId, 'You have successfully joined the membership.')
     case actions.UPDATE_STUDENT_INFO_RESPONSE:
-      return {
-        lastId: newId,
-        notices: [
-          ...state.notices,
-          {
-            id: newId,
-          },
-        ],
-      }
+      return newNotice(state, newId)
+    case actions.WITHDRAW_RESPONSE:
+      return newNotice(state, newId, 'You have successfully withdrawn the membership.')
     case actions.SET_ERRORS:
       return (Object.keys(action.errors.bools).length > 0 || Object.keys(action.errors.texts).length > 0)
         ? {
@@ -307,7 +309,6 @@ const notice = (state = initialNotice, action) => {
             ...state.notices,
             {
               id: -newId,
-              visible: false,
             },
           ],
         }
@@ -328,12 +329,20 @@ const ttrsReducer = (state = initialState, action) => {
       return {
         ...state,
         studentInfo: studentInfo(state.studentInfo, action),
-        toHome: true,
+        toGo: 'home',
+        notice: notice(state.notice, action),
       }
     case actions.SIGN_UP_RESPONSE:
       return {
         ...state,
-        toSignIn: true,
+        toGo: 'signIn',
+        notice: notice(state.notice, action),
+      }
+    case actions.WITHDRAW_RESPONSE:
+      return {
+        ...state,
+        toGo: 'signIn',
+        studentInfo: studentInfo(state.notice, action),
         notice: notice(state.notice, action),
       }
     case actions.CLEAR_STATE:

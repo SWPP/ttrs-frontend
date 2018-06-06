@@ -37,7 +37,8 @@ export const COPY_TO_MY_TIME_TABLE_REQUEST = 'COPY_TO_MY_TIME_TABLE_REQUEST'
 export const COPY_TO_MY_TIME_TABLE_RESPONSE = 'COPY_TO_MY_TIME_TABLE_RESPONSE'
 export const UPDATE_STUDENT_INFO_REQUEST = 'UPDATE_STUDENT_INFO_REQUEST'
 export const UPDATE_STUDENT_INFO_RESPONSE = 'UPDATE_STUDENT_INFO_RESPONSE'
-export const WITHDRAW = 'WITHDRAW'
+export const WITHDRAW_REQUEST = 'WITHDRAW_REQUEST'
+export const WITHDRAW_RESPONSE = 'WITHDRAW_RESPONSE'
 export const DELETE_TIME_TABLE = 'DELETE_TIME_TABLE'
 export const DELETE_MY_TIME_TABLE = 'DELETE_MY_TIME_TABLE'
 export const DELETE_BOOKMARKED_TIME_TABLE = 'DELETE_BOOKMARKED_TIME_TABLE'
@@ -339,9 +340,15 @@ export const updateStudentInfoResponse = (info) => {
   }
 }
 
-export const withdraw = () => {
+export const withdrawRequest = () => {
   return {
-    type: WITHDRAW,
+    type: WITHDRAW_REQUEST,
+  }
+}
+
+export const withdrawResponse = () => {
+  return {
+    type: WITHDRAW_RESPONSE,
   }
 }
 

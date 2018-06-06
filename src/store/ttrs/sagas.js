@@ -390,10 +390,11 @@ function* updateStudentInfo(info) {
 
 function* withdraw() {
   try {
-    yield call(axios.delete, 'ttrs/students/my/', config)
-    yield put(actions.clearState())
+    const response = yield call(axios.delete, 'ttrs/students/my/', config)
+    console.log('withdraw response', response)
+    yield put(actions.withdrawResponse())
   } catch (error) {
-    console.log('failed to withdraw')
+    console.log('withdraw error')
   }
 }
 
@@ -637,7 +638,7 @@ function* watchUpdateStudentInfo() {
 
 function* watchWithdraw() {
   while (true) {
-    yield take(actions.WITHDRAW)
+    yield take(actions.WITHDRAW_REQUEST)
     yield call(withdraw)
   }
 }

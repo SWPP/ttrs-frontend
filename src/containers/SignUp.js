@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
 import SignUp from '../components/pages/SignUp'
-import { clearState, setErrors, signUpRequest } from '../store/ttrs/actions'
+import { setErrors, signUpRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
-    toSignIn: state.ttrs.toSignIn,
+    toSignIn: state.ttrs.toGo === 'signIn',
     colleges: state.ttrs.belongInfo.colleges,
     errors: state.ttrs.error.signUp,
   }
