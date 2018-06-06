@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Form, Modal, Card, Pagination, Icon } from 'semantic-ui-react'
+import { Button, Form, Modal, Card, Pagination, Icon, Grid, Divider } from 'semantic-ui-react'
 import Lecture from '../../../containers/Lecture'
 
 const limit = 6
@@ -114,91 +114,119 @@ class SearchLecture extends React.Component {
                 this.handleSearchLecture()
               }}
             >
-              <Form.Group inline>
-                <Form.Input
-                  label="Course Name"
-                  name="course.name.abbrev"
-                  onChange={this.handleChange}
-                />
-                <Form.Input
-                  label="Course Code"
-                  name="course.code"
-                  onChange={this.handleChange}
-                />
-                <Form.Input
-                  label="Instructor"
-                  name="instructor"
-                  onChange={this.handleChange}
-                />
-              </Form.Group>
-              <Form.Group inline>
-                <Form.Select
-                  label="College"
-                  placeholder="College"
-                  options={collegeOptions}
-                  name="collegeIndex"
-                  value={this.state.collegeIndex}
-                  onChange={(e, { name, value }) => {
-                    this.setState({ [name]: value })
-                    this.setState({ departmentIndex: null })
-                    this.setState({ majorIndex: null })
-                  }}
-                />
-                <Form.Select
-                  label="Department"
-                  placeholder="Department"
-                  options={departmentOptions}
-                  name="departmentIndex"
-                  value={this.state.departmentIndex}
-                  onChange={(e, { name, value }) => {
-                    this.setState({ [name]: value })
-                    this.setState({ majorIndex: null })
-                  }}
-                />
-                <Form.Select
-                  label="Major"
-                  placeholder="Major"
-                  options={majorOptions}
-                  name="majorIndex"
-                  value={this.state.majorIndex}
-                  onChange={this.handleChange}
-                />
-              </Form.Group>
-              <Form.Group inline>
-                <Form.Select
-                  label="Type"
-                  placeholder="Type"
-                  options={typeOptions}
-                  name="course.type"
-                  value={this.state['course.type']}
-                  onChange={this.handleChange}
-                />
-                <Form.Select
-                  label="Grade"
-                  placeholder="Grade"
-                  options={gradeOptions}
-                  name="course.grade"
-                  value={this.state['course.grade']}
-                  onChange={this.handleChange}
-                />
-                <Form.Input
-                  label="Credit"
-                  placeholder="GTE"
-                  name="course.credit.gte"
-                  onChange={this.handleChange}
-                />
-                <Form.Input
-                  placeholder="LTE"
-                  name="course.credit.lte"
-                  onChange={this.handleChange}
-                />
-              </Form.Group>
+              <Grid>
+                <Grid.Row columns={5}>
+                  <Grid.Column>
+                    <Form.Input
+                      label="Course Name"
+                      name="course.name.abbrev"
+                      onChange={this.handleChange}
+                    />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Form.Input
+                      label="Course Code"
+                      name="course.code"
+                      onChange={this.handleChange}
+                    />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Form.Input
+                      label="Instructor"
+                      name="instructor"
+                      onChange={this.handleChange}
+                    />
+                  </Grid.Column>
+                </Grid.Row>
+
+                <Grid.Row columns={5}>
+                  <Grid.Column>
+                    <Form.Select
+                      label="College"
+                      placeholder="College"
+                      options={collegeOptions}
+                      name="collegeIndex"
+                      value={this.state.collegeIndex}
+                      onChange={(e, { name, value }) => {
+                        this.setState({ [name]: value })
+                        this.setState({ departmentIndex: null })
+                        this.setState({ majorIndex: null })
+                      }}
+                    />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Form.Select
+                      label="Department"
+                      placeholder="Department"
+                      options={departmentOptions}
+                      name="departmentIndex"
+                      value={this.state.departmentIndex}
+                      onChange={(e, { name, value }) => {
+                        this.setState({ [name]: value })
+                        this.setState({ majorIndex: null })
+                      }}
+                    />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Form.Select
+                      label="Major"
+                      placeholder="Major"
+                      options={majorOptions}
+                      name="majorIndex"
+                      value={this.state.majorIndex}
+                      onChange={this.handleChange}
+                    />
+                  </Grid.Column>
+                </Grid.Row>
+
+                <Grid.Row columns={5}>
+                  <Grid.Column>
+                    <Form.Select
+                      label="Type"
+                      placeholder="Type"
+                      options={typeOptions}
+                      name="course.type"
+                      value={this.state['course.type']}
+                      onChange={this.handleChange}
+                    />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Form.Select
+                      label="Grade"
+                      placeholder="Grade"
+                      options={gradeOptions}
+                      name="course.grade"
+                      value={this.state['course.grade']}
+                      onChange={this.handleChange}
+                    />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Form.Group inline>
+                      <Form.Input
+                        label="Credit"
+                        placeholder="GTE"
+                        name="course.credit.gte"
+                        onChange={this.handleChange}
+                      />
+                      <span style={{ marginTop: 10 }}>~&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                      <Form.Input
+                        label={''}
+                        placeholder="LTE"
+                        name="course.credit.lte"
+                        onChange={this.handleChange}
+                      />
+                    </Form.Group>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
               <Form.Button
+                style={{ float: 'right', marginTop: -3 }}
                 color="teal"
                 type="submit"
                 content="Search"
               />
             </Form>
+            <Divider style={{ marginRight: 2 }} />
           </Modal.Content>
           <div className="scrolling content">
             <Card.Group itemsPerRow={3} doubling stackable>
