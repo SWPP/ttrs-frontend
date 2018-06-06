@@ -8,6 +8,10 @@ const limit = 6
 class SearchLecture extends React.Component {
   state = {
     'course.name.abbrev': '',
+    'course.code': '',
+    collegeIndex: null,
+    departmentIndex: null,
+    majorIndex: null,
     page: 1,
   }
 
@@ -23,6 +27,18 @@ class SearchLecture extends React.Component {
     if (this.state['course.name.abbrev']) {
       options['course.name.abbrev'] = this.state['course.name.abbrev']
     }
+    if (this.state['course.code']) {
+      options['course.code'] = this.state['course.code']
+    }
+    if (this.state.collegeIndex !== null) {
+      options['course.college'] = this.props.colleges[this.state.collegeIndex].id
+      if (this.state.departmentIndex !== null) {
+        options['course.department'] = this.props.colleges[this.state.collegeIndex].departments[this.state.departmentIndex].id
+        if (this.state.majorIndex !== null) {
+          options['course.major'] = this.props.colleges[this.state.collegeIndex].departments[this.state.departmentIndex].majors[this.state.majorIndex].id
+        }
+      }
+    }
     this.props.onSearchLecture(options)
   }
 
@@ -32,6 +48,28 @@ class SearchLecture extends React.Component {
   }
 
   render() {
+    const collegeOptions = [{ key: -1, text: '---', value: null }]
+    collegeOptions.push(...this.props.colleges.map((college, index) => ({
+      key: college.id,
+      text: college.name,
+      value: index,
+    })))
+    const departmentOptions = [{ key: -1, text: '---', value: null }]
+    if (this.state.collegeIndex !== null) {
+      departmentOptions.push(...this.props.colleges[this.state.collegeIndex].departments.map((department, index) => ({
+        key: department.id,
+        text: department.name,
+        value: index,
+      })))
+    }
+    const majorOptions = [{ key: -1, text: '---', value: null }]
+    if (this.state.departmentIndex !== null) {
+      majorOptions.push(...this.props.colleges[this.state.collegeIndex].departments[this.state.departmentIndex].majors.map((major, index) => ({
+        key: major.id,
+        text: major.name,
+        value: index,
+      })))
+    }
     return (
       <div>
         <Modal
@@ -54,11 +92,51 @@ class SearchLecture extends React.Component {
                 this.handleSearchLecture()
               }}
             >
-              <Form.Input
-                label="Course Name"
-                name="course.name.abbrev"
-                onChange={this.handleChange}
-              />
+              <Form.Group inline>
+                <Form.Input
+                  label="Course Name"
+                  name="course.name.abbrev"
+                  onChange={this.handleChange}
+                />
+                <Form.Input
+                  label="Course Code"
+                  name="course.code"
+                  onChange={this.handleChange}
+                />
+              </Form.Group>
+              <Form.Group inline>
+                <Form.Select
+                  label="College"
+                  placeholder="College"
+                  options={collegeOptions}
+                  name="collegeIndex"
+                  value={this.state.collegeIndex}
+                  onChange={(e, { name, value }) => {
+                    this.setState({ [name]: value })
+                    this.setState({ departmentIndex: null })
+                    this.setState({ majorIndex: null })
+                  }}
+                />
+                <Form.Select
+                  label="Department"
+                  placeholder="Department"
+                  options={departmentOptions}
+                  name="departmentIndex"
+                  value={this.state.departmentIndex}
+                  onChange={(e, { name, value }) => {
+                    this.setState({ [name]: value })
+                    this.setState({ majorIndex: null })
+                  }}
+                />
+                <Form.Select
+                  label="Major"
+                  placeholder="Major"
+                  options={majorOptions}
+                  name="majorIndex"
+                  value={this.state.majorIndex}
+                  onChange={this.handleChange}
+                />
+              </Form.Group>
               <Form.Button
                 color="teal"
                 type="submit"
@@ -103,6 +181,7 @@ class SearchLecture extends React.Component {
 SearchLecture.propTypes = {
   searchLectures: PropTypes.array,
   count: PropTypes.number,
+  colleges: PropTypes.array,
   onSearchLecture: PropTypes.func,
   onAddLecture: PropTypes.func,
   onAddToNotRecommends: PropTypes.func,

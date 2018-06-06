@@ -6,6 +6,7 @@ const mapStateToProps = (state) => {
   return {
     searchLectures: state.ttrs.search.lectures,
     count: state.ttrs.search.count,
+    colleges: state.ttrs.belongInfo.colleges,
   }
 }
 
