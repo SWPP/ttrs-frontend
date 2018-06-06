@@ -12,6 +12,10 @@ class SearchLecture extends React.Component {
     collegeIndex: null,
     departmentIndex: null,
     majorIndex: null,
+    'course.type': null,
+    'course.grade': null,
+    'course.credit.gte': '',
+    'course.credit.lte': '',
     page: 1,
   }
 
@@ -38,6 +42,18 @@ class SearchLecture extends React.Component {
           options['course.major'] = this.props.colleges[this.state.collegeIndex].departments[this.state.departmentIndex].majors[this.state.majorIndex].id
         }
       }
+    }
+    if (this.state['course.type']) {
+      options['course.type'] = this.state['course.type']
+    }
+    if (this.state['course.grade']) {
+      options['course.grade'] = this.state['course.grade']
+    }
+    if (this.state['course.credit.gte']) {
+      options['course.credit.gte'] = this.state['course.credit.gte']
+    }
+    if (this.state['course.credit.lte']) {
+      options['course.credit.lte'] = this.state['course.credit.lte']
     }
     this.props.onSearchLecture(options)
   }
@@ -70,6 +86,8 @@ class SearchLecture extends React.Component {
         value: index,
       })))
     }
+    const typeOptions = ['교양', '전필', '전선', '일선', '교직'].map(type => ({ key: type, text: type, value: type }))
+    const gradeOptions = [1, 2, 3, 4, 5, 6].map(grade => ({ key: grade, text: grade, value: grade }))
     return (
       <div>
         <Modal
@@ -134,6 +152,33 @@ class SearchLecture extends React.Component {
                   options={majorOptions}
                   name="majorIndex"
                   value={this.state.majorIndex}
+                  onChange={this.handleChange}
+                />
+              </Form.Group>
+              <Form.Group inline>
+                <Form.Select
+                  label="Type"
+                  placeholder="Type"
+                  options={typeOptions}
+                  name="course.type"
+                  value={this.state['course.type']}
+                  onChange={this.handleChange}
+                />
+                <Form.Select
+                  label="Grade"
+                  placeholder="Grade"
+                  options={gradeOptions}
+                  name="course.grade"
+                  value={this.state['course.grade']}
+                  onChange={this.handleChange}
+                />
+                <Form.Input
+                  label="Credit"
+                  name="course.credit.gte"
+                  onChange={this.handleChange}
+                />
+                <Form.Input
+                  name="course.credit.lte"
                   onChange={this.handleChange}
                 />
               </Form.Group>
