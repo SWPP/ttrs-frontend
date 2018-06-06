@@ -9,6 +9,7 @@ class SearchLecture extends React.Component {
   state = {
     'course.name.abbrev': '',
     'course.code': '',
+    instructor: '',
     collegeIndex: null,
     departmentIndex: null,
     majorIndex: null,
@@ -33,6 +34,9 @@ class SearchLecture extends React.Component {
     }
     if (this.state['course.code']) {
       options['course.code'] = this.state['course.code']
+    }
+    if (this.state.instructor) {
+      options.instructor = this.state.instructor
     }
     if (this.state.collegeIndex !== null) {
       options['course.college'] = this.props.colleges[this.state.collegeIndex].id
@@ -121,6 +125,11 @@ class SearchLecture extends React.Component {
                   name="course.code"
                   onChange={this.handleChange}
                 />
+                <Form.Input
+                  label="Instructor"
+                  name="instructor"
+                  onChange={this.handleChange}
+                />
               </Form.Group>
               <Form.Group inline>
                 <Form.Select
@@ -174,10 +183,12 @@ class SearchLecture extends React.Component {
                 />
                 <Form.Input
                   label="Credit"
+                  placeholder="GTE"
                   name="course.credit.gte"
                   onChange={this.handleChange}
                 />
                 <Form.Input
+                  placeholder="LTE"
                   name="course.credit.lte"
                   onChange={this.handleChange}
                 />
