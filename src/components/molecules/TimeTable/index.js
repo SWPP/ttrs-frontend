@@ -291,6 +291,7 @@ TimeTable.propTypes = {
   canCopyToMy: PropTypes.bool,
   canDelete: PropTypes.bool,
   canCreate: PropTypes.bool,
+  haveSidebar: PropTypes.bool,
 
   onCopyToMy: PropTypes.func,
   onBookmark: PropTypes.func,
@@ -299,7 +300,6 @@ TimeTable.propTypes = {
   onAddLecture: PropTypes.func,
   onDeleteLecture: PropTypes.func,
   onDeleteTimeTable: PropTypes.func,
-  haveSidebar: PropTypes.bool,
   onOpenSidebar: PropTypes.func,
 }
 
