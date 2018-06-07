@@ -110,7 +110,7 @@ class TimeTable extends React.Component {
                   <Popup
                     trigger={<button
                       className="ui icon button"
-                      onClick={() => this.setState({isModifyingTitle: true})}
+                      onClick={() => this.setState({ isModifyingTitle: true })}
                       style={iconButtonStyle}
                     >
                       <Icon name="pencil" />
@@ -150,13 +150,13 @@ class TimeTable extends React.Component {
                   <Button
                     icon="add"
                     content="Add Lecture"
-                    style={{...iconButtonStyle, paddingLeft: 10, paddingRight: 10}}
-                    onClick={() => this.setState({searchOpen: true})}
+                    style={{ ...iconButtonStyle, paddingLeft: 10, paddingRight: 10 }}
+                    onClick={() => this.setState({ searchOpen: true })}
                   />
                   {this.state.searchOpen &&
                   <SearchLecture
                     onAddLecture={this.props.onAddLecture}
-                    onClose={() => this.setState({searchOpen: false})}
+                    onClose={() => this.setState({ searchOpen: false })}
                     onAddToNotRecommends={(courseId) => this.props.onAddToNotRecommends(this.props.notRecommends, courseId)}
                   />}
                 </div>}
@@ -166,7 +166,7 @@ class TimeTable extends React.Component {
             </Menu.Item>}
             {this.props.id !== null &&
             <Menu.Item active fitted>
-              <div style={{paddingLeft: 10, paddingRight: 10}}>
+              <div style={{ paddingLeft: 10, paddingRight: 10 }}>
                 {this.props.canCopyToMy &&
                 <Popup
                   trigger={<button
@@ -174,7 +174,7 @@ class TimeTable extends React.Component {
                     onClick={() => this.props.onCopyToMy(this.props.id)}
                     style={iconButtonStyle}
                   >
-                    <Icon name="copy"/>
+                    <Icon name="copy" />
                   </button>}
                   content="Copy this timetable to mine"
                   inverted
@@ -186,7 +186,7 @@ class TimeTable extends React.Component {
                     onClick={() => this.props.onBookmark(this.props.id)}
                     style={iconButtonStyle}
                   >
-                    <Icon name="bookmark"/>
+                    <Icon name="bookmark" />
                   </button>}
                   content="Bookmark this timetable"
                   inverted
@@ -194,10 +194,10 @@ class TimeTable extends React.Component {
                 <Popup
                   trigger={<button
                     className="ui icon button"
-                    onClick={() => this.setState({isSending: true})}
+                    onClick={() => this.setState({ isSending: true })}
                     style={iconButtonStyle}
                   >
-                    <Icon name="send"/>
+                    <Icon name="send" />
                   </button>}
                   content={this.state.isSending ?
                     <Form>
@@ -216,7 +216,7 @@ class TimeTable extends React.Component {
                       />
                     </Form> :
                     'Send this timetable to other student'}
-                  onClose={() => this.setState({isSending: false})}
+                  onClose={() => this.setState({ isSending: false })}
                   on={this.state.isSending ? 'click' : 'hover'}
                   inverted={!this.state.isSending}
                 />
@@ -224,15 +224,15 @@ class TimeTable extends React.Component {
                 <Popup
                   trigger={<button
                     className="ui icon button"
-                    onClick={() => this.setState({isDeleting: true})}
+                    onClick={() => this.setState({ isDeleting: true })}
                     style={iconButtonStyle}
                   >
-                    <Icon name="trash" color="red"/>
+                    <Icon name="trash" color="red" />
                   </button>}
                   content={this.state.isDeleting ?
-                    <Button color="red" content="Delete" onClick={() => this.props.onDeleteTimeTable(this.props.id)}/> :
+                    <Button color="red" content="Delete" onClick={() => this.props.onDeleteTimeTable(this.props.id)} /> :
                     'Delete this timetable'}
-                  onClose={() => this.setState({isDeleting: false})}
+                  onClose={() => this.setState({ isDeleting: false })}
                   on={this.state.isDeleting ? 'click' : 'hover'}
                   inverted={!this.state.isDeleting}
                 />}
