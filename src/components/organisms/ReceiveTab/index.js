@@ -10,7 +10,7 @@ class ReceiveTab extends React.Component {
     receivedTimeTableIndex: 0,
   }
 
-  handleClick = (index) => {
+  handleClickCard = (index) => {
     this.setState({ sidebarVisible: false })
     if (this.state.receivedTimeTableIndex !== index) {
       this.setState({ receivedTimeTableIndex: index })
@@ -48,7 +48,7 @@ class ReceiveTab extends React.Component {
               {this.props.receivedTimeTables.map((timeTable, index) =>
                 <Card
                   key={timeTable.id}
-                  onClick={() => this.handleClick(index)}
+                  onClick={() => this.handleClickCard(index)}
                   fluid
                   style={{ paddingRight: 15 }}
                   color={this.state.receivedTimeTableIndex === index ? 'teal' : (timeTable.receivedAt === null ? 'red' : null)}
