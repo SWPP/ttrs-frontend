@@ -102,6 +102,7 @@ class TimeTable extends React.Component {
     isSending: false,
     isDeleting: false,
     searchOpen: false,
+    openId: null,
   }
 
   componentWillReceiveProps(nextProps) {

@@ -234,7 +234,7 @@ class SettingsTab extends React.Component {
                       inverted
                       onClick={() => this.props.onDeleteFromNotRecommends(this.props.notRecommends, course.id)}
                     />}
-                    content="Allow to recommend this lecture from now."
+                    content="Allow to recommend this course from now."
                     inverted
                   />
                 </List.Content>

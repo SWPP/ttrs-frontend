@@ -73,7 +73,7 @@ const timeTable = (state = [], action) => {
           ...action.updatedInfo,
         },
       }
-    case actions.DELETE_LECTURE_FROM_MY_TIME_TABLE:
+    case actions.DELETE_LECTURE_FROM_MY_TIME_TABLE_RESPONSE:
       lectures = []
       state.myTimeTable.lectures.forEach((lecture) => {
         if (lecture.id !== action.lectureId) {
@@ -131,7 +131,7 @@ const timeTable = (state = [], action) => {
         bookmarkedTimeTables: [...bookmarkedTimeTables],
         bookmarkedTimeTable: bookmarkedTimeTables.length === 1 ? action.bookmarkedTimeTable : state.bookmarkedTimeTable,
       }
-    case actions.DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE:
+    case actions.DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE_RESPONSE:
       lectures = []
       state.bookmarkedTimeTable.lectures.forEach((lecture) => {
         if (lecture.id !== action.deleteLectureId) {
@@ -185,12 +185,12 @@ const timeTable = (state = [], action) => {
         ...state,
         myTimeTable: action.myTimeTable,
       }
-    case actions.DELETE_MY_TIME_TABLE:
+    case actions.DELETE_MY_TIME_TABLE_RESPONSE:
       return {
         ...state,
         myTimeTable: initialTimeTable.myTimeTable,
       }
-    case actions.DELETE_BOOKMARKED_TIME_TABLE:
+    case actions.DELETE_BOOKMARKED_TIME_TABLE_RESPONSE:
       bookmarkedTimeTables = []
       state.bookmarkedTimeTables.forEach((timeTable) => {
         if (timeTable.id !== action.timeTableId) {
@@ -202,7 +202,7 @@ const timeTable = (state = [], action) => {
         bookmarkedTimeTables: [...bookmarkedTimeTables],
         bookmarkedTimeTable: action.timeTable,
       }
-    case actions.DELETE_RECEIVED_TIME_TABLE:
+    case actions.DELETE_RECEIVED_TIME_TABLE_RESPONSE:
       receivedTimeTables = []
       state.receivedTimeTables.forEach((timeTable) => {
         if (timeTable.id !== action.timeTableId) {
@@ -262,7 +262,7 @@ const error = (state = initialError, action) => {
 
 const newNotice = (state, newId, message = undefined) => {
   return {
-    lastId: newId,
+    lastId: Math.abs(newId),
     notices: [
       ...state.notices,
       {
@@ -298,20 +298,34 @@ const notice = (state = initialNotice, action) => {
     case actions.SIGN_UP_RESPONSE:
       return newNotice(state, newId, 'You have successfully joined the membership.')
     case actions.UPDATE_STUDENT_INFO_RESPONSE:
+    case actions.UPDATE_MY_TIME_TABLE_INFO:
+    case actions.UPDATE_BOOKMARKED_TIME_TABLE_INFO:
       return newNotice(state, newId)
     case actions.WITHDRAW_RESPONSE:
       return newNotice(state, newId, 'You have successfully withdrawn the membership.')
+    case actions.ADD_LECTURE_TO_MY_TIME_TABLE:
+    case actions.ADD_LECTURE_TO_BOOKMARKED_TIME_TABLE:
+      return newNotice(state, newId, 'Added successfully.')
+    case actions.DELETE_MY_TIME_TABLE_RESPONSE:
+    case actions.DELETE_BOOKMARKED_TIME_TABLE_RESPONSE:
+    case actions.DELETE_RECEIVED_TIME_TABLE_RESPONSE:
+    case actions.DELETE_LECTURE_FROM_MY_TIME_TABLE_RESPONSE:
+    case actions.DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE_RESPONSE:
+      return newNotice(state, newId, 'Deleted successfully.')
+    case actions.ADD_TO_NOT_RECOMMENDS_RESPONSE:
+      return newNotice(state, newId, 'The course won\'t be recommended.')
+    case actions.COPY_TO_MY_TIME_TABLE_RESPONSE:
+      return newNotice(state, newId, 'Copied to mine successfully.')
+    case actions.BOOKMARK_RESPONSE:
+      return newNotice(state, newId, 'Bookmarked successfully.')
+    case actions.SEND_TIME_TABLE:
+      return newNotice(state, newId, 'Sent successfully.')
     case actions.SET_ERRORS:
+      if (action.message) {
+        return newNotice(state, -newId, action.message)
+      }
       return (Object.keys(action.errors.bools).length > 0 || Object.keys(action.errors.texts).length > 0)
-        ? {
-          lastId: newId,
-          notices: [
-            ...state.notices,
-            {
-              id: -newId,
-            },
-          ],
-        }
+        ? newNotice(state, -newId)
         : state
     default:
       return state

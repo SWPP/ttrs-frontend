@@ -15,7 +15,7 @@ export const CREATE_MY_TIME_TABLE = 'CREATE_MY_TIME_TABLE'
 export const UPDATE_MY_TIME_TABLE_REQUEST = 'UPDATE_MY_TIME_TABLE_REQUEST'
 export const ADD_LECTURE_TO_MY_TIME_TABLE = 'ADD_LECTURE_TO_MY_TIME_TABLE'
 export const UPDATE_MY_TIME_TABLE_INFO = 'UPDATE_MY_TIME_TABLE_INFO'
-export const DELETE_LECTURE_FROM_MY_TIME_TABLE = 'DELETE_LECTURE_FROM_MY_TIME_TABLE'
+export const DELETE_LECTURE_FROM_MY_TIME_TABLE_RESPONSE = 'DELETE_LECTURE_FROM_MY_TIME_TABLE_RESPONSE'
 export const SWITCH_SEMESTER = 'SWITCH_SEMESTER'
 export const CREATE_BOOKMARKED_TIME_TABLES = 'CREATE_BOOKMARKED_TIME_TABLES'
 export const SELECT_BOOKMARKED_TIME_TABLE_REQUEST = 'SELECT_BOOKMARKED_TIME_TABLE_REQUEST'
@@ -25,7 +25,7 @@ export const ADD_LECTURE_TO_BOOKMARKED_TIME_TABLE = 'ADD_LECTURE_TO_BOOKMARKED_T
 export const UPDATE_BOOKMARKED_TIME_TABLE_INFO = 'UPDATE_BOOKMARKED_TIME_TABLE_INFO'
 export const BOOKMARK_REQUEST = 'BOOKMARK_REQUEST'
 export const BOOKMARK_RESPONSE = 'BOOKMARK_RESPONSE'
-export const DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE = 'DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE'
+export const DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE_RESPONSE = 'DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE_RESPONSE'
 export const SEND_TIME_TABLE = 'SEND_TIME_TABLE'
 export const CREATE_RECEIVED_TIME_TABLES = 'CREATE_RECEIVED_TIME_TABLES'
 export const SELECT_RECEIVED_TIME_TABLE_REQUEST = 'SELECT_RECEIVED_TIME_TABLE_REQUEST'
@@ -39,10 +39,10 @@ export const UPDATE_STUDENT_INFO_REQUEST = 'UPDATE_STUDENT_INFO_REQUEST'
 export const UPDATE_STUDENT_INFO_RESPONSE = 'UPDATE_STUDENT_INFO_RESPONSE'
 export const WITHDRAW_REQUEST = 'WITHDRAW_REQUEST'
 export const WITHDRAW_RESPONSE = 'WITHDRAW_RESPONSE'
-export const DELETE_TIME_TABLE = 'DELETE_TIME_TABLE'
-export const DELETE_MY_TIME_TABLE = 'DELETE_MY_TIME_TABLE'
-export const DELETE_BOOKMARKED_TIME_TABLE = 'DELETE_BOOKMARKED_TIME_TABLE'
-export const DELETE_RECEIVED_TIME_TABLE = 'DELETE_RECEIVED_TIME_TABLE'
+export const DELETE_TIME_TABLE_REQUEST = 'DELETE_TIME_TABLE_REQUEST'
+export const DELETE_MY_TIME_TABLE_RESPONSE = 'DELETE_MY_TIME_TABLE_RESPONSE'
+export const DELETE_BOOKMARKED_TIME_TABLE_RESPONSE = 'DELETE_BOOKMARKED_TIME_TABLE_RESPONSE'
+export const DELETE_RECEIVED_TIME_TABLE_RESPONSE = 'DELETE_RECEIVED_TIME_TABLE_RESPONSE'
 export const ADD_TO_NOT_RECOMMENDS_REQUEST = 'ADD_TO_NOT_RECOMMENDS_REQUEST'
 export const ADD_TO_NOT_RECOMMENDS_RESPONSE = 'ADD_TO_NOT_RECOMMENDS_RESPONSE'
 export const SET_NOT_RECOMMEND_COURSES = 'SET_NOT_RECOMMEND_COURSE_NAMES'
@@ -70,11 +70,12 @@ export const hideNotice = (id) => {
   }
 }
 
-export const setErrors = (identifier, errors) => {
+export const setErrors = (identifier, errors, message = undefined) => {
   return {
     type: SET_ERRORS,
     identifier,
     errors,
+    message,
   }
 }
 
@@ -177,9 +178,9 @@ export const updateMyTimeTableInfo = (updatedInfo) => {
   }
 }
 
-export const deleteLectureFromMyTimeTable = (lectureId) => {
+export const deleteLectureFromMyTimeTableResponse = (lectureId) => {
   return {
-    type: DELETE_LECTURE_FROM_MY_TIME_TABLE,
+    type: DELETE_LECTURE_FROM_MY_TIME_TABLE_RESPONSE,
     lectureId,
   }
 }
@@ -253,9 +254,9 @@ export const bookmarkResponse = (bookmarkedTimeTable) => {
   }
 }
 
-export const deleteLectureFromBookmarkedTimeTable = (index, deleteLectureId) => {
+export const deleteLectureFromBookmarkedTimeTableResponse = (index, deleteLectureId) => {
   return {
-    type: DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE,
+    type: DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE_RESPONSE,
     index,
     deleteLectureId,
   }
@@ -352,32 +353,32 @@ export const withdrawResponse = () => {
   }
 }
 
-export const deleteTimeTable = (timeTableId, timeTableType, timeTables) => {
+export const deleteTimeTableRequest = (timeTableId, timeTableType, timeTables) => {
   return {
-    type: DELETE_TIME_TABLE,
+    type: DELETE_TIME_TABLE_REQUEST,
     timeTableId,
     timeTableType,
     timeTables,
   }
 }
 
-export const deleteMyTimeTable = () => {
+export const deleteMyTimeTableResponse = () => {
   return {
-    type: DELETE_MY_TIME_TABLE,
+    type: DELETE_MY_TIME_TABLE_RESPONSE,
   }
 }
 
-export const deleteBookmarkedTimeTable = (timeTableId, timeTable) => {
+export const deleteBookmarkedTimeTableResponse = (timeTableId, timeTable) => {
   return {
-    type: DELETE_BOOKMARKED_TIME_TABLE,
+    type: DELETE_BOOKMARKED_TIME_TABLE_RESPONSE,
     timeTableId,
     timeTable,
   }
 }
 
-export const deleteReceivedTimeTable = (timeTableId, timeTable) => {
+export const deleteReceivedTimeTableResponse = (timeTableId, timeTable) => {
   return {
-    type: DELETE_RECEIVED_TIME_TABLE,
+    type: DELETE_RECEIVED_TIME_TABLE_RESPONSE,
     timeTableId,
     timeTable,
   }

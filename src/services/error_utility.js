@@ -39,7 +39,7 @@ import { convertToReadable, isInstanceOf } from './parser'
  *   },
  * }
  */
-export const processErrors = (rawErrors) => {
+export const processErrors = (rawErrors = {}) => {
   const bools = {}
   const texts = {}
   Object.keys(rawErrors).forEach(field => {
