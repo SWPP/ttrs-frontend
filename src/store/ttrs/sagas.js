@@ -5,6 +5,7 @@ import { convertToCStyle, convertToJavaStyle, updateURLParams } from '../../serv
 import { initialTimeTable, initialState } from './selectors'
 import { processErrors } from '../../services/error_utility'
 
+/* Axios default settings */
 axios.defaults.baseURL = 'http://127.0.0.1:8000/'
 axios.interceptors.request.use((config) => {
   const newData = convertToCStyle(config.data)
@@ -126,7 +127,7 @@ function* signIn(username, password) {
     yield put(actions.signInResponse(response.data))
   } catch (error) {
     console.log('signIn error', error.response)
-    yield put(actions.setErrors('signIn', processErrors(error.response.data)))
+    yield put(actions.setErrors('signIn', processErrors(error.response.data), 'Failed to sign in.'))
     return undefined
   }
   year = initialState.year
@@ -148,6 +149,7 @@ function* signIn(username, password) {
     yield call(getCurrentMyTimeTable, response)
   } catch (error) {
     console.log('getCurrent myTimeTable error', error.response)
+    yield put(actions.setErrors('getCurrentMyTimeTable', processErrors(error.response.data), 'Failed to get current my timetable.'))
   }
   try {
     const response = yield call(axios.get, updateURLParams('ttrs/bookmarked-time-tables/', params), config)
@@ -155,6 +157,7 @@ function* signIn(username, password) {
     yield call(getBookmarkedTimeTables, response)
   } catch (error) {
     console.log('getCurrent Bookmarked TimeTables error', error.response)
+    yield put(actions.setErrors('getCurrentBookmarkedTimeTables', processErrors(error.response.data), 'Failed to get bookmarkedtime tables.'))
   }
   try {
     const response = yield call(axios.get, updateURLParams('ttrs/received-time-tables/', params), config)
@@ -162,6 +165,7 @@ function* signIn(username, password) {
     yield call(getReceivedTimeTables, response)
   } catch (error) {
     console.log('getCurrent Received TimeTables error', error.response)
+    yield put(actions.setErrors('getCurrentReceivedTimeTables', processErrors(error.response.data), 'Failed to get received timetables.'))
   }
   try {
     const response = yield call(axios.get, updateURLParams('ttrs/recommends/', params), config)
@@ -180,7 +184,7 @@ function* signUp(studentInfo) {
     yield put(actions.signUpResponse())
   } catch (error) {
     console.log('signUp error', error.response)
-    yield put(actions.setErrors('signUp', processErrors(error.response.data)))
+    yield put(actions.setErrors('signUp', processErrors(error.response.data), 'Failed to sign up.'))
   }
 }
 
@@ -196,6 +200,7 @@ function* searchLecture(options) {
     yield put(actions.searchLectureResponse(response.data.results, response.data.count))
   } catch (error) {
     console.log('searchLecture error', error.response)
+    yield put(actions.setErrors('searchLecture', processErrors(error.response.data), 'Failed to search lectures.'))
   }
 }
 
@@ -231,6 +236,7 @@ function* updateMyTimeTable(myTimeTableId, updatedInfo, newLectureId) {
       }))
     } catch (error) {
       console.log('create MyTimeTable error', error.response)
+      yield put(actions.setErrors('createMyTimeTable', processErrors(error.response.data), 'Failed to create my timetable.'))
     }
   } else {
     try {
@@ -242,13 +248,14 @@ function* updateMyTimeTable(myTimeTableId, updatedInfo, newLectureId) {
           const lectureResponse = yield call(axios.get, `ttrs/lectures/${newLectureId}/`, config)
           yield put(actions.addLectureToMyTimeTable(lectureResponse.data))
         } else {
-          yield put(actions.deleteLectureFromMyTimeTable(-newLectureId))
+          yield put(actions.deleteLectureFromMyTimeTableResponse(-newLectureId))
         }
       } else {
         yield put(actions.updateMyTimeTableInfo(updatedInfo))
       }
     } catch (error) {
       console.log('update MyTimeTable error', error.response)
+      yield put(actions.setErrors('updateMyTimeTable', processErrors(error.response.data), 'Failed to update the timetable.'))
     }
   }
 }
@@ -279,6 +286,7 @@ function* switchSemester(newYear, newSemester) {
     yield call(getRecommendedTimeTables, recommendedTimeTableResponse)
   } catch (error) {
     console.log('switchSemester error', error.response)
+    yield put(actions.setErrors('switchSemester', processErrors(error.response.data), 'Failed to switch the semester.'))
   }
 }
 
@@ -315,13 +323,14 @@ function* updateBookmarkedTimeTable(index, timeTableId, updatedInfo, newLectureI
         const lectureResposne = yield call(axios.get, `ttrs/lectures/${newLectureId}/`, config)
         yield put(actions.addLectureToBookmarkedTimeTable(index, lectureResposne.data))
       } else {
-        yield put(actions.deleteLectureFromBookmarkedTimeTable(index, -newLectureId))
+        yield put(actions.deleteLectureFromBookmarkedTimeTableResponse(index, -newLectureId))
       }
     } else {
       yield put(actions.updateBookmarkedTimeTableInfo(index, updatedInfo))
     }
   } catch (error) {
     console.log('update BookmarkedTimeTable error', error.response)
+    yield put(actions.setErrors('updateBookmarkedTimeTable', processErrors(error.response.data), 'Failed to update the timetable.'))
   }
 }
 
@@ -335,6 +344,7 @@ function* bookmark(timeTableId) {
     yield put(actions.bookmarkResponse(getBookmarkedTimeTableResponse.data))
   } catch (error) {
     console.log('bookmark error', error.response)
+    yield put(actions.setErrors('bookmark', processErrors(error.request.data), 'Failed to bookmark the timetable.'))
   }
 }
 
@@ -344,6 +354,7 @@ function* sendTimeTable(sendInfo) {
     console.log('send Time Table response', response)
   } catch (error) {
     console.log('send Time Table error', error.response)
+    yield put(actions.setErrors('send', processErrors(error.request.data), 'Failed to send the timetable.'))
   }
 }
 
@@ -379,6 +390,7 @@ function* copyToMyTimeTable(timeTableId) {
     yield put(actions.copyToMyTimeTableResponse(getMyTimeTableResponse.data))
   } catch (error) {
     console.log('copyToMy error', error.response)
+    yield put(actions.setErrors('copyToMyTimeTable', processErrors(error.response.data), 'Failed to copy the timetable to mine.'))
   }
 }
 
@@ -394,65 +406,70 @@ function* updateStudentInfo(info) {
     }
   } catch (error) {
     console.log('update student info error', error.response)
-    yield put(actions.setErrors('settingsTab', processErrors(error.response.data)))
+    yield put(actions.setErrors('settingsTab', processErrors(error.response.data), 'Failed to update the profile.'))
   }
 }
 
 function* withdraw() {
   try {
-    yield call(axios.delete, 'ttrs/students/my/', config)
-    yield put(actions.clearState())
+    const response = yield call(axios.delete, 'ttrs/students/my/', config)
+    console.log('withdraw response', response)
+    yield put(actions.withdrawResponse())
   } catch (error) {
-    console.log('failed to withdraw')
+    console.log('withdraw error')
+    yield put(actions.setErrors('withdraw', processErrors(error.response.data), 'Failed to withdraw the membership.'))
   }
 }
 
 function* deleteTimeTable(timeTableId, timeTableType, timeTables) {
-  if (timeTableType === 'my') {
-    yield call(axios.delete, `ttrs/my-time-tables/${timeTableId}/`, config)
-    console.log('delete my time table')
-    yield put(actions.deleteMyTimeTable())
-  }
-  else if (timeTableType === 'bookmarked') {
-    yield call(axios.delete, `ttrs/bookmarked-time-tables/${timeTableId}/`, config)
-    console.log('delete bookmarked time table')
-    if (timeTables[0].id === timeTableId) {
-      if (timeTables.length === 1) {
-        yield put(actions.deleteBookmarkedTimeTable(timeTableId, initialTimeTable.bookmarkedTimeTable))
-      } else {
-        try {
-          timeTables[1].lectures = yield call(getLecturesFromLectureIds, timeTables[1])
-          yield put(actions.deleteBookmarkedTimeTable(timeTableId, timeTables[1]))
-        } catch (error) {
-          // Error happens when bookmarkedTimeTable.lectures is list of Lecture Info (already updated)
-          yield put(actions.deleteBookmarkedTimeTable(timeTableId, timeTables[1]))
+  try {
+    if (timeTableType === 'my') {
+      yield call(axios.delete, `ttrs/my-time-tables/${timeTableId}/`, config)
+      console.log('delete my time table')
+      yield put(actions.deleteMyTimeTableResponse())
+    } else if (timeTableType === 'bookmarked') {
+      yield call(axios.delete, `ttrs/bookmarked-time-tables/${timeTableId}/`, config)
+      console.log('delete bookmarked time table')
+      if (timeTables[0].id === timeTableId) {
+        if (timeTables.length === 1) {
+          yield put(actions.deleteBookmarkedTimeTableResponse(timeTableId, initialTimeTable.bookmarkedTimeTable))
+        } else {
+          try {
+            timeTables[1].lectures = yield call(getLecturesFromLectureIds, timeTables[1])
+            yield put(actions.deleteBookmarkedTimeTableResponse(timeTableId, timeTables[1]))
+          } catch (error) {
+            // Error happens when bookmarkedTimeTable.lectures is list of Lecture Info (already updated)
+            yield put(actions.deleteBookmarkedTimeTableResponse(timeTableId, timeTables[1]))
+          }
         }
-      }
-    } else {
-      yield put(actions.deleteBookmarkedTimeTable(timeTableId, timeTables[0]))
-    }
-  }
-  else if (timeTableType === 'received') {
-    yield call(axios.delete, `ttrs/received-time-tables/${timeTableId}/`, config)
-    console.log('delete received time table')
-    if (timeTables[0].id === timeTableId) {
-      if (timeTables.length === 1) {
-        yield put(actions.deleteReceivedTimeTable(timeTableId, initialTimeTable.receivedTimeTable))
       } else {
-        const response = yield call(axios.get, `ttrs/received-time-tables/${timeTables[1].id}/receive/`, config)
-        console.log('receiveResponse', response)
-        timeTables[1].receivedAt = response.data.receivedAt
-        try {
-          timeTables[1].lectures = yield call(getLecturesFromLectureIds, timeTables[1])
-          yield put(actions.deleteReceivedTimeTable(timeTableId, timeTables[1]))
-        } catch (error) {
-          // Error happens when receivedTimeTable.lectures is list of Lecture Info (already updated)
-          yield put(actions.deleteReceivedTimeTable(timeTableId, timeTables[1]))
-        }
+        yield put(actions.deleteBookmarkedTimeTableResponse(timeTableId, timeTables[0]))
       }
-    } else {
-      yield put(actions.deleteReceivedTimeTable(timeTableId, timeTables[0]))
+    } else if (timeTableType === 'received') {
+      yield call(axios.delete, `ttrs/received-time-tables/${timeTableId}/`, config)
+      console.log('delete received time table')
+      if (timeTables[0].id === timeTableId) {
+        if (timeTables.length === 1) {
+          yield put(actions.deleteReceivedTimeTableResponse(timeTableId, initialTimeTable.receivedTimeTable))
+        } else {
+          const response = yield call(axios.get, `ttrs/received-time-tables/${timeTables[1].id}/receive/`, config)
+          console.log('receiveResponse', response)
+          timeTables[1].receivedAt = response.data.receivedAt
+          try {
+            timeTables[1].lectures = yield call(getLecturesFromLectureIds, timeTables[1])
+            yield put(actions.deleteReceivedTimeTableResponse(timeTableId, timeTables[1]))
+          } catch (error) {
+            // Error happens when receivedTimeTable.lectures is list of Lecture Info (already updated)
+            yield put(actions.deleteReceivedTimeTableResponse(timeTableId, timeTables[1]))
+          }
+        }
+      } else {
+        yield put(actions.deleteReceivedTimeTableResponse(timeTableId, timeTables[0]))
+      }
     }
+  } catch (error) {
+    console.log('deleteTimeTable error', error.response)
+    yield put(actions.setErrors('deleteTimeTable', processErrors(error.response.data), 'Failed to delete the timetable.'))
   }
 }
 
@@ -471,9 +488,11 @@ function* addToNotRecommends(notRecommends, courseId) {
       yield put(actions.addToNotRecommendsResponse(notRecommends))
     } else {
       console.log('already added to not Recommends')
+      yield put(actions.setErrors('addEvaluation', processErrors(), 'Already registered to not recommend.'))
     }
   } catch (error) {
     console.log('addToNotRecommends error', error.response)
+    yield put(actions.setErrors('addToNotRecommends', processErrors(error.response.data), 'Failed to disallow to recommend the course.'))
   }
 }
 
@@ -491,6 +510,7 @@ function* deleteFromNotRecommends(notRecommends, courseId) {
     yield call(getNotRecommendCourses, newNotRecommends)
   } catch (error) {
     console.log('deleteFromNotRecommends error', error.response)
+    yield put(actions.setErrors('deleteFromNotRecommends', processErrors(error.response.data), 'Failed to allow to recommend the course.'))
   }
 }
 
@@ -506,6 +526,7 @@ function* getEvaluations(lectureId) {
     yield put(actions.setEvaluationsResponse(response.data, lectureResponse.data))
   } catch (error) {
     console.log('get evaluations response', error.response)
+    yield put(actions.setErrors('getEvaluation', processErrors(error.response.data), 'Failed to get evaluations.'))
   }
 }
 
@@ -516,6 +537,7 @@ function* addEvaluation(lectureId, evaluation) {
     yield call(getEvaluations, lectureId)
   } catch (error) {
     console.log('add evaluation error', error.response)
+    yield put(actions.setErrors('addEvaluation', processErrors(error.response.data), 'Failed to add an evaluation.'))
   }
 }
 
@@ -526,6 +548,7 @@ function* deleteEvaluation(lectureId, evaluationId) {
     yield call(getEvaluations, lectureId)
   } catch (error) {
     console.log('delete evaluation error', error.response)
+    yield put(actions.setErrors('deleteEvaluation', processErrors(error.response.data), 'Failed to delete the evaluation.'))
   }
 }
 
@@ -536,6 +559,7 @@ function* modifyEvaluation(lectureId, evaluation) {
     yield call(getEvaluations, lectureId)
   } catch (error) {
     console.log('modify evaluation error', error.response)
+    yield put(actions.setErrors('modifyEvaluation', processErrors(error.response.data), 'Failed to modify an evaluation.'))
   }
 }
 
@@ -551,6 +575,7 @@ function* toggleLikeIt(lectureId, isAdd, evaluationId) {
     yield call(getEvaluations, lectureId)
   } catch (error) {
     console.log('toggle likeit error', error.response)
+    yield put(actions.setErrors('toggleLikeIt', processErrors(error.response.data), `Failed to ${isAdd ? '' : 'un'}like the evaluation.`))
   }
 }
 
@@ -647,14 +672,14 @@ function* watchUpdateStudentInfo() {
 
 function* watchWithdraw() {
   while (true) {
-    yield take(actions.WITHDRAW)
+    yield take(actions.WITHDRAW_REQUEST)
     yield call(withdraw)
   }
 }
 
 function* watchDeleteTimeTable() {
   while (true) {
-    const { timeTableId, timeTableType, timeTables } = yield take(actions.DELETE_TIME_TABLE)
+    const { timeTableId, timeTableType, timeTables } = yield take(actions.DELETE_TIME_TABLE_REQUEST)
     yield call(deleteTimeTable, timeTableId, timeTableType, timeTables)
   }
 }
