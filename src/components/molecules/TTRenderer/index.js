@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-
 import LecturePopup from '../../../containers/LecturePopup'
 
 
@@ -16,7 +15,7 @@ class TTRenderer extends React.Component {
 
     const blocks = []
     for (let i = 0; i < 24; i += 1) {
-        blocks.push([0,0,0,0,0,0])
+      blocks.push([0, 0, 0, 0, 0, 0])
     }
 
     this.state = {
@@ -45,22 +44,77 @@ class TTRenderer extends React.Component {
     this.updateCanvas()
   }
 
-  updateWindowDimensions = () => {
+  onClickCanvas = (e) => {
+    if (e.ctrlKey) { return }
 
-    if (1200 <= window.innerWidth) {
-      blockWidth = 154
-    } else if (990 <= window.innerWidth) {
-      blockWidth = 127
-    } else if (770 <= window.innerWidth){
-      blockWidth = 97
-    } else {
-      blockWidth = (window.innerWidth - 85)/7
+    window.document.removeEventListener('mousemove', this.onMouseMove)
+
+    const elt = ReactDOM.findDOMNode(this)
+    const rect = elt.getBoundingClientRect()
+    const eltLeft = rect.left
+    const eltTop = rect.top
+
+    const pos = { x: e.clientX - eltLeft, y: e.clientY - eltTop }
+    const lecture = this.getLectureAtPos(pos)
+
+    if (lecture === null) {
+      return
     }
 
-    canvasWidth = (blockWidth + 2) * 7
-    canvasHeight = (blockHeight + 2) * 25
+    this.setState({ openId: lecture.id })
+    this.props.onGetEvaluations(lecture.id)
+  }
 
-    this.forceUpdate()
+  onMouseDown = (e) => {
+    if (!e.ctrlKey) {
+      const startPoint = null
+      const endPoint = null
+      this.setState({ startPoint, endPoint })
+      return
+    }
+
+    const startPoint = { x: e.clientX, y: e.clientY }
+    const endPoint = { x: e.clientX, y: e.clientY }
+    this.setState({ startPoint, endPoint })
+    window.document.addEventListener('mousemove', this.onMouseMove)
+  }
+
+  onMouseMove = (e) => {
+    const endPoint = { x: e.clientX, y: e.clientY }
+    this.setState({ endPoint })
+  }
+
+  onMouseUp = () => {
+    if (!this.state.startPoint || !this.state.endPoint) { return }
+
+    window.document.removeEventListener('mousemove', this.onMouseMove)
+
+    const elt = ReactDOM.findDOMNode(this)
+    const rect = elt.getBoundingClientRect()
+    const eltLeft = rect.left
+    const eltTop = rect.top
+
+    this.setState({ eltPoint: { x: eltLeft, y: eltTop } })
+
+    const topLeft = {
+      x: Math.min(this.state.startPoint.x, this.state.endPoint.x) - eltLeft,
+      y: Math.min(this.state.startPoint.y, this.state.endPoint.y) - eltTop,
+    }
+    const botRight = {
+      x: Math.max(this.state.startPoint.x, this.state.endPoint.x) - eltLeft,
+      y: Math.max(this.state.startPoint.y, this.state.endPoint.y) - eltTop,
+    }
+
+    const blocks = this.state.blocks
+    for (let i = 0; i < blocks.length; i += 1) {
+      for (let j = 0; j < blocks[i].length; j += 1) {
+        if (this.overlap(i, j, topLeft, botRight)) { blocks[i][j] = 1 - blocks[i][j] }
+      }
+    }
+
+    this.setState({ blocks })
+
+    this.props.onChange(blocks)
   }
 
   setHeaders = (ctx) => {
@@ -94,6 +148,52 @@ class TTRenderer extends React.Component {
     }
   }
 
+  getLectureAtPos = (pos) => {
+    const days = ['헤더', '월', '화', '수', '목', '금', '토']
+    const lectures = this.state.lectures
+    for (let i = 0; i < lectures.length; i += 1) {
+      const lecture = lectures[i]
+      const timeSlots = lecture.timeSlots
+
+      for (let j = 0; j < timeSlots.length; j += 1) {
+        const timeSlot = timeSlots[j]
+        const dayIndex = days.indexOf(timeSlot.dayOfWeek)
+
+        let startTime = timeSlot.startTime.split(':').map((i) => Number(i))
+        startTime = (startTime[0] * 60) + startTime[1]
+
+        let endTime = timeSlot.endTime.split(':').map((i) => Number(i))
+        endTime = (endTime[0] * 60) + endTime[1]
+
+        const start = { x: (dayIndex * (blockWidth + 2)) + 1, y: (((startTime - 540) / 30) + 1) * (blockHeight + 2) }
+        const size = { width: blockWidth, height: ((endTime - startTime) / 30) * (blockHeight + 1) }
+
+        if (start.x <= pos.x && pos.x <= start.x + size.width
+          && start.y <= pos.y && pos.y <= start.y + size.height) {
+          return lecture
+        }
+      }
+    }
+    return null
+  }
+
+  updateWindowDimensions = () => {
+    if (window.innerWidth >= 1200) {
+      blockWidth = 154
+    } else if (window.innerWidth >= 990) {
+      blockWidth = 127
+    } else if (window.innerWidth >= 770) {
+      blockWidth = 97
+    } else {
+      blockWidth = (window.innerWidth - 85) / 7
+    }
+
+    canvasWidth = (blockWidth + 2) * 7
+    canvasHeight = (blockHeight + 2) * 25
+
+    this.forceUpdate()
+  }
+
   drawSelections = (ctx) => {
     const blocks = this.state.blocks
     const blockColor = 'rgb(0,200,0,0.5)'
@@ -114,7 +214,6 @@ class TTRenderer extends React.Component {
   }
 
   drawLecture = (ctx, lecture) => {
-
     const days = ['헤더', '월', '화', '수', '목', '금', '토']
     const boxColor = `hsl(${this.hash(lecture)},60%,60%)`
     const textColor = 'rgb(0,0,0)'
@@ -147,115 +246,13 @@ class TTRenderer extends React.Component {
   }
 
   hash = (lecture) => {
-    var name = lecture.course.name
-    var sum = 0
+    const name = lecture.course.name
+    let sum = 0
     for (let i = 0; i < name.length; i += 1) {
-        sum += name.charCodeAt(i)
+      sum += name.charCodeAt(i)
     }
 
     return sum % 360
-  }
-
-  onClickCanvas = (e) => {
-    if (e.ctrlKey) { return }
-
-    window.document.removeEventListener('mousemove', this.onMouseMove)
-
-    const elt = ReactDOM.findDOMNode(this)
-    const rect = elt.getBoundingClientRect()
-    const eltLeft = rect.left
-    const eltTop = rect.top
-
-    const pos = { x: e.clientX - eltLeft, y: e.clientY - eltTop }
-    const lecture = this.getLectureAtPos(pos)
-
-    if (lecture === null)
-      return
-
-    this.setState({ openId: lecture.id })
-    this.props.onGetEvaluations(lecture.id)
-  }
-
-  getLectureAtPos = (pos) => {
-    const days = ['헤더', '월', '화', '수', '목', '금', '토']
-    const lectures = this.state.lectures
-    for (let i = 0; i < lectures.length; i += 1) {
-      const lecture = lectures[i]
-      const timeSlots = lecture.timeSlots
-
-      for (let j = 0; j < timeSlots.length; j += 1) {
-        const timeSlot = timeSlots[j]
-        const dayIndex = days.indexOf(timeSlot.dayOfWeek)
-
-        let startTime = timeSlot.startTime.split(':').map((i) => Number(i))
-        startTime = (startTime[0] * 60) + startTime[1]
-
-        let endTime = timeSlot.endTime.split(':').map((i) => Number(i))
-        endTime = (endTime[0] * 60) + endTime[1]
-
-        const start = { x: (dayIndex * (blockWidth + 2)) + 1, y: (((startTime - 540) / 30) + 1) * (blockHeight + 2) }
-        const size = { width: blockWidth, height: ((endTime - startTime) / 30) * (blockHeight + 1) }
-
-        if (start.x <= pos.x && pos.x <= start.x + size.width
-          && start.y <= pos.y && pos.y <= start.y + size.height) {
-          return lecture
-        }
-      }
-    }
-    return null
-  }
-
-  onMouseDown = (e) => {
-    if (!e.ctrlKey) {
-      const startPoint = null
-      const endPoint = null
-      this.setState({ startPoint, endPoint })
-      return
-    }
-
-    const startPoint = { x: e.clientX, y: e.clientY }
-    const endPoint = { x: e.clientX, y: e.clientY }
-    this.setState({ startPoint, endPoint })
-    window.document.addEventListener('mousemove', this.onMouseMove)
-  }
-
-
-  onMouseMove = (e) => {
-    const endPoint = { x: e.clientX, y: e.clientY }
-    this.setState({ endPoint })
-  }
-
-  onMouseUp = (e) => {
-    if (!this.state.startPoint || !this.state.endPoint) { return }
-
-    window.document.removeEventListener('mousemove', this.onMouseMove)
-
-    const elt = ReactDOM.findDOMNode(this)
-    const rect = elt.getBoundingClientRect()
-    const eltLeft = rect.left
-    const eltTop = rect.top
-
-    this.setState({ eltPoint: { x: eltLeft, y: eltTop } })
-
-    const topLeft = {
-      x: Math.min(this.state.startPoint.x, this.state.endPoint.x) - eltLeft,
-      y: Math.min(this.state.startPoint.y, this.state.endPoint.y) - eltTop,
-    }
-    const botRight = {
-      x: Math.max(this.state.startPoint.x, this.state.endPoint.x) - eltLeft,
-      y: Math.max(this.state.startPoint.y, this.state.endPoint.y) - eltTop,
-    }
-
-    const blocks = this.state.blocks
-    for (let i = 0; i < blocks.length; i += 1) {
-      for (let j = 0; j < blocks[i].length; j += 1) {
-        if (this.overlap(i, j, topLeft, botRight)) { blocks[i][j] = 1 - blocks[i][j] }
-      }
-    }
-
-    this.setState({ blocks })
-
-    this.props.onChange(blocks)
   }
 
   drawGrid = (ctx) => {
@@ -278,7 +275,7 @@ class TTRenderer extends React.Component {
   updateCanvas = () => {
     const canvas = this.refs.canvas
     if (!canvas) {
-        return 
+      return
     }
 
     const ctx = canvas.getContext('2d')
@@ -357,24 +354,24 @@ class TTRenderer extends React.Component {
 
   render() {
     return (
-        <div
-          draggable="false"
-          style={{ width: {canvasWidth}, height: {canvasHeight} }}
-          onMouseDown={(e) => this.onMouseDown(e)}
-          onMouseUp={(e) => this.onMouseUp(e)}
-        >
-          {this.renderBlocks()}
-          {this.state.lectures.map((lecture) =>
-            <LecturePopup
-              key={lecture.course.name}
-              open={lecture.id === this.state.openId}
-              lecture={lecture}
-              onDeleteLecture={() => this.props.onDeleteLecture(lecture.id)}
-              onAddToNotRecommends={() => this.props.onaAddToNotRecommends(this.props.notRecommends, lecture.course.id)}
-              canDelete={this.props.canModify}
-              onClose={() => this.setState({ openId: null })}
-            />)}
-        </div>
+      <div
+        draggable="false"
+        style={{ width: { canvasWidth }, height: { canvasHeight } }}
+        onMouseDown={(e) => this.onMouseDown(e)}
+        onMouseUp={(e) => this.onMouseUp(e)}
+      >
+        {this.renderBlocks()}
+        {this.state.lectures.map((lecture) =>
+          <LecturePopup
+            key={lecture.course.name}
+            open={lecture.id === this.state.openId}
+            lecture={lecture}
+            onDeleteLecture={() => this.props.onDeleteLecture(lecture.id)}
+            onAddToNotRecommends={() => this.props.onAddToNotRecommends(this.props.notRecommends, lecture.course.id)}
+            canDelete={this.props.canModify}
+            onClose={() => this.setState({ openId: null })}
+          />)}
+      </div>
     )
   }
 }
