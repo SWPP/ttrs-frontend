@@ -61,6 +61,7 @@ class BookmarkTab extends React.Component {
                     <Label color="teal" corner="right" />}
                     <Card.Header>{timeTable.title.length > 9 ? timeTable.title.substring(0, 9).concat(' ...') : timeTable.title}</Card.Header>
                     <Card.Meta>{timeTable.bookmarkedAt.substring(0, 10)}</Card.Meta>
+                    <Card.Meta>Credit: {timeTable.creditSum}</Card.Meta>
                     <Card.Description>Memo: {timeTable.memo.length > 20 ? timeTable.memo.substring(0, 20).concat(' ...') : timeTable.memo}</Card.Description>
                   </Card.Content>
                 </Card>
