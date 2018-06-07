@@ -63,37 +63,6 @@ class TTRenderer extends React.Component {
     this.updateCanvas()
   }
 
-  updateCanvas = () => {
-    const canvas = this.refs.canvas
-    const ctx = canvas.getContext('2d')
-    ctx.clearRect(0, 0, canvasWidth, canvasHeight)
-
-    this.drawGrid(ctx)
-    this.setHeaders(ctx)
-    this.drawSelections(ctx)
-
-    for (let i = 0; i < this.state.lectures.length; i += 1) {
-      this.drawLecture(ctx, this.state.lectures[i])
-    }
-  }
-
-  drawGrid = (ctx) => {
-    const gridColor = '#999999'
-    ctx.strokeStyle = gridColor
-
-    for (let i = 1; i < 25; i += 1) {
-      ctx.moveTo(0, (blockHeight + 2) * i)
-      ctx.lineTo(canvasWidth, (blockHeight + 2) * i)
-      ctx.stroke()
-    }
-
-    for (let j = 0; j <= 7; j += 1) {
-      ctx.moveTo((blockWidth + 2) * j, 0)
-      ctx.lineTo((blockWidth + 2) * j, canvasHeight)
-      ctx.stroke()
-    }
-  }
-
   setHeaders = (ctx) => {
     const days = ['none', 'Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat']
     const textColor = 'rgb(0,0,0)'
@@ -151,17 +120,17 @@ class TTRenderer extends React.Component {
     const days = ['헤더', '월', '화', '수', '목', '금', '토']
     // const colors = ['rgb(0,116,217)', 'rgb(255,220,0)', 'rgb(46,204,64)']
     // const boxColor = colors[Math.floor(Math.random()*colors.length)]
-    const boxColor = 'rgb(0,116,217,0.8)'
+    const boxColor = 'rgb(0,116,217)'
     const textColor = 'rgb(0,0,0)'
     const timeSlots = lecture.timeSlots
     for (let i = 0; i < timeSlots.length; i += 1) {
       const timeSlot = timeSlots[i]
       const dayIndex = days.indexOf(timeSlot.dayOfWeek)
 
-      let startTime = timeSlots[i].startTime.split(':').map((i) => Number(i))
+      let startTime = timeSlot.startTime.split(':').map((i) => Number(i))
       startTime = (startTime[0] * 60) + startTime[1]
 
-      let endTime = timeSlots[i].endTime.split(':').map((i) => Number(i))
+      let endTime = timeSlot.endTime.split(':').map((i) => Number(i))
       endTime = (endTime[0] * 60) + endTime[1]
 
       const start = { x: (dayIndex * (blockWidth + 2)) + 1, y: (((startTime - 540) / 30) + 1) * (blockHeight + 2) }
@@ -192,9 +161,9 @@ class TTRenderer extends React.Component {
     const eltTop = rect.top
 
     const pos = { x: e.clientX - eltLeft, y: e.clientY - eltTop }
-    console.log(pos)
+    // console.log(pos)
     const lecture = this.getLectureAtPos(pos)
-    console.log(lecture)
+    // console.log(lecture)
 
     if (lecture === null)
       return
@@ -214,16 +183,16 @@ class TTRenderer extends React.Component {
         const timeSlot = timeSlots[j]
         const dayIndex = days.indexOf(timeSlot.dayOfWeek)
 
-        let startTime = timeSlots[i].startTime.split(':').map((i) => Number(i))
+        let startTime = timeSlot.startTime.split(':').map((i) => Number(i))
         startTime = (startTime[0] * 60) + startTime[1]
 
-        let endTime = timeSlots[i].endTime.split(':').map((i) => Number(i))
+        let endTime = timeSlot.endTime.split(':').map((i) => Number(i))
         endTime = (endTime[0] * 60) + endTime[1]
 
         const start = { x: (dayIndex * (blockWidth + 2)) + 1, y: (((startTime - 540) / 30) + 1) * (blockHeight + 2) }
         const size = { width: blockWidth, height: ((endTime - startTime) / 30) * (blockHeight + 1) }
 
-        console.log(pos, start, size)
+        // console.log(pos, start, size)
 
         if (start.x <= pos.x && pos.x <= start.x + size.width
           && start.y <= pos.y && pos.y <= start.y + size.height) {
@@ -300,6 +269,37 @@ class TTRenderer extends React.Component {
     return acronym
   }
 
+  drawGrid = (ctx) => {
+    const gridColor = '#999999'
+    ctx.strokeStyle = gridColor
+
+    for (let i = 1; i < 25; i += 1) {
+      ctx.moveTo(0, (blockHeight + 2) * i)
+      ctx.lineTo(canvasWidth, (blockHeight + 2) * i)
+      ctx.stroke()
+    }
+
+    for (let j = 0; j <= 7; j += 1) {
+      ctx.moveTo((blockWidth + 2) * j, 0)
+      ctx.lineTo((blockWidth + 2) * j, canvasHeight)
+      ctx.stroke()
+    }
+  }
+
+  updateCanvas = () => {
+    const canvas = this.refs.canvas
+    const ctx = canvas.getContext('2d')
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight)
+
+    this.drawGrid(ctx)
+    this.setHeaders(ctx)
+    this.drawSelections(ctx)
+
+    for (let i = 0; i < this.state.lectures.length; i += 1) {
+      this.drawLecture(ctx, this.state.lectures[i])
+    }
+  }
+
   showStatus = () => {
     const state = this.state
     if (state.startPoint != null && state.endPoint != null) {
@@ -357,68 +357,6 @@ class TTRenderer extends React.Component {
     return -1
   }
 
-  renderBlock = (val, index, time) => {
-    const day = ['월', '화', '수', '목', '금', '토'][index]
-    const lid = this.hasLecture(day, time)
-
-    const bckgrd = ((val === 1) ? '#FF0281' : '#FFFFFF')
-
-    const lecture = this.state.lectures[lid]
-    if (lid >= 0) {
-      return (
-        <td
-          key={day + time}
-          style={{
-            border: '1px solid #999999',
-            backgroundColor: bckgrd,
-            width: `${blockWidth.toString()}px`,
-            height: `${blockHeight.toString()}px`,
-          }}
-        >
-          <button
-            style={{
-              fontSize: '10px',
-              width: `${(blockWidth - 4).toString()}px`,
-            }}
-            onClick={
-              () => {
-                this.setState({ openId: lecture.id })
-                this.props.getEvaluations(lecture.id)
-                console.log(this.props)
-              }
-            }
-          >{this.getName(lecture.course.name)}</button>
-          <LecturePopup
-            open={lecture.id === this.state.openId}
-            lecture={lecture}
-            onDeleteLecture={() => this.props.deleteLecture(lecture.id)}
-            onAddToNotRecommends={() => this.props.addToNotRecommends(this.props.notRecommends, lecture.course.id)}
-            canDelete={this.props.canModify}
-            onClose={() => this.setState({ openId: null })}
-          />
-        </td>
-      )
-    }
-    return (
-      <td
-        key={day + time}
-        style={{
-          border: '1px solid #999999',
-          backgroundColor: bckgrd,
-          width: `${blockWidth.toString()}px`,
-          height: `${blockHeight.toString()}px`,
-        }}
-      />
-    )
-  }
-
-  renderRow = (time, rowIndex) => {
-    const row = this.state.blocks[rowIndex]
-    return row.map((val, index) =>
-      this.renderBlock(val, index, time)
-    )
-  }
-
   renderBlocks = () => {
     return (
       <canvas
@@ -430,25 +368,6 @@ class TTRenderer extends React.Component {
         }}
         onClick={(e) => this.onClickCanvas(e)}
       />
-    )
-    return (
-      <table>
-        <tbody>
-          <tr>
-            <th style={{ width: `${blockWidth.toString()}px`, height: `${blockHeight.toString()}px` }}>Time</th>
-            <th style={{ width: `${blockWidth.toString()}px`, height: `${blockHeight.toString()}px` }}>Mon</th>
-            <th style={{ width: `${blockWidth.toString()}px`, height: `${blockHeight.toString()}px` }}>Tue</th>
-            <th style={{ width: `${blockWidth.toString()}px`, height: `${blockHeight.toString()}px` }}>Wed</th>
-            <th style={{ width: `${blockWidth.toString()}px`, height: `${blockHeight.toString()}px` }}>Thr</th>
-            <th style={{ width: `${blockWidth.toString()}px`, height: `${blockHeight.toString()}px` }}>Fri</th>
-            <th style={{ width: `${blockWidth.toString()}px`, height: `${blockHeight.toString()}px` }}>Sat</th>
-          </tr>
-          {['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
-            '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
-            '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30'].map(
-          (time, index) => (<tr key={time}><th>{time}</th>{this.renderRow(time, index)}</tr>))}
-        </tbody>
-      </table>
     )
   }
 
