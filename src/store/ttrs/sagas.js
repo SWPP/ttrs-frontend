@@ -163,13 +163,6 @@ function* signIn(username, password) {
   } catch (error) {
     console.log('getCurrent Received TimeTables error', error.response)
   }
-  try {
-    const response = yield call(axios.get, updateURLParams('ttrs/recommends/', params), config)
-    console.log('getCurrent Recommended TimeTables response', response)
-    yield call(getRecommendedTimeTables, response)
-  } catch (error) {
-    console.log('getCurrent Recommended TimeTables error', error.response)
-  }
   return undefined
 }
 
@@ -262,6 +255,7 @@ function* switchSemester(newYear, newSemester) {
   }
   try {
     yield put(actions.searchLectureResponse([]))
+    yield put(actions.createRecommendedTimeTables([]))
     const fieldsAndTypesResponse = yield call(axios.get, updateURLParams('ttrs/static-information/', params), config)
     console.log('get Fields and Types response', fieldsAndTypesResponse)
     yield put(actions.setFieldsAndTypes(fieldsAndTypesResponse.data.fields, fieldsAndTypesResponse.data.types))
@@ -274,9 +268,6 @@ function* switchSemester(newYear, newSemester) {
     const receivedTimeTableResponse = yield call(axios.get, updateURLParams('ttrs/received-time-tables/', params), config)
     console.log('getCurrent receivedTimeTable response', receivedTimeTableResponse)
     yield call(getReceivedTimeTables, receivedTimeTableResponse)
-    const recommendedTimeTableResponse = yield call(axios.get, updateURLParams('ttrs/recommends/', params), config)
-    console.log('getCurrent recommendedTimeTable response', recommendedTimeTableResponse)
-    yield call(getRecommendedTimeTables, recommendedTimeTableResponse)
   } catch (error) {
     console.log('switchSemester error', error.response)
   }
@@ -554,6 +545,20 @@ function* toggleLikeIt(lectureId, isAdd, evaluationId) {
   }
 }
 
+function* getRecommendation() {
+  const params = {
+    year,
+    semester,
+  }
+  try {
+    const response = yield call(axios.get, updateURLParams('ttrs/recommends/', params), config)
+    console.log('getCurrent Recommended TimeTables response', response)
+    yield call(getRecommendedTimeTables, response)
+  } catch (error) {
+    console.log('getCurrent Recommended TimeTables error', error.response)
+  }
+}
+
 function* watchSignIn() {
   while (true) {
     const { username, password } = yield take(actions.SIGN_IN_REQUEST)
@@ -715,6 +720,13 @@ function* watchToggleLikeIt() {
   }
 }
 
+function* watchGetRecommendation() {
+  while (true) {
+    yield take(actions.GET_RECOMMENDATION_REQUEST)
+    yield call(getRecommendation)
+  }
+}
+
 export default function* () {
   yield call(getInitialInfo)
   yield fork(watchSignIn)
@@ -740,4 +752,5 @@ export default function* () {
   yield fork(watchDeleteEvaluation)
   yield fork(watchModifyEvaluation)
   yield fork(watchToggleLikeIt)
+  yield fork(watchGetRecommendation)
 }

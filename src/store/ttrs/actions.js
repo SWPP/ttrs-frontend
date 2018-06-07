@@ -53,6 +53,7 @@ export const MODIFY_EVALUATION_REQUEST = 'MODIFY_EVALUATION_REQUEST'
 export const SET_EVALUATIONS_RESPONSE = 'MODIFY_EVALUATIONS_RESPONSE'
 export const TOGGLE_LIKE_IT_REQUEST = 'TOGGLE_LIKE_IT_REQUEST'
 export const SET_FIELDS_AND_TYPES = 'SET_FIELDS_AND_TYPES'
+export const GET_RECOMMENDATION_REQUEST = 'GET_RECOMMENDATION_REQUEST'
 
 export const setErrors = (identifier, errors) => {
   return {
@@ -457,5 +458,11 @@ export const setFieldsAndTypes = (fields, types) => {
     type: SET_FIELDS_AND_TYPES,
     fields,
     types,
+  }
+}
+
+export const getRecommendationRequest = () => {
+  return {
+    type: GET_RECOMMENDATION_REQUEST,
   }
 }

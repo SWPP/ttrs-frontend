@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Button } from 'semantic-ui-react'
 import TimeTable from '../../../containers/TimeTable'
 
 export const getLectureIds = (timeTable) => {
@@ -20,46 +21,54 @@ export const getLectureIdsWithout = (lectureId, timeTable) => {
   return lectureIds
 }
 
-const RecommendTab = ({ myTimeTable, recommendedTimeTables, recommendedTimeTable, onSelectRecommendedTimeTable, onUpdateMyTimeTable, onDeleteTimeTable }) => {
-  let inputRecommendedTimeTableIndex = { value: 0 }
+let inputRecommendedTimeTableIndex = { value: 0 }
 
-  return (
-    <div>
-      <h1>My TimeTable</h1>
-      <TimeTable
-        haveSidebar={false}
-        {...myTimeTable}
-        onAddLecture={(newLectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIds(myTimeTable) }, newLectureId)}
-        onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, myTimeTable) }, -lectureId)}
-        onModifyContent={(content) => onUpdateMyTimeTable(myTimeTable.id, content, null)}
-        canModify
-        canDelete
-        canCreate
-        canCopyToMy={false}
-        onDeleteTimeTable={(timeTableId) => timeTableId !== null ? onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
-      />
-      <hr />
-      <h1>Recommended TimeTable</h1>
-      <select
-        ref={node => { inputRecommendedTimeTableIndex = node }}
-        onChange={() => onSelectRecommendedTimeTable(recommendedTimeTables[inputRecommendedTimeTableIndex.value])}
-      >
-        {recommendedTimeTables.map((value, index) =>
-          <option
-            key={value.id}
-            value={index}
-          >{value.title}</option>
-        )}
-      </select>
-      <TimeTable
-        haveSidebar={false}
-        {...recommendedTimeTable}
-        canModify={false}
-        canDelete={false}
-        canCopyToMy
-      />
-    </div>
-  )
+class RecommendTab extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>My TimeTable</h1>
+        <TimeTable
+          haveSidebar={false}
+          {...this.props.myTimeTable}
+          onAddLecture={(newLectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, { lectures: getLectureIds(this.props.myTimeTable) }, newLectureId)}
+          onDeleteLecture={(lectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, this.props.myTimeTable) }, -lectureId)}
+          onModifyContent={(content) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, content, null)}
+          canModify
+          canDelete
+          canCreate
+          canCopyToMy={false}
+          onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
+        />
+        <hr />
+        <h1>Recommended TimeTable</h1>
+        <Button
+          color="teal"
+          content="Recommend"
+          loading={false}
+          onClick={this.props.onGetRecommendation}
+        /> <br />
+        <select
+          ref={node => { inputRecommendedTimeTableIndex = node }}
+          onChange={() => this.props.onSelectRecommendedTimeTable(this.props.recommendedTimeTables[inputRecommendedTimeTableIndex.value])}
+        >
+          {this.props.recommendedTimeTables.map((value, index) =>
+            <option
+              key={value.id}
+              value={index}
+            >{value.title}</option>
+          )}
+        </select>
+        <TimeTable
+          haveSidebar={false}
+          {...this.props.recommendedTimeTable}
+          canModify={false}
+          canDelete={false}
+          canCopyToMy
+        />
+      </div>
+    )
+  }
 }
 
 RecommendTab.propTypes = {
@@ -69,6 +78,7 @@ RecommendTab.propTypes = {
   onSelectRecommendedTimeTable: PropTypes.func,
   onUpdateMyTimeTable: PropTypes.func,
   onDeleteTimeTable: PropTypes.func,
+  onGetRecommendation: PropTypes.func,
 }
 
 export default RecommendTab
