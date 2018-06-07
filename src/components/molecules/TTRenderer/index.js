@@ -282,7 +282,6 @@ class TTRenderer extends React.Component {
     }
 
     const ctx = canvas.getContext('2d')
-    //ctx.clearRect(0, 0, canvasWidth, canvasHeight)
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
 
     ctx.fillStyle = 'rgb(255,255,255)'
