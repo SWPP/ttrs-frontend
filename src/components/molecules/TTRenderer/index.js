@@ -13,8 +13,7 @@ const canvasHeight = (blockHeight + 2) * 25
 class TTRenderer extends React.Component {
   constructor(props) {
     super(props)
-    // console.log('props:', props)
-    this.state = {
+    This.state = {
       lectures: props.lectures,
       startPoint: null,
       endPoint: null,
@@ -45,7 +44,6 @@ class TTRenderer extends React.Component {
         [0, 0, 0, 0, 0, 0],
       ],
     }
-    // console.log(this.state)
   }
 
   componentDidMount() {
@@ -99,7 +97,6 @@ class TTRenderer extends React.Component {
     const blockColor = 'rgb(0,200,0,0.5)'
     ctx.fillStyle = blockColor
 
-    // console.log(blocks)
     for (let i = 0; i < blocks.length; i += 1) {
       const row = blocks[i]
       for (let j = 0; j < row.length; j += 1) {
@@ -115,7 +112,6 @@ class TTRenderer extends React.Component {
   }
 
   drawLecture = (ctx, lecture) => {
-    // console.log(lecture)
 
     const days = ['헤더', '월', '화', '수', '목', '금', '토']
     // const colors = ['rgb(0,116,217)', 'rgb(255,220,0)', 'rgb(46,204,64)']
@@ -161,9 +157,7 @@ class TTRenderer extends React.Component {
     const eltTop = rect.top
 
     const pos = { x: e.clientX - eltLeft, y: e.clientY - eltTop }
-    // console.log(pos)
     const lecture = this.getLectureAtPos(pos)
-    // console.log(lecture)
 
     if (lecture === null)
       return
@@ -191,8 +185,6 @@ class TTRenderer extends React.Component {
 
         const start = { x: (dayIndex * (blockWidth + 2)) + 1, y: (((startTime - 540) / 30) + 1) * (blockHeight + 2) }
         const size = { width: blockWidth, height: ((endTime - startTime) / 30) * (blockHeight + 1) }
-
-        // console.log(pos, start, size)
 
         if (start.x <= pos.x && pos.x <= start.x + size.width
           && start.y <= pos.y && pos.y <= start.y + size.height) {
@@ -225,8 +217,6 @@ class TTRenderer extends React.Component {
 
   onMouseUp = (e) => {
     if (!this.state.startPoint || !this.state.endPoint) { return }
-
-    // console.log(this.state.lectures)
 
     window.document.removeEventListener('mousemove', this.onMouseMove)
 
@@ -314,9 +304,6 @@ class TTRenderer extends React.Component {
     const br1 = { x: (blockWidth + 2) * (j + 2), y: (blockHeight + 2) * (i + 2) }
     const tl2 = tl
     const br2 = br
-
-    // console.log('block[',i,'][',j,']')
-    // console.log(tl1, br1, tl2, br2)
 
     if (tl1.x > br2.x || tl2.x > br1.x) {
       return false
