@@ -19,6 +19,16 @@ class Notice extends React.Component {
     lastId: 0,
   }
 
+  getContent = (notice) => {
+    if (notice.message) {
+      return notice.message
+    }
+    if (notice.id > 0) {
+      return 'Updated successfully.'
+    }
+    return 'Some errors occurred.'
+  }
+
   render() {
     return (
       <div>
@@ -31,7 +41,7 @@ class Notice extends React.Component {
             >
               <Header
                 textAlign="center"
-                content={notice.message ? notice.message : (notice.id > 0 ? 'Updated successfully.' : 'Some errors occurred.')}
+                content={this.getContent(notice)}
               />
             </Message>
           </Transition>
