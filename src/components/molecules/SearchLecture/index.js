@@ -127,7 +127,7 @@ class SearchLecture extends React.Component {
       <div>
         <Modal
           open
-          size="fullscreen"
+          size="large"
           style={{
             marginTop: '0px !important',
             marginLeft: 'auto',
@@ -146,7 +146,7 @@ class SearchLecture extends React.Component {
               }}
             >
               <Grid>
-                <Grid.Row columns={6} style={{ marginTop: -10 }}>
+                <Grid.Row columns={5} style={{ marginTop: -10 }}>
                   <Grid.Column>
                     <Form.Input
                       label="Course Name"
@@ -172,31 +172,31 @@ class SearchLecture extends React.Component {
                     />
                   </Grid.Column>
                   <Grid.Column>
-                    <Form.Select
-                      fluid
-                      label="Credit"
-                      placeholder="Min"
-                      options={creditOptions}
-                      name="course.credit.gte"
-                      value={this.state['course.credit.gte']}
-                      onChange={this.handleChange}
-                    />
-                  </Grid.Column>
-                  <span style={{ marginTop: 32 }}>~</span>
-                  <Grid.Column>
-                    <Form.Select
-                      fluid
-                      label="&nbsp;"
-                      placeholder="Max"
-                      options={creditOptions}
-                      name="course.credit.lte"
-                      value={this.state['course.credit.lte']}
-                      onChange={this.handleChange}
-                    />
+                    <Form.Group inline>
+                      <Form.Select
+                        fluid
+                        label="Credit"
+                        placeholder="Min"
+                        options={creditOptions}
+                        name="course.credit.gte"
+                        value={this.state['course.credit.gte']}
+                        onChange={this.handleChange}
+                      />
+                      <span style={{ marginTop: 20 }}>&nbsp;~&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                      <Form.Select
+                        fluid
+                        label="&nbsp;"
+                        placeholder="Max"
+                        options={creditOptions}
+                        name="course.credit.lte"
+                        value={this.state['course.credit.lte']}
+                        onChange={this.handleChange}
+                      />
+                    </Form.Group>
                   </Grid.Column>
                 </Grid.Row>
 
-                <Grid.Row columns={6} style={{ marginTop: -20 }}>
+                <Grid.Row columns={5} style={{ marginTop: -30 }}>
                   <Grid.Column>
                     <Form.Select
                       fluid
@@ -250,7 +250,7 @@ class SearchLecture extends React.Component {
                   </Grid.Column>
                 </Grid.Row>
 
-                <Grid.Row columns={6} style={{ marginTop: -20 }}>
+                <Grid.Row columns={5} style={{ marginTop: -20 }}>
                   <Grid.Column>
                     <Form.Select
                       fluid
