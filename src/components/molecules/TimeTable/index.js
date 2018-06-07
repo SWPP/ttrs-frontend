@@ -19,7 +19,7 @@ class TimeTable extends React.Component {
     searchOpen: false,
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     this.setState({
       memo: nextProps.memo,
       title: nextProps.title,
@@ -33,7 +33,7 @@ class TimeTable extends React.Component {
       console.log('There is no TimeTable')
       return
     }
-    this.props.onModifyContent({memo: this.state.memoInput})
+    this.props.onModifyContent({ memo: this.state.memoInput })
     this.setState({
       memo: this.state.memoInput,
     })
@@ -44,7 +44,7 @@ class TimeTable extends React.Component {
       console.log('There is no TimeTable')
       return
     }
-    this.props.onModifyContent({title: this.state.titleInput})
+    this.props.onModifyContent({ title: this.state.titleInput })
     this.setState({
       isModifyingTitle: false,
       title: this.state.titleInput,
@@ -67,12 +67,11 @@ class TimeTable extends React.Component {
     this.props.onSend(sendInfo)
   }
 
-  handleChange = (e, {name, value}) => {
-    this.setState({[name]: value})
+  handleChange = (e, { name, value }) => {
+    this.setState({ [name]: value })
   }
 
   getBlocks = (blocks) => {
-    // console.log(this)
     console.log('Change in selected blocks')
     console.log(blocks)
   }
@@ -83,9 +82,9 @@ class TimeTable extends React.Component {
         <TTRenderer
           onChange={this.getBlocks}
           lectures={this.props.lectures}
-          deleteLecture={this.props.onDeleteLecture}
-          addToNotRecommends={this.props.onAddToNotRecommends}
-          getEvaluations={this.props.onGetEvaluations}
+          onDeleteLecture={this.props.onDeleteLecture}
+          onAddToNotRecommends={this.props.onAddToNotRecommends}
+          onGetEvaluations={this.props.onGetEvaluations}
           notRecommends={this.props.notRecommends}
           canModify={this.props.canModify}
         />

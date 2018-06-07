@@ -144,7 +144,7 @@ class TTRenderer extends React.Component {
       return
 
     this.setState({ openId: lecture.id })
-    this.props.getEvaluations(lecture.id)
+    this.props.onGetEvaluations(lecture.id)
   }
 
   getLectureAtPos = (pos) => {
@@ -354,8 +354,8 @@ class TTRenderer extends React.Component {
               key={lecture.course.name}
               open={lecture.id === this.state.openId}
               lecture={lecture}
-              onDeleteLecture={() => this.props.deleteLecture(lecture.id)}
-              onAddToNotRecommends={() => this.props.addToNotRecommends(this.props.notRecommends, lecture.course.id)}
+              onDeleteLecture={() => this.props.onDeleteLecture(lecture.id)}
+              onAddToNotRecommends={() => this.props.onaAddToNotRecommends(this.props.notRecommends, lecture.course.id)}
               canDelete={this.props.canModify}
               onClose={() => this.setState({ openId: null })}
             />)}
@@ -374,9 +374,9 @@ TTRenderer.propTypes = {
   notRecommends: PropTypes.array,
   canModify: PropTypes.bool,
   canDelete: PropTypes.bool,
-  deleteLecture: PropTypes.func,
-  addToNotRecommends: PropTypes.func,
-  getEvaluations: PropTypes.func,
+  onDeleteLecture: PropTypes.func,
+  onAddToNotRecommends: PropTypes.func,
+  onGetEvaluations: PropTypes.func,
   onChange: PropTypes.func,
 }
 
