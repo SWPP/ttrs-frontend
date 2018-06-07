@@ -302,7 +302,7 @@ function* selectBookmarkedTimeTable(bookmarkedTimeTable) {
  * If deleteLectureId < 0:
  *   Delete Lecture from Bookmarked TimeTable
  */
-function* updateBookmarkedTimeTable(index, timeTableId, updatedInfo, newLectureId) {
+function* updateBookmarkedTimeTable(timeTableId, updatedInfo, newLectureId) {
   if (newLectureId !== null && newLectureId > 0) {
     updatedInfo.lectures.push(newLectureId)
   }
@@ -313,12 +313,12 @@ function* updateBookmarkedTimeTable(index, timeTableId, updatedInfo, newLectureI
     if (newLectureId !== null) {
       if (newLectureId > 0) {
         const lectureResposne = yield call(axios.get, `ttrs/lectures/${newLectureId}/`, config)
-        yield put(actions.addLectureToBookmarkedTimeTable(index, lectureResposne.data))
+        yield put(actions.addLectureToBookmarkedTimeTable(timeTableId, lectureResposne.data))
       } else {
-        yield put(actions.deleteLectureFromBookmarkedTimeTable(index, -newLectureId))
+        yield put(actions.deleteLectureFromBookmarkedTimeTable(timeTableId, -newLectureId))
       }
     } else {
-      yield put(actions.updateBookmarkedTimeTableInfo(index, updatedInfo))
+      yield put(actions.updateBookmarkedTimeTableInfo(timeTableId, updatedInfo))
     }
   } catch (error) {
     console.log('update BookmarkedTimeTable error', error.response)
@@ -598,8 +598,8 @@ function* watchSelectBookmarkedTimeTable() {
 
 function* watchUpdateBookmarkedTimeTable() {
   while (true) {
-    const { index, timeTableId, updatedInfo, deleteLectureId } = yield take(actions.UPDATE_BOOKMARKED_TIME_TABLE_REQUEST)
-    yield call(updateBookmarkedTimeTable, index, timeTableId, updatedInfo, deleteLectureId)
+    const { timeTableId, updatedInfo, deleteLectureId } = yield take(actions.UPDATE_BOOKMARKED_TIME_TABLE_REQUEST)
+    yield call(updateBookmarkedTimeTable, timeTableId, updatedInfo, deleteLectureId)
   }
 }
 

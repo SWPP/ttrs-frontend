@@ -70,9 +70,9 @@ class BookmarkTab extends React.Component {
           </Sidebar>
           <Sidebar.Pusher>
             <TimeTable
-              onAddLecture={(newLectureId) => this.props.onUpdateBookmarkedTimeTable(this.state.bookmarkedTimeTableIndex, this.props.bookmarkedTimeTable.id, { lectures: getLectureIds(this.props.bookmarkedTimeTable) }, newLectureId)}
-              onModifyContent={(content) => this.props.onUpdateBookmarkedTimeTable(this.state.bookmarkedTimeTableIndex, this.props.bookmarkedTimeTable.id, content, null)}
-              onDeleteLecture={(lectureId) => this.props.onUpdateBookmarkedTimeTable(this.state.bookmarkedTimeTableIndex, this.props.bookmarkedTimeTable.id, { lectures: getLectureIdsWithout(lectureId, this.props.bookmarkedTimeTable) }, -lectureId)}
+              onAddLecture={(newLectureId) => this.props.onUpdateBookmarkedTimeTable(this.props.bookmarkedTimeTable.id, { lectures: getLectureIds(this.props.bookmarkedTimeTable) }, newLectureId)}
+              onModifyContent={(content) => this.props.onUpdateBookmarkedTimeTable(this.props.bookmarkedTimeTable.id, content, null)}
+              onDeleteLecture={(lectureId) => this.props.onUpdateBookmarkedTimeTable(this.props.bookmarkedTimeTable.id, { lectures: getLectureIdsWithout(lectureId, this.props.bookmarkedTimeTable) }, -lectureId)}
               {...this.props.bookmarkedTimeTable}
               canModify
               canDelete

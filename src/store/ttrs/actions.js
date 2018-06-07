@@ -197,28 +197,27 @@ export const selectBookmarkedTimeTableResponse = (bookmarkedTimeTable) => {
   }
 }
 
-export const updateBookmarkedTimeTableRequest = (index, timeTableId, updatedInfo, deleteLectureId) => {
+export const updateBookmarkedTimeTableRequest = (timeTableId, updatedInfo, deleteLectureId) => {
   return {
     type: UPDATE_BOOKMARKED_TIME_TABLE_REQUEST,
-    index,
     timeTableId,
     updatedInfo,
     deleteLectureId,
   }
 }
 
-export const addLectureToBookmarkedTimeTable = (index, newLecture) => {
+export const addLectureToBookmarkedTimeTable = (timeTableId, newLecture) => {
   return {
     type: ADD_LECTURE_TO_BOOKMARKED_TIME_TABLE,
-    index,
+    timeTableId,
     newLecture,
   }
 }
 
-export const updateBookmarkedTimeTableInfo = (index, updatedInfo) => {
+export const updateBookmarkedTimeTableInfo = (timeTableId, updatedInfo) => {
   return {
     type: UPDATE_BOOKMARKED_TIME_TABLE_INFO,
-    index,
+    timeTableId,
     updatedInfo,
   }
 }
@@ -237,10 +236,10 @@ export const bookmarkResponse = (bookmarkedTimeTable) => {
   }
 }
 
-export const deleteLectureFromBookmarkedTimeTable = (index, deleteLectureId) => {
+export const deleteLectureFromBookmarkedTimeTable = (timeTableId, deleteLectureId) => {
   return {
     type: DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE,
-    index,
+    timeTableId,
     deleteLectureId,
   }
 }
