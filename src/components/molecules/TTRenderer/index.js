@@ -239,11 +239,11 @@ class TTRenderer extends React.Component {
   }
 
   updateWindowDimensions = () => {
-    if (window.innerWidth <= 1200) {
+    if (window.innerWidth >= 1200) {
       blockWidth = 154
-    } else if (window.innerWidth <= 990) {
+    } else if (window.innerWidth >= 990) {
       blockWidth = 127
-    } else if (window.innerWidth <= 770) {
+    } else if (window.innerWidth >= 770) {
       blockWidth = 97
     } else {
       blockWidth = (window.innerWidth - 85) / 7
