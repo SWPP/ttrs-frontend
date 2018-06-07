@@ -4,92 +4,7 @@ import { Icon, Form, Menu, Popup, Segment, TextArea, Button } from 'semantic-ui-
 import LecturePopup from '../../../containers/LecturePopup'
 import SearchLecture from '../../../containers/SearchLecture'
 
-const overlap = (_time, _start, _end) => {
-  let time = _time.split(':').map((i) => Number(i))
-  time = (time[0] * 60) + time[1]
-
-  let start = _start.split(':').map((i) => Number(i))
-  start = (start[0] * 60) + start[1]
-
-  let end = _end.split(':').map((i) => Number(i))
-  end = (end[0] * 60) + end[1]
-
-  return time < end && start < (time + 30)
-}
-
-const hasLecture = (lectures, day, time) => {
-  let i
-  let j
-  for (i = 0; i < lectures.length; i += 1) {
-    const timeSlots = lectures[i].timeSlots
-    for (j = 0; j < timeSlots.length; j += 1) {
-      const timeSlot = timeSlots[j]
-      const d = timeSlot.dayOfWeek
-      const s = timeSlot.startTime
-      const e = timeSlot.endTime
-
-      if (d === day && overlap(time, s, e)) {
-        return i
-      }
-    }
-  }
-
-  return -1
-}
-
-const isStart = (_time, _start) => {
-  let time = _time.split(':').map((i) => Number(i))
-  time = (time[0] * 60) + time[1]
-
-  let start = _start.split(':').map((i) => Number(i))
-  start = (start[0] * 60) + start[1]
-
-  return time <= start && start < (time + 30)
-}
-
-const getRowSpan = (lecture, day) => {
-  let i
-
-  const timeSlots = lecture.timeSlots
-
-  for (i = 0; i < timeSlots.length; i += 1) {
-    const timeSlot = timeSlots[i]
-
-    if (timeSlot.dayOfWeek === day) {
-      const s = timeSlot.startTime
-      const e = timeSlot.endTime
-
-      let start = s.split(':').map((i) => Number(i))
-      start = (start[0] * 60) + start[1]
-
-      let end = e.split(':').map((i) => Number(i))
-      end = (end[0] * 60) + end[1]
-
-      return Math.ceil((end - start) / 30)
-    }
-  }
-  return 0
-}
-
-const isLectureStart = (lectures, day, time) => {
-  let i
-  let j
-  for (i = 0; i < lectures.length; i += 1) {
-    const timeSlots = lectures[i].timeSlots
-    for (j = 0; j < timeSlots.length; j += 1) {
-      const timeSlot = timeSlots[j]
-
-      const d = timeSlot.dayOfWeek
-      const s = timeSlot.startTime
-
-      if (d === day && isStart(time, s)) {
-        return i
-      }
-    }
-  }
-
-  return -1
-}
+import TTRenderer from '../TTRenderer'
 
 class TimeTable extends React.Component {
   state = {
@@ -156,66 +71,24 @@ class TimeTable extends React.Component {
     this.setState({ [name]: value })
   }
 
-  createTimeSlot = (day, time) => {
-    const key = `${day}-${time}`
-    if (hasLecture(this.props.lectures, day, time) >= 0) {
-      const lectureIndex = isLectureStart(this.props.lectures, day, time)
-      if (lectureIndex >= 0) {
-        const span = getRowSpan(this.props.lectures[lectureIndex], day)
-        const lecture = this.props.lectures[lectureIndex]
-        return (
-          <td key={key} style={{ border: '1px solid black' }} rowSpan={span}>
-            <button
-              style={{ padding: 0, width: 100, height: span * 35 }}
-              onClick={() => {
-                this.setState({ openId: lecture.id })
-                this.props.onGetEvaluations(lecture.id)
-              }}
-            >{lecture.course.name}</button>
-            <LecturePopup
-              open={lecture.id === this.state.openId}
-              lecture={lecture}
-              onDeleteLecture={() => this.props.onDeleteLecture(lecture.id)}
-              onAddToNotRecommends={() => this.props.onAddToNotRecommends(this.props.notRecommends, lecture.course.id)}
-              canDelete={this.props.canModify}
-              onClose={() => this.setState({ openId: null })}
-            />
-          </td>
-        )
-      }
-      return null
-    }
-
-    return (<td key={key} style={{ border: '1px solid black', width: '100px', height: '30px' }} />)
-  }
-
-  createRow = (time) => {
-    return ['월', '화', '수', '목', '금', '토'].map((day) => this.createTimeSlot(day, time))
+  getBlocks = (blocks) => {
+    console.log('Change in selected blocks')
+    console.log(blocks)
   }
 
   createTimeTable = () => {
     return (
-      <table>
-        <tbody>
-          <tr>
-            <th>Time</th>
-            <th>Mon</th>
-            <th>Tue</th>
-            <th>Wed</th>
-            <th>Thr</th>
-            <th>Fri</th>
-            <th>Sat</th>
-          </tr>
-          {['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
-            '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
-            '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30'].map((time) => (
-              <tr key={time}>
-                <td>{time}</td>
-                {this.createRow(time)}
-              </tr>
-          ))}
-        </tbody>
-      </table>
+      <div>
+        <TTRenderer
+          onChange={this.getBlocks}
+          lectures={this.props.lectures}
+          onDeleteLecture={this.props.onDeleteLecture}
+          onAddToNotRecommends={this.props.onAddToNotRecommends}
+          onGetEvaluations={this.props.onGetEvaluations}
+          notRecommends={this.props.notRecommends}
+          canModify={this.props.canModify}
+        />
+      </div>
     )
   }
 
