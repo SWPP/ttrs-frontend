@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Card, Sidebar, Segment } from 'semantic-ui-react'
+import { Button, Card, Sidebar, Segment, Label, Icon } from 'semantic-ui-react'
 import TimeTable from '../../../containers/TimeTable'
 import { getLectureIds, getLectureIdsWithout } from '../RecommendTab'
 
@@ -48,12 +48,20 @@ class BookmarkTab extends React.Component {
             direction="left"
           >
             <Card.Group>
-              {this.props.bookmarkedTimeTables.map((value, index) =>
-                <Card key={value.id} onClick={() => this.handleClick(index)} fluid>
+              {this.props.bookmarkedTimeTables.map((timeTable, index) =>
+                <Card
+                  key={timeTable.id}
+                  onClick={() => this.handleClick(index)}
+                  fluid
+                  style={{ paddingRight: 15 }}
+                  color={this.state.bookmarkedTimeTableIndex === index ? 'teal' : null}
+                >
                   <Card.Content>
-                    <Card.Header>{value.title}</Card.Header>
-                    <Card.Meta>{value.bookmarkedAt.substring(0, 10)}</Card.Meta>
-                    <Card.Description>Memo: {value.memo.length > 20 ? value.memo.substring(0, 20).concat(' ...') : value.memo}</Card.Description>
+                    {this.state.bookmarkedTimeTableIndex === index &&
+                    <Label color="teal" corner="right" />}
+                    <Card.Header>{timeTable.title.length > 9 ? timeTable.title.substring(0, 9).concat(' ...') : timeTable.title}</Card.Header>
+                    <Card.Meta>{timeTable.bookmarkedAt.substring(0, 10)}</Card.Meta>
+                    <Card.Description>Memo: {timeTable.memo.length > 20 ? timeTable.memo.substring(0, 20).concat(' ...') : timeTable.memo}</Card.Description>
                   </Card.Content>
                 </Card>
               )}
