@@ -173,6 +173,7 @@ class SearchLecture extends React.Component {
                   </Grid.Column>
                   <Grid.Column>
                     <Form.Select
+                      fluid
                       label="Credit"
                       placeholder="MIN"
                       options={creditOptions}
@@ -184,6 +185,7 @@ class SearchLecture extends React.Component {
                   <span style={{ marginTop: 32 }}>~</span>
                   <Grid.Column>
                     <Form.Select
+                      fluid
                       label="&nbsp;"
                       placeholder="MAX"
                       options={creditOptions}
@@ -197,6 +199,7 @@ class SearchLecture extends React.Component {
                 <Grid.Row columns={6} style={{ marginTop: -20 }}>
                   <Grid.Column>
                     <Form.Select
+                      fluid
                       label="College"
                       placeholder="College"
                       options={collegeOptions}
@@ -211,6 +214,7 @@ class SearchLecture extends React.Component {
                   </Grid.Column>
                   <Grid.Column>
                     <Form.Select
+                      fluid
                       label="Department"
                       placeholder="Department"
                       options={departmentOptions}
@@ -224,6 +228,7 @@ class SearchLecture extends React.Component {
                   </Grid.Column>
                   <Grid.Column>
                     <Form.Select
+                      fluid
                       label="Major"
                       placeholder="Major"
                       options={majorOptions}
@@ -234,6 +239,7 @@ class SearchLecture extends React.Component {
                   </Grid.Column>
                   <Grid.Column>
                     <Form.Select
+                      fluid
                       label="Order"
                       placeholder="Order"
                       options={orderOptions}
@@ -247,6 +253,7 @@ class SearchLecture extends React.Component {
                 <Grid.Row columns={6} style={{ marginTop: -20 }}>
                   <Grid.Column>
                     <Form.Select
+                      fluid
                       label="Type"
                       placeholder="Type"
                       options={typeOptions}
@@ -257,6 +264,7 @@ class SearchLecture extends React.Component {
                   </Grid.Column>
                   <Grid.Column>
                     <Form.Select
+                      fluid
                       label="Grade"
                       placeholder="Grade"
                       options={gradeOptions}
@@ -267,6 +275,7 @@ class SearchLecture extends React.Component {
                   </Grid.Column>
                   <Grid.Column>
                     <Form.Select
+                      fluid
                       label="Field"
                       placeholder="Field"
                       options={fieldStartOptions}
@@ -280,6 +289,7 @@ class SearchLecture extends React.Component {
                   </Grid.Column>
                   <Grid.Column>
                     <Form.Select
+                      fluid
                       label="Field Detail"
                       placeholder="Field Detail"
                       options={fieldEndOptions}
