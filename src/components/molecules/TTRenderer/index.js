@@ -5,10 +5,10 @@ import PropTypes from 'prop-types'
 import LecturePopup from '../../../containers/LecturePopup'
 
 
-var blockWidth = 154
-var blockHeight = 29
-var canvasWidth = (blockWidth + 2) * 7
-var canvasHeight = (blockHeight + 2) * 25
+let blockWidth = 154
+let blockHeight = 29
+let canvasWidth = (blockWidth + 2) * 7
+let canvasHeight = (blockHeight + 2) * 25
 
 class TTRenderer extends React.Component {
   constructor(props) {
