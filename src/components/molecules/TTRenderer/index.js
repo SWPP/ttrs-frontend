@@ -229,10 +229,10 @@ class TTRenderer extends React.Component {
   }
 
   hash = (lecture) => {
-    var name = lecture.course.name
-    var sum = 0
+    const name = lecture.course.name
+    let sum = 0
     for (let i = 0; i < name.length; i += 1) {
-        sum += name.charCodeAt(i)
+      sum += name.charCodeAt(i)
     }
 
     return sum % 360
