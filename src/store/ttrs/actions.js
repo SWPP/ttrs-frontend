@@ -1,3 +1,5 @@
+export const DISMISS_NOTICE = 'DISMISS_NOTICE'
+export const HIDE_NOTICE = 'HIDE_NOTICE'
 export const SET_ERRORS = 'SET_ERRORS'
 export const SIGN_IN_REQUEST = 'SIGN_IN_REQUEST'
 export const SIGN_IN_RESPONSE = 'SIGN_IN_RESPONSE'
