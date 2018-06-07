@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import RecommendTab from '../components/organisms/RecommendTab'
-import { deleteTimeTableRequest, selectRecommendedTimeTableRequest, updateMyTimeTableRequest } from '../store/ttrs/actions'
+import { deleteTimeTableRequest, getRecommendationRequest, selectRecommendedTimeTableRequest, updateMyTimeTableRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -22,6 +22,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onSelectRecommendedTimeTable: (recommendedTimeTable) => {
       dispatch(selectRecommendedTimeTableRequest(recommendedTimeTable))
+    },
+    onGetRecommendation: () => {
+      dispatch(getRecommendationRequest())
     },
   }
 }

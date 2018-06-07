@@ -56,6 +56,7 @@ export const MODIFY_EVALUATION_REQUEST = 'MODIFY_EVALUATION_REQUEST'
 export const SET_EVALUATIONS_RESPONSE = 'MODIFY_EVALUATIONS_RESPONSE'
 export const TOGGLE_LIKE_IT_REQUEST = 'TOGGLE_LIKE_IT_REQUEST'
 export const SET_FIELDS_AND_TYPES = 'SET_FIELDS_AND_TYPES'
+export const GET_RECOMMENDATION_REQUEST = 'GET_RECOMMENDATION_REQUEST'
 
 export const dismissNotice = (id) => {
   return {
@@ -215,28 +216,27 @@ export const selectBookmarkedTimeTableResponse = (bookmarkedTimeTable) => {
   }
 }
 
-export const updateBookmarkedTimeTableRequest = (index, timeTableId, updatedInfo, deleteLectureId) => {
+export const updateBookmarkedTimeTableRequest = (timeTableId, updatedInfo, deleteLectureId) => {
   return {
     type: UPDATE_BOOKMARKED_TIME_TABLE_REQUEST,
-    index,
     timeTableId,
     updatedInfo,
     deleteLectureId,
   }
 }
 
-export const addLectureToBookmarkedTimeTable = (index, newLecture) => {
+export const addLectureToBookmarkedTimeTable = (timeTableId, newLecture) => {
   return {
     type: ADD_LECTURE_TO_BOOKMARKED_TIME_TABLE,
-    index,
+    timeTableId,
     newLecture,
   }
 }
 
-export const updateBookmarkedTimeTableInfo = (index, updatedInfo) => {
+export const updateBookmarkedTimeTableInfo = (timeTableId, updatedInfo) => {
   return {
     type: UPDATE_BOOKMARKED_TIME_TABLE_INFO,
-    index,
+    timeTableId,
     updatedInfo,
   }
 }
@@ -255,10 +255,10 @@ export const bookmarkResponse = (bookmarkedTimeTable) => {
   }
 }
 
-export const deleteLectureFromBookmarkedTimeTableResponse = (index, deleteLectureId) => {
+export const deleteLectureFromBookmarkedTimeTableResponse = (timeTableId, deleteLectureId) => {
   return {
     type: DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE_RESPONSE,
-    index,
+    timeTableId,
     deleteLectureId,
   }
 }
@@ -277,19 +277,19 @@ export const createReceivedTimeTables = (receivedTimeTables) => {
   }
 }
 
-export const selectReceivedTimeTableRequest = (receivedTimeTable, index) => {
+export const selectReceivedTimeTableRequest = (receivedTimeTable, timeTableId) => {
   return {
     type: SELECT_RECEIVED_TIME_TABLE_REQUEST,
     receivedTimeTable,
-    index,
+    timeTableId,
   }
 }
 
-export const selectReceivedTimeTableResponse = (receivedTimeTable, index) => {
+export const selectReceivedTimeTableResponse = (receivedTimeTable, timeTableId) => {
   return {
     type: SELECT_RECEIVED_TIME_TABLE_RESPONSE,
     receivedTimeTable,
-    index,
+    timeTableId,
   }
 }
 
@@ -482,5 +482,11 @@ export const setFieldsAndTypes = (fields, types) => {
     type: SET_FIELDS_AND_TYPES,
     fields,
     types,
+  }
+}
+
+export const getRecommendationRequest = () => {
+  return {
+    type: GET_RECOMMENDATION_REQUEST,
   }
 }

@@ -29,6 +29,7 @@ export const initialTimeTable = {
     title: '',
     memo: '',
     lectures: [],
+    creditSum: 0,
   },
   bookmarkedTimeTables: [],
   receivedTimeTable: {
@@ -38,6 +39,7 @@ export const initialTimeTable = {
     lectures: [],
     sender: null,
     receivedAt: null,
+    creditSum: 0,
   },
   receivedTimeTables: [],
   recommendedTimeTable: {

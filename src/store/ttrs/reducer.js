@@ -46,8 +46,10 @@ const belongInfo = (state = [], action) => {
 
 const timeTable = (state = [], action) => {
   let bookmarkedTimeTables
+  let bookmarkedTimeTable
   let receivedTimeTables
   let lectures
+  let creditSum
   switch (action.type) {
     case actions.CREATE_MY_TIME_TABLE:
       return {
@@ -100,28 +102,39 @@ const timeTable = (state = [], action) => {
       }
     case actions.ADD_LECTURE_TO_BOOKMARKED_TIME_TABLE:
       bookmarkedTimeTables = [...state.bookmarkedTimeTables]
-      bookmarkedTimeTables[action.index] = {
-        ...state.bookmarkedTimeTable,
-        lectures: [
-          ...state.bookmarkedTimeTable.lectures,
-          action.newLecture,
-        ],
-      }
+      bookmarkedTimeTables.forEach((timeTable, index) => {
+        if (timeTable.id === action.timeTableId) {
+          bookmarkedTimeTables[index] = {
+            ...state.bookmarkedTimeTable,
+            lectures: [
+              ...state.bookmarkedTimeTable.lectures,
+              action.newLecture,
+            ],
+            creditSum: state.bookmarkedTimeTable.creditSum + action.newLecture.course.credit,
+          }
+          bookmarkedTimeTable = bookmarkedTimeTables[index]
+        }
+      })
       return {
         ...state,
         bookmarkedTimeTables: [...bookmarkedTimeTables],
-        bookmarkedTimeTable: bookmarkedTimeTables[action.index],
+        bookmarkedTimeTable,
       }
     case actions.UPDATE_BOOKMARKED_TIME_TABLE_INFO:
       bookmarkedTimeTables = [...state.bookmarkedTimeTables]
-      bookmarkedTimeTables[action.index] = {
-        ...state.bookmarkedTimeTable,
-        ...action.updatedInfo,
-      }
+      bookmarkedTimeTables.forEach((timeTable, index) => {
+        if (timeTable.id === action.timeTableId) {
+          bookmarkedTimeTables[index] = {
+            ...state.bookmarkedTimeTable,
+            ...action.updatedInfo,
+          }
+          bookmarkedTimeTable = bookmarkedTimeTables[index]
+        }
+      })
       return {
         ...state,
         bookmarkedTimeTables: [...bookmarkedTimeTables],
-        bookmarkedTimeTable: bookmarkedTimeTables[action.index],
+        bookmarkedTimeTable,
       }
     case actions.BOOKMARK_RESPONSE:
       bookmarkedTimeTables = [...state.bookmarkedTimeTables]
@@ -133,16 +146,24 @@ const timeTable = (state = [], action) => {
       }
     case actions.DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE_RESPONSE:
       lectures = []
+      creditSum = state.bookmarkedTimeTable.creditSum
       state.bookmarkedTimeTable.lectures.forEach((lecture) => {
         if (lecture.id !== action.deleteLectureId) {
           lectures.push(lecture)
+        } else {
+          creditSum -= lecture.course.credit
         }
       })
       bookmarkedTimeTables = [...state.bookmarkedTimeTables]
-      bookmarkedTimeTables[action.index] = {
-        ...state.bookmarkedTimeTable,
-        lectures,
-      }
+      bookmarkedTimeTables.forEach((timeTable, index) => {
+        if (timeTable.id === action.timeTableId) {
+          bookmarkedTimeTables[index] = {
+            ...state.bookmarkedTimeTable,
+            lectures,
+            creditSum,
+          }
+        }
+      })
       return {
         ...state,
         bookmarkedTimeTables: [...bookmarkedTimeTables],
@@ -151,6 +172,7 @@ const timeTable = (state = [], action) => {
           lectures: [
             ...lectures,
           ],
+          creditSum,
         },
       }
     case actions.CREATE_RECEIVED_TIME_TABLES:
@@ -161,9 +183,13 @@ const timeTable = (state = [], action) => {
       }
     case actions.SELECT_RECEIVED_TIME_TABLE_RESPONSE:
       receivedTimeTables = [...state.receivedTimeTables]
-      receivedTimeTables[action.index] = {
-        ...action.receivedTimeTable,
-      }
+      receivedTimeTables.forEach((timeTable, index) => {
+        if (timeTable.id === action.timeTableId) {
+          receivedTimeTables[index] = {
+            ...action.receivedTimeTable,
+          }
+        }
+      })
       return {
         ...state,
         receivedTimeTables: [...receivedTimeTables],
