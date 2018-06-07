@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, Sidebar, Segment, Label } from 'semantic-ui-react'
+import { Card, Sidebar, Segment, Label, Divider } from 'semantic-ui-react'
 import TimeTable from '../../../containers/TimeTable'
 import { getLectureIds, getLectureIdsWithout } from '../RecommendTab'
 
@@ -34,7 +34,7 @@ class ReceiveTab extends React.Component {
           canCopyToMy={false}
           onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
         />
-        <hr />
+        <Divider />
         <h1>Received TimeTable</h1>
         <h2>Sender: {this.props.receivedTimeTable.sender}</h2>
         <Sidebar.Pushable>

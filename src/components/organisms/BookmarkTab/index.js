@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, Sidebar, Segment, Label } from 'semantic-ui-react'
+import { Card, Sidebar, Segment, Label, Divider } from 'semantic-ui-react'
 import TimeTable from '../../../containers/TimeTable'
 import { getLectureIds, getLectureIdsWithout } from '../RecommendTab'
 
@@ -11,7 +11,7 @@ class BookmarkTab extends React.Component {
     bookmarkedTimeTableIndex: 0,
   }
 
-  handleClick = (index) => {
+  handleClickCard = (index) => {
     this.setState({ sidebarVisible: false })
     if (this.state.bookmarkedTimeTableIndex !== index) {
       this.setState({ bookmarkedTimeTableIndex: index })
@@ -35,7 +35,7 @@ class BookmarkTab extends React.Component {
           canCopyToMy={false}
           onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
         />
-        <hr />
+        <Divider />
         <h1>Bookmarked TimeTable</h1>
         <Sidebar.Pushable>
           <Sidebar
@@ -48,7 +48,7 @@ class BookmarkTab extends React.Component {
               {this.props.bookmarkedTimeTables.map((timeTable, index) =>
                 <Card
                   key={timeTable.id}
-                  onClick={() => this.handleClick(index)}
+                  onClick={() => this.handleClickCard(index)}
                   fluid
                   style={{ paddingRight: 15 }}
                   color={this.state.bookmarkedTimeTableIndex === index ? 'teal' : null}

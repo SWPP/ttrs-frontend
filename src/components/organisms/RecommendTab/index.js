@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button } from 'semantic-ui-react'
+import { Button, Divider } from 'semantic-ui-react'
 import TimeTable from '../../../containers/TimeTable'
 
 export const getLectureIds = (timeTable) => {
@@ -40,7 +40,7 @@ class RecommendTab extends React.Component {
           canCopyToMy={false}
           onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
         />
-        <hr />
+        <Divider />
         <h1>Recommended TimeTable</h1>
         <Button
           color="teal"
