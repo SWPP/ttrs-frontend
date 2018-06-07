@@ -172,7 +172,7 @@ class SearchLecture extends React.Component {
                   <Grid.Column>
                     <Form.Input
                       label="Credit"
-                      placeholder="GTE"
+                      placeholder="MIN"
                       name="course.credit.gte"
                       onChange={this.handleChange}
                     />
@@ -181,7 +181,7 @@ class SearchLecture extends React.Component {
                   <Grid.Column>
                     <Form.Input
                       label="&nbsp;"
-                      placeholder="LTE"
+                      placeholder="MAX"
                       name="course.credit.lte"
                       onChange={this.handleChange}
                     />
