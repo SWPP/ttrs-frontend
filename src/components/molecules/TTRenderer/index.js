@@ -5,10 +5,10 @@ import PropTypes from 'prop-types'
 import LecturePopup from '../../../containers/LecturePopup'
 
 
-const blockWidth = 154
-const blockHeight = 29
-const canvasWidth = (blockWidth + 2) * 7
-const canvasHeight = (blockHeight + 2) * 25
+var blockWidth = 154
+var blockHeight = 29
+var canvasWidth = (blockWidth + 2) * 7
+var canvasHeight = (blockHeight + 2) * 25
 
 class TTRenderer extends React.Component {
   constructor(props) {
@@ -28,6 +28,9 @@ class TTRenderer extends React.Component {
   }
 
   componentDidMount() {
+    window.addEventListener('resize', this.updateWindowDimensions)
+
+    this.updateWindowDimensions()
     this.updateCanvas()
   }
 
@@ -40,6 +43,24 @@ class TTRenderer extends React.Component {
 
   componentDidUpdate() {
     this.updateCanvas()
+  }
+
+  updateWindowDimensions = () => {
+
+    if (1200 <= window.innerWidth) {
+      blockWidth = 154
+    } else if (990 <= window.innerWidth) {
+      blockWidth = 127
+    } else if (770 <= window.innerWidth){
+      blockWidth = 97
+    } else {
+      blockWidth = (window.innerWidth - 85)/7
+    }
+
+    canvasWidth = (blockWidth + 2) * 7
+    canvasHeight = (blockHeight + 2) * 25
+
+    this.forceUpdate()
   }
 
   setHeaders = (ctx) => {
@@ -256,8 +277,16 @@ class TTRenderer extends React.Component {
 
   updateCanvas = () => {
     const canvas = this.refs.canvas
+    if (!canvas) {
+        return 
+    }
+
     const ctx = canvas.getContext('2d')
-    ctx.clearRect(0, 0, canvasWidth, canvasHeight)
+    //ctx.clearRect(0, 0, canvasWidth, canvasHeight)
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
+
+    ctx.fillStyle = 'rgb(255,255,255)'
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight)
 
     this.drawGrid(ctx)
     this.setHeaders(ctx)
@@ -329,10 +358,9 @@ class TTRenderer extends React.Component {
 
   render() {
     return (
-      <div draggable="false">
         <div
           draggable="false"
-          style={{ width: '1000px', height: '800px' }}
+          style={{ width: {canvasWidth}, height: {canvasHeight} }}
           onMouseDown={(e) => this.onMouseDown(e)}
           onMouseUp={(e) => this.onMouseUp(e)}
         >
@@ -348,7 +376,6 @@ class TTRenderer extends React.Component {
               onClose={() => this.setState({ openId: null })}
             />)}
         </div>
-      </div>
     )
   }
 }
