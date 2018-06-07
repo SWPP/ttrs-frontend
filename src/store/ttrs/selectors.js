@@ -88,4 +88,6 @@ export const initialState = {
     id: null,
     rating: 0,
   },
+  fields: {},
+  types: [],
 }

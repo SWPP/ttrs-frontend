@@ -1,5 +1,6 @@
 import { initialState, initialTimeTable, initialError, initialResponse, initialSearch } from './selectors'
 import * as actions from './actions'
+import { SET_FIELDS_AND_TYPES } from './actions'
 
 const studentInfo = (state = [], action) => {
   switch (action.type) {
@@ -321,6 +322,12 @@ const ttrsReducer = (state = initialState, action) => {
         evaluations: action.evaluations,
         lectureDetail: action.lectureDetail,
         search: search(state.search, action),
+      }
+    case actions.SET_FIELDS_AND_TYPES:
+      return {
+        ...state,
+        fields: action.fields,
+        types: action.types,
       }
     default:
       return {
