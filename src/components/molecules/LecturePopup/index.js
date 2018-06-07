@@ -4,12 +4,24 @@ import { Button, Divider, Feed, Form, Grid, Header, Icon, List, Modal, Popup, Ra
 import TimeSlot from '../../atoms/TimeSlot'
 
 class LecturePopup extends React.Component {
-  state = {
-    editingId: null,
-    rate: 10,
-    comment: '',
-    isIgnoringLecture: false,
-    isDeletingLecture: false,
+  static getDerivedStateFromProps(props) {
+    return { isInNotRecommends: props.notRecommends.includes(props.lecture.course.id) }
+  }
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      editingId: null,
+      rate: 10,
+      comment: '',
+      isIgnoringLecture: false,
+      isDeletingLecture: false,
+      isDeletingEvaluation: false,
+      isInNotRecommends: props.notRecommends.includes(props.lecture.course.id),
+    }
+
+    props.onGetEvaluations(props.lecture.id)
   }
 
   handleChange = (e, { name, value }) => {
@@ -61,15 +73,10 @@ class LecturePopup extends React.Component {
     const lecture = this.props.lecture
     const course = lecture.course
     const evaluations = this.props.evaluations
-    const MiniIconButtonStyle = {
+    const miniIconButtonStyle = {
       backgroundColor: 'white',
       margin: 0,
       padding: 2,
-    }
-    const iconButtonStyle = {
-      backgroundColor: 'white',
-      margin: 0,
-      padding: 5,
     }
 
     return (
@@ -84,37 +91,6 @@ class LecturePopup extends React.Component {
       >
         <Modal.Header>
           {course.name}
-          <Popup
-            trigger={<button
-              className="large ui icon button"
-              onClick={() => this.setState({ isIgnoringLecture: true })}
-              style={iconButtonStyle}
-            >
-              <Icon name="ban" color="red" />
-            </button>}
-            content={this.state.isIgnoringLecture ?
-              <Button color="red" content="Not Recommend" onClick={this.props.onAddToNotRecommends} /> :
-              'Do not recommend this course from now'}
-            onClose={() => this.setState({ isIgnoringLecture: false })}
-            on={this.state.isIgnoringLecture ? 'click' : 'hover'}
-            inverted={!this.state.isIgnoringLecture}
-          />
-          {this.props.canDelete &&
-          <Popup
-            trigger={<button
-              className="large ui icon button"
-              onClick={() => this.setState({ isDeletingLecture: true })}
-              style={iconButtonStyle}
-            >
-              <Icon name="trash" color="red" />
-            </button>}
-            content={this.state.isDeletingLecture ?
-              <Button color="red" content="Delete" onClick={this.props.onDeleteLecture} /> :
-              'Delete this lecture from the timetable'}
-            onClose={() => this.setState({ isDeletingLecture: false })}
-            on={this.state.isDeletingLecture ? 'click' : 'hover'}
-            inverted={!this.state.isDeletingLecture}
-          />}
         </Modal.Header>
         <Modal.Content>
           <Modal.Description>
@@ -186,32 +162,43 @@ class LecturePopup extends React.Component {
                             <Feed.Date>{evaluation.evaluatedAt.substring(0, 10)}&nbsp;</Feed.Date>
                             {this.props.username === evaluation.author &&
                             <span>
-                              <button
-                                className="mini ui icon button"
-                                style={MiniIconButtonStyle}
-                                onClick={() => this.setState({
-                                  editingId: this.state.editingId === null ? evaluation.id : null,
-                                  rate: evaluation.rate,
-                                  comment: evaluation.comment,
-                                })}
-                              >
-                                <Icon name={this.state.editingId === null ? 'edit' : 'undo'} />
-                              </button>
+                              <Popup
+                                trigger={
+                                  <button
+                                    className="mini ui icon button"
+                                    style={miniIconButtonStyle}
+                                    onClick={() => this.setState({
+                                      editingId: this.state.editingId === null ? evaluation.id : null,
+                                      rate: evaluation.rate,
+                                      comment: evaluation.comment,
+                                    })}
+                                  >
+                                    <Icon name={this.state.editingId === null ? 'edit' : 'undo'} />
+                                  </button>
+                                }
+                                content={this.state.editingId === null ? 'Modify the evaluation' : 'Cancel modification'}
+                                inverted
+                              />
                               <Popup
                                 trigger={<button
                                   className="mini ui icon button"
-                                  style={MiniIconButtonStyle}
+                                  style={miniIconButtonStyle}
+                                  onClick={() => this.setState({ isDeletingEvaluation: true })}
                                 >
                                   <Icon name="delete" />
                                 </button>}
-                                content={<Button
+                                content={this.state.isDeletingEvaluation
+                                ? <Button
                                   color="red"
                                   content="Delete"
                                   onClick={() => {
                                     this.handleDeleteEvaluation(evaluation.id)
                                   }}
-                                />}
-                                on="click"
+                                />
+                                : 'Delete the evaluation'}
+                                onClose={() => this.setState({ isDeletingEvaluation: false })}
+                                on={this.state.isDeletingEvaluation ? 'click' : 'hover'}
+                                inverted={!this.state.isDeletingEvaluation}
                               />
                             </span>}
                           </Feed.Summary>
@@ -300,6 +287,47 @@ class LecturePopup extends React.Component {
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
+          <Popup
+            trigger={<Button
+              icon={{
+                name: this.state.isInNotRecommends ? 'check circle' : 'ban',
+                color: this.state.isInNotRecommends ? 'green' : 'red',
+              }}
+              color={this.state.isInNotRecommends ? 'green' : 'red'}
+              content={this.state.isInNotRecommends ? 'Allow Recommend' : 'Not Recommend'}
+              inverted
+              onClick={() => {
+                if (this.state.isInNotRecommends) {
+                  this.props.onDeleteFromNotRecommends(this.props.notRecommends, this.props.lecture.course.id)
+                } else {
+                  this.props.onAddToNotRecommends(this.props.notRecommends, this.props.lecture.course.id)
+                }
+              }}
+            />}
+            content={this.state.isInNotRecommends ? 'Allow to recommend this course from now' : 'Do not recommend this course from now'}
+            inverted
+          />
+          {this.props.canDelete &&
+          <Popup
+            trigger={<Button
+              icon={{ name: 'trash' }}
+              color="red"
+              content="Delete"
+              onClick={() => this.setState({ isDeletingLecture: true })}
+            />}
+            content={this.state.isDeletingLecture ?
+              <Button
+                color="red"
+                content="Confirm"
+                onClick={() => {
+                  this.props.onDeleteLecture()
+                }}
+              /> :
+              'Delete this lecture from the timetable'}
+            onClose={() => this.setState({ isDeletingLecture: false })}
+            on={this.state.isDeletingLecture ? 'click' : 'hover'}
+            inverted={!this.state.isDeletingLecture}
+          />}
           <Button
             onClick={() => {
               this.props.onClose()
@@ -315,20 +343,24 @@ class LecturePopup extends React.Component {
 }
 
 LecturePopup.propTypes = {
-  username: PropTypes.string,
   userId: PropTypes.number,
+  username: PropTypes.string,
   evaluations: PropTypes.array,
-  open: PropTypes.bool,
-  onClose: PropTypes.func,
+  lectureDetail: PropTypes.object,
+  notRecommends: PropTypes.array,
   lecture: PropTypes.object,
-  onDeleteLecture: PropTypes.func,
-  onAddToNotRecommends: PropTypes.func,
+  open: PropTypes.bool,
   canDelete: PropTypes.bool,
+
+  onGetEvaluations: PropTypes.func,
   onAddEvaluation: PropTypes.func,
   onDeleteEvaluation: PropTypes.func,
   onModifyEvaluation: PropTypes.func,
-  lectureDetail: PropTypes.object,
   onToggleLikeIt: PropTypes.func,
+  onAddToNotRecommends: PropTypes.func,
+  onDeleteFromNotRecommends: PropTypes.func,
+  onClose: PropTypes.func,
+  onDeleteLecture: PropTypes.func,
 }
 
 export default LecturePopup

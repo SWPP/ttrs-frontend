@@ -1,8 +1,8 @@
 import { connect } from 'react-redux'
 import LecturePopup from '../components/molecules/LecturePopup'
 import {
-  addEvaluationRequest, deleteEvaluationRequest, getEvaluationsRequest, modifyEvaluationRequest,
-  setEvaluationsResponse, toggleLikeItRequest
+  addEvaluationRequest, addToNotRecommendsRequest, deleteEvaluationRequest, deleteFromNotRecommendsRequest,
+  getEvaluationsRequest, modifyEvaluationRequest, setEvaluationsResponse, toggleLikeItRequest,
 } from '../store/ttrs/actions'
 
 const mapStateToProps = (state, props) => {
@@ -11,7 +11,10 @@ const mapStateToProps = (state, props) => {
     username: state.ttrs.studentInfo.username,
     evaluations: state.ttrs.evaluations,
     lectureDetail: state.ttrs.lectureDetail,
-    ...props,
+    notRecommends: state.ttrs.studentInfo.notRecommends,
+    lecture: props.lecture,
+    open: props.open,
+    canDelete: props.canDelete,
   }
 }
 
@@ -32,11 +35,17 @@ const mapDispatchToProps = (dispatch, props) => {
     onToggleLikeIt: (lectureId, isAdd, evaluationId) => {
       dispatch(toggleLikeItRequest(lectureId, isAdd, evaluationId))
     },
-    ...props,
+    onAddToNotRecommends: (notRecommends, courseId) => {
+      dispatch(addToNotRecommendsRequest(notRecommends, courseId))
+    },
+    onDeleteFromNotRecommends: (notRecommends, courseId) => {
+      dispatch(deleteFromNotRecommendsRequest(notRecommends, courseId))
+    },
     onClose: () => {
       props.onClose()
       dispatch(setEvaluationsResponse([], { id: null, rating: 0 }))
     },
+    onDeleteLecture: props.onDeleteLecture,
   }
 }
 

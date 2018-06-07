@@ -29,15 +29,15 @@ class RecommendTab extends React.Component {
       <div>
         <h1>My TimeTable</h1>
         <TimeTable
-          haveSidebar={false}
           {...this.props.myTimeTable}
-          onAddLecture={(newLectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, { lectures: getLectureIds(this.props.myTimeTable) }, newLectureId)}
-          onDeleteLecture={(lectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, this.props.myTimeTable) }, -lectureId)}
-          onModifyContent={(content) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, content, null)}
+          haveSidebar={false}
           canModify
           canDelete
           canCreate
           canCopyToMy={false}
+          onAddLecture={(newLectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, { lectures: getLectureIds(this.props.myTimeTable) }, newLectureId)}
+          onDeleteLecture={(lectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, this.props.myTimeTable) }, -lectureId)}
+          onModifyContent={(content) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, content, null)}
           onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
         />
         <Divider />
@@ -60,8 +60,8 @@ class RecommendTab extends React.Component {
           )}
         </select>
         <TimeTable
-          haveSidebar={false}
           {...this.props.recommendedTimeTable}
+          haveSidebar={false}
           canModify={false}
           canDelete={false}
           canCopyToMy

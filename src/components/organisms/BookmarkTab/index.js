@@ -24,15 +24,15 @@ class BookmarkTab extends React.Component {
       <div>
         <h1>My TimeTable</h1>
         <TimeTable
-          haveSidebar={false}
-          onAddLecture={(newLectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, {lectures: getLectureIds(this.props.myTimeTable)}, newLectureId)}
-          onModifyContent={(content) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, content, null)}
-          onDeleteLecture={(lectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, {lectures: getLectureIdsWithout(lectureId, this.props.myTimeTable)}, -lectureId)}
           {...this.props.myTimeTable}
+          haveSidebar={false}
           canModify
           canDelete
           canCreate
           canCopyToMy={false}
+          onAddLecture={(newLectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, {lectures: getLectureIds(this.props.myTimeTable)}, newLectureId)}
+          onModifyContent={(content) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, content, null)}
+          onDeleteLecture={(lectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, {lectures: getLectureIdsWithout(lectureId, this.props.myTimeTable)}, -lectureId)}
           onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
         />
         <Divider />
@@ -67,15 +67,15 @@ class BookmarkTab extends React.Component {
           </Sidebar>
           <Sidebar.Pusher>
             <TimeTable
+              {...this.props.bookmarkedTimeTable}
               haveSidebar
+              canModify
+              canDelete
+              canCopyToMy
               onOpenSidebar={() => this.setState({ sidebarVisible: true })}
               onAddLecture={(newLectureId) => this.props.onUpdateBookmarkedTimeTable(this.props.bookmarkedTimeTable.id, { lectures: getLectureIds(this.props.bookmarkedTimeTable) }, newLectureId)}
               onModifyContent={(content) => this.props.onUpdateBookmarkedTimeTable(this.props.bookmarkedTimeTable.id, content, null)}
               onDeleteLecture={(lectureId) => this.props.onUpdateBookmarkedTimeTable(this.props.bookmarkedTimeTable.id, { lectures: getLectureIdsWithout(lectureId, this.props.bookmarkedTimeTable) }, -lectureId)}
-              {...this.props.bookmarkedTimeTable}
-              canModify
-              canDelete
-              canCopyToMy
               onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'bookmarked', this.props.bookmarkedTimeTables) : console.log('There is no timetable')}
             />
           </Sidebar.Pusher>

@@ -316,7 +316,6 @@ class SearchLecture extends React.Component {
                   key={lecture.id}
                   lecture={lecture}
                   onAddLecture={() => this.props.onAddLecture(lecture.id)}
-                  onAddToNotRecommends={() => this.props.onAddToNotRecommends(lecture.course.id)}
                 />
               )}
             </Card.Group>
@@ -347,12 +346,12 @@ SearchLecture.propTypes = {
   searchLectures: PropTypes.array,
   count: PropTypes.number,
   colleges: PropTypes.array,
-  onSearchLecture: PropTypes.func,
-  onAddLecture: PropTypes.func,
-  onAddToNotRecommends: PropTypes.func,
-  onClose: PropTypes.func,
   fields: PropTypes.object,
   types: PropTypes.array,
+
+  onSearchLecture: PropTypes.func,
+  onClose: PropTypes.func,
+  onAddLecture: PropTypes.func,
 }
 
 export default SearchLecture

@@ -1,14 +1,16 @@
 import { connect } from 'react-redux'
-import { getEvaluationsRequest } from '../store/ttrs/actions'
 import Lecture from '../components/atoms/Lecture'
 
-const mapDispatchToProps = (dispatch, props) => {
+const mapStateToProps = (state, props) => {
   return {
-    onGetEvaluations: (lectureId) => {
-      dispatch(getEvaluationsRequest(lectureId))
-    },
-    ...props,
+    lecture: props.lecture,
   }
 }
 
-export default connect(null, mapDispatchToProps)(Lecture)
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    onAddLecture: props.onAddLecture,
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Lecture)

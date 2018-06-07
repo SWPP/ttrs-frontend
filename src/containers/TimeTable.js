@@ -5,29 +5,32 @@ import { addToNotRecommendsRequest, bookmarkRequest, copyToMyTimeTableRequest, g
 const mapStateToProps = (state, props) => {
   return {
     username: state.ttrs.studentInfo.username,
-    notRecommends: state.ttrs.studentInfo.notRecommends,
-    ...props,
+    id: props.id,
+    memo: props.memo,
+    title: props.title,
+    lectures: props.lectures,
+    canModify: props.canModify,
+    canCopyToMy: props.canCopyToMy,
+    canDelete: props.canDelete,
+    canCreate: props.canCreate,
   }
 }
 
 const mapDispatchToProps = (dispatch, props) => {
   return {
+    onCopyToMy: (timeTableId) => {
+      dispatch(copyToMyTimeTableRequest(timeTableId))
+    },
     onBookmark: (timeTableId) => {
       dispatch(bookmarkRequest(timeTableId))
     },
     onSend: (sendInfo) => {
       dispatch(sendTimeTable(sendInfo))
     },
-    onCopyToMy: (timeTableId) => {
-      dispatch(copyToMyTimeTableRequest(timeTableId))
-    },
-    onAddToNotRecommends: (notRecommends, courseId) => {
-      dispatch(addToNotRecommendsRequest(notRecommends, courseId))
-    },
-    onGetEvaluations: (lectureId) => {
-      dispatch(getEvaluationsRequest(lectureId))
-    },
-    ...props,
+    onModifyContent: props.onModifyContent,
+    onAddLecture: props.onAddLecture,
+    onDeleteLecture: props.onDeleteLecture,
+    onDeleteTimeTable: props.onDeleteTimeTable,
   }
 }
 

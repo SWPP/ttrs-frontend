@@ -23,20 +23,20 @@ class ReceiveTab extends React.Component {
       <div>
         <h1>My TimeTable</h1>
         <TimeTable
-          haveSidebar={false}
-          onAddLecture={(newLectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, { lectures: getLectureIds(this.props.myTimeTable) }, newLectureId)}
-          onModifyContent={(content) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, content, null)}
-          onDeleteLecture={(lectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, this.props.myTimeTable) }, -lectureId)}
           {...this.props.myTimeTable}
+          haveSidebar={false}
           canModify
           canDelete
           canCreate
           canCopyToMy={false}
+          onAddLecture={(newLectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, { lectures: getLectureIds(this.props.myTimeTable) }, newLectureId)}
+          onModifyContent={(content) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, content, null)}
+          onDeleteLecture={(lectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, this.props.myTimeTable) }, -lectureId)}
           onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
         />
         <Divider />
         <h1>Received TimeTable</h1>
-        <h2>Sender: {this.props.receivedTimeTable.sender}</h2>
+        <h2>From {this.props.receivedTimeTable.sender}</h2>
         <Sidebar.Pushable>
           <Sidebar
             as={Segment}
@@ -70,12 +70,12 @@ class ReceiveTab extends React.Component {
           </Sidebar>
           <Sidebar.Pusher>
             <TimeTable
-              haveSidebar
-              onOpenSidebar={() => this.setState({ sidebarVisible: true })}
               {...this.props.receivedTimeTable}
+              haveSidebar
               canModify={false}
               canDelete
               canCopyToMy
+              onOpenSidebar={() => this.setState({ sidebarVisible: true })}
               onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'received', this.props.receivedTimeTables) : console.log('There is no timetable')}
             />
           </Sidebar.Pusher>
