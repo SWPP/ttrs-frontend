@@ -20,10 +20,6 @@ class Notice extends React.Component {
   }
 
   render() {
-    // this.props.notices.forEach(notice => {
-    //   console.log(notice)
-    //   setTimeout(() => this.props.onDismissNotice(notice.id), notice.duration ? notice.duration + 2000 : 5000)
-    // })
     return (
       <div>
         {this.props.notices.map(notice => (
