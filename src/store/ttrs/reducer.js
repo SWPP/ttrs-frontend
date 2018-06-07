@@ -331,7 +331,6 @@ const notice = (state = initialNotice, action) => {
       return newNotice(state, newId, 'You have successfully withdrawn the membership.')
     case actions.ADD_LECTURE_TO_MY_TIME_TABLE:
     case actions.ADD_LECTURE_TO_BOOKMARKED_TIME_TABLE:
-    case actions.CREATE_MY_TIME_TABLE:
       return newNotice(state, newId, 'Added successfully.')
     case actions.DELETE_MY_TIME_TABLE_RESPONSE:
     case actions.DELETE_BOOKMARKED_TIME_TABLE_RESPONSE:
