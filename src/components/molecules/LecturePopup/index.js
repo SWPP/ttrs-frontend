@@ -57,10 +57,6 @@ class LecturePopup extends React.Component {
     this.props.onToggleLikeIt(this.props.lecture.id, isAdd, evaluation.id)
   }
 
-  callBack = (datafromchild) => {
-      console.log(datafromchild)
-  }
-
   render() {
     const lecture = this.props.lecture
     const course = lecture.course
