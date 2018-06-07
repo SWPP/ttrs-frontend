@@ -37,7 +37,6 @@ class BookmarkTab extends React.Component {
         />
         <hr />
         <h1>Bookmarked TimeTable</h1>
-        {/*<Button onClick={() => this.setState({ sidebarVisible: true })}>Toggle Visibility</Button>*/}
         <Sidebar.Pushable>
           <Sidebar
             as={Segment}
