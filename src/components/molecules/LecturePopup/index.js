@@ -18,7 +18,7 @@ class LecturePopup extends React.Component {
       isIgnoringLecture: false,
       isDeletingLecture: false,
       isDeletingEvaluation: false,
-      isInNotRecommends: props.notRecommends.includes(props.lecture.id),
+      isInNotRecommends: props.notRecommends.includes(props.lecture.course.id),
     }
 
     props.onGetEvaluations(props.lecture.id)

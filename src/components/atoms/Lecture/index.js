@@ -74,14 +74,15 @@ class Lecture extends React.Component {
               onClick={() => this.setState({ open: true })}
             />
             <Button basic color="blue" content="Add" onClick={this.props.onAddLecture} />
-            <LecturePopup
-              open={this.state.open}
-              lecture={lecture}
-              canDelete={false}
-              onClose={() => this.setState({ open: false })}
-            />
           </div>
         </Card.Content>
+        {this.state.open &&
+        <LecturePopup
+          open={this.state.open}
+          lecture={lecture}
+          canDelete={false}
+          onClose={() => this.setState({ open: false })}
+        />}
       </Card>
     )
   }
