@@ -6,8 +6,9 @@ import LecturePopup from '../../../containers/LecturePopup'
 
 
 const blockWidth = 130
-const blockHeight = 30
-
+const blockHeight = 29
+const canvasWidth = (blockWidth + 2) * 7
+const canvasHeight = (blockHeight + 2) * 25
 
 class TTRenderer extends React.Component {
   constructor(props) {
@@ -44,11 +45,138 @@ class TTRenderer extends React.Component {
         [0, 0, 0, 0, 0, 0],
       ],
     }
+    console.log(this.state)
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.lectures !== nextProps.lectures) {
       this.setState({ lectures: nextProps.lectures })
+    }
+    this.updateCanvas()
+  }
+
+  componentDidUpdate() {
+    this.updateCanvas()
+  }
+
+  updateCanvas = () => {
+    const canvas = this.refs.canvas
+    const ctx = canvas.getContext('2d')
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight)
+
+    ctx.fillStyle = 'rgb(200,0,0)'
+    ctx.fillRect(Math.random() * 100, 10, 50, 50)
+
+    this.drawGrid(ctx)
+    this.setHeaders(ctx)
+    this.drawSelections(ctx)
+
+    for (let i = 0; i < this.state.lectures.length; i += 1) {
+      this.drawLecture(ctx, this.state.lectures[i])
+    }
+  }
+
+  drawGrid = (ctx) => {
+    const gridColor = '#999999'
+    ctx.strokeStyle = gridColor
+
+    for (let i = 1; i < 25; i += 1) {
+      ctx.moveTo(0, (blockHeight + 2) * i)
+      ctx.lineTo(canvasWidth, (blockHeight + 2) * i)
+      ctx.stroke()
+    }
+
+    for (let j = 0; j <= 7; j += 1) {
+      ctx.moveTo((blockWidth + 2) * j, 0)
+      ctx.lineTo((blockWidth + 2) * j, canvasHeight)
+      ctx.stroke()
+    }
+  }
+
+  setHeaders = (ctx) => {
+    const days = ['none', 'Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat']
+    const textColor = 'rgb(0,0,0)'
+
+    ctx.font = '18px Arial'
+    ctx.fillStyle = textColor
+
+    for (let i = 9; i <= 20; i += 1) {
+      let time = `${i.toString()} : 00`
+      const center = {
+        x: ((blockWidth + 2) / 2) - (ctx.measureText(time).width / 2),
+        y: (2 * (i - 8) * (blockHeight + 2)) - 9,
+      }
+
+      ctx.fillText(time, center.x, center.y)
+
+      time = `${i.toString()} : 30`
+      ctx.fillText(time, center.x, center.y + (blockHeight + 2))
+    }
+
+    for (let i = 1; i <= 6; i += 1) {
+      const day = days[i]
+      const center = {
+        x: ((blockWidth + 2) * (i + 0.5)) - (ctx.measureText(day).width / 2),
+        y: blockHeight - 8,
+      }
+
+      ctx.fillText(day, center.x, center.y)
+    }
+  }
+
+  drawSelections = (ctx) => {
+    const blocks = this.state.blocks
+    const blockColor = 'rgb(0,200,0,0.5)'
+    ctx.fillStyle = blockColor
+
+    console.log(blocks)
+    for (let i = 0; i < blocks.length; i += 1) {
+      const row = blocks[i]
+      for (let j = 0; j < row.length; j += 1) {
+        if (row[j] === 1) {
+          const start = {
+            x: ((j + 1) * (blockWidth + 2)) + 1,
+            y: ((i + 1) * (blockHeight + 2)) + 1,
+          }
+          ctx.fillRect(start.x, start.y, blockWidth, blockHeight)
+        }
+      }
+    }
+  }
+
+  drawLecture = (ctx, lecture) => {
+    console.log(lecture)
+
+    const days = ['헤더', '월', '화', '수', '목', '금', '토']
+    // const colors = ['rgb(0,116,217)', 'rgb(255,220,0)', 'rgb(46,204,64)']
+    // const boxColor = colors[Math.floor(Math.random()*colors.length)]
+    const boxColor = 'rgb(255,133,27,0.5)'
+    const textColor = 'rgb(0,0,0)'
+    const timeSlots = lecture.timeSlots
+    for (let i = 0; i < timeSlots.length; i += 1) {
+      const timeSlot = timeSlots[i]
+      const dayIndex = days.indexOf(timeSlot.dayOfWeek)
+
+      let startTime = timeSlots[i].startTime.split(':').map((i) => Number(i))
+      startTime = startTime[0] * 60 + startTime[1]
+
+      let endTime = timeSlots[i].endTime.split(':').map((i) => Number(i))
+      endTime = endTime[0] * 60 + endTime[1]
+
+      const start = { x: dayIndex * (blockWidth + 2) + 1, y: ((startTime - 540) / 30 + 1) * (blockHeight + 2) }
+      const size = { width: blockWidth, height: ((endTime - startTime) / 30) * (blockHeight + 1) }
+
+      ctx.fillStyle = boxColor
+      ctx.fillRect(start.x, start.y, size.width, size.height)
+
+      const center = { x: start.x + size.width / 2, y: start.y + size.height / 2 }
+
+      const name = lecture.course.name
+      const room = `${timeSlot.classroom.building}-${timeSlot.classroom.roomNo}`
+      ctx.fillStyle = textColor
+      ctx.font = '15px Courier'
+      ctx.fillText(name, center.x - ctx.measureText(name).width / 2, center.y)
+      ctx.fillText(room, center.x - ctx.measureText(room).width / 2, center.y + 20)
     }
   }
 
@@ -66,6 +194,7 @@ class TTRenderer extends React.Component {
     window.document.addEventListener('mousemove', this.onMouseMove)
   }
 
+
   onMouseMove = (e) => {
     const endPoint = { x: e.clientX, y: e.clientY }
     this.setState({ endPoint })
@@ -82,6 +211,8 @@ class TTRenderer extends React.Component {
     const rect = elt.getBoundingClientRect()
     const eltLeft = rect.left
     const eltTop = rect.top
+
+    this.setState({ eltPoint: { x: eltLeft, y: eltTop } })
 
     const topLeft = {
       x: Math.min(this.state.startPoint.x, this.state.endPoint.x) - eltLeft,
@@ -120,7 +251,8 @@ class TTRenderer extends React.Component {
   showStatus = () => {
     const state = this.state
     if (state.startPoint != null && state.endPoint != null) {
-      return `start: (${state.startPoint.x},${state.startPoint.y})` + ' ' + `end: (${state.endPoint.x},${state.endPoint.y})`
+      return `start: (${state.startPoint.x},${state.startPoint.y})`
+        + ' ' + `end: (${state.endPoint.x},${state.endPoint.y})`
     }
     return 'null'
   }
@@ -237,13 +369,33 @@ class TTRenderer extends React.Component {
 
   renderBlocks = () => {
     return (
-      ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
-        '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
-        '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30'].map(
-        (time, index) => (<tr key={time}>
-          <th>{time}</th>
-          {this.renderRow(time, index)}</tr>)
-      )
+      <canvas
+        ref={'canvas'}
+        width={canvasWidth}
+        height={canvasHeight}
+        style={{
+          border: '1px solid black',
+        }}
+      />
+    )
+    return (
+      <table>
+        <tbody>
+          <tr>
+            <th style={{ width: `${blockWidth.toString()}px`, height: `${blockHeight.toString()}px` }}>Time</th>
+            <th style={{ width: `${blockWidth.toString()}px`, height: `${blockHeight.toString()}px` }}>Mon</th>
+            <th style={{ width: `${blockWidth.toString()}px`, height: `${blockHeight.toString()}px` }}>Tue</th>
+            <th style={{ width: `${blockWidth.toString()}px`, height: `${blockHeight.toString()}px` }}>Wed</th>
+            <th style={{ width: `${blockWidth.toString()}px`, height: `${blockHeight.toString()}px` }}>Thr</th>
+            <th style={{ width: `${blockWidth.toString()}px`, height: `${blockHeight.toString()}px` }}>Fri</th>
+            <th style={{ width: `${blockWidth.toString()}px`, height: `${blockHeight.toString()}px` }}>Sat</th>
+          </tr>
+          {['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
+            '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
+            '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30'].map(
+          (time, index) => (<tr key={time}><th>{time}</th>{this.renderRow(time, index)}</tr>))}
+        </tbody>
+      </table>
     )
   }
 
@@ -256,23 +408,10 @@ class TTRenderer extends React.Component {
           onMouseDown={(e) => this.onMouseDown(e)}
           onMouseUp={(e) => this.onMouseUp(e)}
         >
-          <table>
-            <tbody>
-              <tr>
-                <th style={{ width: `${blockWidth.toString()}px`, height: `${blockHeight.toString()}px` }}>Time</th>
-                <th style={{ width: `${blockWidth.toString()}px`, height: `${blockHeight.toString()}px` }}>Mon</th>
-                <th style={{ width: `${blockWidth.toString()}px`, height: `${blockHeight.toString()}px` }}>Tue</th>
-                <th style={{ width: `${blockWidth.toString()}px`, height: `${blockHeight.toString()}px` }}>Wed</th>
-                <th style={{ width: `${blockWidth.toString()}px`, height: `${blockHeight.toString()}px` }}>Thr</th>
-                <th style={{ width: `${blockWidth.toString()}px`, height: `${blockHeight.toString()}px` }}>Fri</th>
-                <th style={{ width: `${blockWidth.toString()}px`, height: `${blockHeight.toString()}px` }}>Sat</th>
-              </tr>
-              {this.renderBlocks()}
-            </tbody>
-          </table>
+          {this.renderBlocks()}
         </div>
         <div>
-          {/* this.showStatus() */}
+          { this.showStatus() }
         </div>
       </div>
     )
