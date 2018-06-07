@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Form, Modal, Card, Pagination, Icon } from 'semantic-ui-react'
+import { Button, Form, Modal, Card, Pagination, Icon, Grid, Divider } from 'semantic-ui-react'
 import Lecture from '../../../containers/Lecture'
 
 const limit = 6
@@ -8,6 +8,18 @@ const limit = 6
 class SearchLecture extends React.Component {
   state = {
     'course.name.abbrev': '',
+    'course.code': '',
+    instructor: '',
+    collegeIndex: null,
+    departmentIndex: null,
+    majorIndex: null,
+    order_by: null,
+    'course.type': null,
+    'course.grade': null,
+    'course.credit.gte': null,
+    'course.credit.lte': null,
+    'course.field.startswith': null,
+    'course.field.endswith': null,
     page: 1,
   }
 
@@ -23,6 +35,42 @@ class SearchLecture extends React.Component {
     if (this.state['course.name.abbrev']) {
       options['course.name.abbrev'] = this.state['course.name.abbrev']
     }
+    if (this.state['course.code']) {
+      options['course.code'] = this.state['course.code']
+    }
+    if (this.state.instructor) {
+      options.instructor = this.state.instructor
+    }
+    if (this.state.collegeIndex !== null) {
+      options['course.college'] = this.props.colleges[this.state.collegeIndex].id
+      if (this.state.departmentIndex !== null) {
+        options['course.department'] = this.props.colleges[this.state.collegeIndex].departments[this.state.departmentIndex].id
+        if (this.state.majorIndex !== null) {
+          options['course.major'] = this.props.colleges[this.state.collegeIndex].departments[this.state.departmentIndex].majors[this.state.majorIndex].id
+        }
+      }
+    }
+    if (this.state.order_by) {
+      options.order_by = this.state.order_by
+    }
+    if (this.state['course.type']) {
+      options['course.type'] = this.state['course.type']
+    }
+    if (this.state['course.grade']) {
+      options['course.grade'] = this.state['course.grade']
+    }
+    if (this.state['course.credit.gte']) {
+      options['course.credit.gte'] = this.state['course.credit.gte']
+    }
+    if (this.state['course.credit.lte']) {
+      options['course.credit.lte'] = this.state['course.credit.lte']
+    }
+    if (this.state['course.field.startswith']) {
+      options['course.field.startswith'] = this.state['course.field.startswith']
+    }
+    if (this.state['course.field.endswith']) {
+      options['course.field.endswith'] = this.state['course.field.endswith']
+    }
     this.props.onSearchLecture(options)
   }
 
@@ -32,11 +80,54 @@ class SearchLecture extends React.Component {
   }
 
   render() {
+    const collegeOptions = [{ key: -1, text: '---', value: null }]
+    collegeOptions.push(...this.props.colleges.map((college, index) => ({
+      key: college.id,
+      text: college.name,
+      value: index,
+    })))
+    const departmentOptions = [{ key: -1, text: '---', value: null }]
+    if (this.state.collegeIndex !== null) {
+      departmentOptions.push(...this.props.colleges[this.state.collegeIndex].departments.map((department, index) => ({
+        key: department.id,
+        text: department.name,
+        value: index,
+      })))
+    }
+    const majorOptions = [{ key: -1, text: '---', value: null }]
+    if (this.state.departmentIndex !== null) {
+      majorOptions.push(...this.props.colleges[this.state.collegeIndex].departments[this.state.departmentIndex].majors.map((major, index) => ({
+        key: major.id,
+        text: major.name,
+        value: index,
+      })))
+    }
+    const orderOptions = [
+      { key: -1, text: '---', value: null },
+      { key: '-rating', text: '평점 높은순', value: '-rating' },
+      { key: 'rating', text: '평점 낮은순', value: 'rating' },
+    ]
+    const creditOptions = [{ key: -1, text: '---', value: null }]
+    creditOptions.push(...[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(credit => ({ key: credit, text: credit, value: credit })))
+    const typeOptions = [{ key: -1, text: '---', value: null }]
+    typeOptions.push(...this.props.types.map(type => ({ key: type, text: type, value: type })))
+    const gradeOptions = [{ key: -1, text: '---', value: null }]
+    gradeOptions.push(...[1, 2, 3, 4, 5, 6].map(grade => ({ key: grade, text: grade, value: grade })))
+    const fieldStartOptions = [{ key: -1, text: '---', value: null }]
+    fieldStartOptions.push(...Object.keys(this.props.fields).map(field => ({ key: field, text: field, value: field })))
+    const fieldEndOptions = [{ key: -1, text: '---', value: null }]
+    if (this.state['course.field.startswith']) {
+      fieldEndOptions.push(...this.props.fields[this.state['course.field.startswith']].map(field => ({
+        key: field,
+        text: field,
+        value: field,
+      })))
+    }
     return (
       <div>
         <Modal
           open
-          size="fullscreen"
+          size="large"
           style={{
             marginTop: '0px !important',
             marginLeft: 'auto',
@@ -54,17 +145,169 @@ class SearchLecture extends React.Component {
                 this.handleSearchLecture()
               }}
             >
-              <Form.Input
-                label="Course Name"
-                name="course.name.abbrev"
-                onChange={this.handleChange}
-              />
+              <Grid>
+                <Grid.Row columns={5} style={{ marginTop: -10 }}>
+                  <Grid.Column>
+                    <Form.Input
+                      label="Course Name"
+                      placeholder="Course Name"
+                      name="course.name.abbrev"
+                      onChange={this.handleChange}
+                    />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Form.Input
+                      label="Course Code"
+                      placeholder="Course Code"
+                      name="course.code"
+                      onChange={this.handleChange}
+                    />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Form.Input
+                      label="Instructor"
+                      placeholder="Instructor"
+                      name="instructor"
+                      onChange={this.handleChange}
+                    />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Form.Group inline>
+                      <Form.Select
+                        fluid
+                        label="Credit"
+                        placeholder="Min"
+                        options={creditOptions}
+                        name="course.credit.gte"
+                        value={this.state['course.credit.gte']}
+                        onChange={this.handleChange}
+                      />
+                      <span style={{ marginTop: 20 }}>&nbsp;~&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                      <Form.Select
+                        fluid
+                        label="&nbsp;"
+                        placeholder="Max"
+                        options={creditOptions}
+                        name="course.credit.lte"
+                        value={this.state['course.credit.lte']}
+                        onChange={this.handleChange}
+                      />
+                    </Form.Group>
+                  </Grid.Column>
+                </Grid.Row>
+
+                <Grid.Row columns={5} style={{ marginTop: -30 }}>
+                  <Grid.Column>
+                    <Form.Select
+                      fluid
+                      label="College"
+                      placeholder="College"
+                      options={collegeOptions}
+                      name="collegeIndex"
+                      value={this.state.collegeIndex}
+                      onChange={(e, { name, value }) => {
+                        this.setState({ [name]: value })
+                        this.setState({ departmentIndex: null })
+                        this.setState({ majorIndex: null })
+                      }}
+                    />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Form.Select
+                      fluid
+                      label="Department"
+                      placeholder="Department"
+                      options={departmentOptions}
+                      name="departmentIndex"
+                      value={this.state.departmentIndex}
+                      onChange={(e, { name, value }) => {
+                        this.setState({ [name]: value })
+                        this.setState({ majorIndex: null })
+                      }}
+                    />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Form.Select
+                      fluid
+                      label="Major"
+                      placeholder="Major"
+                      options={majorOptions}
+                      name="majorIndex"
+                      value={this.state.majorIndex}
+                      onChange={this.handleChange}
+                    />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Form.Select
+                      fluid
+                      label="Order"
+                      placeholder="Order"
+                      options={orderOptions}
+                      name="order_by"
+                      value={this.state.order_by}
+                      onChange={this.handleChange}
+                    />
+                  </Grid.Column>
+                </Grid.Row>
+
+                <Grid.Row columns={5} style={{ marginTop: -20 }}>
+                  <Grid.Column>
+                    <Form.Select
+                      fluid
+                      label="Type"
+                      placeholder="Type"
+                      options={typeOptions}
+                      name="course.type"
+                      value={this.state['course.type']}
+                      onChange={this.handleChange}
+                    />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Form.Select
+                      fluid
+                      label="Grade"
+                      placeholder="Grade"
+                      options={gradeOptions}
+                      name="course.grade"
+                      value={this.state['course.grade']}
+                      onChange={this.handleChange}
+                    />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Form.Select
+                      fluid
+                      label="Field"
+                      placeholder="Field"
+                      options={fieldStartOptions}
+                      name="course.field.startswith"
+                      value={this.state['course.field.startswith']}
+                      onChange={(e, { name, value }) => {
+                        this.setState({ [name]: value })
+                        this.setState({ 'course.field.endswith': null })
+                      }}
+                    />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Form.Select
+                      fluid
+                      label="Field Detail"
+                      placeholder="Field Detail"
+                      options={fieldEndOptions}
+                      name="course.field.endswith"
+                      value={this.state['course.field.endswith']}
+                      onChange={this.handleChange}
+                    />
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
               <Form.Button
+                style={{ float: 'right', marginTop: -5 }}
                 color="teal"
                 type="submit"
                 content="Search"
               />
             </Form>
+            <Divider style={{ marginRight: 2 }} />
           </Modal.Content>
           <div className="scrolling content">
             <Card.Group itemsPerRow={3} doubling stackable>
@@ -103,10 +346,13 @@ class SearchLecture extends React.Component {
 SearchLecture.propTypes = {
   searchLectures: PropTypes.array,
   count: PropTypes.number,
+  colleges: PropTypes.array,
   onSearchLecture: PropTypes.func,
   onAddLecture: PropTypes.func,
   onAddToNotRecommends: PropTypes.func,
   onClose: PropTypes.func,
+  fields: PropTypes.object,
+  types: PropTypes.array,
 }
 
 export default SearchLecture

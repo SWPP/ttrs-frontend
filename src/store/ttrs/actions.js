@@ -55,6 +55,7 @@ export const DELETE_EVALUATION_REQUEST = 'DELETE_EVALUATION_REQUEST'
 export const MODIFY_EVALUATION_REQUEST = 'MODIFY_EVALUATION_REQUEST'
 export const SET_EVALUATIONS_RESPONSE = 'MODIFY_EVALUATIONS_RESPONSE'
 export const TOGGLE_LIKE_IT_REQUEST = 'TOGGLE_LIKE_IT_REQUEST'
+export const SET_FIELDS_AND_TYPES = 'SET_FIELDS_AND_TYPES'
 
 export const dismissNotice = (id) => {
   return {
@@ -473,5 +474,13 @@ export const toggleLikeItRequest = (lectureId, isAdd, evaluationId) => {
     lectureId,
     isAdd,
     evaluationId,
+  }
+}
+
+export const setFieldsAndTypes = (fields, types) => {
+  return {
+    type: SET_FIELDS_AND_TYPES,
+    fields,
+    types,
   }
 }
