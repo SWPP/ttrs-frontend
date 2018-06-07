@@ -104,7 +104,7 @@ class TimeTable extends React.Component {
           {this.props.id !== null &&
           <Menu.Item active fitted>
             {!this.state.isModifyingTitle ?
-              <div style={{paddingLeft: 10, paddingRight: 10}}>
+              <div style={{ paddingLeft: 10, paddingRight: 10 }}>
                 <h4>{this.state.title}
                   {this.props.canModify &&
                   <Popup
