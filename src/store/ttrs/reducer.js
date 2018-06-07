@@ -44,7 +44,6 @@ const timeTable = (state = [], action) => {
   let bookmarkedTimeTables
   let bookmarkedTimeTable
   let receivedTimeTables
-  let receivedTimeTable
   let lectures
   let creditSum
   switch (action.type) {
