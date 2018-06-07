@@ -92,7 +92,7 @@ class TimeTable extends React.Component {
     )
   }
 
-  render () {
+  render() {
     const iconButtonStyle = {
       backgroundColor: 'white',
       padding: 5,
@@ -113,7 +113,7 @@ class TimeTable extends React.Component {
                       onClick={() => this.setState({isModifyingTitle: true})}
                       style={iconButtonStyle}
                     >
-                      <Icon name="pencil"/>
+                      <Icon name="pencil" />
                     </button>}
                     content="Modify title"
                     inverted

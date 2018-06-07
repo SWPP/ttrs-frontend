@@ -229,17 +229,6 @@ class TTRenderer extends React.Component {
     this.props.onChange(blocks)
   }
 
-  getName = (name) => {
-    let acronym = ''
-
-    name = name.split(' ')
-    for (const n in name) {
-      acronym += name[n].substr(0, 1)
-    }
-
-    return acronym
-  }
-
   drawGrid = (ctx) => {
     const gridColor = '#999999'
     ctx.strokeStyle = gridColor
@@ -269,15 +258,6 @@ class TTRenderer extends React.Component {
     for (let i = 0; i < this.state.lectures.length; i += 1) {
       this.drawLecture(ctx, this.state.lectures[i])
     }
-  }
-
-  showStatus = () => {
-    const state = this.state
-    if (state.startPoint != null && state.endPoint != null) {
-      return `start: (${state.startPoint.x},${state.startPoint.y})`
-        + ' ' + `end: (${state.endPoint.x},${state.endPoint.y})`
-    }
-    return 'null'
   }
 
   overlap = (i, j, tl, br) => {
@@ -359,9 +339,6 @@ class TTRenderer extends React.Component {
               canDelete={this.props.canModify}
               onClose={() => this.setState({ openId: null })}
             />)}
-        </div>
-        <div>
-          { this.showStatus() }
         </div>
       </div>
     )
