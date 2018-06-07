@@ -10,6 +10,7 @@ const ReceiveTab = ({ myTimeTable, receivedTimeTables, receivedTimeTable, onSele
     <div>
       <h1>My TimeTable</h1>
       <TimeTable
+        haveSidebar={false}
         onAddLecture={(newLectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIds(myTimeTable) }, newLectureId)}
         onModifyContent={(content) => onUpdateMyTimeTable(myTimeTable.id, content, null)}
         onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, myTimeTable) }, -lectureId)}
@@ -35,6 +36,7 @@ const ReceiveTab = ({ myTimeTable, receivedTimeTables, receivedTimeTable, onSele
       </select>
       <h2>sender: {receivedTimeTable.sender}</h2>
       <TimeTable
+        haveSidebar
         {...receivedTimeTable}
         canModify={false}
         canDelete

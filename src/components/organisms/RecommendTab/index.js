@@ -27,6 +27,7 @@ const RecommendTab = ({ myTimeTable, recommendedTimeTables, recommendedTimeTable
     <div>
       <h1>My TimeTable</h1>
       <TimeTable
+        haveSidebar={false}
         {...myTimeTable}
         onAddLecture={(newLectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIds(myTimeTable) }, newLectureId)}
         onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, myTimeTable) }, -lectureId)}
@@ -51,6 +52,7 @@ const RecommendTab = ({ myTimeTable, recommendedTimeTables, recommendedTimeTable
         )}
       </select>
       <TimeTable
+        haveSidebar={false}
         {...recommendedTimeTable}
         canModify={false}
         canDelete={false}

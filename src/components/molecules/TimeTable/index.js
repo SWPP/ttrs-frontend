@@ -67,13 +67,13 @@ class TimeTable extends React.Component {
     this.props.onSend(sendInfo)
   }
 
-  handleChange = (e, { name, value }) => {
-    this.setState({ [name]: value })
-  }
-
   getBlocks = (blocks) => {
     console.log('Change in selected blocks')
     console.log(blocks)
+  }
+
+  handleChange = (e, { name, value }) => {
+    this.setState({ [name]: value })
   }
 
   createTimeTable = () => {
@@ -105,7 +105,21 @@ class TimeTable extends React.Component {
           <Menu.Item active fitted>
             {!this.state.isModifyingTitle ?
               <div style={{ paddingLeft: 10, paddingRight: 10 }}>
-                <h4>{this.props.title}
+                <h4>
+                  {this.props.haveSidebar &&
+                  <Popup
+                    trigger={<button
+                      className="ui icon button"
+                      onClick={this.props.onOpenSidebar}
+                      style={iconButtonStyle}
+                    >
+                      <Icon name="list" />
+                    </button>}
+                    content="Show TimeTable List"
+                    inverted
+                  />
+                  }
+                  {this.props.title}
                   {this.props.canModify &&
                   <Popup
                     trigger={<button
@@ -287,6 +301,8 @@ TimeTable.propTypes = {
   onSend: PropTypes.func,
   onCopyToMy: PropTypes.func,
   onDeleteTimeTable: PropTypes.func,
+  haveSidebar: PropTypes.bool,
+  onOpenSidebar: PropTypes.func,
 }
 
 export default TimeTable

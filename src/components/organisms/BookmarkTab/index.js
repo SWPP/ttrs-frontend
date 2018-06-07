@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Card, Sidebar, Segment, Label } from 'semantic-ui-react'
+import { Card, Sidebar, Segment, Label } from 'semantic-ui-react'
 import TimeTable from '../../../containers/TimeTable'
 import { getLectureIds, getLectureIdsWithout } from '../RecommendTab'
 
@@ -12,14 +12,11 @@ class BookmarkTab extends React.Component {
   }
 
   handleClick = (index) => {
+    this.setState({ sidebarVisible: false })
     if (this.state.bookmarkedTimeTableIndex !== index) {
       this.setState({ bookmarkedTimeTableIndex: index })
       this.props.onSelectBookmarkedTimeTable(this.props.bookmarkedTimeTables[index])
     }
-  }
-
-  toggleVisibility = () => {
-    this.setState({ sidebarVisible: !this.state.sidebarVisible })
   }
 
   render() {
@@ -27,6 +24,7 @@ class BookmarkTab extends React.Component {
       <div>
         <h1>My TimeTable</h1>
         <TimeTable
+          haveSidebar={false}
           onAddLecture={(newLectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, {lectures: getLectureIds(this.props.myTimeTable)}, newLectureId)}
           onModifyContent={(content) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, content, null)}
           onDeleteLecture={(lectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, {lectures: getLectureIdsWithout(lectureId, this.props.myTimeTable)}, -lectureId)}
@@ -39,7 +37,7 @@ class BookmarkTab extends React.Component {
         />
         <hr />
         <h1>Bookmarked TimeTable</h1>
-        <Button onClick={this.toggleVisibility}>Toggle Visibility</Button>
+        {/*<Button onClick={() => this.setState({ sidebarVisible: true })}>Toggle Visibility</Button>*/}
         <Sidebar.Pushable>
           <Sidebar
             as={Segment}
@@ -70,6 +68,8 @@ class BookmarkTab extends React.Component {
           </Sidebar>
           <Sidebar.Pusher>
             <TimeTable
+              haveSidebar
+              onOpenSidebar={() => this.setState({ sidebarVisible: true })}
               onAddLecture={(newLectureId) => this.props.onUpdateBookmarkedTimeTable(this.props.bookmarkedTimeTable.id, { lectures: getLectureIds(this.props.bookmarkedTimeTable) }, newLectureId)}
               onModifyContent={(content) => this.props.onUpdateBookmarkedTimeTable(this.props.bookmarkedTimeTable.id, content, null)}
               onDeleteLecture={(lectureId) => this.props.onUpdateBookmarkedTimeTable(this.props.bookmarkedTimeTable.id, { lectures: getLectureIdsWithout(lectureId, this.props.bookmarkedTimeTable) }, -lectureId)}
