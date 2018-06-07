@@ -95,9 +95,8 @@ class TTRenderer extends React.Component {
   drawLecture = (ctx, lecture) => {
 
     const days = ['헤더', '월', '화', '수', '목', '금', '토']
-    // const colors = ['rgb(0,116,217)', 'rgb(255,220,0)', 'rgb(46,204,64)']
-    // const boxColor = colors[Math.floor(Math.random()*colors.length)]
-    const boxColor = 'rgb(0,116,217)'
+    const colors = ['rgb(0,116,217)', 'rgb(255,220,0)', 'rgb(46,204,64)']
+    const boxColor = colors[this.hash(lecture, colors.length)]
     const textColor = 'rgb(0,0,0)'
     const timeSlots = lecture.timeSlots
     for (let i = 0; i < timeSlots.length; i += 1) {
@@ -125,6 +124,10 @@ class TTRenderer extends React.Component {
       ctx.fillText(name, center.x - (ctx.measureText(name).width / 2), center.y)
       ctx.fillText(room, center.x - (ctx.measureText(room).width / 2), center.y + 20)
     }
+  }
+
+  hash = (lecture, len) => {
+      return lecture.course.name.length % len
   }
 
   onClickCanvas = (e) => {
