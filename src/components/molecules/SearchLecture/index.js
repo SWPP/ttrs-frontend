@@ -13,6 +13,7 @@ class SearchLecture extends React.Component {
     collegeIndex: null,
     departmentIndex: null,
     majorIndex: null,
+    order_by: null,
     'course.type': null,
     'course.grade': null,
     'course.credit.gte': '',
@@ -48,6 +49,9 @@ class SearchLecture extends React.Component {
           options['course.major'] = this.props.colleges[this.state.collegeIndex].departments[this.state.departmentIndex].majors[this.state.majorIndex].id
         }
       }
+    }
+    if (this.state.order_by) {
+      options.order_by = this.state.order_by
     }
     if (this.state['course.type']) {
       options['course.type'] = this.state['course.type']
@@ -98,6 +102,11 @@ class SearchLecture extends React.Component {
         value: index,
       })))
     }
+    const orderOptions = [
+      { key: -1, text: '---', value: null },
+      { key: '-rating', text: '평점 높은순', value: '-rating' },
+      { key: 'rating', text: '평점 낮은순', value: 'rating' },
+    ]
     const typeOptions = [{ key: -1, text: '---', value: null }]
     typeOptions.push(...this.props.types.map(type => ({ key: type, text: type, value: type })))
     const gradeOptions = [{ key: -1, text: '---', value: null }]
@@ -211,6 +220,16 @@ class SearchLecture extends React.Component {
                       options={majorOptions}
                       name="majorIndex"
                       value={this.state.majorIndex}
+                      onChange={this.handleChange}
+                    />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Form.Select
+                      label="Order"
+                      placeholder="Order"
+                      options={orderOptions}
+                      name="order_by"
+                      value={this.state.order_by}
                       onChange={this.handleChange}
                     />
                   </Grid.Column>
