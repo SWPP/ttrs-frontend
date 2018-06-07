@@ -347,16 +347,16 @@ function* sendTimeTable(sendInfo) {
   }
 }
 
-function* selectReceivedTimeTable(receivedTimeTable, index) {
+function* selectReceivedTimeTable(receivedTimeTable, timeTableId) {
   try {
     receivedTimeTable.lectures = yield call(getLecturesFromLectureIds, receivedTimeTable)
     const receiveResponse = yield call(axios.get, `ttrs/received-time-tables/${receivedTimeTable.id}/receive/`, config)
     console.log('receiveResponse', receiveResponse)
     receivedTimeTable.receivedAt = receiveResponse.data.receivedAt
-    yield put(actions.selectReceivedTimeTableResponse(receivedTimeTable, index))
+    yield put(actions.selectReceivedTimeTableResponse(receivedTimeTable, timeTableId))
   } catch (error) {
     // Error happens when receivedTimeTable.lectures is list of Lecture Info (already updated)
-    yield put(actions.selectReceivedTimeTableResponse(receivedTimeTable, index))
+    yield put(actions.selectReceivedTimeTableResponse(receivedTimeTable, timeTableId))
   }
 }
 
@@ -619,8 +619,8 @@ function* watchSendTimeTable() {
 
 function* watchSelectReceivedTimeTable() {
   while (true) {
-    const { receivedTimeTable, index } = yield take(actions.SELECT_RECEIVED_TIME_TABLE_REQUEST)
-    yield call(selectReceivedTimeTable, receivedTimeTable, index)
+    const { receivedTimeTable, timeTableId } = yield take(actions.SELECT_RECEIVED_TIME_TABLE_REQUEST)
+    yield call(selectReceivedTimeTable, receivedTimeTable, timeTableId)
   }
 }
 

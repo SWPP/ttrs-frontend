@@ -14,8 +14,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onSelectReceivedTimeTable: (receivedTimeTable, index) => {
-      dispatch(selectReceivedTimeTableRequest(receivedTimeTable, index))
+    onSelectReceivedTimeTable: (receivedTimeTable, timeTableId) => {
+      dispatch(selectReceivedTimeTableRequest(receivedTimeTable, timeTableId))
     },
     onUpdateMyTimeTable: (myTimeTableId, updatedInfo, newLectureId) => {
       dispatch(updateMyTimeTableRequest(myTimeTableId, updatedInfo, newLectureId))

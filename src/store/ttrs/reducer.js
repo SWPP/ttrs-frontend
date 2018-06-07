@@ -44,6 +44,7 @@ const timeTable = (state = [], action) => {
   let bookmarkedTimeTables
   let bookmarkedTimeTable
   let receivedTimeTables
+  let receivedTimeTable
   let lectures
   let creditSum
   switch (action.type) {
@@ -179,9 +180,13 @@ const timeTable = (state = [], action) => {
       }
     case actions.SELECT_RECEIVED_TIME_TABLE_RESPONSE:
       receivedTimeTables = [...state.receivedTimeTables]
-      receivedTimeTables[action.index] = {
-        ...action.receivedTimeTable,
-      }
+      receivedTimeTables.forEach((timeTable, index) => {
+        if (timeTable.id === action.timeTableId) {
+          receivedTimeTables[index] = {
+            ...action.receivedTimeTable,
+          }
+        }
+      })
       return {
         ...state,
         receivedTimeTables: [...receivedTimeTables],

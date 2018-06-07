@@ -258,19 +258,19 @@ export const createReceivedTimeTables = (receivedTimeTables) => {
   }
 }
 
-export const selectReceivedTimeTableRequest = (receivedTimeTable, index) => {
+export const selectReceivedTimeTableRequest = (receivedTimeTable, timeTableId) => {
   return {
     type: SELECT_RECEIVED_TIME_TABLE_REQUEST,
     receivedTimeTable,
-    index,
+    timeTableId,
   }
 }
 
-export const selectReceivedTimeTableResponse = (receivedTimeTable, index) => {
+export const selectReceivedTimeTableResponse = (receivedTimeTable, timeTableId) => {
   return {
     type: SELECT_RECEIVED_TIME_TABLE_RESPONSE,
     receivedTimeTable,
-    index,
+    timeTableId,
   }
 }
 
