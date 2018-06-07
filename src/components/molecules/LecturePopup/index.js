@@ -247,7 +247,11 @@ class LecturePopup extends React.Component {
                               evaluation.comment}
                           </Feed.Extra>
                           <Feed.Meta>
-                            <Feed.Like onClick={() => this.handleToggleLikeIt(evaluation)}>
+                            <Feed.Like
+                              onClick={
+                                this.props.username === evaluation.author ? null : () => this.handleToggleLikeIt(evaluation)
+                              }
+                            >
                               <Icon
                                 disabled={this.props.username === evaluation.author}
                                 color={evaluation.likeIt.includes(this.props.userId) ? 'red' : null}

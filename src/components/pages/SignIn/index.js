@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
+import { initialErrorUnit } from '../../../store/ttrs/selectors'
 
 class SignIn extends React.Component {
   static getDerivedStateFromProps(props) {
@@ -13,6 +14,10 @@ class SignIn extends React.Component {
   state = {
     username: '',
     password: '',
+  }
+
+  componentWillUnmount() {
+    this.props.onSetError(initialErrorUnit)
   }
 
   handleChange = (e, { name, value }) => {
@@ -92,6 +97,7 @@ class SignIn extends React.Component {
 SignIn.propTypes = {
   onSignIn: PropTypes.func,
   onClearError: PropTypes.func,
+  onSetError: PropTypes.func,
   toHome: PropTypes.bool,
   errors: PropTypes.object,
   router: PropTypes.object,

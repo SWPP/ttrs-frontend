@@ -2,39 +2,50 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Header, Message, Transition } from 'semantic-ui-react'
 
-const Notice = ({ openSuccess, openError, textSuccess, textError }) => {
-  return (
-    <div>
-      <Transition visible={openSuccess}>
-        <Message
-          style={{ left: '50%', transform: 'translateX(-51%)', top: '10%', position: 'fixed', zIndex: 1000 }}
-          success
-        >
-          <Header textAlign="center" content={textSuccess} />
-        </Message>
-      </Transition>
-      <Transition visible={openError}>
-        <Message
-          style={{ left: '50%', transform: 'translateX(-51%)', top: '10%', position: 'fixed', zIndex: 1000 }}
-          negative
-        >
-          <Header textAlign="center" content={textError} />
-        </Message>
-      </Transition>
-    </div>
-  )
+class Notice extends React.Component {
+  static getDerivedStateFromProps(props, state) {
+    let lastId = state.lastId
+    props.notices.forEach(notice => {
+      if (state.lastId < Math.abs(notice.id)) {
+        setTimeout(() => props.onHideNotice(notice.id), notice.duration ? notice.duration : 3000)
+        setTimeout(() => props.onDismissNotice(notice.id), notice.duration ? notice.duration + 500 : 3500)
+        lastId = Math.max(lastId, notice.id)
+      }
+    })
+    return { lastId }
+  }
+
+  state = {
+    lastId: 0,
+  }
+
+  render() {
+    return (
+      <div>
+        {this.props.notices.map(notice => (
+          <Transition visible={!notice.invisible} key={notice.id} transitionOnMount>
+            <Message
+              style={{ marginLeft: 10, marginRight: 10, left: '50%', transform: 'translateX(-50%)', top: '10%', position: 'fixed', zIndex: 10000 + Math.abs(notice.id) }}
+              success={notice.id > 0}
+              negative={notice.id < 0}
+            >
+              <Header
+                textAlign="center"
+                content={notice.message ? notice.message : (notice.id > 0 ? 'Updated successfully.' : 'Some errors occurred.')}
+              />
+            </Message>
+          </Transition>
+        ))}
+      </div>
+    )
+  }
 }
 
 Notice.propTypes = {
-  openSuccess: PropTypes.bool,
-  openError: PropTypes.bool,
-  textSuccess: PropTypes.string,
-  textError: PropTypes.string,
-}
-
-Notice.defaultProps = {
-  textSuccess: 'Updated Successfully.',
-  textError: 'Some Errors Occurred.',
+  lastId: PropTypes.number,
+  notices: PropTypes.array,
+  onDismissNotice: PropTypes.func,
+  onHideNotice: PropTypes.func,
 }
 
 export default Notice

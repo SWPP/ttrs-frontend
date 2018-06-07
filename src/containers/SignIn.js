@@ -5,7 +5,7 @@ import { initialErrorUnit } from '../store/ttrs/selectors'
 
 const mapStateToProps = (state) => {
   return {
-    toHome: state.ttrs.toHome,
+    toHome: state.ttrs.toGo === 'home',
     errors: state.ttrs.error.signIn,
   }
 }
@@ -17,6 +17,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onClearError: () => {
       dispatch(setErrors('signIn', initialErrorUnit))
+    },
+    onSetError: (errors) => {
+      dispatch(setErrors('signIn', errors))
     },
   }
 }

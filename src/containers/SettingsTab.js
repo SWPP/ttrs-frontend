@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import SettingsTab from '../components/organisms/SettingsTab'
 import { deleteFromNotRecommendsRequest, getNotRecommendCoursesRequest, setErrors,
-  updateStudentInfoRequest, withdraw } from '../store/ttrs/actions'
+  updateStudentInfoRequest, withdrawRequest } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -14,7 +14,6 @@ const mapStateToProps = (state) => {
     notRecommendCourses: state.ttrs.notRecommendCourses,
     colleges: state.ttrs.belongInfo.colleges,
     errors: state.ttrs.error.settingsTab,
-    response: state.ttrs.response.settingsTab,
   }
 }
 
@@ -24,7 +23,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(updateStudentInfoRequest(info))
     },
     onWithdraw: () => {
-      dispatch(withdraw())
+      dispatch(withdrawRequest())
     },
     onGetNotRecommendCourses: (notRecommends) => {
       dispatch(getNotRecommendCoursesRequest(notRecommends))

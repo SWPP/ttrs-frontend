@@ -1,9 +1,13 @@
-import { initialState, initialTimeTable, initialError, initialResponse, initialSearch } from './selectors'
+import {
+  initialState, initialTimeTable, initialError, initialSearch, initialNotice,
+  initialStudentInfo,
+} from './selectors'
 import * as actions from './actions'
-import { SET_FIELDS_AND_TYPES } from './actions'
 
 const studentInfo = (state = [], action) => {
   switch (action.type) {
+    case actions.WITHDRAW_RESPONSE:
+      return initialStudentInfo
     case actions.SIGN_IN_RESPONSE:
       return {
         ...state,
@@ -71,7 +75,7 @@ const timeTable = (state = [], action) => {
           ...action.updatedInfo,
         },
       }
-    case actions.DELETE_LECTURE_FROM_MY_TIME_TABLE:
+    case actions.DELETE_LECTURE_FROM_MY_TIME_TABLE_RESPONSE:
       lectures = []
       state.myTimeTable.lectures.forEach((lecture) => {
         if (lecture.id !== action.lectureId) {
@@ -140,7 +144,7 @@ const timeTable = (state = [], action) => {
         bookmarkedTimeTables: [...bookmarkedTimeTables],
         bookmarkedTimeTable: bookmarkedTimeTables.length === 1 ? action.bookmarkedTimeTable : state.bookmarkedTimeTable,
       }
-    case actions.DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE:
+    case actions.DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE_RESPONSE:
       lectures = []
       creditSum = state.bookmarkedTimeTable.creditSum
       state.bookmarkedTimeTable.lectures.forEach((lecture) => {
@@ -207,12 +211,12 @@ const timeTable = (state = [], action) => {
         ...state,
         myTimeTable: action.myTimeTable,
       }
-    case actions.DELETE_MY_TIME_TABLE:
+    case actions.DELETE_MY_TIME_TABLE_RESPONSE:
       return {
         ...state,
         myTimeTable: initialTimeTable.myTimeTable,
       }
-    case actions.DELETE_BOOKMARKED_TIME_TABLE:
+    case actions.DELETE_BOOKMARKED_TIME_TABLE_RESPONSE:
       bookmarkedTimeTables = []
       state.bookmarkedTimeTables.forEach((timeTable) => {
         if (timeTable.id !== action.timeTableId) {
@@ -224,7 +228,7 @@ const timeTable = (state = [], action) => {
         bookmarkedTimeTables: [...bookmarkedTimeTables],
         bookmarkedTimeTable: action.timeTable,
       }
-    case actions.DELETE_RECEIVED_TIME_TABLE:
+    case actions.DELETE_RECEIVED_TIME_TABLE_RESPONSE:
       receivedTimeTables = []
       state.receivedTimeTables.forEach((timeTable) => {
         if (timeTable.id !== action.timeTableId) {
@@ -282,30 +286,72 @@ const error = (state = initialError, action) => {
   }
 }
 
-const newResponse = (response, success) => {
-  return success ? Math.max(1, response + 1) : Math.min(-1, response - 1)
+const newNotice = (state, newId, message = undefined) => {
+  return {
+    lastId: Math.abs(newId),
+    notices: [
+      ...state.notices,
+      {
+        id: newId,
+        message,
+      },
+    ],
+  }
 }
 
-const response = (state = initialResponse, action) => {
+const notice = (state = initialNotice, action) => {
+  const newId = state.lastId + 1
+  const notices = []
   switch (action.type) {
-    case actions.CLEAR_STATE:
-      return initialResponse
-    case actions.SIGN_UP_RESPONSE:
-      return {
-        ...state,
-        signUp: newResponse(state.signUp, true),
-      }
-    case actions.UPDATE_STUDENT_INFO_RESPONSE:
-      return {
-        ...state,
-        settingsTab: newResponse(state.settingsTab, true),
-      }
-    case actions.SET_ERRORS:
-      return (Object.keys(action.errors.bools).length > 0 || Object.keys(action.errors.texts).length > 0)
-        ? {
-          ...state,
-          [action.identifier]: newResponse(state[action.identifier], false),
+    case actions.DISMISS_NOTICE:
+      state.notices.forEach(notice => {
+        if (notice.id !== action.id) {
+          notices.push(notice)
         }
+      })
+      return {
+        ...state,
+        notices,
+      }
+    case actions.HIDE_NOTICE:
+      return {
+        ...state,
+        notices: state.notices.map(notice => ({
+          ...notice,
+          invisible: notice.id === action.id ? true : notice.invisible,
+        })),
+      }
+    case actions.SIGN_UP_RESPONSE:
+      return newNotice(state, newId, 'You have successfully joined the membership.')
+    case actions.UPDATE_STUDENT_INFO_RESPONSE:
+    case actions.UPDATE_MY_TIME_TABLE_INFO:
+    case actions.UPDATE_BOOKMARKED_TIME_TABLE_INFO:
+      return newNotice(state, newId)
+    case actions.WITHDRAW_RESPONSE:
+      return newNotice(state, newId, 'You have successfully withdrawn the membership.')
+    case actions.ADD_LECTURE_TO_MY_TIME_TABLE:
+    case actions.ADD_LECTURE_TO_BOOKMARKED_TIME_TABLE:
+      return newNotice(state, newId, 'Added successfully.')
+    case actions.DELETE_MY_TIME_TABLE_RESPONSE:
+    case actions.DELETE_BOOKMARKED_TIME_TABLE_RESPONSE:
+    case actions.DELETE_RECEIVED_TIME_TABLE_RESPONSE:
+    case actions.DELETE_LECTURE_FROM_MY_TIME_TABLE_RESPONSE:
+    case actions.DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE_RESPONSE:
+      return newNotice(state, newId, 'Deleted successfully.')
+    case actions.ADD_TO_NOT_RECOMMENDS_RESPONSE:
+      return newNotice(state, newId, 'The course won\'t be recommended.')
+    case actions.COPY_TO_MY_TIME_TABLE_RESPONSE:
+      return newNotice(state, newId, 'Copied to mine successfully.')
+    case actions.BOOKMARK_RESPONSE:
+      return newNotice(state, newId, 'Bookmarked successfully.')
+    case actions.SEND_TIME_TABLE:
+      return newNotice(state, newId, 'Sent successfully.')
+    case actions.SET_ERRORS:
+      if (action.message) {
+        return newNotice(state, -newId, action.message)
+      }
+      return (Object.keys(action.errors.bools).length > 0 || Object.keys(action.errors.texts).length > 0)
+        ? newNotice(state, -newId)
         : state
     default:
       return state
@@ -323,13 +369,21 @@ const ttrsReducer = (state = initialState, action) => {
       return {
         ...state,
         studentInfo: studentInfo(state.studentInfo, action),
-        toHome: true,
+        toGo: 'home',
+        notice: notice(state.notice, action),
       }
     case actions.SIGN_UP_RESPONSE:
       return {
         ...state,
-        toSignIn: true,
-        response: response(state.response, action),
+        toGo: 'signIn',
+        notice: notice(state.notice, action),
+      }
+    case actions.WITHDRAW_RESPONSE:
+      return {
+        ...state,
+        toGo: 'signIn',
+        studentInfo: studentInfo(state.notice, action),
+        notice: notice(state.notice, action),
       }
     case actions.CLEAR_STATE:
       return {
@@ -363,7 +417,7 @@ const ttrsReducer = (state = initialState, action) => {
         timeTable: timeTable(state.timeTable, action),
         search: search(state.search, action),
         error: error(state.error, action),
-        response: response(state.response, action),
+        notice: notice(state.notice, action),
       }
   }
 }

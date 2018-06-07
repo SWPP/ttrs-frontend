@@ -1,11 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
+
 import LecturePopup from '../../../containers/LecturePopup'
 
 
 let blockWidth = 154
-let blockHeight = 29
+const blockHeight = 29
 let canvasWidth = (blockWidth + 2) * 7
 let canvasHeight = (blockHeight + 2) * 25
 
@@ -57,9 +58,7 @@ class TTRenderer extends React.Component {
     const pos = { x: e.clientX - eltLeft, y: e.clientY - eltTop }
     const lecture = this.getLectureAtPos(pos)
 
-    if (lecture === null) {
-      return
-    }
+    if (lecture === null) { return }
 
     this.setState({ openId: lecture.id })
     this.props.onGetEvaluations(lecture.id)
@@ -78,6 +77,7 @@ class TTRenderer extends React.Component {
     this.setState({ startPoint, endPoint })
     window.document.addEventListener('mousemove', this.onMouseMove)
   }
+
 
   onMouseMove = (e) => {
     const endPoint = { x: e.clientX, y: e.clientY }
@@ -177,42 +177,6 @@ class TTRenderer extends React.Component {
     return null
   }
 
-  updateWindowDimensions = () => {
-    if (window.innerWidth >= 1200) {
-      blockWidth = 154
-    } else if (window.innerWidth >= 990) {
-      blockWidth = 127
-    } else if (window.innerWidth >= 770) {
-      blockWidth = 97
-    } else {
-      blockWidth = (window.innerWidth - 85) / 7
-    }
-
-    canvasWidth = (blockWidth + 2) * 7
-    canvasHeight = (blockHeight + 2) * 25
-
-    this.forceUpdate()
-  }
-
-  drawSelections = (ctx) => {
-    const blocks = this.state.blocks
-    const blockColor = 'rgb(0,200,0,0.5)'
-    ctx.fillStyle = blockColor
-
-    for (let i = 0; i < blocks.length; i += 1) {
-      const row = blocks[i]
-      for (let j = 0; j < row.length; j += 1) {
-        if (row[j] === 1) {
-          const start = {
-            x: ((j + 1) * (blockWidth + 2)) + 1,
-            y: ((i + 1) * (blockHeight + 2)) + 1,
-          }
-          ctx.fillRect(start.x, start.y, blockWidth, blockHeight)
-        }
-      }
-    }
-  }
-
   drawLecture = (ctx, lecture) => {
     const days = ['헤더', '월', '화', '수', '목', '금', '토']
     const boxColor = `hsl(${this.hash(lecture)},60%,60%)`
@@ -245,14 +209,50 @@ class TTRenderer extends React.Component {
     }
   }
 
+  drawSelections = (ctx) => {
+    const blocks = this.state.blocks
+    const blockColor = 'rgb(0,200,0,0.5)'
+    ctx.fillStyle = blockColor
+
+    for (let i = 0; i < blocks.length; i += 1) {
+      const row = blocks[i]
+      for (let j = 0; j < row.length; j += 1) {
+        if (row[j] === 1) {
+          const start = {
+            x: ((j + 1) * (blockWidth + 2)) + 1,
+            y: ((i + 1) * (blockHeight + 2)) + 1,
+          }
+          ctx.fillRect(start.x, start.y, blockWidth, blockHeight)
+        }
+      }
+    }
+  }
+
   hash = (lecture) => {
-    const name = lecture.course.name
-    let sum = 0
+    var name = lecture.course.name
+    var sum = 0
     for (let i = 0; i < name.length; i += 1) {
-      sum += name.charCodeAt(i)
+        sum += name.charCodeAt(i)
     }
 
     return sum % 360
+  }
+
+  updateWindowDimensions = () => {
+    if (window.innerWidth >= 1200) {
+      blockWidth = 154
+    } else if (window.innerWidth >= 990) {
+      blockWidth = 127
+    } else if (window.innerWidth >= 770) {
+      blockWidth = 97
+    } else {
+      blockWidth = (window.innerWidth - 85) / 7
+    }
+
+    canvasWidth = (blockWidth + 2) * 7
+    canvasHeight = (blockHeight + 2) * 25
+
+    this.forceUpdate()
   }
 
   drawGrid = (ctx) => {
