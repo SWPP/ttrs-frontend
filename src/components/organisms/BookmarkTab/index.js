@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Card, Sidebar, Segment, Label, Icon } from 'semantic-ui-react'
+import { Button, Card, Sidebar, Segment, Label } from 'semantic-ui-react'
 import TimeTable from '../../../containers/TimeTable'
 import { getLectureIds, getLectureIdsWithout } from '../RecommendTab'
 
