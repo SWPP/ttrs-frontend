@@ -159,7 +159,7 @@ class LecturePopup extends React.Component {
                         <Feed.Content>
                           <Feed.Summary>
                             <Feed.User>{evaluation.author}</Feed.User>
-                            <Feed.Date>Evaluated at ~</Feed.Date>
+                            <Feed.Date>{evaluation.evaluatedAt.substring(0, 10)}&nbsp;</Feed.Date>
                             {this.props.username === evaluation.author &&
                             <span>
                               <Popup

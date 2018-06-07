@@ -167,13 +167,6 @@ function* signIn(username, password) {
     console.log('getCurrent Received TimeTables error', error.response)
     yield put(actions.setErrors('getCurrentReceivedTimeTables', processErrors(error.response.data), 'Failed to get received timetables.'))
   }
-  try {
-    const response = yield call(axios.get, updateURLParams('ttrs/recommends/', params), config)
-    console.log('getCurrent Recommended TimeTables response', response)
-    yield call(getRecommendedTimeTables, response)
-  } catch (error) {
-    console.log('getCurrent Recommended TimeTables error', error.response)
-  }
   return undefined
 }
 
@@ -269,6 +262,7 @@ function* switchSemester(newYear, newSemester) {
   }
   try {
     yield put(actions.searchLectureResponse([]))
+    yield put(actions.createRecommendedTimeTables([]))
     const fieldsAndTypesResponse = yield call(axios.get, updateURLParams('ttrs/static-information/', params), config)
     console.log('get Fields and Types response', fieldsAndTypesResponse)
     yield put(actions.setFieldsAndTypes(fieldsAndTypesResponse.data.fields, fieldsAndTypesResponse.data.types))
@@ -281,9 +275,6 @@ function* switchSemester(newYear, newSemester) {
     const receivedTimeTableResponse = yield call(axios.get, updateURLParams('ttrs/received-time-tables/', params), config)
     console.log('getCurrent receivedTimeTable response', receivedTimeTableResponse)
     yield call(getReceivedTimeTables, receivedTimeTableResponse)
-    const recommendedTimeTableResponse = yield call(axios.get, updateURLParams('ttrs/recommends/', params), config)
-    console.log('getCurrent recommendedTimeTable response', recommendedTimeTableResponse)
-    yield call(getRecommendedTimeTables, recommendedTimeTableResponse)
   } catch (error) {
     console.log('switchSemester error', error.response)
     yield put(actions.setErrors('switchSemester', processErrors(error.response.data), 'Failed to switch the semester.'))
@@ -310,7 +301,7 @@ function* selectBookmarkedTimeTable(bookmarkedTimeTable) {
  * If deleteLectureId < 0:
  *   Delete Lecture from Bookmarked TimeTable
  */
-function* updateBookmarkedTimeTable(index, timeTableId, updatedInfo, newLectureId) {
+function* updateBookmarkedTimeTable(timeTableId, updatedInfo, newLectureId) {
   if (newLectureId !== null && newLectureId > 0) {
     updatedInfo.lectures.push(newLectureId)
   }
@@ -321,12 +312,12 @@ function* updateBookmarkedTimeTable(index, timeTableId, updatedInfo, newLectureI
     if (newLectureId !== null) {
       if (newLectureId > 0) {
         const lectureResposne = yield call(axios.get, `ttrs/lectures/${newLectureId}/`, config)
-        yield put(actions.addLectureToBookmarkedTimeTable(index, lectureResposne.data))
+        yield put(actions.addLectureToBookmarkedTimeTable(timeTableId, lectureResposne.data))
       } else {
-        yield put(actions.deleteLectureFromBookmarkedTimeTableResponse(index, -newLectureId))
+        yield put(actions.deleteLectureFromBookmarkedTimeTableResponse(timeTableId, -newLectureId))
       }
     } else {
-      yield put(actions.updateBookmarkedTimeTableInfo(index, updatedInfo))
+      yield put(actions.updateBookmarkedTimeTableInfo(timeTableId, updatedInfo))
     }
   } catch (error) {
     console.log('update BookmarkedTimeTable error', error.response)
@@ -358,16 +349,16 @@ function* sendTimeTable(sendInfo) {
   }
 }
 
-function* selectReceivedTimeTable(receivedTimeTable, index) {
+function* selectReceivedTimeTable(receivedTimeTable, timeTableId) {
   try {
     receivedTimeTable.lectures = yield call(getLecturesFromLectureIds, receivedTimeTable)
     const receiveResponse = yield call(axios.get, `ttrs/received-time-tables/${receivedTimeTable.id}/receive/`, config)
     console.log('receiveResponse', receiveResponse)
     receivedTimeTable.receivedAt = receiveResponse.data.receivedAt
-    yield put(actions.selectReceivedTimeTableResponse(receivedTimeTable, index))
+    yield put(actions.selectReceivedTimeTableResponse(receivedTimeTable, timeTableId))
   } catch (error) {
     // Error happens when receivedTimeTable.lectures is list of Lecture Info (already updated)
-    yield put(actions.selectReceivedTimeTableResponse(receivedTimeTable, index))
+    yield put(actions.selectReceivedTimeTableResponse(receivedTimeTable, timeTableId))
   }
 }
 
@@ -579,6 +570,20 @@ function* toggleLikeIt(lectureId, isAdd, evaluationId) {
   }
 }
 
+function* getRecommendation() {
+  const params = {
+    year,
+    semester,
+  }
+  try {
+    const response = yield call(axios.get, updateURLParams('ttrs/recommends/', params), config)
+    console.log('getCurrent Recommended TimeTables response', response)
+    yield call(getRecommendedTimeTables, response)
+  } catch (error) {
+    console.log('getCurrent Recommended TimeTables error', error.response)
+  }
+}
+
 function* watchSignIn() {
   while (true) {
     const { username, password } = yield take(actions.SIGN_IN_REQUEST)
@@ -623,8 +628,8 @@ function* watchSelectBookmarkedTimeTable() {
 
 function* watchUpdateBookmarkedTimeTable() {
   while (true) {
-    const { index, timeTableId, updatedInfo, deleteLectureId } = yield take(actions.UPDATE_BOOKMARKED_TIME_TABLE_REQUEST)
-    yield call(updateBookmarkedTimeTable, index, timeTableId, updatedInfo, deleteLectureId)
+    const { timeTableId, updatedInfo, deleteLectureId } = yield take(actions.UPDATE_BOOKMARKED_TIME_TABLE_REQUEST)
+    yield call(updateBookmarkedTimeTable, timeTableId, updatedInfo, deleteLectureId)
   }
 }
 
@@ -644,8 +649,8 @@ function* watchSendTimeTable() {
 
 function* watchSelectReceivedTimeTable() {
   while (true) {
-    const { receivedTimeTable, index } = yield take(actions.SELECT_RECEIVED_TIME_TABLE_REQUEST)
-    yield call(selectReceivedTimeTable, receivedTimeTable, index)
+    const { receivedTimeTable, timeTableId } = yield take(actions.SELECT_RECEIVED_TIME_TABLE_REQUEST)
+    yield call(selectReceivedTimeTable, receivedTimeTable, timeTableId)
   }
 }
 
@@ -740,6 +745,13 @@ function* watchToggleLikeIt() {
   }
 }
 
+function* watchGetRecommendation() {
+  while (true) {
+    yield take(actions.GET_RECOMMENDATION_REQUEST)
+    yield call(getRecommendation)
+  }
+}
+
 export default function* () {
   yield call(getInitialInfo)
   yield fork(watchSignIn)
@@ -765,4 +777,5 @@ export default function* () {
   yield fork(watchDeleteEvaluation)
   yield fork(watchModifyEvaluation)
   yield fork(watchToggleLikeIt)
+  yield fork(watchGetRecommendation)
 }

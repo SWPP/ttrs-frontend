@@ -72,6 +72,10 @@ class TimeTable extends React.Component {
     console.log(blocks)
   }
 
+  handleChange = (e, { name, value }) => {
+    this.setState({ [name]: value })
+  }
+
   createTimeTable = () => {
     return (
       <div>
@@ -102,7 +106,21 @@ class TimeTable extends React.Component {
           <Menu.Item active fitted>
             {!this.state.isModifyingTitle ?
               <div style={{ paddingLeft: 10, paddingRight: 10 }}>
-                <h4>{this.state.title}
+                <h4>
+                  {this.props.haveSidebar &&
+                  <Popup
+                    trigger={<button
+                      className="ui icon button"
+                      onClick={this.props.onOpenSidebar}
+                      style={iconButtonStyle}
+                    >
+                      <Icon name="list" />
+                    </button>}
+                    content="Show TimeTable List"
+                    inverted
+                  />
+                  }
+                  {this.props.title}
                   {this.props.canModify &&
                   <Popup
                     trigger={<button
@@ -281,6 +299,8 @@ TimeTable.propTypes = {
   onAddLecture: PropTypes.func,
   onDeleteLecture: PropTypes.func,
   onDeleteTimeTable: PropTypes.func,
+  haveSidebar: PropTypes.bool,
+  onOpenSidebar: PropTypes.func,
 }
 
 export default TimeTable
