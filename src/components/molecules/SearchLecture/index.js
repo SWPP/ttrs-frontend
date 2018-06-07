@@ -16,8 +16,8 @@ class SearchLecture extends React.Component {
     order_by: null,
     'course.type': null,
     'course.grade': null,
-    'course.credit.gte': '',
-    'course.credit.lte': '',
+    'course.credit.gte': null,
+    'course.credit.lte': null,
     'course.field.startswith': null,
     'course.field.endswith': null,
     page: 1,
@@ -107,6 +107,8 @@ class SearchLecture extends React.Component {
       { key: '-rating', text: '평점 높은순', value: '-rating' },
       { key: 'rating', text: '평점 낮은순', value: 'rating' },
     ]
+    const creditOptions = [{ key: -1, text: '---', value: null }]
+    creditOptions.push(...[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(credit => ({ key: credit, text: credit, value: credit })))
     const typeOptions = [{ key: -1, text: '---', value: null }]
     typeOptions.push(...this.props.types.map(type => ({ key: type, text: type, value: type })))
     const gradeOptions = [{ key: -1, text: '---', value: null }]
@@ -170,19 +172,23 @@ class SearchLecture extends React.Component {
                     />
                   </Grid.Column>
                   <Grid.Column>
-                    <Form.Input
+                    <Form.Select
                       label="Credit"
                       placeholder="MIN"
+                      options={creditOptions}
                       name="course.credit.gte"
+                      value={this.state['course.credit.gte']}
                       onChange={this.handleChange}
                     />
                   </Grid.Column>
                   <span style={{ marginTop: 32 }}>~</span>
                   <Grid.Column>
-                    <Form.Input
+                    <Form.Select
                       label="&nbsp;"
                       placeholder="MAX"
+                      options={creditOptions}
                       name="course.credit.lte"
+                      value={this.state['course.credit.lte']}
                       onChange={this.handleChange}
                     />
                   </Grid.Column>
