@@ -10,14 +10,14 @@ const ReceiveTab = ({ myTimeTable, receivedTimeTables, receivedTimeTable, onSele
     <div>
       <h1>My TimeTable</h1>
       <TimeTable
-        onAddLecture={(newLectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIds(myTimeTable) }, newLectureId)}
-        onModifyContent={(content) => onUpdateMyTimeTable(myTimeTable.id, content, null)}
-        onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, myTimeTable) }, -lectureId)}
         {...myTimeTable}
         canModify
         canDelete
         canCreate
         canCopyToMy={false}
+        onAddLecture={(newLectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIds(myTimeTable) }, newLectureId)}
+        onModifyContent={(content) => onUpdateMyTimeTable(myTimeTable.id, content, null)}
+        onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, myTimeTable) }, -lectureId)}
         onDeleteTimeTable={(timeTableId) => timeTableId !== null ? onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
       />
       <hr />

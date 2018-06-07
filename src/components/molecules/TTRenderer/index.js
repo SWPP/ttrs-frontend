@@ -61,7 +61,6 @@ class TTRenderer extends React.Component {
     if (lecture === null) { return }
 
     this.setState({ openId: lecture.id })
-    this.props.onGetEvaluations(lecture.id)
   }
 
   onMouseDown = (e) => {
@@ -361,16 +360,19 @@ class TTRenderer extends React.Component {
         onMouseUp={(e) => this.onMouseUp(e)}
       >
         {this.renderBlocks()}
-        {this.state.lectures.map((lecture) =>
-          <LecturePopup
-            key={lecture.course.name}
-            open={lecture.id === this.state.openId}
-            lecture={lecture}
-            onDeleteLecture={() => this.props.onDeleteLecture(lecture.id)}
-            onAddToNotRecommends={() => this.props.onAddToNotRecommends(this.props.notRecommends, lecture.course.id)}
-            canDelete={this.props.canModify}
-            onClose={() => this.setState({ openId: null })}
-          />)}
+        {this.state.lectures.map((lecture) => {
+          if (lecture.id === this.state.openId) {
+            return (<LecturePopup
+              key={lecture.id}
+              open={lecture.id === this.state.openId}
+              lecture={lecture}
+              onDeleteLecture={() => this.props.onDeleteLecture(lecture.id)}
+              canDelete={this.props.canDeleteLecture}
+              onClose={() => this.setState({ openId: null })}
+            />)
+          }
+          return null
+        })}
       </div>
     )
   }
@@ -379,12 +381,8 @@ class TTRenderer extends React.Component {
 
 TTRenderer.propTypes = {
   lectures: PropTypes.array,
-  notRecommends: PropTypes.array,
-  canModify: PropTypes.bool,
-  canDelete: PropTypes.bool,
+  canDeleteLecture: PropTypes.bool,
   onDeleteLecture: PropTypes.func,
-  onAddToNotRecommends: PropTypes.func,
-  onGetEvaluations: PropTypes.func,
   onChange: PropTypes.func,
 }
 

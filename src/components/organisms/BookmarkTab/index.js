@@ -10,14 +10,14 @@ const BookmarkTab = ({ myTimeTable, bookmarkedTimeTables, bookmarkedTimeTable, o
     <div>
       <h1>My TimeTable</h1>
       <TimeTable
-        onAddLecture={(newLectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIds(myTimeTable) }, newLectureId)}
-        onModifyContent={(content) => onUpdateMyTimeTable(myTimeTable.id, content, null)}
-        onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, myTimeTable) }, -lectureId)}
         {...myTimeTable}
         canModify
         canDelete
         canCreate
         canCopyToMy={false}
+        onAddLecture={(newLectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIds(myTimeTable) }, newLectureId)}
+        onModifyContent={(content) => onUpdateMyTimeTable(myTimeTable.id, content, null)}
+        onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, myTimeTable) }, -lectureId)}
         onDeleteTimeTable={(timeTableId) => timeTableId !== null ? onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
       />
       <hr />
@@ -34,13 +34,13 @@ const BookmarkTab = ({ myTimeTable, bookmarkedTimeTables, bookmarkedTimeTable, o
         )}
       </select>
       <TimeTable
-        onAddLecture={(newLectureId) => onUpdateBookmarkedTimeTable(inputBookmarkedTimeTableIndex.value, bookmarkedTimeTable.id, { lectures: getLectureIds(bookmarkedTimeTable) }, newLectureId)}
-        onModifyContent={(content) => onUpdateBookmarkedTimeTable(inputBookmarkedTimeTableIndex.value, bookmarkedTimeTable.id, content, null)}
-        onDeleteLecture={(lectureId) => onUpdateBookmarkedTimeTable(inputBookmarkedTimeTableIndex.value, bookmarkedTimeTable.id, { lectures: getLectureIdsWithout(lectureId, bookmarkedTimeTable) }, -lectureId)}
         {...bookmarkedTimeTable}
         canModify
         canDelete
         canCopyToMy
+        onAddLecture={(newLectureId) => onUpdateBookmarkedTimeTable(inputBookmarkedTimeTableIndex.value, bookmarkedTimeTable.id, { lectures: getLectureIds(bookmarkedTimeTable) }, newLectureId)}
+        onModifyContent={(content) => onUpdateBookmarkedTimeTable(inputBookmarkedTimeTableIndex.value, bookmarkedTimeTable.id, content, null)}
+        onDeleteLecture={(lectureId) => onUpdateBookmarkedTimeTable(inputBookmarkedTimeTableIndex.value, bookmarkedTimeTable.id, { lectures: getLectureIdsWithout(lectureId, bookmarkedTimeTable) }, -lectureId)}
         onDeleteTimeTable={(timeTableId) => timeTableId !== null ? onDeleteTimeTable(timeTableId, 'bookmarked', bookmarkedTimeTables) : console.log('There is no timetable')}
       />
     </div>

@@ -71,17 +71,13 @@ class Lecture extends React.Component {
               basic
               color="green"
               content="Details"
-              onClick={() => {
-                this.setState({ open: true })
-                this.props.onGetEvaluations(lecture.id)
-              }}
+              onClick={() => this.setState({ open: true })}
             />
             <Button basic color="blue" content="Add" onClick={this.props.onAddLecture} />
             <LecturePopup
               open={this.state.open}
               lecture={lecture}
               canDelete={false}
-              onAddToNotRecommends={this.props.onAddToNotRecommends}
               onClose={() => this.setState({ open: false })}
             />
           </div>
@@ -94,8 +90,6 @@ class Lecture extends React.Component {
 Lecture.propTypes = {
   lecture: PropTypes.object,
   onAddLecture: PropTypes.func,
-  onAddToNotRecommends: PropTypes.func,
-  onGetEvaluations: PropTypes.func,
 }
 
 export default Lecture

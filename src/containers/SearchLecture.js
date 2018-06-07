@@ -17,11 +17,11 @@ const mapDispatchToProps = (dispatch, props) => {
     onSearchLecture: (options) => {
       dispatch(searchLectureRequest(options))
     },
-    ...props,
     onClose: () => {
       props.onClose()
       dispatch(clearSearchLecture())
     },
+    onAddLecture: props.onAddLecture,
   }
 }
 

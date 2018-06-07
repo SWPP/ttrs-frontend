@@ -76,13 +76,10 @@ class TimeTable extends React.Component {
     return (
       <div>
         <TTRenderer
-          onChange={this.getBlocks}
           lectures={this.props.lectures}
+          canDeleteLecture={this.props.canModify}
           onDeleteLecture={this.props.onDeleteLecture}
-          onAddToNotRecommends={this.props.onAddToNotRecommends}
-          onGetEvaluations={this.props.onGetEvaluations}
-          notRecommends={this.props.notRecommends}
-          canModify={this.props.canModify}
+          onChange={this.getBlocks}
         />
       </div>
     )
@@ -143,7 +140,7 @@ class TimeTable extends React.Component {
             }
           </Menu.Item>}
           <Menu.Menu position="right">
-            {(this.props.id !== null || (this.props.canModify && this.props.canCreate)) &&
+            {this.props.canModify && (this.props.id !== null || this.props.canCreate) &&
             <Menu.Item active fitted>
               <Popup
                 trigger={<div>
@@ -157,7 +154,6 @@ class TimeTable extends React.Component {
                   <SearchLecture
                     onAddLecture={this.props.onAddLecture}
                     onClose={() => this.setState({ searchOpen: false })}
-                    onAddToNotRecommends={(courseId) => this.props.onAddToNotRecommends(this.props.notRecommends, courseId)}
                   />}
                 </div>}
                 content="Add a lecture to this timetable"
@@ -242,7 +238,7 @@ class TimeTable extends React.Component {
         </Menu>
         <Segment attached>
           {this.createTimeTable()}
-          {this.props.id !== null &&
+          {this.props.id !== null && this.props.canModify &&
           <Form>
             <Form.Field
               control={TextArea}
@@ -273,19 +269,17 @@ TimeTable.propTypes = {
   memo: PropTypes.string,
   title: PropTypes.string,
   lectures: PropTypes.array,
-  notRecommends: PropTypes.array,
   canModify: PropTypes.bool,
   canCopyToMy: PropTypes.bool,
   canDelete: PropTypes.bool,
   canCreate: PropTypes.bool,
+
+  onCopyToMy: PropTypes.func,
+  onBookmark: PropTypes.func,
+  onSend: PropTypes.func,
   onModifyContent: PropTypes.func,
   onAddLecture: PropTypes.func,
   onDeleteLecture: PropTypes.func,
-  onAddToNotRecommends: PropTypes.func,
-  onGetEvaluations: PropTypes.func,
-  onBookmark: PropTypes.func,
-  onSend: PropTypes.func,
-  onCopyToMy: PropTypes.func,
   onDeleteTimeTable: PropTypes.func,
 }
 

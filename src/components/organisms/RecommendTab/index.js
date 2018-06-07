@@ -28,13 +28,13 @@ const RecommendTab = ({ myTimeTable, recommendedTimeTables, recommendedTimeTable
       <h1>My TimeTable</h1>
       <TimeTable
         {...myTimeTable}
-        onAddLecture={(newLectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIds(myTimeTable) }, newLectureId)}
-        onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, myTimeTable) }, -lectureId)}
-        onModifyContent={(content) => onUpdateMyTimeTable(myTimeTable.id, content, null)}
         canModify
         canDelete
         canCreate
         canCopyToMy={false}
+        onAddLecture={(newLectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIds(myTimeTable) }, newLectureId)}
+        onDeleteLecture={(lectureId) => onUpdateMyTimeTable(myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, myTimeTable) }, -lectureId)}
+        onModifyContent={(content) => onUpdateMyTimeTable(myTimeTable.id, content, null)}
         onDeleteTimeTable={(timeTableId) => timeTableId !== null ? onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
       />
       <hr />
