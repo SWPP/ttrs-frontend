@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Icon, Form, Menu, Popup, Segment, TextArea, Button } from 'semantic-ui-react'
-import LecturePopup from '../../../containers/LecturePopup'
 import SearchLecture from '../../../containers/SearchLecture'
 
 import TTRenderer from '../TTRenderer'
@@ -68,10 +67,6 @@ class TimeTable extends React.Component {
     this.props.onSend(sendInfo)
   }
 
-  handleChange = (e, { name, value }) => {
-    this.setState({ [name]: value })
-  }
-
   getBlocks = (blocks) => {
     console.log('Change in selected blocks')
     console.log(blocks)
@@ -91,6 +86,10 @@ class TimeTable extends React.Component {
         />
       </div>
     )
+  }
+
+  handleChange = (e, { name, value }) => {
+    this.setState({ [name]: value })
   }
 
   render() {
