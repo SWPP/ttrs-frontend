@@ -175,7 +175,7 @@ class SearchLecture extends React.Component {
                     <Form.Select
                       fluid
                       label="Credit"
-                      placeholder="MIN"
+                      placeholder="Min"
                       options={creditOptions}
                       name="course.credit.gte"
                       value={this.state['course.credit.gte']}
@@ -187,7 +187,7 @@ class SearchLecture extends React.Component {
                     <Form.Select
                       fluid
                       label="&nbsp;"
-                      placeholder="MAX"
+                      placeholder="Max"
                       options={creditOptions}
                       name="course.credit.lte"
                       value={this.state['course.credit.lte']}
