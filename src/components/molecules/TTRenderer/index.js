@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import LecturePopup from '../../../containers/LecturePopup'
 
 
-const blockWidth = 130
+const blockWidth = 154
 const blockHeight = 29
 const canvasWidth = (blockWidth + 2) * 7
 const canvasHeight = (blockHeight + 2) * 25
