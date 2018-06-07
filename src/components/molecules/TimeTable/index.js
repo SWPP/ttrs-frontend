@@ -232,7 +232,7 @@ class TimeTable extends React.Component {
           <Menu.Item active fitted>
             {!this.state.isModifyingTitle ?
               <div style={{ paddingLeft: 10, paddingRight: 10 }}>
-                <h4>{this.state.title}
+                <h4>{this.props.title}
                   {this.props.canModify &&
                   <Popup
                     trigger={<button
