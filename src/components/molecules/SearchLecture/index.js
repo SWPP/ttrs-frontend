@@ -148,6 +148,7 @@ class SearchLecture extends React.Component {
                   <Grid.Column>
                     <Form.Input
                       label="Course Name"
+                      placeholder="Course Name"
                       name="course.name.abbrev"
                       onChange={this.handleChange}
                     />
@@ -155,6 +156,7 @@ class SearchLecture extends React.Component {
                   <Grid.Column>
                     <Form.Input
                       label="Course Code"
+                      placeholder="Course Code"
                       name="course.code"
                       onChange={this.handleChange}
                     />
@@ -162,6 +164,7 @@ class SearchLecture extends React.Component {
                   <Grid.Column>
                     <Form.Input
                       label="Instructor"
+                      placeholder="Instructor"
                       name="instructor"
                       onChange={this.handleChange}
                     />
