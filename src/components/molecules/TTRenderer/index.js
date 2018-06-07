@@ -45,7 +45,11 @@ class TTRenderer extends React.Component {
         [0, 0, 0, 0, 0, 0],
       ],
     }
-    console.log(this.state)
+    // console.log(this.state)
+  }
+
+  componentDidMount() {
+    this.updateCanvas()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -63,9 +67,6 @@ class TTRenderer extends React.Component {
     const canvas = this.refs.canvas
     const ctx = canvas.getContext('2d')
     ctx.clearRect(0, 0, canvasWidth, canvasHeight)
-
-    ctx.fillStyle = 'rgb(200,0,0)'
-    ctx.fillRect(Math.random() * 100, 10, 50, 50)
 
     this.drawGrid(ctx)
     this.setHeaders(ctx)
@@ -129,7 +130,7 @@ class TTRenderer extends React.Component {
     const blockColor = 'rgb(0,200,0,0.5)'
     ctx.fillStyle = blockColor
 
-    console.log(blocks)
+    // console.log(blocks)
     for (let i = 0; i < blocks.length; i += 1) {
       const row = blocks[i]
       for (let j = 0; j < row.length; j += 1) {
@@ -145,12 +146,12 @@ class TTRenderer extends React.Component {
   }
 
   drawLecture = (ctx, lecture) => {
-    console.log(lecture)
+    // console.log(lecture)
 
     const days = ['헤더', '월', '화', '수', '목', '금', '토']
     // const colors = ['rgb(0,116,217)', 'rgb(255,220,0)', 'rgb(46,204,64)']
     // const boxColor = colors[Math.floor(Math.random()*colors.length)]
-    const boxColor = 'rgb(255,133,27,0.5)'
+    const boxColor = 'rgb(0,116,217,0.8)'
     const textColor = 'rgb(0,0,0)'
     const timeSlots = lecture.timeSlots
     for (let i = 0; i < timeSlots.length; i += 1) {
@@ -158,26 +159,79 @@ class TTRenderer extends React.Component {
       const dayIndex = days.indexOf(timeSlot.dayOfWeek)
 
       let startTime = timeSlots[i].startTime.split(':').map((i) => Number(i))
-      startTime = startTime[0] * 60 + startTime[1]
+      startTime = (startTime[0] * 60) + startTime[1]
 
       let endTime = timeSlots[i].endTime.split(':').map((i) => Number(i))
-      endTime = endTime[0] * 60 + endTime[1]
+      endTime = (endTime[0] * 60) + endTime[1]
 
-      const start = { x: dayIndex * (blockWidth + 2) + 1, y: ((startTime - 540) / 30 + 1) * (blockHeight + 2) }
+      const start = { x: (dayIndex * (blockWidth + 2)) + 1, y: (((startTime - 540) / 30) + 1) * (blockHeight + 2) }
       const size = { width: blockWidth, height: ((endTime - startTime) / 30) * (blockHeight + 1) }
 
       ctx.fillStyle = boxColor
       ctx.fillRect(start.x, start.y, size.width, size.height)
 
-      const center = { x: start.x + size.width / 2, y: start.y + size.height / 2 }
+      const center = { x: start.x + (size.width / 2), y: start.y + (size.height / 2) }
 
       const name = lecture.course.name
       const room = `${timeSlot.classroom.building}-${timeSlot.classroom.roomNo}`
       ctx.fillStyle = textColor
       ctx.font = '15px Courier'
-      ctx.fillText(name, center.x - ctx.measureText(name).width / 2, center.y)
-      ctx.fillText(room, center.x - ctx.measureText(room).width / 2, center.y + 20)
+      ctx.fillText(name, center.x - (ctx.measureText(name).width / 2), center.y)
+      ctx.fillText(room, center.x - (ctx.measureText(room).width / 2), center.y + 20)
     }
+  }
+
+  onClickCanvas = (e) => {
+    if (e.ctrlKey) { return }
+
+    window.document.removeEventListener('mousemove', this.onMouseMove)
+
+    const elt = ReactDOM.findDOMNode(this)
+    const rect = elt.getBoundingClientRect()
+    const eltLeft = rect.left
+    const eltTop = rect.top
+
+    const pos = { x: e.clientX - eltLeft, y: e.clientY - eltTop }
+    console.log(pos)
+    const lecture = this.getLectureAtPos(pos)
+    console.log(lecture)
+
+    if (lecture === null)
+      return
+
+    this.setState({ openId: lecture.id })
+    this.props.getEvaluations(lecture.id)
+  }
+
+  getLectureAtPos = (pos) => {
+    const days = ['헤더', '월', '화', '수', '목', '금', '토']
+    const lectures = this.state.lectures
+    for (let i = 0; i < lectures.length; i += 1) {
+      const lecture = lectures[i]
+      const timeSlots = lecture.timeSlots
+
+      for (let j = 0; j < timeSlots.length; j += 1) {
+        const timeSlot = timeSlots[j]
+        const dayIndex = days.indexOf(timeSlot.dayOfWeek)
+
+        let startTime = timeSlots[i].startTime.split(':').map((i) => Number(i))
+        startTime = (startTime[0] * 60) + startTime[1]
+
+        let endTime = timeSlots[i].endTime.split(':').map((i) => Number(i))
+        endTime = (endTime[0] * 60) + endTime[1]
+
+        const start = { x: (dayIndex * (blockWidth + 2)) + 1, y: (((startTime - 540) / 30) + 1) * (blockHeight + 2) }
+        const size = { width: blockWidth, height: ((endTime - startTime) / 30) * (blockHeight + 1) }
+
+        console.log(pos, start, size)
+
+        if (start.x <= pos.x && pos.x <= start.x + size.width
+          && start.y <= pos.y && pos.y <= start.y + size.height) {
+          return lecture
+        }
+      }
+    }
+    return null
   }
 
   onMouseDown = (e) => {
@@ -223,11 +277,9 @@ class TTRenderer extends React.Component {
       y: Math.max(this.state.startPoint.y, this.state.endPoint.y) - eltTop,
     }
 
-    let i,
-      j
     const blocks = this.state.blocks
-    for (i = 0; i < blocks.length; i += 1) {
-      for (j = 0; j < blocks[i].length; j += 1) {
+    for (let i = 0; i < blocks.length; i += 1) {
+      for (let j = 0; j < blocks[i].length; j += 1) {
         if (this.overlap(i, j, topLeft, botRight)) { blocks[i][j] = 1 - blocks[i][j] }
       }
     }
@@ -376,6 +428,7 @@ class TTRenderer extends React.Component {
         style={{
           border: '1px solid black',
         }}
+        onClick={(e) => this.onClickCanvas(e)}
       />
     )
     return (
@@ -409,6 +462,16 @@ class TTRenderer extends React.Component {
           onMouseUp={(e) => this.onMouseUp(e)}
         >
           {this.renderBlocks()}
+          {this.state.lectures.map((lecture) =>
+            <LecturePopup
+              key={lecture.course.name}
+              open={lecture.id === this.state.openId}
+              lecture={lecture}
+              onDeleteLecture={() => this.props.deleteLecture(lecture.id)}
+              onAddToNotRecommends={() => this.props.addToNotRecommends(this.props.notRecommends, lecture.course.id)}
+              canDelete={this.props.canModify}
+              onClose={() => this.setState({ openId: null })}
+            />)}
         </div>
         <div>
           { this.showStatus() }
