@@ -445,8 +445,7 @@ function* deleteTimeTable(timeTableId, timeTableType, timeTables) {
       } else {
         yield put(actions.deleteBookmarkedTimeTableResponse(timeTableId, timeTables[0]))
       }
-    }
-    else if (timeTableType === 'received') {
+    } else if (timeTableType === 'received') {
       yield call(axios.delete, `ttrs/received-time-tables/${timeTableId}/`, config)
       console.log('delete received time table')
       if (timeTables[0].id === timeTableId) {
