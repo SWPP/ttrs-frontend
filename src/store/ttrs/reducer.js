@@ -3,7 +3,6 @@ import {
   initialStudentInfo,
 } from './selectors'
 import * as actions from './actions'
-import { SET_FIELDS_AND_TYPES } from './actions'
 
 const studentInfo = (state = [], action) => {
   switch (action.type) {
