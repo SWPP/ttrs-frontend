@@ -99,6 +99,25 @@ class TTRenderer extends React.Component {
   onMouseMove = (e) => {
     const endPoint = { x: e.clientX, y: e.clientY }
     this.setState({ endPoint })
+
+    const elt = ReactDOM.findDOMNode(this)
+    const rect = elt.getBoundingClientRect()
+    const eltLeft = rect.left
+    const eltTop = rect.top
+
+    const topLeft = {
+      x: Math.min(this.state.startPoint.x, this.state.endPoint.x) - eltLeft,
+      y: Math.min(this.state.startPoint.y, this.state.endPoint.y) - eltTop,
+    }
+    const botRight = {
+      x: Math.max(this.state.startPoint.x, this.state.endPoint.x) - eltLeft,
+      y: Math.max(this.state.startPoint.y, this.state.endPoint.y) - eltTop,
+    }
+
+    const canvas = this.refs.canvas
+    const ctx = canvas.getContext('2d')
+    ctx.strokeStyle = 'rgb(0,0,0)'
+    ctx.strokeRect(topLeft.x, topLeft.y, botRight.x - topLeft.x, botRight.y - topLeft.y)
   }
 
   onMouseUp = () => {
