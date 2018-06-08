@@ -55,12 +55,30 @@ class TTRenderer extends React.Component {
     const eltLeft = rect.left
     const eltTop = rect.top
 
-    const pos = { x: e.clientX - eltLeft, y: e.clientY - eltTop }
-    const lecture = this.getLectureAtPos(pos)
+    const pos = {x: e.clientX - eltLeft, y: e.clientY - eltTop}
 
-    if (lecture === null) { return }
+    if (pos.y < blockHeight) {
+      const dayIndex = Math.floor(pos.x / (blockWidth + 2)) - 1
+      const blocks = [...this.state.blocks]
+      for (let i = 0; i < 24; i += 1) {
+        blocks[i][dayIndex] = 1
+      }
+      this.setState({ blocks: [...blocks] })
+    } else if (pos.x < blockWidth) {
+      const timeIndex = Math.floor(pos.y / (blockHeight + 2)) - 1
+      const blocks = [...this.state.blocks]
+      for (let j = 0; j < 6; j += 1) {
+        blocks[timeIndex][j] = 1
+      }
+      this.setState({ blocks: [...blocks] })
+    } else {
+      const lecture = this.getLectureAtPos(pos)
+      if (lecture === null) {
+        return
+      }
 
-    this.setState({ openId: lecture.id })
+      this.setState({ openId: lecture.id })
+    }
   }
 
   onMouseDown = (e) => {
