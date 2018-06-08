@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-
+import { Icon, Form, Menu, Popup, Segment, TextArea, Button } from 'semantic-ui-react'
 import LecturePopup from '../../../containers/LecturePopup'
 
 
@@ -351,6 +351,24 @@ class TTRenderer extends React.Component {
     )
   }
 
+  selectAll = () => {
+    const blocks = []
+    for (let i = 0; i < 24; i += 1) {
+      blocks.push([1, 1, 1, 1, 1, 1])
+    }
+
+    this.setState({ blocks: [...blocks] })
+  }
+
+  clearAll = () => {
+    const blocks = []
+    for (let i = 0; i < 24; i += 1) {
+      blocks.push([0, 0, 0, 0, 0, 0])
+    }
+
+    this.setState({ blocks: [...blocks] })
+  }
+
   render() {
     return (
       <div
@@ -359,6 +377,26 @@ class TTRenderer extends React.Component {
         onMouseDown={(e) => this.onMouseDown(e)}
         onMouseUp={(e) => this.onMouseUp(e)}
       >
+        <div className="two ui buttons">
+          <button
+            className="ui vertical animated button"
+            onClick={() => this.selectAll()}
+          >
+            <div className="hidden content">Select All</div>
+            <div className="visible content">
+              <i className="icon circle" />
+            </div>
+          </button>
+          <button
+            className="ui vertical animated button"
+            onClick={() => this.clearAll()}
+          >
+            <div className="hidden content">Clear All</div>
+            <div className="visible content">
+              <i className="icon circle outline" />
+            </div>
+          </button>
+        </div>
         {this.renderBlocks()}
         {this.state.lectures.map((lecture) => {
           if (lecture.id === this.state.openId) {
