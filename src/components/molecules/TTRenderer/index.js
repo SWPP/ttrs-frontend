@@ -337,20 +337,6 @@ class TTRenderer extends React.Component {
     return -1
   }
 
-  renderBlocks = () => {
-    return (
-      <canvas
-        ref={'canvas'}
-        width={canvasWidth}
-        height={canvasHeight}
-        style={{
-          border: '1px solid black',
-        }}
-        onClick={(e) => this.onClickCanvas(e)}
-      />
-    )
-  }
-
   selectAll = () => {
     const blocks = []
     for (let i = 0; i < 24; i += 1) {
@@ -367,6 +353,20 @@ class TTRenderer extends React.Component {
     }
 
     this.setState({ blocks: [...blocks] })
+  }
+
+  renderBlocks = () => {
+    return (
+      <canvas
+        ref={'canvas'}
+        width={canvasWidth}
+        height={canvasHeight}
+        style={{
+          border: '1px solid black',
+        }}
+        onClick={(e) => this.onClickCanvas(e)}
+      />
+    )
   }
 
   render() {
