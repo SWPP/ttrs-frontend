@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-import { Icon, Form, Menu, Popup, Segment, TextArea, Button } from 'semantic-ui-react'
+
 import LecturePopup from '../../../containers/LecturePopup'
 
 
@@ -377,6 +377,20 @@ class TTRenderer extends React.Component {
         onMouseDown={(e) => this.onMouseDown(e)}
         onMouseUp={(e) => this.onMouseUp(e)}
       >
+        {this.renderBlocks()}
+        {this.state.lectures.map((lecture) => {
+          if (lecture.id === this.state.openId) {
+            return (<LecturePopup
+              key={lecture.id}
+              open={lecture.id === this.state.openId}
+              lecture={lecture}
+              onDeleteLecture={() => this.props.onDeleteLecture(lecture.id)}
+              canDelete={this.props.canDeleteLecture}
+              onClose={() => this.setState({ openId: null })}
+            />)
+          }
+          return null
+        })}
         <div className="two ui buttons">
           <button
             className="ui vertical animated button"
@@ -397,20 +411,7 @@ class TTRenderer extends React.Component {
             </div>
           </button>
         </div>
-        {this.renderBlocks()}
-        {this.state.lectures.map((lecture) => {
-          if (lecture.id === this.state.openId) {
-            return (<LecturePopup
-              key={lecture.id}
-              open={lecture.id === this.state.openId}
-              lecture={lecture}
-              onDeleteLecture={() => this.props.onDeleteLecture(lecture.id)}
-              canDelete={this.props.canDeleteLecture}
-              onClose={() => this.setState({ openId: null })}
-            />)
-          }
-          return null
-        })}
+
       </div>
     )
   }
