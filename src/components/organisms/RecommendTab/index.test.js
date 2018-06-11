@@ -1,10 +1,34 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import Enzyme, { shallow } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
 import RecommendTab from '.'
 
-const wrap = (props = {}) => shallow(<RecommendTab {...props} />)
+Enzyme.configure({ adapter: new Adapter() })
 
-it('renders props when passed in', () => {
-  const wrapper = wrap({ id: 'foo' })
-  expect(wrapper.find({ id: 'foo' })).toHaveLength(1)
+function setup() {
+  const props = {
+    myTimeTable: null,
+    recommendedTimeTables: [],
+    recommendedTimeTable: null,
+    onSelectRecommendedTimeTable: () => {},
+    onUpdateMyTimeTable: () => {},
+    onDeleteTimeTable: () => {},
+    onGetRecommendation: () => {},
+  }
+
+  const enzymeWrapper = shallow(<RecommendTab {...props} />)
+
+  return {
+    props,
+    enzymeWrapper,
+  }
+}
+
+describe('RecommendTab', () => {
+  it('should render self and subcomponents', () => {
+    const { enzymeWrapper } = setup()
+
+    enzymeWrapper.setState({
+    })
+  })
 })

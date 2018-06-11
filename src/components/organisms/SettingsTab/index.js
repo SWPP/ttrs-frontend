@@ -131,7 +131,7 @@ class SettingsTab extends React.Component {
       <div>
         <div>
           <Header as="h2" content="Update Profile" />
-          <Form onSubmit={this.handleUpdateInfo}>
+          <Form id="form" onSubmit={this.handleUpdateInfo}>
             <Form.Input
               required
               label="Old Password"

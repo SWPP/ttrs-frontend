@@ -1,10 +1,45 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import Enzyme, { shallow } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
 import BookmarkTab from '.'
 
-const wrap = (props = {}) => shallow(<BookmarkTab {...props} />)
+Enzyme.configure({ adapter: new Adapter() })
 
-it('renders props when passed in', () => {
-  const wrapper = wrap({ id: 'foo' })
-  expect(wrapper.find({ id: 'foo' })).toHaveLength(1)
+function setup() {
+  const props = {
+    myTimeTable: {},
+    bookmarkedTimeTables: [
+      {
+        id: 'adf',
+        title: 'asdf',
+        lectures: [],
+        memo: 'asf',
+        bookmarkedAt: 'asdf',
+      },
+    ],
+    bookmarkedTimeTable: null,
+    onSelectBookmarkedTimeTable: jest.fn(),
+    onUpdateMyTimeTable: jest.fn(),
+    onUpdateBookmarkedTimeTable: jest.fn(),
+    onDeleteTimeTable: jest.fn(),
+  }
+
+  const enzymeWrapper = shallow(<BookmarkTab {...props} />)
+
+  return {
+    props,
+    enzymeWrapper,
+  }
+}
+
+describe('BookmarkTab', () => {
+  it('should render self and subcomponents', () => {
+    const { enzymeWrapper } = setup()
+
+    enzymeWrapper.setState({
+      bookmarkedTimeTableIndex: 2,
+    })
+
+    enzymeWrapper.find('#card').simulate('click')
+  })
 })

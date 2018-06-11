@@ -68,6 +68,7 @@ class Lecture extends React.Component {
         <Card.Content extra>
           <div className="ui two buttons">
             <Button
+              id="button"
               basic
               color="green"
               content="Details"

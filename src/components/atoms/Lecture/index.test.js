@@ -1,15 +1,40 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import Enzyme, { shallow } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
 import Lecture from '.'
 
-const wrap = (props = {}) => shallow(<Lecture {...props} />)
+Enzyme.configure({ adapter: new Adapter() })
 
-it('renders children when passed in', () => {
-  const wrapper = wrap({ children: 'test' })
-  expect(wrapper.contains('test')).toBe(true)
-})
+function setup() {
+  const props = {
+    lecture: {
+      course: {
+        name: 'course_name',
+        code: 'course_code',
+        credit: 3,
+      },
+      note: 'lecture_note',
+      timeSlots: [
+        {
+          dayOfWeek: '월',
+          startTime: '10:00',
+          endTime: '11:15',
+        },
+      ],
+    },
+    onAddLecture: jest.fn(),
+  }
 
-it('renders props when passed in', () => {
-  const wrapper = wrap({ id: 'foo' })
-  expect(wrapper.find({ id: 'foo' })).toHaveLength(1)
+  const enzymeWrapper = shallow(<Lecture {...props} />)
+
+  return {
+    props,
+    enzymeWrapper,
+  }
+}
+
+describe('Lecture', () => {
+  it('should render self and subcomponents', () => {
+    const { enzymeWrapper } = setup()
+  })
 })

@@ -47,6 +47,7 @@ class BookmarkTab extends React.Component {
             <Card.Group>
               {this.props.bookmarkedTimeTables.map((timeTable, index) =>
                 <Card
+                  id="card"
                   key={timeTable.id}
                   onClick={() => this.handleClickCard(index)}
                   fluid

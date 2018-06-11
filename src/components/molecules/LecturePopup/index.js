@@ -217,7 +217,7 @@ class LecturePopup extends React.Component {
                           </Feed.Extra>
                           <Feed.Extra text>
                             {this.state.editingId === evaluation.id ?
-                              <Form onSubmit={() => this.handleModifyEvaluation()}>
+                              <Form id="form2" onSubmit={() => this.handleModifyEvaluation()}>
                                 <Form.Field
                                   required
                                   control={TextArea}
@@ -264,7 +264,7 @@ class LecturePopup extends React.Component {
                         />
                         {this.state.rate} / 10
                       </span>
-                      <Form onSubmit={() => this.handleAddEvaluation()}>
+                      <Form id="form" onSubmit={() => this.handleAddEvaluation()}>
                         <Form.Field
                           required
                           label="Comment"
