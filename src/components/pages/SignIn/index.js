@@ -95,12 +95,13 @@ class SignIn extends React.Component {
 }
 
 SignIn.propTypes = {
-  onSignIn: PropTypes.func,
-  onClearError: PropTypes.func,
-  onSetError: PropTypes.func,
   toHome: PropTypes.bool,
   errors: PropTypes.object,
   router: PropTypes.object,
+
+  onSignIn: PropTypes.func,
+  onClearError: PropTypes.func,
+  onSetError: PropTypes.func,
 }
 
 export default SignIn

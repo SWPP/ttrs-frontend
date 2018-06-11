@@ -1,15 +1,41 @@
 import React from 'react'
-import { shallow } from 'enzyme'
-import TimeTable from '.'
+import Enzyme, { shallow } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
+import TimeTable from '../TimeTable'
 
-const wrap = (props = {}) => shallow(<TimeTable {...props} />)
+Enzyme.configure({ adapter: new Adapter() })
 
-it('renders children when passed in', () => {
-  const wrapper = wrap({ children: 'test' })
-  expect(wrapper.contains('test')).toBe(true)
-})
+function setup() {
+  const props = {
+    username: 'user1',
+    id: 1,
+    memo: 'Memo',
+    title: 'Title',
+    lectures: [],
+    canModify: true,
+    canCopyToMy: true,
+    canDelete: true,
+    canCreate: true,
+    haveSidebar: true,
 
-it('renders props when passed in', () => {
-  const wrapper = wrap({ id: 'foo' })
-  expect(wrapper.find({ id: 'foo' })).toHaveLength(1)
+    onCopyToMy: () => {},
+    onBookmark: () => {},
+    onSend: () => {},
+    onModifyContent: () => {},
+    onAddLecture: () => {},
+    onDeleteLecture: () => {},
+    onDeleteTimeTable: () => {},
+    onOpenSidebar: () => {},
+  }
+  const enzymeWrapper = shallow(<TimeTable {...props} />)
+  return {
+    props,
+    enzymeWrapper,
+  }
+}
+
+describe('TimeTable', () => {
+  it('should render self and subcomponents', () => {
+    setup()
+  })
 })

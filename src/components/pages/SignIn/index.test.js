@@ -1,15 +1,34 @@
 import React from 'react'
-import { shallow } from 'enzyme'
-import SignIn from './index'
+import Enzyme, { shallow } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
+import SignIn from '../SignIn'
 
-const wrap = (props = {}) => shallow(<SignIn {...props} />)
+Enzyme.configure({ adapter: new Adapter() })
 
-it('renders children when passed in', () => {
-  const wrapper = wrap({ children: 'test' })
-  expect(wrapper.contains('test')).toBe(true)
-})
+function setup() {
+  const props = {
+    toHome: false,
+    errors: {
+      texts: {
+        bools: {},
+        texts: {},
+      },
+    },
+    router: {},
 
-it('renders props when passed in', () => {
-  const wrapper = wrap({ id: 'foo' })
-  expect(wrapper.find({ id: 'foo' })).toHaveLength(1)
+    onSignIn: () => {},
+    onClearError: () => {},
+    onSetError: () => {},
+  }
+  const enzymeWrapper = shallow(<SignIn {...props} />)
+  return {
+    props,
+    enzymeWrapper,
+  }
+}
+
+describe('SignIn', () => {
+  it('should render self and subcomponents', () => {
+    setup()
+  })
 })
