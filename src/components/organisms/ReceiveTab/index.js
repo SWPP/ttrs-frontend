@@ -47,6 +47,7 @@ class ReceiveTab extends React.Component {
             <Card.Group>
               {this.props.receivedTimeTables.map((timeTable, index) =>
                 <Card
+                  id="card"
                   key={timeTable.id}
                   onClick={() => this.handleClickCard(index)}
                   fluid

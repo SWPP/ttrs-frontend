@@ -1,15 +1,41 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import Enzyme, { shallow } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
 import Notice from '.'
 
-const wrap = (props = {}) => shallow(<Notice {...props} />)
+Enzyme.configure({ adapter: new Adapter() })
 
-it('renders children when passed in', () => {
-  const wrapper = wrap({ children: 'test' })
-  expect(wrapper.contains('test')).toBe(true)
-})
+function setup() {
+  const props = {
+    lastId: 0,
+    notices: [
+      {
+        id: 2,
+        message: 'hhh',
+      },
+      {
+        id: 3,
+      },
+      {
+        id: -4,
+      },
+    ],
+    onDismissNotice: jest.fn(),
+    onHideNotice: jest.fn(),
+  }
 
-it('renders props when passed in', () => {
-  const wrapper = wrap({ id: 'foo' })
-  expect(wrapper.find({ id: 'foo' })).toHaveLength(1)
+  const enzymeWrapper = shallow(<Notice {...props} />)
+
+  return {
+    props,
+    enzymeWrapper,
+  }
+}
+
+describe('Notice', () => {
+  it('should render self and subcomponents', () => {
+    const { enzymeWrapper } = setup()
+
+    expect(enzymeWrapper.find('lecwjoeif').exists()).toBe(false)
+  })
 })
