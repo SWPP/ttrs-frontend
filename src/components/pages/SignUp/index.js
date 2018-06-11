@@ -214,13 +214,13 @@ class SignUp extends React.Component {
 }
 
 SignUp.propTypes = {
-  onSignUp: PropTypes.func,
-  onSetError: PropTypes.func,
   toSignIn: PropTypes.bool,
   colleges: PropTypes.array,
   errors: PropTypes.object,
-  response: PropTypes.number,
   router: PropTypes.object,
+
+  onSignUp: PropTypes.func,
+  onSetError: PropTypes.func,
 }
 
 export default SignUp

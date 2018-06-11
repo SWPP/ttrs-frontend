@@ -1,15 +1,26 @@
 import React from 'react'
-import { shallow } from 'enzyme'
-import TimeSlot from '.'
+import Enzyme, { shallow } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
+import TimeSlot from '../TimeSlot'
 
-const wrap = (props = {}) => shallow(<TimeSlot {...props} />)
+Enzyme.configure({ adapter: new Adapter() })
 
-it('renders children when passed in', () => {
-  const wrapper = wrap({ children: 'test' })
-  expect(wrapper.contains('test')).toBe(true)
-})
+function setup() {
+  const props = {
+    dayOfWeek: 'day',
+    startTime: 'start',
+    endTime: 'end',
+    classroom: {},
+  }
+  const enzymeWrapper = shallow(<TimeSlot {...props} />)
+  return {
+    props,
+    enzymeWrapper,
+  }
+}
 
-it('renders props when passed in', () => {
-  const wrapper = wrap({ id: 'foo' })
-  expect(wrapper.find({ id: 'foo' })).toHaveLength(1)
+describe('TimeSlot', () => {
+  it('should render self and subcomponents', () => {
+    setup()
+  })
 })
