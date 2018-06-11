@@ -93,9 +93,10 @@ class Home extends React.Component {
 Home.propTypes = {
   isSignedIn: PropTypes.bool,
   username: PropTypes.string,
-  onSignOut: PropTypes.func,
   router: PropTypes.object,
   route: PropTypes.object,
+
+  onSignOut: PropTypes.func,
 }
 
 export default Home

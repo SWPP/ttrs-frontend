@@ -140,6 +140,7 @@ class SearchLecture extends React.Component {
           </Modal.Header>
           <Modal.Content>
             <Form
+              id="form"
               onSubmit={() => {
                 this.setState({ page: 1 })
                 this.handleSearchLecture()

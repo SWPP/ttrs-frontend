@@ -13,6 +13,7 @@ const mapStateToProps = (state, props) => {
     canCopyToMy: props.canCopyToMy,
     canDelete: props.canDelete,
     canCreate: props.canCreate,
+    haveSidebar: props.haveSidebar,
   }
 }
 
@@ -31,6 +32,7 @@ const mapDispatchToProps = (dispatch, props) => {
     onAddLecture: props.onAddLecture,
     onDeleteLecture: props.onDeleteLecture,
     onDeleteTimeTable: props.onDeleteTimeTable,
+    onOpenSidebar: props.onOpenSidebar,
   }
 }
 
