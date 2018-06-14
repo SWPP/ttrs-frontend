@@ -761,6 +761,7 @@ export default function* () {
     }
   } catch (error) {
     console.log('get student info from local storage error', error)
+    localStorage.removeItem('STUDENT_INFO')
   }
   yield fork(watchSignIn)
   yield fork(watchSignUp)
