@@ -55,12 +55,30 @@ class TTRenderer extends React.Component {
     const eltLeft = rect.left
     const eltTop = rect.top
 
-    const pos = { x: e.clientX - eltLeft, y: e.clientY - eltTop }
-    const lecture = this.getLectureAtPos(pos)
+    const pos = {x: e.clientX - eltLeft, y: e.clientY - eltTop}
 
-    if (lecture === null) { return }
+    if (pos.y < blockHeight) {
+      const dayIndex = Math.floor(pos.x / (blockWidth + 2)) - 1
+      const blocks = [...this.state.blocks]
+      for (let i = 0; i < 24; i += 1) {
+        blocks[i][dayIndex] = 1
+      }
+      this.setState({ blocks: [...blocks] })
+    } else if (pos.x < blockWidth) {
+      const timeIndex = Math.floor(pos.y / (blockHeight + 2)) - 1
+      const blocks = [...this.state.blocks]
+      for (let j = 0; j < 6; j += 1) {
+        blocks[timeIndex][j] = 1
+      }
+      this.setState({ blocks: [...blocks] })
+    } else {
+      const lecture = this.getLectureAtPos(pos)
+      if (lecture === null) {
+        return
+      }
 
-    this.setState({ openId: lecture.id })
+      this.setState({ openId: lecture.id })
+    }
   }
 
   onMouseDown = (e) => {
@@ -81,6 +99,25 @@ class TTRenderer extends React.Component {
   onMouseMove = (e) => {
     const endPoint = { x: e.clientX, y: e.clientY }
     this.setState({ endPoint })
+
+    const elt = ReactDOM.findDOMNode(this)
+    const rect = elt.getBoundingClientRect()
+    const eltLeft = rect.left
+    const eltTop = rect.top
+
+    const topLeft = {
+      x: Math.min(this.state.startPoint.x, this.state.endPoint.x) - eltLeft,
+      y: Math.min(this.state.startPoint.y, this.state.endPoint.y) - eltTop,
+    }
+    const botRight = {
+      x: Math.max(this.state.startPoint.x, this.state.endPoint.x) - eltLeft,
+      y: Math.max(this.state.startPoint.y, this.state.endPoint.y) - eltTop,
+    }
+
+    const canvas = this.refs.canvas
+    const ctx = canvas.getContext('2d')
+    ctx.strokeStyle = 'rgb(0,0,0)'
+    ctx.strokeRect(topLeft.x, topLeft.y, botRight.x - topLeft.x, botRight.y - topLeft.y)
   }
 
   onMouseUp = () => {
@@ -337,6 +374,24 @@ class TTRenderer extends React.Component {
     return -1
   }
 
+  selectAll = () => {
+    const blocks = []
+    for (let i = 0; i < 24; i += 1) {
+      blocks.push([1, 1, 1, 1, 1, 1])
+    }
+
+    this.setState({ blocks: [...blocks] })
+  }
+
+  clearAll = () => {
+    const blocks = []
+    for (let i = 0; i < 24; i += 1) {
+      blocks.push([0, 0, 0, 0, 0, 0])
+    }
+
+    this.setState({ blocks: [...blocks] })
+  }
+
   renderBlocks = () => {
     return (
       <canvas
@@ -373,6 +428,27 @@ class TTRenderer extends React.Component {
           }
           return null
         })}
+        <div className="two ui buttons">
+          <button
+            className="ui vertical animated button"
+            onClick={() => this.selectAll()}
+          >
+            <div className="hidden content">Select All</div>
+            <div className="visible content">
+              <i className="icon circle" />
+            </div>
+          </button>
+          <button
+            className="ui vertical animated button"
+            onClick={() => this.clearAll()}
+          >
+            <div className="hidden content">Clear All</div>
+            <div className="visible content">
+              <i className="icon circle outline" />
+            </div>
+          </button>
+        </div>
+
       </div>
     )
   }
