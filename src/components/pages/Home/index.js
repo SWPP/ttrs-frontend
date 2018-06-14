@@ -6,6 +6,8 @@ import RecommendTab from '../../../containers/RecommendTab'
 import BookmarkTab from '../../../containers/BookmarkTab'
 import ReceiveTab from '../../../containers/ReceiveTab'
 import SettingsTab from '../../../containers/SettingsTab'
+import ttrsIconSmall from '../../../../public/ttrsIconSmallTransparent.png'
+import ttrsIcon from '../../../../public/ttrsIcon.png'
 
 class Home extends React.Component {
   static getDerivedStateFromProps(props) {
@@ -38,7 +40,7 @@ class Home extends React.Component {
       <div className="homepage">
         <Menu fixed="top" inverted compact>
           <Container>
-            <Menu.Item header>TTRS</Menu.Item>
+            <Menu.Item header><img src={ttrsIconSmall} alt="icon" style={{ width: 23, marginRight: 10 }} />TTRS</Menu.Item>
             <Menu.Item onClick={() => this.props.router.push('recommend/')}>Recommend</Menu.Item>
             <Menu.Item onClick={() => this.props.router.push('bookmark/')}>Bookmark</Menu.Item>
             <Menu.Item onClick={() => this.props.router.push('receive/')}>Receive</Menu.Item>
@@ -70,9 +72,18 @@ class Home extends React.Component {
             <Grid divided stackable inverted verticalAlign="middle">
               <Grid.Row>
                 <Grid.Column width={10}>
-                  <h1>TTRS</h1>
-                  <h3>Time Table Recommendation Service</h3>
-                  <h5>for Seoul National University Students</h5>
+                  <Grid stackable inverted verticalAlign="middle">
+                    <Grid.Row>
+                      <Grid.Column width={5}>
+                        <img src={ttrsIcon} alt="icon" width={200} />
+                      </Grid.Column>
+                      <Grid.Column width={11}>
+                        <h1>TTRS</h1>
+                        <h3>Time Table Recommendation Service</h3>
+                        <h5>for Seoul National University Students</h5>
+                      </Grid.Column>
+                    </Grid.Row>
+                  </Grid>
                 </Grid.Column>
                 <Grid.Column width={6}>
                   <Header inverted content="About" />
