@@ -1,9 +1,10 @@
 import { connect } from 'react-redux'
 import Home from '../components/pages/Home'
-import { clearState } from '../store/ttrs/actions'
+import { clearState, signOut } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
+    isLoaded: state.ttrs.loaded,
     isSignedIn: state.ttrs.studentInfo.id !== null,
     username: state.ttrs.studentInfo.username,
   }
@@ -12,6 +13,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onSignOut: () => {
+      dispatch(signOut())
       dispatch(clearState())
     },
   }

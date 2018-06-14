@@ -11,6 +11,9 @@ import ttrsIcon from '../../../../public/ttrsIcon.png'
 
 class Home extends React.Component {
   static getDerivedStateFromProps(props) {
+    if (!props.isLoaded) {
+      return null
+    }
     if (!props.isSignedIn) {
       props.router.push('/sign-in')
     }
@@ -18,7 +21,7 @@ class Home extends React.Component {
   }
 
   render() {
-    if (!this.props.isSignedIn) {
+    if (!this.props.isLoaded || !this.props.isSignedIn) {
       return null
     }
     const tabName = this.props.route.currentTab
@@ -102,6 +105,7 @@ class Home extends React.Component {
 }
 
 Home.propTypes = {
+  isLoaded: PropTypes.bool,
   isSignedIn: PropTypes.bool,
   username: PropTypes.string,
   router: PropTypes.object,
