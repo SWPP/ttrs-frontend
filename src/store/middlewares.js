@@ -1,4 +1,4 @@
-const req = require.context('.', true, /\.\/.+\/middleware\.js$/)
+const req = require.context('.', true, /\.\/.+\/middlewares\.js$/)
 
 module.exports = []
 
