@@ -80,6 +80,7 @@ class TimeTable extends React.Component {
     return (
       <div>
         <TTRenderer
+          id={this.props.id}
           lectures={this.props.lectures}
           canDeleteLecture={this.props.canModify}
           onDeleteLecture={this.props.onDeleteLecture}
@@ -156,6 +157,19 @@ class TimeTable extends React.Component {
                 />
               </Form>
             }
+          </Menu.Item>}
+          {this.props.id &&
+          <Menu.Item>
+            <Popup
+              position="bottom left"
+              flowing
+              trigger={<div><Icon name="lightbulb outline" />Selection</div>}
+              content={<div><h5>
+                {'You can select blocks by mouse dragging!'}<br />
+                {'Hold \'ctrl\' to unselect, \'shift\' to toggle blocks.'}<br />
+                {'Select columns/rows or whole table by dragging table headers.'}
+              </h5></div>}
+            />
           </Menu.Item>}
           <Menu.Menu position="right">
             {this.props.canModify && (this.props.id !== null || this.props.canCreate) &&
