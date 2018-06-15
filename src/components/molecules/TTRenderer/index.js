@@ -306,8 +306,8 @@ class TTRenderer extends React.Component {
       for (let j = 0; j < this.blocks[i].length; j += 1) {
         if (this.isSelected(this.blocks[i][j], j, i, newSelection)) {
           const start = {
-            x: ((j + 1) * this.blockWidth) + 1,
-            y: ((i + 1) * blockHeight) + 1,
+            x: (j + 1) * this.blockWidth,
+            y: (i + 1) * blockHeight,
           }
           ctx.fillRect(start.x, start.y, this.blockWidth, blockHeight)
         }
