@@ -158,6 +158,14 @@ class TimeTable extends React.Component {
               </Form>
             }
           </Menu.Item>}
+          {this.props.id &&
+          <Menu.Item>
+            <Popup
+              position="bottom left"
+              trigger={<div><Icon name="lightbulb outline" />Selection</div>}
+              content={<div><h5>{'You can select blocks!'}<br />{'Hold \'ctrl\' or \'shift\' for unselect and toggle.'}</h5></div>}
+            />
+          </Menu.Item>}
           <Menu.Menu position="right">
             {this.props.canModify && (this.props.id !== null || this.props.canCreate) &&
             <Menu.Item active fitted>
