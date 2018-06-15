@@ -80,6 +80,7 @@ class TimeTable extends React.Component {
     return (
       <div>
         <TTRenderer
+          id={this.props.id}
           lectures={this.props.lectures}
           canDeleteLecture={this.props.canModify}
           onDeleteLecture={this.props.onDeleteLecture}
