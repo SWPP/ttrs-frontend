@@ -754,6 +754,15 @@ function* watchGetRecommendation() {
 
 export default function* () {
   yield call(getInitialInfo)
+  try {
+    const info = JSON.parse(localStorage.getItem('STUDENT_INFO'))
+    if (info != null) {
+      yield call(signIn, info.username, info.password)
+    }
+  } catch (error) {
+    console.log('get student info from local storage error', error)
+    localStorage.removeItem('STUDENT_INFO')
+  }
   yield fork(watchSignIn)
   yield fork(watchSignUp)
   yield fork(watchSearchLecture)
@@ -778,4 +787,6 @@ export default function* () {
   yield fork(watchModifyEvaluation)
   yield fork(watchToggleLikeIt)
   yield fork(watchGetRecommendation)
+
+  yield put(actions.loadResponse())
 }

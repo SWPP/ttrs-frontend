@@ -362,6 +362,11 @@ const notice = (state = initialNotice, action) => {
 
 const ttrsReducer = (state = initialState, action) => {
   switch (action.type) {
+    case actions.LOAD_RESPONSE:
+      return {
+        ...state,
+        loaded: true,
+      }
     case actions.GET_SEMESTER_LIST:
       return {
         ...state,
@@ -390,6 +395,7 @@ const ttrsReducer = (state = initialState, action) => {
     case actions.CLEAR_STATE:
       return {
         ...initialState,
+        loaded: state.loaded,
         belongInfo: belongInfo(state.belongInfo, action),
         semesters: state.semesters,
       }

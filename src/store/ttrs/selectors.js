@@ -73,6 +73,7 @@ export const initialNotice = {
 }
 
 export const initialState = {
+  loaded: false,
   studentInfo: initialStudentInfo,
   belongInfo: initialBelongInfo,
   timeTable: initialTimeTable,
