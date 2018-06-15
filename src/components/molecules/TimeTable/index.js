@@ -189,7 +189,7 @@ class TimeTable extends React.Component {
             <Popup
               position="bottom left"
               flowing
-              trigger={<div><Icon name="lightbulb outline" />Selection</div>}
+              trigger={<div><Icon name="lightbulb" />Selection</div>}
               content={<div><h5>
                 {'You can select blocks by mouse dragging!'}<br />
                 {'Hold \'ctrl\' to unselect, \'shift\' to toggle blocks.'}<br />
