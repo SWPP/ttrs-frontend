@@ -21,10 +21,9 @@ export const getLectureIdsWithout = (lectureId, timeTable) => {
   return lectureIds
 }
 
-let inputRecommendedTimeTableIndex = { value: 0 }
-
 class RecommendTab extends React.Component {
   state = {
+    recommendedTimeTableIndex: 0,
     avoidSuccessiveLecture: false,
     avoidVoidLecture: false,
     avoidFirstLecture: false,
@@ -46,6 +45,7 @@ class RecommendTab extends React.Component {
         <h1>My TimeTable</h1>
         <TimeTable
           {...this.props.myTimeTable}
+          isRecommended={false}
           haveSidebar={false}
           canModify
           canDelete
@@ -88,8 +88,6 @@ class RecommendTab extends React.Component {
               <Grid.Column>
                 <Progress
                   label="전필 가중치"
-                  value={this.state.jeonpilWeight}
-                  total={weightSum}
                   percent={Math.round((this.state.jeonpilWeight * 100) / weightSum)}
                   progress
                   color="orange"
@@ -108,8 +106,6 @@ class RecommendTab extends React.Component {
               <Grid.Column>
                 <Progress
                   label="전선 가중치"
-                  value={this.state.jeonseonWeight}
-                  total={weightSum}
                   percent={Math.round((this.state.jeonseonWeight * 100) / weightSum)}
                   progress
                   color="blue"
@@ -128,8 +124,6 @@ class RecommendTab extends React.Component {
               <Grid.Column>
                 <Progress
                   label="교양 가중치"
-                  value={this.state.gyoyangWeight}
-                  total={weightSum}
                   percent={Math.round((this.state.gyoyangWeight * 100) / weightSum)}
                   progress
                   color="green"
@@ -176,19 +170,17 @@ class RecommendTab extends React.Component {
           </Grid>
         </Form>
         <Divider />
-        <select
-          ref={node => { inputRecommendedTimeTableIndex = node }}
-          onChange={() => this.props.onSelectRecommendedTimeTable(this.props.recommendedTimeTables[inputRecommendedTimeTableIndex.value])}
-        >
-          {this.props.recommendedTimeTables.map((value, index) =>
-            <option
-              key={value.id}
-              value={index}
-            >{value.title}</option>
-          )}
-        </select>
         <TimeTable
           {...this.props.recommendedTimeTable}
+          isRecommended
+          onShowPrevRecommend={() => {
+            this.props.onSelectRecommendedTimeTable(this.props.recommendedTimeTables[(this.props.recommendedTimeTables.length + this.state.recommendedTimeTableIndex - 1) % this.props.recommendedTimeTables.length])
+            this.setState({ recommendedTimeTableIndex: (this.props.recommendedTimeTables.length + this.state.recommendedTimeTableIndex - 1) % this.props.recommendedTimeTables.length })
+          }}
+          onShowNextRecommend={() => {
+            this.props.onSelectRecommendedTimeTable(this.props.recommendedTimeTables[(this.props.recommendedTimeTables.length + this.state.recommendedTimeTableIndex + 1) % this.props.recommendedTimeTables.length])
+            this.setState({ recommendedTimeTableIndex: (this.props.recommendedTimeTables.length + this.state.recommendedTimeTableIndex + 1) % this.props.recommendedTimeTables.length })
+          }}
           haveSidebar={false}
           canModify={false}
           canDelete={false}

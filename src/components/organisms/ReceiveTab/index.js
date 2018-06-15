@@ -24,6 +24,7 @@ class ReceiveTab extends React.Component {
         <h1>My TimeTable</h1>
         <TimeTable
           {...this.props.myTimeTable}
+          isRecommended={false}
           haveSidebar={false}
           canModify
           canDelete
@@ -72,6 +73,7 @@ class ReceiveTab extends React.Component {
           <Sidebar.Pusher>
             <TimeTable
               {...this.props.receivedTimeTable}
+              isRecommended={false}
               haveSidebar
               canModify={false}
               canDelete

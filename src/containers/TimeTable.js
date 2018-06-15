@@ -14,6 +14,7 @@ const mapStateToProps = (state, props) => {
     canDelete: props.canDelete,
     canCreate: props.canCreate,
     haveSidebar: props.haveSidebar,
+    isRecommended: props.isRecommended,
   }
 }
 
@@ -33,6 +34,8 @@ const mapDispatchToProps = (dispatch, props) => {
     onDeleteLecture: props.onDeleteLecture,
     onDeleteTimeTable: props.onDeleteTimeTable,
     onOpenSidebar: props.onOpenSidebar,
+    onShowPrevRecommend: props.onShowPrevRecommend,
+    onShowNextRecommend: props.onShowNextRecommend,
   }
 }
 
