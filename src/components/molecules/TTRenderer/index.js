@@ -24,7 +24,7 @@ class TTRenderer extends React.Component {
     this.startPoint = null
     this.endPoint = null
     this.mouseMode = null
-    this.specialMode = null
+    this.selectionMode = null
 
     this.state = {
       openId: null,
@@ -61,10 +61,10 @@ class TTRenderer extends React.Component {
       const newSlot = this.getSlotByPoint(newPoint)
       this.endPoint = newPoint
       this.mouseMode = 'move'
-      const oldSpecial = this.specialMode
+      const oldSpecial = this.selectionMode
       this.setSpecialKey(e)
 
-      if (oldSlot === null || oldSlot.x !== newSlot.x || oldSlot.y !== newSlot.y || oldSpecial !== this.specialMode) {
+      if (oldSlot === null || oldSlot.x !== newSlot.x || oldSlot.y !== newSlot.y || oldSpecial !== this.selectionMode) {
         this.updateCanvas()
       }
     }
@@ -87,18 +87,18 @@ class TTRenderer extends React.Component {
     this.mouseMode = null
     this.startPoint = null
     this.endPoint = null
-    this.specialMode = null
+    this.selectionMode = null
 
     this.updateCanvas()
   }
 
   setSpecialKey = (e) => {
     if (e.ctrlKey) {
-      this.specialMode = 'unselect'
+      this.selectionMode = 'unselect'
     } else if (e.shiftKey) {
-      this.specialMode = 'toggle'
+      this.selectionMode = 'toggle'
     } else {
-      this.specialMode = null
+      this.selectionMode = null
     }
   }
 
@@ -195,14 +195,14 @@ class TTRenderer extends React.Component {
   }
 
   isSelected = (raw, x, y, select) => {
-    if (this.specialMode == null) {
-      if (raw) { return true }
-      if (select != null) {
-        return select.start.x <= x && x <= select.end.x && select.start.y <= y && y <= select.end.y
-      }
-    } else if (this.specialMode === 'unselect') {
+    if (select === null) {
+      return raw
+    }
+    if (this.selectionMode == null) {
+      return raw || (select.start.x <= x && x <= select.end.x && select.start.y <= y && y <= select.end.y)
+    } else if (this.selectionMode === 'unselect') {
       return raw && !(select.start.x <= x && x <= select.end.x && select.start.y <= y && y <= select.end.y)
-    } else if (this.specialMode === 'toggle') {
+    } else if (this.selectionMode === 'toggle') {
       return (select.start.x <= x && x <= select.end.x && select.start.y <= y && y <= select.end.y) ? !raw : raw
     }
     return false
