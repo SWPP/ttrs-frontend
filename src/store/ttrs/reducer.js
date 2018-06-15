@@ -395,6 +395,7 @@ const ttrsReducer = (state = initialState, action) => {
     case actions.CLEAR_STATE:
       return {
         ...initialState,
+        loaded: state.loaded,
         belongInfo: belongInfo(state.belongInfo, action),
         semesters: state.semesters,
       }
