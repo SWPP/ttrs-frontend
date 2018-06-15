@@ -3,15 +3,15 @@ import PropTypes from 'prop-types'
 
 import LecturePopup from '../../../containers/LecturePopup'
 
-let blockWidth = 154
-const blockHeight = 29
-let canvasWidth = (blockWidth + 2) * 7
-let canvasHeight = (blockHeight + 2) * 25
-
+const blockHeight = 30
+const canvasHeight = blockHeight * 25
 class TTRenderer extends React.Component {
   constructor(props) {
     super(props)
 
+    this.div = React.createRef()
+    this.blockWidth = 0
+    this.lineWidth = 2
     this.blocks = []
     for (let i = 0; i < 24; i += 1) {
       this.blocks.push([])
@@ -120,8 +120,16 @@ class TTRenderer extends React.Component {
     return null
   }
 
+  getCanvasRect = () => {
+    const canvas = this.getCanvas()
+    if (canvas !== null) {
+      return canvas.getBoundingClientRect()
+    }
+    return null
+  }
+
   getPointByEvent = (e) => {
-    const rect = this.getCanvas().getBoundingClientRect()
+    const rect = this.getCanvasRect()
     return {
       x: e.clientX - rect.left,
       y: e.clientY - rect.top,
@@ -132,7 +140,7 @@ class TTRenderer extends React.Component {
     if (point === null) {
       return null
     }
-    const x = Math.floor(point.x / blockWidth) - 1
+    const x = Math.floor(point.x / this.blockWidth) - 1
     const y = Math.floor(point.y / blockHeight) - 1
     return { x, y }
   }
@@ -153,8 +161,8 @@ class TTRenderer extends React.Component {
         let endTime = timeSlot.endTime.split(':').map((i) => Number(i))
         endTime = (endTime[0] * 60) + endTime[1]
 
-        const start = { x: (dayIndex * blockWidth) + 1, y: (((startTime - 540) / 30) + 1) * blockHeight }
-        const size = { width: blockWidth, height: ((endTime - startTime) / 30) * blockHeight }
+        const start = { x: (dayIndex * this.blockWidth) + (this.lineWidth / 2), y: ((((startTime - 540) / 30) + 1) * blockHeight) + (this.lineWidth / 2) }
+        const size = { width: this.blockWidth - this.lineWidth, height: (((endTime - startTime) / 30) * blockHeight) - this.lineWidth }
 
         if (start.x <= point.x && point.x <= start.x + size.width
           && start.y <= point.y && point.y <= start.y + size.height) {
@@ -208,31 +216,45 @@ class TTRenderer extends React.Component {
     return false
   }
 
+  drawGrid = (ctx) => {
+    ctx.strokeStyle = '#BBB'
+    ctx.lineWidth = this.lineWidth
+
+    ctx.moveTo(0, 0)
+    ctx.lineTo(this.blockWidth * 7, 0)
+    for (let i = 1; i <= 25; i += 1) {
+      ctx.moveTo((i % 2) === 1 ? 0 : this.blockWidth, blockHeight * i)
+      ctx.lineTo(this.blockWidth * 7, blockHeight * i)
+    }
+
+    for (let j = 0; j <= 7; j += 1) {
+      ctx.moveTo(this.blockWidth * j, 0)
+      ctx.lineTo(this.blockWidth * j, blockHeight * 25)
+    }
+    ctx.stroke()
+  }
+
   drawHeaders = (ctx) => {
     const days = ['none', 'Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat']
-    const textColor = 'rgb(0,0,0)'
+    const textColor = 'rgb(0, 0, 0)'
 
     ctx.font = '18px Arial'
     ctx.fillStyle = textColor
 
     for (let i = 9; i <= 20; i += 1) {
-      let time = `${i.toString()} : 00`
+      const time = `${i.toString()} : 00`
       const center = {
-        x: (blockWidth / 2) - (ctx.measureText(time).width / 2),
+        x: (this.blockWidth / 2) - (ctx.measureText(time).width / 2),
         y: (2 * (i - 8) * blockHeight) - 9,
       }
-
       ctx.fillText(time, center.x, center.y)
-
-      time = `${i.toString()} : 30`
-      ctx.fillText(time, center.x, center.y + blockHeight)
     }
 
     for (let i = 1; i <= 6; i += 1) {
       const day = days[i]
       const center = {
-        x: (blockWidth * (i + 0.5)) - (ctx.measureText(day).width / 2),
-        y: blockHeight - 8,
+        x: (this.blockWidth * (i + 0.5)) - (ctx.measureText(day).width / 2),
+        y: blockHeight - 9,
       }
 
       ctx.fillText(day, center.x, center.y)
@@ -242,7 +264,7 @@ class TTRenderer extends React.Component {
   drawLecture = (ctx, lecture) => {
     const days = ['헤더', '월', '화', '수', '목', '금', '토']
     const boxColor = `hsl(${this.hash(lecture)}, 100%, 75%)`
-    const textColor = 'rgb(0,0,0)'
+    const textColor = 'rgb(0, 0, 0)'
     const timeSlots = lecture.timeSlots
     for (let i = 0; i < timeSlots.length; i += 1) {
       const timeSlot = timeSlots[i]
@@ -254,8 +276,8 @@ class TTRenderer extends React.Component {
       let endTime = timeSlot.endTime.split(':').map((i) => Number(i))
       endTime = (endTime[0] * 60) + endTime[1]
 
-      const start = { x: (dayIndex * blockWidth) + 1, y: (((startTime - 540) / 30) + 1) * blockHeight }
-      const size = { width: blockWidth, height: ((endTime - startTime) / 30) * blockHeight }
+      const start = { x: (dayIndex * this.blockWidth) + (this.lineWidth / 2), y: ((((startTime - 540) / 30) + 1) * blockHeight) + (this.lineWidth / 2) }
+      const size = { width: this.blockWidth - this.lineWidth, height: (((endTime - startTime) / 30) * blockHeight) - this.lineWidth }
 
       ctx.fillStyle = boxColor
       ctx.fillRect(start.x, start.y, size.width, size.height)
@@ -272,7 +294,7 @@ class TTRenderer extends React.Component {
   }
 
   drawSelections = (ctx) => {
-    ctx.fillStyle = 'rgb(0,200,0,0.5)'
+    ctx.fillStyle = 'rgba(55, 255, 55, 0.4)'
 
     const newSelection = this.getNewSelection()
 
@@ -280,10 +302,10 @@ class TTRenderer extends React.Component {
       for (let j = 0; j < this.blocks[i].length; j += 1) {
         if (this.isSelected(this.blocks[i][j], j, i, newSelection)) {
           const start = {
-            x: ((j + 1) * blockWidth) + 1,
+            x: ((j + 1) * this.blockWidth) + 1,
             y: ((i + 1) * blockHeight) + 1,
           }
-          ctx.fillRect(start.x, start.y, blockWidth, blockHeight)
+          ctx.fillRect(start.x, start.y, this.blockWidth, blockHeight)
         }
       }
     }
@@ -300,48 +322,21 @@ class TTRenderer extends React.Component {
   }
 
   updateWindowDimensions = () => {
-    if (window.innerWidth >= 1200) {
-      blockWidth = 156
-    } else if (window.innerWidth >= 990) {
-      blockWidth = 129
-    } else if (window.innerWidth >= 770) {
-      blockWidth = 99
-    } else {
-      blockWidth = (window.innerWidth - 85) / 7
-    }
-
-    canvasWidth = blockWidth * 7
-    canvasHeight = blockHeight * 25
-
     this.forceUpdate()
-  }
-
-  drawGrid = (ctx) => {
-    ctx.strokeStyle = '#999999'
-
-    for (let i = 1; i < 25; i += 1) {
-      ctx.moveTo(0, blockHeight * i)
-      ctx.lineTo(canvasWidth, blockHeight * i)
-      ctx.stroke()
-    }
-
-    for (let j = 0; j <= 7; j += 1) {
-      ctx.moveTo(blockWidth * j, 0)
-      ctx.lineTo(blockWidth * j, canvasHeight)
-      ctx.stroke()
-    }
   }
 
   updateCanvas = () => {
     const context = this.getCanvasContext()
-    if (!context) {
+    const rect = this.getCanvasRect()
+    if (!context || !rect) {
       return
     }
+    this.blockWidth = Math.floor(rect.width / 7)
 
     context.clearRect(0, 0, window.innerWidth, window.innerHeight)
 
     context.fillStyle = 'rgb(255,255,255)'
-    context.fillRect(0, 0, canvasWidth, canvasHeight)
+    context.fillRect(0, 0, rect.width, rect.height)
 
     this.drawGrid(context)
     this.drawHeaders(context)
@@ -352,37 +347,17 @@ class TTRenderer extends React.Component {
     this.drawSelections(context)
   }
 
-  selectAll = () => {
-    for (let i = 0; i < 24; i += 1) {
-      for (let j = 0; j < 6; j += 1) {
-        this.blocks[i][j] = true
-      }
-    }
-    this.updateCanvas()
-  }
-
-  clearAll = () => {
-    for (let i = 0; i < 24; i += 1) {
-      for (let j = 0; j < 6; j += 1) {
-        this.blocks[i][j] = false
-      }
-    }
-    this.updateCanvas()
-  }
-
   render() {
     return (
       <div
+        ref={this.div}
         draggable="false"
-        style={{ width: { canvasWidth }, height: { canvasHeight } }}
+        style={{ width: '100%', height: canvasHeight }}
       >
         <canvas
           id={`table${this.props.id}`}
-          width={canvasWidth}
+          width={this.div.current ? this.div.current.offsetWidth : 0}
           height={canvasHeight}
-          style={{
-            border: '1px solid black',
-          }}
           onMouseDown={(e) => this.onMouseDown(e)}
           onMouseMove={(e) => this.onMouseMove(e)}
           onMouseUp={(e) => this.onMouseUp(e)}
@@ -400,27 +375,6 @@ class TTRenderer extends React.Component {
           }
           return null
         })}
-        <div className="two ui buttons">
-          <button
-            className="ui vertical animated button"
-            onClick={() => this.selectAll()}
-          >
-            <div className="hidden content">Select All</div>
-            <div className="visible content">
-              <i className="icon circle" />
-            </div>
-          </button>
-          <button
-            className="ui vertical animated button"
-            onClick={() => this.clearAll()}
-          >
-            <div className="hidden content">Clear All</div>
-            <div className="visible content">
-              <i className="icon circle outline" />
-            </div>
-          </button>
-        </div>
-
       </div>
     )
   }
