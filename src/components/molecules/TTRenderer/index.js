@@ -32,9 +32,9 @@ class TTRenderer extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.updateWindowDimensions)
+    window.addEventListener('resize', () => this.forceUpdate())
 
-    this.updateWindowDimensions()
+    this.forceUpdate()
     this.updateCanvas()
   }
 
@@ -90,6 +90,7 @@ class TTRenderer extends React.Component {
     this.selectionMode = null
 
     this.updateCanvas()
+    this.props.onChange(this.blocks)
   }
 
   setSpecialKey = (e) => {
@@ -319,10 +320,6 @@ class TTRenderer extends React.Component {
     }
 
     return sum % 360
-  }
-
-  updateWindowDimensions = () => {
-    this.forceUpdate()
   }
 
   updateCanvas = () => {
