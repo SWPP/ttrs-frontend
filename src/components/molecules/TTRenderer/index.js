@@ -32,7 +32,9 @@ class TTRenderer extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener('resize', () => this.forceUpdate())
+    window.addEventListener('resize', () => {
+      this.forceUpdate()
+    })
 
     this.forceUpdate()
     this.updateCanvas()
@@ -50,7 +52,7 @@ class TTRenderer extends React.Component {
     if (this.mouseMode === null) {
       this.startPoint = this.getPointByEvent(e)
       this.mouseMode = 'down'
-      this.setSpecialKey(e)
+      this.setSelectionMode(e)
     }
   }
 
@@ -62,7 +64,7 @@ class TTRenderer extends React.Component {
       this.endPoint = newPoint
       this.mouseMode = 'move'
       const oldSpecial = this.selectionMode
-      this.setSpecialKey(e)
+      this.setSelectionMode(e)
 
       if (oldSlot === null || oldSlot.x !== newSlot.x || oldSlot.y !== newSlot.y || oldSpecial !== this.selectionMode) {
         this.updateCanvas()
@@ -72,11 +74,11 @@ class TTRenderer extends React.Component {
 
   onMouseUp = (e) => {
     this.endPoint = this.getPointByEvent(e)
+    this.setSelectionMode(e)
     const lecture = this.getLectureByPoint(this.endPoint)
-    if (this.mouseMode === 'down' && lecture !== null) {
+    if (this.mouseMode === 'down' && this.selectionMode === null && lecture !== null) {
       this.setState({ openId: lecture.id })
     } else {
-      this.setSpecialKey(e)
       const newSelection = this.getNewSelection()
       for (let i = 0; i < this.blocks.length; i += 1) {
         for (let j = 0; j < this.blocks[i].length; j += 1) {
@@ -93,7 +95,7 @@ class TTRenderer extends React.Component {
     this.props.onChange(this.blocks)
   }
 
-  setSpecialKey = (e) => {
+  setSelectionMode = (e) => {
     if (e.ctrlKey) {
       this.selectionMode = 'unselect'
     } else if (e.shiftKey) {
@@ -221,6 +223,7 @@ class TTRenderer extends React.Component {
     ctx.strokeStyle = '#BBB'
     ctx.lineWidth = this.lineWidth
 
+    ctx.beginPath()
     ctx.moveTo(0, 0)
     ctx.lineTo(this.blockWidth * 7, 0)
     for (let i = 1; i <= 25; i += 1) {
@@ -325,7 +328,7 @@ class TTRenderer extends React.Component {
   updateCanvas = () => {
     const context = this.getCanvasContext()
     const rect = this.getCanvasRect()
-    if (!context || !rect) {
+    if (!context || !rect || rect.width === 0) {
       return
     }
     this.blockWidth = Math.floor(rect.width / 7)
@@ -337,11 +340,11 @@ class TTRenderer extends React.Component {
 
     this.drawGrid(context)
     this.drawHeaders(context)
-
     for (let i = 0; i < this.props.lectures.length; i += 1) {
       this.drawLecture(context, this.props.lectures[i])
     }
     this.drawSelections(context)
+    requestAnimationFrame(this.updateCanvas)
   }
 
   render() {
