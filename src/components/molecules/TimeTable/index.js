@@ -164,7 +164,7 @@ class TimeTable extends React.Component {
               position="bottom left"
               flowing
               trigger={<div><Icon name="lightbulb outline" />Selection</div>}
-              content={<div><h5>{'You can select blocks!'}<br />{'Hold \'ctrl\' to unselect, or hold \'shift\' to toggle blocks.'}</h5></div>}
+              content={<div><h5>{'You can select blocks by mouse drag!'}<br />{'Hold \'ctrl\' to unselect, \'shift\' to toggle blocks.'}</h5></div>}
             />
           </Menu.Item>}
           <Menu.Menu position="right">
