@@ -299,16 +299,18 @@ class SearchLecture extends React.Component {
                       onChange={this.handleChange}
                     />
                   </Grid.Column>
+                  <Grid.Column>
+                    <Form.Button
+                      style={{ float: 'right', marginTop: 23 }}
+                      color="teal"
+                      type="submit"
+                      content="Search"
+                    />
+                  </Grid.Column>
                 </Grid.Row>
               </Grid>
-              <Form.Button
-                style={{ float: 'right', marginTop: -5 }}
-                color="teal"
-                type="submit"
-                content="Search"
-              />
             </Form>
-            <Divider style={{ marginRight: 2 }} />
+            <Divider />
           </Modal.Content>
           <div className="scrolling content">
             <Card.Group itemsPerRow={3} doubling stackable>
