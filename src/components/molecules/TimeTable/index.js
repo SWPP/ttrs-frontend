@@ -67,11 +67,6 @@ class TimeTable extends React.Component {
     this.props.onSend(sendInfo)
   }
 
-  getBlocks = (blocks) => {
-    console.log('Change in selected blocks')
-    console.log(blocks)
-  }
-
   handleChange = (e, { name, value }) => {
     this.setState({ [name]: value })
   }
@@ -84,7 +79,7 @@ class TimeTable extends React.Component {
           lectures={this.props.lectures}
           canDeleteLecture={this.props.canModify}
           onDeleteLecture={this.props.onDeleteLecture}
-          onChange={this.getBlocks}
+          onChange={this.props.onSelectBlocks ? this.props.onSelectBlocks : () => {}}
         />
       </div>
     )
@@ -344,6 +339,7 @@ TimeTable.propTypes = {
   onOpenSidebar: PropTypes.func,
   onShowPrevRecommend: PropTypes.func,
   onShowNextRecommend: PropTypes.func,
+  onSelectBlocks: PropTypes.func,
 }
 
 export default TimeTable

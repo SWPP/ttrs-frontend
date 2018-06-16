@@ -104,3 +104,52 @@ export const convertToReadable = (key) => {
   }
   return words.join(' ')
 }
+
+export const compressBlocks = (_blocks) => {
+  let blocks = _blocks
+  if (blocks === null || blocks === undefined) {
+    blocks = []
+    for (let i = 0; i < 24; i += 1) {
+      blocks.push([])
+      for (let j = 0; j < 6; j += 1) {
+        blocks[i].push(true)
+      }
+    }
+  }
+  let empty = true
+  for (let i = 0; i < 24; i += 1) {
+    for (let j = 0; j < 6; j += 1) {
+      if (blocks[i][j]) {
+        empty = false
+      }
+    }
+  }
+  if (empty) {
+    for (let i = 0; i < 24; i += 1) {
+      for (let j = 0; j < 6; j += 1) {
+        blocks[i][j] = true
+      }
+    }
+  }
+  blocks.push([])
+  for (let j = 0; j < 6; j += 1) {
+    blocks[24].push(false)
+  }
+  const days = []
+  for (let j = 0; j < 6; j += 1) {
+    const slots = []
+    let start = null
+    for (let i = 0; i < 25; i += 1) {
+      if (!blocks[i][j]) {
+        if (start !== null) {
+          slots.push(`${start + 18}:${i + 18}`)
+          start = null
+        }
+      } else if (start === null) {
+        start = i
+      }
+    }
+    days.push(slots.join(','))
+  }
+  return days.join('|')
+}

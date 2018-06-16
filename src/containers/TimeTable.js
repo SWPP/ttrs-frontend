@@ -36,6 +36,7 @@ const mapDispatchToProps = (dispatch, props) => {
     onOpenSidebar: props.onOpenSidebar,
     onShowPrevRecommend: props.onShowPrevRecommend,
     onShowNextRecommend: props.onShowNextRecommend,
+    onSelectBlocks: props.onSelectBlocks,
   }
 }
 
