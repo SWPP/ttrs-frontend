@@ -37,8 +37,14 @@ class RecommendTab extends React.Component {
     this.setState({ [name]: value })
   }
 
+  handleToggle = (e, { name, checked }) => {
+    this.setState({ [name]: checked })
+  }
+
   render() {
-    const weightSum = (this.state.jeonpilWeight * 1) + (this.state.jeonseonWeight * 1) + (this.state.gyoyangWeight * 1)
+    const weightSum = parseInt(this.state.jeonpilWeight) + parseInt(this.state.jeonseonWeight) + parseInt(this.state.gyoyangWeight)
+    const prevIndex = (this.props.recommendedTimeTables.length + this.state.recommendedTimeTableIndex - 1) % this.props.recommendedTimeTables.length
+    const nextIndex = (this.state.recommendedTimeTableIndex + 1) % this.props.recommendedTimeTables.length
 
     return (
       <div>
@@ -65,21 +71,27 @@ class RecommendTab extends React.Component {
                 <Form.Radio
                   label="연강 회피"
                   toggle
-                  onChange={() => this.setState({ avoidSuccessiveLecture: !this.state.avoidSuccessiveLecture })}
+                  name="avoidSuccessiveLecture"
+                  checked={this.state.avoidSuccessiveLecture}
+                  onChange={this.handleToggle}
                 />
               </Grid.Column>
               <Grid.Column>
                 <Form.Radio
                   label="공강 회피"
                   toggle
-                  onChange={() => this.setState({ avoidVoidLecture: !this.state.avoidVoidLecture })}
+                  name="avoidVoidLecture"
+                  checked={this.state.avoidVoidLecture}
+                  onChange={this.handleToggle}
                 />
               </Grid.Column>
               <Grid.Column>
                 <Form.Radio
                   label="1교시 회피"
                   toggle
-                  onChange={() => this.setState({ avoidFirstLecture: !this.state.avoidFirstLecture })}
+                  name="avoidFirstLecture"
+                  checked={this.state.avoidFirstLecture}
+                  onChange={this.handleToggle}
                 />
               </Grid.Column>
             </Grid.Row>
@@ -174,12 +186,12 @@ class RecommendTab extends React.Component {
           {...this.props.recommendedTimeTable}
           isRecommended
           onShowPrevRecommend={() => {
-            this.props.onSelectRecommendedTimeTable(this.props.recommendedTimeTables[(this.props.recommendedTimeTables.length + this.state.recommendedTimeTableIndex - 1) % this.props.recommendedTimeTables.length])
-            this.setState({ recommendedTimeTableIndex: (this.props.recommendedTimeTables.length + this.state.recommendedTimeTableIndex - 1) % this.props.recommendedTimeTables.length })
+            this.props.onSelectRecommendedTimeTable(this.props.recommendedTimeTables[prevIndex])
+            this.setState({ recommendedTimeTableIndex: prevIndex })
           }}
           onShowNextRecommend={() => {
-            this.props.onSelectRecommendedTimeTable(this.props.recommendedTimeTables[(this.props.recommendedTimeTables.length + this.state.recommendedTimeTableIndex + 1) % this.props.recommendedTimeTables.length])
-            this.setState({ recommendedTimeTableIndex: (this.props.recommendedTimeTables.length + this.state.recommendedTimeTableIndex + 1) % this.props.recommendedTimeTables.length })
+            this.props.onSelectRecommendedTimeTable(this.props.recommendedTimeTables[nextIndex])
+            this.setState({ recommendedTimeTableIndex: nextIndex })
           }}
           haveSidebar={false}
           canModify={false}
