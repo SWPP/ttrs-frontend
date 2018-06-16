@@ -570,10 +570,11 @@ function* toggleLikeIt(lectureId, isAdd, evaluationId) {
   }
 }
 
-function* getRecommendation() {
+function* getRecommendation(options) {
   const params = {
     year,
     semester,
+    ...options,
   }
   try {
     const response = yield call(axios.get, updateURLParams('ttrs/recommends/', params), config)
@@ -747,8 +748,8 @@ function* watchToggleLikeIt() {
 
 function* watchGetRecommendation() {
   while (true) {
-    yield take(actions.GET_RECOMMENDATION_REQUEST)
-    yield call(getRecommendation)
+    const { options } = yield take(actions.GET_RECOMMENDATION_REQUEST)
+    yield call(getRecommendation, options)
   }
 }
 

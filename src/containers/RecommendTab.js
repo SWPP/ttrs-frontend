@@ -23,8 +23,8 @@ const mapDispatchToProps = (dispatch) => {
     onSelectRecommendedTimeTable: (recommendedTimeTable) => {
       dispatch(selectRecommendedTimeTableRequest(recommendedTimeTable))
     },
-    onGetRecommendation: () => {
-      dispatch(getRecommendationRequest())
+    onGetRecommendation: (options) => {
+      dispatch(getRecommendationRequest(options))
     },
   }
 }

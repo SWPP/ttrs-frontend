@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Divider, Form, Grid, Progress, Segment, Sidebar } from 'semantic-ui-react'
 import TimeTable from '../../../containers/TimeTable'
+import { compressBlocks } from '../../../services/parser'
 
 export const getLectureIds = (timeTable) => {
   const lectureIds = []
@@ -42,9 +43,23 @@ class RecommendTab extends React.Component {
     this.setState({ [name]: checked })
   }
 
+  handleRecommend = () => {
+    const options = {
+      avoidSuccessive: this.state.avoidSuccessiveLecture,
+      avoidVoid: this.state.avoidVoidLecture,
+      avoidFirst: this.state.avoidFirstLecture,
+      jeonpil: this.state.jeonpilWeight,
+      jeonseon: this.state.jeonseonWeight,
+      gyoyang: this.state.gyoyangWeight,
+      credit: this.state.creditUserWant,
+      blocks: compressBlocks(this.state.blocks),
+    }
+    this.props.onGetRecommendation(options)
+  }
+
   render() {
-    const weightSum = parseInt(this.state.jeonpilWeight) + parseInt(this.state.jeonseonWeight) + parseInt(this.state.gyoyangWeight)
-    const prevIndex = (this.props.recommendedTimeTables.length + this.state.recommendedTimeTableIndex - 1) % this.props.recommendedTimeTables.length
+    const weightSum = Number(this.state.jeonpilWeight) + Number(this.state.jeonseonWeight) + Number(this.state.gyoyangWeight)
+    const prevIndex = ((this.props.recommendedTimeTables.length + this.state.recommendedTimeTableIndex) - 1) % this.props.recommendedTimeTables.length
     const nextIndex = (this.state.recommendedTimeTableIndex + 1) % this.props.recommendedTimeTables.length
 
     return (
@@ -62,6 +77,7 @@ class RecommendTab extends React.Component {
           onDeleteLecture={(lectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, this.props.myTimeTable) }, -lectureId)}
           onModifyContent={(content) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, content, null)}
           onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
+          onSelectBlocks={(blocks) => this.setState({ blocks })}
         />
         <Divider />
         <h1>Recommended TimeTable</h1>
@@ -190,7 +206,7 @@ class RecommendTab extends React.Component {
                       color="teal"
                       content="Recommend"
                       onClick={() => {
-                        this.props.onGetRecommendation()
+                        this.handleRecommend()
                         this.setState({ sidebarVisible: false })
                       }}
                     />

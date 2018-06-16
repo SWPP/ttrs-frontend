@@ -499,8 +499,9 @@ export const setFieldsAndTypes = (fields, types) => {
   }
 }
 
-export const getRecommendationRequest = () => {
+export const getRecommendationRequest = (options) => {
   return {
     type: GET_RECOMMENDATION_REQUEST,
+    options,
   }
 }
