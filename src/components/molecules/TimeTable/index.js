@@ -121,6 +121,19 @@ class TimeTable extends React.Component {
                     inverted
                   />
                   }
+                  {this.props.isRecommended &&
+                  <Popup
+                    trigger={<button
+                      className="ui icon button"
+                      onClick={this.props.onShowPrevRecommend}
+                      style={iconButtonStyle}
+                    >
+                      <Icon name="chevron left" />
+                    </button>}
+                    content="Show Previous TimeTable"
+                    inverted
+                  />
+                  }
                   {this.props.title}
                   {this.props.canModify &&
                   <Popup
@@ -134,6 +147,19 @@ class TimeTable extends React.Component {
                     content="Modify title"
                     inverted
                   />}
+                  {this.props.isRecommended &&
+                  <Popup
+                    trigger={<button
+                      className="ui icon button"
+                      onClick={this.props.onShowNextRecommend}
+                      style={iconButtonStyle}
+                    >
+                      <Icon name="chevron right" />
+                    </button>}
+                    content="Show Next TimeTable"
+                    inverted
+                  />
+                  }
                 </h4>
               </div> :
               <Form>
@@ -163,7 +189,7 @@ class TimeTable extends React.Component {
             <Popup
               position="bottom left"
               flowing
-              trigger={<div><Icon name="lightbulb outline" />Selection</div>}
+              trigger={<div><Icon name="lightbulb" />Selection</div>}
               content={<div><h5>
                 {'You can select blocks by mouse dragging!'}<br />
                 {'Hold \'ctrl\' to unselect, \'shift\' to toggle blocks.'}<br />
@@ -306,6 +332,7 @@ TimeTable.propTypes = {
   canDelete: PropTypes.bool,
   canCreate: PropTypes.bool,
   haveSidebar: PropTypes.bool,
+  isRecommended: PropTypes.bool,
 
   onCopyToMy: PropTypes.func,
   onBookmark: PropTypes.func,
@@ -315,6 +342,8 @@ TimeTable.propTypes = {
   onDeleteLecture: PropTypes.func,
   onDeleteTimeTable: PropTypes.func,
   onOpenSidebar: PropTypes.func,
+  onShowPrevRecommend: PropTypes.func,
+  onShowNextRecommend: PropTypes.func,
 }
 
 export default TimeTable
