@@ -15,6 +15,7 @@ const mapStateToProps = (state, props) => {
     canCreate: props.canCreate,
     haveSidebar: props.haveSidebar,
     isRecommended: props.isRecommended,
+    isRecommendTab: props.isRecommendTab,
   }
 }
 

@@ -181,6 +181,7 @@ class TimeTable extends React.Component {
           </Menu.Item>}
           {this.props.id &&
           <Menu.Item>
+            {this.props.isRecommendTab &&
             <Popup
               position="bottom left"
               flowing
@@ -190,7 +191,7 @@ class TimeTable extends React.Component {
                 {'Hold \'ctrl\' to unselect, \'shift\' to toggle blocks.'}<br />
                 {'Select columns/rows or whole table by dragging table headers.'}
               </h5></div>}
-            />
+            />}
           </Menu.Item>}
           <Menu.Menu position="right">
             {this.props.canModify && (this.props.id !== null || this.props.canCreate) &&
@@ -328,6 +329,7 @@ TimeTable.propTypes = {
   canCreate: PropTypes.bool,
   haveSidebar: PropTypes.bool,
   isRecommended: PropTypes.bool,
+  isRecommendTab: PropTypes.bool,
 
   onCopyToMy: PropTypes.func,
   onBookmark: PropTypes.func,

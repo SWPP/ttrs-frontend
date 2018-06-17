@@ -214,6 +214,7 @@ class RecommendTab extends React.Component {
                 <Sidebar.Pusher>
                   <TimeTable
                     {...this.props.myTimeTable}
+                    isRecommendTab
                     isRecommended={false}
                     haveSidebar={false}
                     canModify
@@ -376,11 +377,12 @@ class RecommendTab extends React.Component {
                 <Sidebar.Pusher>
                   <TimeTable
                     {...this.props.recommendedTimeTable}
+                    isRecommendTab
+                    isRecommended
                     haveSidebar={false}
                     canModify={false}
                     canDelete={false}
                     canCopyToMy
-                    isRecommended
                     onShowPrevRecommend={() => {
                       this.props.onSelectRecommendedTimeTable(this.props.recommendedTimeTables[prevIndex])
                       this.setState({ recommendedTimeTableIndex: prevIndex })
