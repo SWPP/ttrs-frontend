@@ -42,7 +42,7 @@ class ReceiveTab extends React.Component {
               />
             </Grid.Column>
             <Grid.Column>
-              <h1>Received TimeTable <div style={{ float: 'right' }}>From {this.props.receivedTimeTable.sender}</div></h1>
+              <h1>Received TimeTable</h1>
               <Sidebar.Pushable>
                 <Sidebar
                   as={Segment}
@@ -85,6 +85,7 @@ class ReceiveTab extends React.Component {
                     canModify={false}
                     canDelete
                     canCopyToMy
+                    sender={this.props.receivedTimeTable.sender}
                     onOpenSidebar={() => this.setState({ sidebarVisible: true })}
                     onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'received', this.props.receivedTimeTables) : console.log('There is no timetable')}
                   />
