@@ -65,22 +65,6 @@ class RecommendTab extends React.Component {
     return (
       <div>
         <h1>My TimeTable</h1>
-        <TimeTable
-          {...this.props.myTimeTable}
-          isRecommended={false}
-          haveSidebar={false}
-          canModify
-          canDelete
-          canCreate
-          canCopyToMy={false}
-          onAddLecture={(newLectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, { lectures: getLectureIds(this.props.myTimeTable) }, newLectureId)}
-          onDeleteLecture={(lectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, this.props.myTimeTable) }, -lectureId)}
-          onModifyContent={(content) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, content, null)}
-          onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
-          onSelectBlocks={(blocks) => this.setState({ blocks })}
-        />
-        <Divider />
-        <h1>Recommended TimeTable</h1>
         <Form>
           <Form.Button
             color="teal"
@@ -217,23 +201,39 @@ class RecommendTab extends React.Component {
           </Sidebar>
           <Sidebar.Pusher>
             <TimeTable
-              {...this.props.recommendedTimeTable}
-              isRecommended
-              onShowPrevRecommend={() => {
-                this.props.onSelectRecommendedTimeTable(this.props.recommendedTimeTables[prevIndex])
-                this.setState({ recommendedTimeTableIndex: prevIndex })
-              }}
-              onShowNextRecommend={() => {
-                this.props.onSelectRecommendedTimeTable(this.props.recommendedTimeTables[nextIndex])
-                this.setState({ recommendedTimeTableIndex: nextIndex })
-              }}
+              {...this.props.myTimeTable}
+              isRecommended={false}
               haveSidebar={false}
-              canModify={false}
-              canDelete={false}
-              canCopyToMy
+              canModify
+              canDelete
+              canCreate
+              canCopyToMy={false}
+              onAddLecture={(newLectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, { lectures: getLectureIds(this.props.myTimeTable) }, newLectureId)}
+              onDeleteLecture={(lectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, this.props.myTimeTable) }, -lectureId)}
+              onModifyContent={(content) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, content, null)}
+              onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
+              onSelectBlocks={(blocks) => this.setState({ blocks })}
             />
           </Sidebar.Pusher>
         </Sidebar.Pushable>
+        <Divider />
+        <h1>Recommended TimeTable</h1>
+        <TimeTable
+          {...this.props.recommendedTimeTable}
+          isRecommended
+          onShowPrevRecommend={() => {
+            this.props.onSelectRecommendedTimeTable(this.props.recommendedTimeTables[prevIndex])
+            this.setState({ recommendedTimeTableIndex: prevIndex })
+          }}
+          onShowNextRecommend={() => {
+            this.props.onSelectRecommendedTimeTable(this.props.recommendedTimeTables[nextIndex])
+            this.setState({ recommendedTimeTableIndex: nextIndex })
+          }}
+          haveSidebar={false}
+          canModify={false}
+          canDelete={false}
+          canCopyToMy
+        />
       </div>
     )
   }
