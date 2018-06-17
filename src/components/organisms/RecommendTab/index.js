@@ -70,18 +70,28 @@ class RecommendTab extends React.Component {
             <Grid.Column>
               <h1>
                 My TimeTable
-                <Form style={{ float: 'right' }}>
-                  {this.state.leftTimeTableSidebarVisible ?
-                    <Form.Button
-                      color="teal"
-                      content="Close"
-                      onClick={() => this.setState({ leftTimeTableSidebarVisible: false })}
-                    /> :
+                <Form style={{ float: 'right', marginRight: -14 }}>
+                  <Form.Group inline>
+                    {this.state.leftTimeTableSidebarVisible ?
+                      <Form.Button
+                        color="teal"
+                        content="Close"
+                        onClick={() => this.setState({ leftTimeTableSidebarVisible: false })}
+                      /> :
+                      <Form.Button
+                        color="teal"
+                        content="Options"
+                        onClick={() => this.setState({ leftTimeTableSidebarVisible: true })}
+                      />}
                     <Form.Button
                       color="teal"
                       content="Recommend"
-                      onClick={() => this.setState({ leftTimeTableSidebarVisible: true })}
-                    />}
+                      onClick={() => {
+                        this.handleRecommend()
+                        this.setState({ leftTimeTableSidebarVisible: false })
+                      }}
+                    />
+                  </Form.Group>
                 </Form>
               </h1>
               <Sidebar.Pushable>
@@ -234,18 +244,28 @@ class RecommendTab extends React.Component {
             <Grid.Column>
               <h1>
                 Recommended TimeTable
-                <Form style={{ float: 'right' }}>
-                  {this.state.rightTimeTableSidebarVisible ?
-                    <Form.Button
-                      color="teal"
-                      content="Close"
-                      onClick={() => this.setState({ rightTimeTableSidebarVisible: false })}
-                    /> :
+                <Form style={{ float: 'right', marginRight: -14 }}>
+                  <Form.Group inline>
+                    {this.state.rightTimeTableSidebarVisible ?
+                      <Form.Button
+                        color="teal"
+                        content="Close"
+                        onClick={() => this.setState({ rightTimeTableSidebarVisible: false })}
+                      /> :
+                      <Form.Button
+                        color="teal"
+                        content="Options"
+                        onClick={() => this.setState({ rightTimeTableSidebarVisible: true })}
+                      />}
                     <Form.Button
                       color="teal"
                       content="Recommend"
-                      onClick={() => this.setState({ rightTimeTableSidebarVisible: true })}
-                    />}
+                      onClick={() => {
+                        this.handleRecommend()
+                        this.setState({ rightTimeTableSidebarVisible: false })
+                      }}
+                    />
+                  </Form.Group>
                 </Form>
               </h1>
               <Sidebar.Pushable>
