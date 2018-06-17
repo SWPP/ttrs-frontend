@@ -71,11 +71,17 @@ class RecommendTab extends React.Component {
               <h1>
                 My TimeTable
                 <Form style={{ float: 'right' }}>
-                  <Form.Button
-                    color="teal"
-                    content="Recommend"
-                    onClick={() => this.setState({ leftTimeTableSidebarVisible: !this.state.leftTimeTableSidebarVisible })}
-                  />
+                  {this.state.leftTimeTableSidebarVisible ?
+                    <Form.Button
+                      color="teal"
+                      content="Close"
+                      onClick={() => this.setState({ leftTimeTableSidebarVisible: false })}
+                    /> :
+                    <Form.Button
+                      color="teal"
+                      content="Recommend"
+                      onClick={() => this.setState({ leftTimeTableSidebarVisible: true })}
+                    />}
                 </Form>
               </h1>
               <Sidebar.Pushable>
@@ -227,11 +233,17 @@ class RecommendTab extends React.Component {
               <h1>
                 Recommended TimeTable
                 <Form style={{ float: 'right' }}>
-                  <Form.Button
-                    color="teal"
-                    content="Recommend"
-                    onClick={() => this.setState({ rightTimeTableSidebarVisible: !this.state.rightTimeTableSidebarVisible })}
-                  />
+                  {this.state.rightTimeTableSidebarVisible ?
+                    <Form.Button
+                      color="teal"
+                      content="Close"
+                      onClick={() => this.setState({ rightTimeTableSidebarVisible: false })}
+                    /> :
+                    <Form.Button
+                      color="teal"
+                      content="Recommend"
+                      onClick={() => this.setState({ rightTimeTableSidebarVisible: true })}
+                    />}
                 </Form>
               </h1>
               <Sidebar.Pushable>
