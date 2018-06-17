@@ -183,7 +183,7 @@ class TimeTable extends React.Component {
           {this.props.id &&
           <Menu.Item>
             {this.props.isReceived &&
-            <div>From {this.props.sender}</div>}
+            <div>From {this.props.sender}&nbsp;&nbsp;&nbsp;&nbsp;</div>}
             {this.props.haveSelection &&
             <Popup
               position="bottom left"
