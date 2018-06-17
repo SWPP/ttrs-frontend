@@ -66,7 +66,7 @@ class Home extends React.Component {
           </Container>
         </Menu>
 
-        <Container style={{ marginTop: 70 }}>
+        <Container fluid style={{ marginTop: 70, paddingLeft: 70, paddingRight: 70 }}>
           {tab}
         </Container>
 
