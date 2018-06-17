@@ -343,7 +343,7 @@ class TTRenderer extends React.Component {
     for (let i = 0; i < this.props.lectures.length; i += 1) {
       this.drawLecture(context, this.props.lectures[i])
     }
-    this.drawSelections(context)
+    { this.props.haveSelection && this.drawSelections(context) }
     requestAnimationFrame(this.updateCanvas)
   }
 
@@ -384,6 +384,7 @@ TTRenderer.propTypes = {
   id: PropTypes.number,
   lectures: PropTypes.array,
   canDeleteLecture: PropTypes.bool,
+  haveSelection: PropTypes.bool,
   onDeleteLecture: PropTypes.func,
   onChange: PropTypes.func,
 }

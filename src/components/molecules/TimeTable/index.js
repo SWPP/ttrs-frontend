@@ -80,6 +80,7 @@ class TimeTable extends React.Component {
           canDeleteLecture={this.props.canModify}
           onDeleteLecture={this.props.onDeleteLecture}
           onChange={this.props.onSelectBlocks ? this.props.onSelectBlocks : () => {}}
+          haveSelection={this.props.haveSelection}
         />
       </div>
     )
@@ -181,7 +182,9 @@ class TimeTable extends React.Component {
           </Menu.Item>}
           {this.props.id &&
           <Menu.Item>
-            {this.props.isRecommendTab &&
+            {this.props.isReceived &&
+            <div>From {this.props.sender}</div>}
+            {this.props.haveSelection &&
             <Popup
               position="bottom left"
               flowing
@@ -329,7 +332,9 @@ TimeTable.propTypes = {
   canCreate: PropTypes.bool,
   haveSidebar: PropTypes.bool,
   isRecommended: PropTypes.bool,
-  isRecommendTab: PropTypes.bool,
+  haveSelection: PropTypes.bool,
+  isReceived: PropTypes.bool,
+  sender: PropTypes.string,
 
   onCopyToMy: PropTypes.func,
   onBookmark: PropTypes.func,

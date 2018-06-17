@@ -28,7 +28,8 @@ class BookmarkTab extends React.Component {
               <h1>My TimeTable</h1>
               <TimeTable
                 {...this.props.myTimeTable}
-                isRecommendTab={false}
+                isReceived={false}
+                haveSelection
                 isRecommended={false}
                 haveSidebar={false}
                 canModify
@@ -75,7 +76,8 @@ class BookmarkTab extends React.Component {
                 <Sidebar.Pusher>
                   <TimeTable
                     {...this.props.bookmarkedTimeTable}
-                    isRecommendTab={false}
+                    isReceived={false}
+                    haveSelection
                     isRecommended={false}
                     haveSidebar
                     canModify
