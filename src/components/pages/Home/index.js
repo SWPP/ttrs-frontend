@@ -1,6 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Container, Dropdown, Grid, Header, List, Menu, Segment } from 'semantic-ui-react'
+import {
+  Container, Dropdown, Grid, Header, List, Menu, Modal, Segment, Form, TextArea, Popup,
+  Icon, Button
+} from 'semantic-ui-react'
 import SemesterSwitcher from '../../../containers/SemesterSwitcher'
 import RecommendTab from '../../../containers/RecommendTab'
 import BookmarkTab from '../../../containers/BookmarkTab'
@@ -20,7 +23,17 @@ class Home extends React.Component {
     return null
   }
 
+  state = {
+    developerPopupOpen: false,
+    contactPopupOpen: false,
+  }
+
   render() {
+    const iconButtonStyle = {
+      backgroundColor: 'white',
+      padding: 5,
+    }
+
     if (!this.props.isLoaded || !this.props.isSignedIn) {
       return null
     }
@@ -70,6 +83,94 @@ class Home extends React.Component {
           {tab}
         </Container>
 
+        <Modal
+          open={this.state.developerPopupOpen}
+          size="small"
+          style={{
+            marginTop: 200,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}
+          closeOnDimmerClick
+          onClose={() => this.setState({ developerPopupOpen: false })}
+        >
+          <Modal.Header>Developer Information</Modal.Header>
+          <Container textAlign="center">
+            <Modal.Content>
+              <Modal.Description>
+                <br /><br /><br /><br />
+                <span style={{ fontSize: 30 }}>
+                  # 2018~<br /><br />
+                </span>
+                <span style={{ fontSize: 23 }}>
+                  <p>권현우 / 컴퓨터공학부 16</p>
+                  <p style={{ marginTop: -15 }}>김성재 / 컴퓨터공학부 16</p>
+                  <p style={{ marginTop: -15 }}>남예현 / 컴퓨터공학부 16</p>
+                </span>
+                <br /><br /><br /><br />
+              </Modal.Description>
+            </Modal.Content>
+          </Container>
+        </Modal>
+
+        <Modal
+          open={this.state.contactPopupOpen}
+          size="small"
+          style={{
+            marginTop: 200,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}
+          closeOnDimmerClick
+          onClose={() => this.setState({ contactPopupOpen: false })}
+        >
+          <Modal.Header>Contact Us</Modal.Header>
+          <Container>
+            <Modal.Content>
+              <Modal.Description>
+                <br /><br />
+                <span style={{ fontSize: 20, marginLeft: 45 }}>
+                  e-mail (optional)
+                </span>
+                <Container textAlign="center" style={{ marginTop: 10 }}>
+                  <Form>
+                    <Form.Input
+                      style={{ width: '90%' }}
+                      placeholder="example@snu.ac.kr"
+                    />
+                  </Form>
+                </Container>
+                <br />
+                <span style={{ fontSize: 20, marginLeft: 45 }}>
+                  Content
+                </span>
+                <Container textAlign="center" style={{ marginTop: 10 }}>
+                  <Form>
+                    <Form.Input
+                      required
+                      control={TextArea}
+                      style={{ width: '90%' }}
+                      placeholder="Write Content..."
+                    />
+                  </Form>
+                </Container>
+                <br /><br />
+              </Modal.Description>
+            </Modal.Content>
+          </Container>
+          <Modal.Actions>
+            <Button
+              icon={{ name: 'send' }}
+              color="teal"
+              content="Send"
+              onClick={() => {
+                this.setState({ contactPopupOpen: false })
+                this.props.onSendToDeveloper()
+              }}
+            />
+          </Modal.Actions>
+        </Modal>
+
         <Segment inverted vertical style={{ padding: '5em 0em', marginTop: 100 }}>
           <Container textAlign="center">
             <Grid divided stackable inverted verticalAlign="middle">
@@ -91,8 +192,14 @@ class Home extends React.Component {
                 <Grid.Column width={6}>
                   <Header inverted content="About" />
                   <List inverted>
-                    <List.Item as="a">Contact Us</List.Item>
-                    <List.Item as="a">How to Access</List.Item>
+                    <List.Item
+                      as="a"
+                      onClick={() => this.setState({ developerPopupOpen: true })}
+                    >Developer Information</List.Item>
+                    <List.Item
+                      as="a"
+                      onClick={() => this.setState({ contactPopupOpen: true })}
+                    >Contact Us</List.Item>
                   </List>
                 </Grid.Column>
               </Grid.Row>
@@ -112,6 +219,7 @@ Home.propTypes = {
   route: PropTypes.object,
 
   onSignOut: PropTypes.func,
+  onSendToDeveloper: PropTypes.func,
 }
 
 export default Home

@@ -348,6 +348,8 @@ const notice = (state = initialNotice, action) => {
       return newNotice(state, newId, 'Sent successfully.')
     case actions.DELETE_FROM_NOT_RECOMMENDS_RESPONSE:
       return newNotice(state, newId, 'Allowed successfully.')
+    case actions.SEND_TO_DEVELOPER_RESPONSE:
+      return newNotice(state, newId, 'Sent successfully.')
     case actions.SET_ERRORS:
       if (action.message) {
         return newNotice(state, -newId, action.message)

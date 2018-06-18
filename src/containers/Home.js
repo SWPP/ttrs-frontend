@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import Home from '../components/pages/Home'
-import { clearState, signOut } from '../store/ttrs/actions'
+import { clearState, sendToDeveloperResponse, signOut } from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -15,6 +15,9 @@ const mapDispatchToProps = (dispatch) => {
     onSignOut: () => {
       dispatch(signOut())
       dispatch(clearState())
+    },
+    onSendToDeveloper: () => {
+      dispatch(sendToDeveloperResponse())
     },
   }
 }
