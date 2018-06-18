@@ -10,6 +10,7 @@ const mapStateToProps = (state) => {
     myTimeTableLoading: state.ttrs.loading.myTimeTableLoading,
     bookmarkedTimeTableLoading: state.ttrs.loading.bookmarkedTimeTableLoading,
     receivedTimeTableLoading: state.ttrs.loading.receivedTimeTableLoading,
+    recommendedTimeTableLoading: state.ttrs.loading.recommendedTimeTableLoading,
   }
 }
 

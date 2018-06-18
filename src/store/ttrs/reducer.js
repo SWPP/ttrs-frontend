@@ -1,7 +1,4 @@
-import {
-  initialState, initialTimeTable, initialError, initialSearch, initialNotice,
-  initialStudentInfo,
-} from './selectors'
+import { initialState, initialTimeTable, initialError, initialSearch, initialNotice, initialStudentInfo, initialLoading } from './selectors'
 import * as actions from './actions'
 
 const studentInfo = (state = [], action) => {
@@ -443,6 +440,156 @@ const loading = (state = [], action) => {
         ...state,
         searchLectureLoading: false,
       }
+    case actions.UPDATE_MY_TIME_TABLE_REQUEST:
+      return {
+        ...state,
+        myTimeTableLoading: true,
+      }
+    case actions.ADD_LECTURE_TO_MY_TIME_TABLE:
+      return {
+        ...state,
+        myTimeTableLoading: false,
+      }
+    case actions.UPDATE_MY_TIME_TABLE_INFO:
+      return {
+        ...state,
+        myTimeTableLoading: false,
+      }
+    case actions.DELETE_LECTURE_FROM_MY_TIME_TABLE_RESPONSE:
+      return {
+        ...state,
+        myTimeTableLoading: false,
+      }
+    case actions.SELECT_BOOKMARKED_TIME_TABLE_REQUEST:
+      return {
+        ...state,
+        bookmarkedTimeTableLoading: true,
+      }
+    case actions.UPDATE_BOOKMARKED_TIME_TABLE_REQUEST:
+      return {
+        ...state,
+        bookmarkedTimeTableLoading: true,
+      }
+    case actions.BOOKMARK_REQUEST:
+      return {
+        ...state,
+        bookmarkedTimeTableLoading: true,
+      }
+    case actions.SELECT_BOOKMARKED_TIME_TABLE_RESPONSE:
+      return {
+        ...state,
+        bookmarkedTimeTableLoading: false,
+      }
+    case actions.ADD_LECTURE_TO_BOOKMARKED_TIME_TABLE:
+      return {
+        ...state,
+        bookmarkedTimeTableLoading: false,
+      }
+    case actions.UPDATE_BOOKMARKED_TIME_TABLE_INFO:
+      return {
+        ...state,
+        bookmarkedTimeTableLoading: false,
+      }
+    case actions.BOOKMARK_RESPONSE:
+      return {
+        ...state,
+        bookmarkedTimeTableLoading: false,
+      }
+    case actions.DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE_RESPONSE:
+      return {
+        ...state,
+        bookmarkedTimeTableLoading: false,
+      }
+    case actions.SELECT_RECEIVED_TIME_TABLE_REQUEST:
+      return {
+        ...state,
+        receivedTimeTableLoading: true,
+      }
+    case actions.SELECT_RECEIVED_TIME_TABLE_RESPONSE:
+      return {
+        ...state,
+        receivedTimeTableLoading: false,
+      }
+    case actions.COPY_TO_MY_TIME_TABLE_REQUEST:
+      return {
+        ...state,
+        myTimeTableLoading: true,
+      }
+    case actions.COPY_TO_MY_TIME_TABLE_RESPONSE:
+      return {
+        ...state,
+        myTimeTableLoading: false,
+      }
+    case actions.UPDATE_STUDENT_INFO_REQUEST:
+      return {
+        ...state,
+        updateProfileLoading: true,
+      }
+    case actions.UPDATE_STUDENT_INFO_RESPONSE:
+      return {
+        ...state,
+        updateProfileLoading: false,
+      }
+    case actions.DELETE_TIME_TABLE_REQUEST:
+      return {
+        ...state,
+        myTimeTableLoading: true,
+        bookmarkedTimeTableLoading: true,
+        receivedTimeTableLoading: true,
+      }
+    case actions.DELETE_MY_TIME_TABLE_RESPONSE:
+      return {
+        ...state,
+        myTimeTableLoading: false,
+        bookmarkedTimeTableLoading: false,
+        receivedTimeTableLoading: false,
+      }
+    case actions.DELETE_BOOKMARKED_TIME_TABLE_RESPONSE:
+      return {
+        ...state,
+        myTimeTableLoading: false,
+        bookmarkedTimeTableLoading: false,
+        receivedTimeTableLoading: false,
+      }
+    case actions.DELETE_RECEIVED_TIME_TABLE_RESPONSE:
+      return {
+        ...state,
+        myTimeTableLoading: false,
+        bookmarkedTimeTableLoading: false,
+        receivedTimeTableLoading: false,
+      }
+    case actions.DELETE_FROM_NOT_RECOMMENDS_REQUEST:
+      return {
+        ...state,
+        notRecommendsLoading: true,
+      }
+    case actions.DELETE_FROM_NOT_RECOMMENDS_RESPONSE:
+      return {
+        ...state,
+        notRecommendsLoading: false,
+      }
+    case actions.ADD_EVALUATION_REQUEST:
+      return {
+        ...state,
+        evaluationsLoading: true,
+      }
+    case actions.DELETE_EVALUATION_REQUEST:
+      return {
+        ...state,
+        evaluationsLoading: true,
+      }
+    case actions.MODIFY_EVALUATION_REQUEST:
+      return {
+        ...state,
+        evaluationsLoading: true,
+      }
+    case actions.TOGGLE_LIKE_IT_REQUEST:
+      return {
+        ...state,
+        evaluationsLoading: true,
+      }
+    case actions.SET_ERRORS:
+      return initialLoading
     default:
       return state
   }

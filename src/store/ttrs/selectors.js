@@ -80,6 +80,7 @@ export const initialLoading = {
   notRecommendsLoading: false,
   evaluationsLoading: false,
   searchLectureLoading: false,
+  updateProfileLoading: false,
 }
 
 export const initialState = {
