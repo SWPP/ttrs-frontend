@@ -85,7 +85,7 @@ class Lecture extends React.Component {
               content={<div>
                 Intersects with
                 {this.props.intersects.map((other) => (
-                  <div>{other.course.name}</div>
+                  <div key={other.id}>{other.course.name}</div>
                 ))}
               </div>}
               flowing
