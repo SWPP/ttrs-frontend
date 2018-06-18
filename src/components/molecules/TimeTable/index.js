@@ -17,6 +17,7 @@ class TimeTable extends React.Component {
     isDeleting: false,
     searchOpen: false,
     openId: null,
+    blocks: null,
   }
 
   componentWillReceiveProps(nextProps) {
@@ -67,10 +68,6 @@ class TimeTable extends React.Component {
     this.props.onSend(sendInfo)
   }
 
-  handleChange = (e, { name, value }) => {
-    this.setState({ [name]: value })
-  }
-
   createTimeTable = () => {
     return (
       <div>
@@ -80,7 +77,12 @@ class TimeTable extends React.Component {
           lectures={this.props.lectures}
           canDeleteLecture={this.props.canModify}
           onDeleteLecture={this.props.onDeleteLecture}
-          onChange={this.props.onSelectBlocks ? this.props.onSelectBlocks : () => {}}
+          onChange={(blocks) => {
+            if (this.props.onSelectBlocks) {
+              this.props.onSelectBlocks(blocks)
+            }
+            this.setState({ blocks })
+          }}
           haveSelection={this.props.haveSelection}
         />
       </div>
@@ -212,6 +214,7 @@ class TimeTable extends React.Component {
                   <SearchLecture
                     onAddLecture={this.props.onAddLecture}
                     onClose={() => this.setState({ searchOpen: false })}
+                    blocks={this.state.blocks}
                   />}
                 </div>}
                 content="Add a lecture to this timetable"
