@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, Sidebar, Segment, Label, Grid } from 'semantic-ui-react'
+import { Card, Sidebar, Segment, Label, Grid, Dimmer, Loader } from 'semantic-ui-react'
 import TimeTable from '../../../containers/TimeTable'
 import { getLectureIds, getLectureIdsWithout } from '../RecommendTab'
 
@@ -25,22 +25,31 @@ class ReceiveTab extends React.Component {
           <Grid.Row columns={2}>
             <Grid.Column>
               <h1>My TimeTable</h1>
-              <TimeTable
-                {...this.props.myTimeTable}
-                type={'My'}
-                isReceived={false}
-                haveSelection
-                isRecommended={false}
-                haveSidebar={false}
-                canModify
-                canDelete
-                canCreate
-                canCopyToMy={false}
-                onAddLecture={(newLectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, { lectures: getLectureIds(this.props.myTimeTable) }, newLectureId)}
-                onModifyContent={(content) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, content, null)}
-                onDeleteLecture={(lectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, this.props.myTimeTable) }, -lectureId)}
-                onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
-              />
+              <Grid>
+                <Grid.Row>
+                  <Grid.Column>
+                    <Dimmer active={this.props.myTimeTableLoading} inverted>
+                      <Loader>Loading</Loader>
+                    </Dimmer>
+                    <TimeTable
+                      {...this.props.myTimeTable}
+                      type={'My'}
+                      isReceived={false}
+                      haveSelection
+                      isRecommended={false}
+                      haveSidebar={false}
+                      canModify
+                      canDelete
+                      canCreate
+                      canCopyToMy={false}
+                      onAddLecture={(newLectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, { lectures: getLectureIds(this.props.myTimeTable) }, newLectureId)}
+                      onModifyContent={(content) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, content, null)}
+                      onDeleteLecture={(lectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, this.props.myTimeTable) }, -lectureId)}
+                      onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
+                    />
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
             </Grid.Column>
             <Grid.Column>
               <h1>Received TimeTable</h1>
@@ -77,20 +86,29 @@ class ReceiveTab extends React.Component {
                   </Card.Group>
                 </Sidebar>
                 <Sidebar.Pusher>
-                  <TimeTable
-                    {...this.props.receivedTimeTable}
-                    type={'Received'}
-                    isReceived
-                    haveSelection={false}
-                    isRecommended={false}
-                    haveSidebar
-                    canModify={false}
-                    canDelete
-                    canCopyToMy
-                    sender={this.props.receivedTimeTable.sender}
-                    onOpenSidebar={() => this.setState({ sidebarVisible: true })}
-                    onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'received', this.props.receivedTimeTables) : console.log('There is no timetable')}
-                  />
+                  <Grid>
+                    <Grid.Row>
+                      <Grid.Column>
+                        <Dimmer active={this.props.receivedTimeTableLoading} inverted>
+                          <Loader>Loading</Loader>
+                        </Dimmer>
+                        <TimeTable
+                          {...this.props.receivedTimeTable}
+                          type={'Received'}
+                          isReceived
+                          haveSelection={false}
+                          isRecommended={false}
+                          haveSidebar
+                          canModify={false}
+                          canDelete
+                          canCopyToMy
+                          sender={this.props.receivedTimeTable.sender}
+                          onOpenSidebar={() => this.setState({ sidebarVisible: true })}
+                          onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'received', this.props.receivedTimeTables) : console.log('There is no timetable')}
+                        />
+                      </Grid.Column>
+                    </Grid.Row>
+                  </Grid>
                 </Sidebar.Pusher>
               </Sidebar.Pushable>
             </Grid.Column>
@@ -105,6 +123,8 @@ ReceiveTab.propTypes = {
   myTimeTable: PropTypes.object,
   receivedTimeTables: PropTypes.array,
   receivedTimeTable: PropTypes.object,
+  myTimeTableLoading: PropTypes.bool,
+  receivedTimeTableLoading: PropTypes.bool,
   onSelectReceivedTimeTable: PropTypes.func,
   onUpdateMyTimeTable: PropTypes.func,
   onDeleteTimeTable: PropTypes.func,

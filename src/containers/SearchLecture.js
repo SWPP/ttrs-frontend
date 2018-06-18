@@ -11,6 +11,7 @@ const mapStateToProps = (state, props) => {
     types: state.ttrs.types,
     blocks: props.blocks,
     lectures: props.lectures,
+    searchLectureLoading: state.ttrs.loading.searchLectureLoading,
   }
 }
 

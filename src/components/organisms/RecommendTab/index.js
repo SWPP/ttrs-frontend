@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Grid, Progress, Segment, Sidebar, Card, Label } from 'semantic-ui-react'
+import { Form, Grid, Progress, Segment, Sidebar, Card, Label, Dimmer, Loader } from 'semantic-ui-react'
 import TimeTable from '../../../containers/TimeTable'
 import { compressBlocks } from '../../../services/parser'
 
@@ -121,6 +121,7 @@ class RecommendTab extends React.Component {
                         onClick={() => this.setState({ leftTimeTableSidebarVisible: true })}
                       />}
                     <Form.Button
+                      disabled={this.props.recommendedTimeTableLoading}
                       color="teal"
                       content="Recommend"
                       onClick={() => {
@@ -246,6 +247,7 @@ class RecommendTab extends React.Component {
                         <Grid.Column /><Grid.Column /><Grid.Column /><Grid.Column /><Grid.Column />
                         <Grid.Column>
                           <Form.Button
+                            disabled={this.props.recommendedTimeTableLoading}
                             color="teal"
                             content="Recommend"
                             onClick={() => {
@@ -260,23 +262,32 @@ class RecommendTab extends React.Component {
                 </Sidebar>
                 <Sidebar.Pusher>
                   {this.state.timeTable === 'My' &&
-                  <TimeTable
-                    {...this.props.myTimeTable}
-                    type={'My'}
-                    isReceived={false}
-                    haveSelection
-                    isRecommended={false}
-                    haveSidebar={false}
-                    canModify
-                    canDelete
-                    canCreate
-                    canCopyToMy={false}
-                    onAddLecture={(newLectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, { lectures: getLectureIds(this.props.myTimeTable) }, newLectureId)}
-                    onDeleteLecture={(lectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, this.props.myTimeTable) }, -lectureId)}
-                    onModifyContent={(content) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, content, null)}
-                    onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
-                    onSelectBlocks={(blocks) => this.setState({ blocks })}
-                  />}
+                  <Grid>
+                    <Grid.Row>
+                      <Grid.Column>
+                        <Dimmer active={this.props.myTimeTableLoading} inverted>
+                          <Loader>Loading</Loader>
+                        </Dimmer>
+                        <TimeTable
+                          {...this.props.myTimeTable}
+                          type={'My'}
+                          isReceived={false}
+                          haveSelection
+                          isRecommended={false}
+                          haveSidebar={false}
+                          canModify
+                          canDelete
+                          canCreate
+                          canCopyToMy={false}
+                          onAddLecture={(newLectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, { lectures: getLectureIds(this.props.myTimeTable) }, newLectureId)}
+                          onDeleteLecture={(lectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, this.props.myTimeTable) }, -lectureId)}
+                          onModifyContent={(content) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, content, null)}
+                          onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
+                          onSelectBlocks={(blocks) => this.setState({ blocks })}
+                        />
+                      </Grid.Column>
+                    </Grid.Row>
+                  </Grid>}
                   {this.state.timeTable === 'Bookmarked' &&
                   <Sidebar.Pushable>
                     <Sidebar
@@ -308,22 +319,31 @@ class RecommendTab extends React.Component {
                       </Card.Group>
                     </Sidebar>
                     <Sidebar.Pusher>
-                      <TimeTable
-                        {...this.props.bookmarkedTimeTable}
-                        type={'Bookmarked'}
-                        isReceived={false}
-                        haveSelection
-                        isRecommended={false}
-                        haveSidebar
-                        canModify
-                        canDelete
-                        canCopyToMy
-                        onOpenSidebar={() => this.setState({ bookmarkedSidebarVisible: true })}
-                        onAddLecture={(newLectureId) => this.props.onUpdateBookmarkedTimeTable(this.props.bookmarkedTimeTable.id, { lectures: getLectureIds(this.props.bookmarkedTimeTable) }, newLectureId)}
-                        onModifyContent={(content) => this.props.onUpdateBookmarkedTimeTable(this.props.bookmarkedTimeTable.id, content, null)}
-                        onDeleteLecture={(lectureId) => this.props.onUpdateBookmarkedTimeTable(this.props.bookmarkedTimeTable.id, { lectures: getLectureIdsWithout(lectureId, this.props.bookmarkedTimeTable) }, -lectureId)}
-                        onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'bookmarked', this.props.bookmarkedTimeTables) : console.log('There is no timetable')}
-                      />
+                      <Grid>
+                        <Grid.Row>
+                          <Grid.Column>
+                            <Dimmer active={this.props.bookmarkedTimeTableLoading} inverted>
+                              <Loader>Loading</Loader>
+                            </Dimmer>
+                            <TimeTable
+                              {...this.props.bookmarkedTimeTable}
+                              type={'Bookmarked'}
+                              isReceived={false}
+                              haveSelection
+                              isRecommended={false}
+                              haveSidebar
+                              canModify
+                              canDelete
+                              canCopyToMy
+                              onOpenSidebar={() => this.setState({ bookmarkedSidebarVisible: true })}
+                              onAddLecture={(newLectureId) => this.props.onUpdateBookmarkedTimeTable(this.props.bookmarkedTimeTable.id, { lectures: getLectureIds(this.props.bookmarkedTimeTable) }, newLectureId)}
+                              onModifyContent={(content) => this.props.onUpdateBookmarkedTimeTable(this.props.bookmarkedTimeTable.id, content, null)}
+                              onDeleteLecture={(lectureId) => this.props.onUpdateBookmarkedTimeTable(this.props.bookmarkedTimeTable.id, { lectures: getLectureIdsWithout(lectureId, this.props.bookmarkedTimeTable) }, -lectureId)}
+                              onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'bookmarked', this.props.bookmarkedTimeTables) : console.log('There is no timetable')}
+                            />
+                          </Grid.Column>
+                        </Grid.Row>
+                      </Grid>
                     </Sidebar.Pusher>
                   </Sidebar.Pushable>}
                   {this.state.timeTable === 'Received' &&
@@ -360,20 +380,29 @@ class RecommendTab extends React.Component {
                       </Card.Group>
                     </Sidebar>
                     <Sidebar.Pusher>
-                      <TimeTable
-                        {...this.props.receivedTimeTable}
-                        type={'Received'}
-                        isReceived
-                        haveSelection
-                        isRecommended={false}
-                        haveSidebar
-                        canModify={false}
-                        canDelete
-                        canCopyToMy
-                        sender={this.props.receivedTimeTable.sender}
-                        onOpenSidebar={() => this.setState({ receivedSidebarVisible: true })}
-                        onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'received', this.props.receivedTimeTables) : console.log('There is no timetable')}
-                      />
+                      <Grid>
+                        <Grid.Row>
+                          <Grid.Column>
+                            <Dimmer active={this.props.receivedTimeTableLoading} inverted>
+                              <Loader>Loading</Loader>
+                            </Dimmer>
+                            <TimeTable
+                              {...this.props.receivedTimeTable}
+                              type={'Received'}
+                              isReceived
+                              haveSelection
+                              isRecommended={false}
+                              haveSidebar
+                              canModify={false}
+                              canDelete
+                              canCopyToMy
+                              sender={this.props.receivedTimeTable.sender}
+                              onOpenSidebar={() => this.setState({ receivedSidebarVisible: true })}
+                              onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'received', this.props.receivedTimeTables) : console.log('There is no timetable')}
+                            />
+                          </Grid.Column>
+                        </Grid.Row>
+                      </Grid>
                     </Sidebar.Pusher>
                   </Sidebar.Pushable>}
                 </Sidebar.Pusher>
@@ -396,6 +425,7 @@ class RecommendTab extends React.Component {
                         onClick={() => this.setState({ rightTimeTableSidebarVisible: true })}
                       />}
                     <Form.Button
+                      disabled={this.props.recommendedTimeTableLoading}
                       color="teal"
                       content="Recommend"
                       onClick={() => {
@@ -521,6 +551,7 @@ class RecommendTab extends React.Component {
                         <Grid.Column /><Grid.Column /><Grid.Column /><Grid.Column /><Grid.Column />
                         <Grid.Column>
                           <Form.Button
+                            disabled={this.props.recommendedTimeTableLoading}
                             color="teal"
                             content="Recommend"
                             onClick={() => {
@@ -534,26 +565,35 @@ class RecommendTab extends React.Component {
                   </Form>
                 </Sidebar>
                 <Sidebar.Pusher>
-                  <TimeTable
-                    {...this.props.recommendedTimeTable}
-                    type={'Recommended'}
-                    isReceived={false}
-                    haveSelection
-                    isRecommended
-                    haveSidebar={false}
-                    canModify={false}
-                    canDelete={false}
-                    canCopyToMy
-                    onShowPrevRecommend={() => {
-                      this.props.onSelectRecommendedTimeTable(this.props.recommendedTimeTables[prevIndex])
-                      this.setState({ recommendedTimeTableIndex: prevIndex })
-                    }}
-                    onShowNextRecommend={() => {
-                      this.props.onSelectRecommendedTimeTable(this.props.recommendedTimeTables[nextIndex])
-                      this.setState({ recommendedTimeTableIndex: nextIndex })
-                    }}
-                    onSelectBlocks={(blocks) => this.setState({ blocks })}
-                  />
+                  <Grid>
+                    <Grid.Row>
+                      <Grid.Column>
+                        <Dimmer active={this.props.recommendedTimeTableLoading} inverted>
+                          <Loader>Loading</Loader>
+                        </Dimmer>
+                        <TimeTable
+                          {...this.props.recommendedTimeTable}
+                          type={'Recommended'}
+                          isReceived={false}
+                          haveSelection
+                          isRecommended
+                          haveSidebar={false}
+                          canModify={false}
+                          canDelete={false}
+                          canCopyToMy
+                          onShowPrevRecommend={() => {
+                            this.props.onSelectRecommendedTimeTable(this.props.recommendedTimeTables[prevIndex])
+                            this.setState({ recommendedTimeTableIndex: prevIndex })
+                          }}
+                          onShowNextRecommend={() => {
+                            this.props.onSelectRecommendedTimeTable(this.props.recommendedTimeTables[nextIndex])
+                            this.setState({ recommendedTimeTableIndex: nextIndex })
+                          }}
+                          onSelectBlocks={(blocks) => this.setState({ blocks })}
+                        />
+                      </Grid.Column>
+                    </Grid.Row>
+                  </Grid>
                 </Sidebar.Pusher>
               </Sidebar.Pushable>
             </Grid.Column>
@@ -572,6 +612,10 @@ RecommendTab.propTypes = {
   bookmarkedTimeTable: PropTypes.object,
   receivedTimeTables: PropTypes.array,
   receivedTimeTable: PropTypes.object,
+  myTimeTableLoading: PropTypes.bool,
+  bookmarkedTimeTableLoading: PropTypes.bool,
+  receivedTimeTableLoading: PropTypes.bool,
+  recommendedTimeTableLoading: PropTypes.bool,
   onSelectRecommendedTimeTable: PropTypes.func,
   onUpdateMyTimeTable: PropTypes.func,
   onDeleteTimeTable: PropTypes.func,
