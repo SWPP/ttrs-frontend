@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 const TimeSlot = ({ dayOfWeek, startTime, endTime, classroom }) => (
   <span>
     {`${dayOfWeek}요일 ${startTime}-${endTime} `}
-    {`${classroom.building}-${classroom.roomNo}`}
+    {classroom && `${classroom.building}-${classroom.roomNo}`}
   </span>
 )
 

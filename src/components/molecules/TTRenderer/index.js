@@ -289,7 +289,7 @@ class TTRenderer extends React.Component {
       const center = { x: start.x + (size.width / 2), y: start.y + (size.height / 2) }
 
       const name = lecture.course.name
-      const room = `${timeSlot.classroom.building}-${timeSlot.classroom.roomNo}`
+      const room = timeSlot.classroom ? `${timeSlot.classroom.building}-${timeSlot.classroom.roomNo}` : ''
       ctx.fillStyle = textColor
       ctx.font = '15px Courier'
       ctx.fillText(name, center.x - (ctx.measureText(name).width / 2), center.y)
