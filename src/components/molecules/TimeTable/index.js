@@ -192,11 +192,11 @@ class TimeTable extends React.Component {
               position="bottom left"
               flowing
               trigger={<div><Icon name="lightbulb" />Selection</div>}
-              content={<div><h5>
-                {'You can select blocks by mouse dragging!'}<br />
+              header="You can select blocks by mouse dragging!"
+              content={<div>
                 {'Hold \'ctrl\' to unselect, \'shift\' to toggle blocks.'}<br />
                 {'Select columns/rows or whole table by dragging table headers.'}
-              </h5></div>}
+              </div>}
             />}
           </Menu.Item>}
           <Menu.Menu position="right">
