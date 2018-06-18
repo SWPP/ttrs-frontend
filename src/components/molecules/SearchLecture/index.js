@@ -25,6 +25,26 @@ class SearchLecture extends React.Component {
     page: 1,
   }
 
+  getIntersects = (lectures, lecture) => {
+    const intersects = []
+    lectures.forEach((other) => {
+      let intersect = false
+      other.timeSlots.forEach((slot1) => {
+        lecture.timeSlots.forEach((slot2) => {
+          if (slot1.dayOfWeek === slot2.dayOfWeek) {
+            if (slot1.endTime > slot2.startTime && slot1.startTime < slot2.endTime) {
+              intersect = true
+            }
+          }
+        })
+      })
+      if (intersect) {
+        intersects.push(other)
+      }
+    })
+    return intersects
+  }
+
   handleChange = (e, { name, value }) => {
     this.setState({ [name]: value })
   }
@@ -338,6 +358,7 @@ class SearchLecture extends React.Component {
                   key={lecture.id}
                   lecture={lecture}
                   onAddLecture={() => this.props.onAddLecture(lecture.id)}
+                  intersects={this.getIntersects(this.props.lectures, lecture)}
                 />
               )}
             </Card.Group>
@@ -372,6 +393,7 @@ SearchLecture.propTypes = {
   fields: PropTypes.object,
   types: PropTypes.array,
   blocks: PropTypes.array,
+  lectures: PropTypes.array,
 
   onSearchLecture: PropTypes.func,
   onClose: PropTypes.func,

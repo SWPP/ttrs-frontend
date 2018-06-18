@@ -215,6 +215,7 @@ class TimeTable extends React.Component {
                     onAddLecture={this.props.onAddLecture}
                     onClose={() => this.setState({ searchOpen: false })}
                     blocks={this.state.blocks}
+                    lectures={this.props.lectures}
                   />}
                 </div>}
                 content="Add a lecture to this timetable"
