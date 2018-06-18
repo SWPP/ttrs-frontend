@@ -261,7 +261,7 @@ class SearchLecture extends React.Component {
                   <Grid.Column>
                     <Form.Radio
                       style={{ float: 'right', marginTop: 30, marginRight: 10 }}
-                      label="Search Selected Blocks"
+                      label="Selected Area Only"
                       toggle
                       name="selectBlocks"
                       checked={this.state.selectBlocks}
