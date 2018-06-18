@@ -1,6 +1,6 @@
 import {
   initialState, initialTimeTable, initialError, initialSearch, initialNotice,
-  initialStudentInfo,
+  initialStudentInfo, initialLoading
 } from './selectors'
 import * as actions from './actions'
 import { COPY_TO_MY_TIME_TABLE_REQUEST } from './actions'
@@ -17,6 +17,7 @@ import { ADD_EVALUATION_REQUEST } from './actions'
 import { DELETE_EVALUATION_REQUEST } from './actions'
 import { MODIFY_EVALUATION_REQUEST } from './actions'
 import { TOGGLE_LIKE_IT_REQUEST } from './actions'
+import { SET_ERRORS } from './actions'
 
 const studentInfo = (state = [], action) => {
   switch (action.type) {
@@ -605,6 +606,8 @@ const loading = (state = [], action) => {
         ...state,
         evaluationsLoading: true,
       }
+    case SET_ERRORS:
+      return initialLoading
     default:
       return state
   }
