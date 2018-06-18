@@ -362,6 +362,92 @@ const notice = (state = initialNotice, action) => {
   }
 }
 
+const loading = (state = [], action) => {
+  switch (action.type) {
+    case actions.SIGN_IN_REQUEST:
+      return {
+        ...state,
+        myTimeTableLoading: true,
+        bookmarkedTimeTableLoading: true,
+        receivedTimeTableLoading: true,
+      }
+    case actions.SWITCH_SEMESTER:
+      return {
+        ...state,
+        myTimeTableLoading: true,
+        bookmarkedTimeTableLoading: true,
+        receivedTimeTableLoading: true,
+      }
+    case actions.CREATE_MY_TIME_TABLE:
+      return {
+        ...state,
+        myTimeTableLoading: false,
+      }
+    case actions.CREATE_BOOKMARKED_TIME_TABLES:
+      return {
+        ...state,
+        bookmarkedTimeTableLoading: false,
+      }
+    case actions.CREATE_RECEIVED_TIME_TABLES:
+      return {
+        ...state,
+        receivedTimeTableLoading: false,
+      }
+    case actions.GET_RECOMMENDATION_REQUEST:
+      return {
+        ...state,
+        recommendedTimeTableLoading: true,
+      }
+    case actions.CREATE_RECOMMENDED_TIME_TABLES:
+      return {
+        ...state,
+        recommendedTimeTableLoading: false,
+      }
+    case actions.SELECT_RECOMMENDED_TIME_TABLE_REQUEST:
+      return {
+        ...state,
+        recommendedTimeTableLoading: true,
+      }
+    case actions.SELECT_RECOMMENDED_TIME_TABLE_RESPONSE:
+      return {
+        ...state,
+        recommendedTimeTableLoading: false,
+      }
+    case actions.GET_NOT_RECOMMEND_COURSES_REQUEST:
+      return {
+        ...state,
+        notRecommendsLoading: true,
+      }
+    case actions.SET_NOT_RECOMMEND_COURSES:
+      return {
+        ...state,
+        notRecommendsLoading: false,
+      }
+    case actions.GET_EVALUATIONS_REQUEST:
+      return {
+        ...state,
+        evaluationsLoading: true,
+      }
+    case actions.SET_EVALUATIONS_RESPONSE:
+      return {
+        ...state,
+        evaluationsLoading: false,
+      }
+    case actions.SEARCH_LECTURE_REQUEST:
+      return {
+        ...state,
+        searchLectureLoading: true,
+      }
+    case actions.SEARCH_LECTURE_RESPONSE:
+      return {
+        ...state,
+        searchLectureLoading: false,
+      }
+    default:
+      return state
+  }
+}
+
 const ttrsReducer = (state = initialState, action) => {
   switch (action.type) {
     case actions.LOAD_RESPONSE:
@@ -380,6 +466,7 @@ const ttrsReducer = (state = initialState, action) => {
         studentInfo: studentInfo(state.studentInfo, action),
         toGo: 'home',
         notice: notice(state.notice, action),
+        loading: loading(state.loading, action),
       }
     case actions.SIGN_UP_RESPONSE:
       return {
@@ -405,6 +492,7 @@ const ttrsReducer = (state = initialState, action) => {
       return {
         ...state,
         notRecommendCourses: action.notRecommendCourses,
+        loading: loading(state.loading, action),
       }
     case actions.SET_EVALUATIONS_RESPONSE:
       return {
@@ -412,6 +500,7 @@ const ttrsReducer = (state = initialState, action) => {
         evaluations: action.evaluations,
         lectureDetail: action.lectureDetail,
         search: search(state.search, action),
+        loading: loading(state.loading, action),
       }
     case actions.SET_FIELDS_AND_TYPES:
       return {
@@ -428,6 +517,7 @@ const ttrsReducer = (state = initialState, action) => {
         search: search(state.search, action),
         error: error(state.error, action),
         notice: notice(state.notice, action),
+        loading: loading(state.loading, action),
       }
   }
 }

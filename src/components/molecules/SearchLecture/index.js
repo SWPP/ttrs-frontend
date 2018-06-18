@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Form, Modal, Card, Pagination, Icon, Grid, Divider } from 'semantic-ui-react'
+import { Button, Form, Modal, Card, Pagination, Icon, Grid, Divider, Dimmer, Loader } from 'semantic-ui-react'
 import Lecture from '../../../containers/Lecture'
 import { compressBlocks } from '../../../services/parser'
 
@@ -261,7 +261,7 @@ class SearchLecture extends React.Component {
                   <Grid.Column>
                     <Form.Radio
                       style={{ float: 'right', marginTop: 30, marginRight: 10 }}
-                      label="선택된 영역만 검색"
+                      label="Selected Area Only"
                       toggle
                       name="selectBlocks"
                       checked={this.state.selectBlocks}
@@ -332,6 +332,9 @@ class SearchLecture extends React.Component {
             <Divider />
           </Modal.Content>
           <div className="scrolling content">
+            <Dimmer active={this.props.searchLectureLoading} inverted>
+              <Loader>Loading</Loader>
+            </Dimmer>
             <Card.Group itemsPerRow={3} doubling stackable>
               {this.props.searchLectures.map(lecture =>
                 <Lecture
@@ -371,6 +374,7 @@ SearchLecture.propTypes = {
   fields: PropTypes.object,
   types: PropTypes.array,
   blocks: PropTypes.array,
+  searchLectureLoading: PropTypes.bool,
 
   onSearchLecture: PropTypes.func,
   onClose: PropTypes.func,

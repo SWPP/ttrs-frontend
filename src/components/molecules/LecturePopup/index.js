@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Divider, Feed, Form, Grid, Header, Icon, List, Modal, Popup, Rating, Statistic, TextArea } from 'semantic-ui-react'
+import { Button, Dimmer, Divider, Feed, Form, Grid, Header, Icon, List, Loader, Modal, Popup, Rating, Statistic, TextArea } from 'semantic-ui-react'
 import TimeSlot from '../../atoms/TimeSlot'
 
 class LecturePopup extends React.Component {
@@ -89,6 +89,9 @@ class LecturePopup extends React.Component {
         }}
         closeOnDimmerClick={false}
       >
+        <Dimmer active={this.props.evaluationsLoading} inverted>
+          <Loader>Loading</Loader>
+        </Dimmer>
         <Modal.Header>
           {course.name}
         </Modal.Header>
@@ -351,6 +354,7 @@ LecturePopup.propTypes = {
   lecture: PropTypes.object,
   open: PropTypes.bool,
   canDelete: PropTypes.bool,
+  evaluationsLoading: PropTypes.bool,
 
   onGetEvaluations: PropTypes.func,
   onAddEvaluation: PropTypes.func,

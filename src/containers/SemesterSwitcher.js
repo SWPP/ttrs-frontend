@@ -5,6 +5,9 @@ import { switchSemester } from '../store/ttrs/actions'
 const mapStateToProps = (state) => {
   return {
     semesters: state.ttrs.semesters,
+    myTimeTableLoading: state.ttrs.loading.myTimeTableLoading,
+    bookmarkedTimeTableLoading: state.ttrs.loading.bookmarkedTimeTableLoading,
+    receivedTimeTableLoading: state.ttrs.loading.receivedTimeTableLoading,
   }
 }
 

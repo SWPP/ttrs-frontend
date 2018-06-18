@@ -10,6 +10,7 @@ const mapStateToProps = (state, props) => {
     fields: state.ttrs.fields,
     types: state.ttrs.types,
     blocks: props.blocks,
+    searchLectureLoading: state.ttrs.loading.searchLectureLoading,
   }
 }
 
