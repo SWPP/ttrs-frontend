@@ -460,6 +460,19 @@ const ttrsReducer = (state = initialState, action) => {
         ...state,
         semesters: action.semesters,
       }
+    case actions.SWITCH_SEMESTER_RESPONSE:
+      return {
+        ...state,
+        year: action.year,
+        semester: action.semester,
+        studentInfo: studentInfo(state.studentInfo, action),
+        belongInfo: belongInfo(state.belongInfo, action),
+        timeTable: timeTable(state.timeTable, action),
+        search: search(state.search, action),
+        error: error(state.error, action),
+        notice: notice(state.notice, action),
+        loading: loading(state.loading, action),
+      }
     case actions.SIGN_IN_RESPONSE:
       return {
         ...state,
