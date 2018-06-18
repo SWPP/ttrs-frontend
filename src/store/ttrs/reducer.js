@@ -1,23 +1,5 @@
-import {
-  initialState, initialTimeTable, initialError, initialSearch, initialNotice,
-  initialStudentInfo, initialLoading
-} from './selectors'
+import { initialState, initialTimeTable, initialError, initialSearch, initialNotice, initialStudentInfo, initialLoading } from './selectors'
 import * as actions from './actions'
-import { COPY_TO_MY_TIME_TABLE_REQUEST } from './actions'
-import { COPY_TO_MY_TIME_TABLE_RESPONSE } from './actions'
-import { UPDATE_STUDENT_INFO_REQUEST } from './actions'
-import { UPDATE_STUDENT_INFO_RESPONSE } from './actions'
-import { DELETE_TIME_TABLE_REQUEST } from './actions'
-import { DELETE_MY_TIME_TABLE_RESPONSE } from './actions'
-import { DELETE_BOOKMARKED_TIME_TABLE_RESPONSE } from './actions'
-import { DELETE_RECEIVED_TIME_TABLE_RESPONSE } from './actions'
-import { DELETE_FROM_NOT_RECOMMENDS_REQUEST } from './actions'
-import { DELETE_FROM_NOT_RECOMMENDS_RESPONSE } from './actions'
-import { ADD_EVALUATION_REQUEST } from './actions'
-import { DELETE_EVALUATION_REQUEST } from './actions'
-import { MODIFY_EVALUATION_REQUEST } from './actions'
-import { TOGGLE_LIKE_IT_REQUEST } from './actions'
-import { SET_ERRORS } from './actions'
 
 const studentInfo = (state = [], action) => {
   switch (action.type) {
@@ -528,85 +510,85 @@ const loading = (state = [], action) => {
         ...state,
         receivedTimeTableLoading: false,
       }
-    case COPY_TO_MY_TIME_TABLE_REQUEST:
+    case actions.COPY_TO_MY_TIME_TABLE_REQUEST:
       return {
         ...state,
         myTimeTableLoading: true,
       }
-    case COPY_TO_MY_TIME_TABLE_RESPONSE:
+    case actions.COPY_TO_MY_TIME_TABLE_RESPONSE:
       return {
         ...state,
         myTimeTableLoading: false,
       }
-    case UPDATE_STUDENT_INFO_REQUEST:
+    case actions.UPDATE_STUDENT_INFO_REQUEST:
       return {
         ...state,
         updateProfileLoading: true,
       }
-    case UPDATE_STUDENT_INFO_RESPONSE:
+    case actions.UPDATE_STUDENT_INFO_RESPONSE:
       return {
         ...state,
         updateProfileLoading: false,
       }
-    case DELETE_TIME_TABLE_REQUEST:
+    case actions.DELETE_TIME_TABLE_REQUEST:
       return {
         ...state,
         myTimeTableLoading: true,
         bookmarkedTimeTableLoading: true,
         receivedTimeTableLoading: true,
       }
-    case DELETE_MY_TIME_TABLE_RESPONSE:
+    case actions.DELETE_MY_TIME_TABLE_RESPONSE:
       return {
         ...state,
         myTimeTableLoading: false,
         bookmarkedTimeTableLoading: false,
         receivedTimeTableLoading: false,
       }
-    case DELETE_BOOKMARKED_TIME_TABLE_RESPONSE:
+    case actions.DELETE_BOOKMARKED_TIME_TABLE_RESPONSE:
       return {
         ...state,
         myTimeTableLoading: false,
         bookmarkedTimeTableLoading: false,
         receivedTimeTableLoading: false,
       }
-    case DELETE_RECEIVED_TIME_TABLE_RESPONSE:
+    case actions.DELETE_RECEIVED_TIME_TABLE_RESPONSE:
       return {
         ...state,
         myTimeTableLoading: false,
         bookmarkedTimeTableLoading: false,
         receivedTimeTableLoading: false,
       }
-    case DELETE_FROM_NOT_RECOMMENDS_REQUEST:
+    case actions.DELETE_FROM_NOT_RECOMMENDS_REQUEST:
       return {
         ...state,
         notRecommendsLoading: true,
       }
-    case DELETE_FROM_NOT_RECOMMENDS_RESPONSE:
+    case actions.DELETE_FROM_NOT_RECOMMENDS_RESPONSE:
       return {
         ...state,
         notRecommendsLoading: false,
       }
-    case ADD_EVALUATION_REQUEST:
+    case actions.ADD_EVALUATION_REQUEST:
       return {
         ...state,
         evaluationsLoading: true,
       }
-    case DELETE_EVALUATION_REQUEST:
+    case actions.DELETE_EVALUATION_REQUEST:
       return {
         ...state,
         evaluationsLoading: true,
       }
-    case MODIFY_EVALUATION_REQUEST:
+    case actions.MODIFY_EVALUATION_REQUEST:
       return {
         ...state,
         evaluationsLoading: true,
       }
-    case TOGGLE_LIKE_IT_REQUEST:
+    case actions.TOGGLE_LIKE_IT_REQUEST:
       return {
         ...state,
         evaluationsLoading: true,
       }
-    case SET_ERRORS:
+    case actions.SET_ERRORS:
       return initialLoading
     default:
       return state
