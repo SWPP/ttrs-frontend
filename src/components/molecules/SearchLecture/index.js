@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Form, Modal, Card, Pagination, Icon, Grid, Divider, Dimmer, Loader } from 'semantic-ui-react'
 import Lecture from '../../../containers/Lecture'
+import { compressBlocks } from '../../../services/parser'
 
 const limit = 6
 
@@ -20,11 +21,16 @@ class SearchLecture extends React.Component {
     'course.credit.lte': null,
     'course.field.startswith': null,
     'course.field.endswith': null,
+    selectBlocks: false,
     page: 1,
   }
 
   handleChange = (e, { name, value }) => {
     this.setState({ [name]: value })
+  }
+
+  handleToggle = (e, { name, checked }) => {
+    this.setState({ [name]: checked })
   }
 
   handleSearchLecture = (page = 1) => {
@@ -70,6 +76,9 @@ class SearchLecture extends React.Component {
     }
     if (this.state['course.field.endswith']) {
       options['course.field.endswith'] = this.state['course.field.endswith']
+    }
+    if (this.state.selectBlocks) {
+      options.blocks = compressBlocks(this.props.blocks)
     }
     this.props.onSearchLecture(options)
   }
@@ -249,6 +258,16 @@ class SearchLecture extends React.Component {
                       onChange={this.handleChange}
                     />
                   </Grid.Column>
+                  <Grid.Column>
+                    <Form.Radio
+                      style={{ float: 'right', marginTop: 30, marginRight: 10 }}
+                      label="Search Selected Blocks"
+                      toggle
+                      name="selectBlocks"
+                      checked={this.state.selectBlocks}
+                      onChange={this.handleToggle}
+                    />
+                  </Grid.Column>
                 </Grid.Row>
 
                 <Grid.Row columns={5} style={{ marginTop: -20 }}>
@@ -354,6 +373,7 @@ SearchLecture.propTypes = {
   colleges: PropTypes.array,
   fields: PropTypes.object,
   types: PropTypes.array,
+  blocks: PropTypes.array,
   searchLectureLoading: PropTypes.bool,
 
   onSearchLecture: PropTypes.func,
