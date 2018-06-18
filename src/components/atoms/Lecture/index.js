@@ -84,9 +84,9 @@ class Lecture extends React.Component {
               header="Cannot add this lecture to the time table"
               content={<div>
                 Intersects with
-                {this.props.intersects.map((other) => (
+                {this.props.intersects.map((other) =>
                   <div key={other.id}>{other.course.name}</div>
-                ))}
+                )}
               </div>}
               flowing
             />
