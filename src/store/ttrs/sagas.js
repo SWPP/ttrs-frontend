@@ -769,6 +769,8 @@ export default function* () {
   try {
     const { year, semester } = JSON.parse(localStorage.getItem('SEMESTER'))
     if (year && semester) {
+      initialState.year = year
+      initialState.semester = semester
       yield call(switchSemester, year, semester)
     }
   } catch (error) {
