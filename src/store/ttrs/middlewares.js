@@ -19,6 +19,7 @@ export const saveToken = store => next => action => {
     case actions.SIGN_OUT:
     case actions.WITHDRAW_RESPONSE:
       localStorage.removeItem('STUDENT_INFO')
+      localStorage.removeItem('SEMESTER')
       break
     case actions.SWITCH_SEMESTER_RESPONSE:
       localStorage.setItem('SEMESTER', JSON.stringify({ year: action.year, semester: action.semester }))
