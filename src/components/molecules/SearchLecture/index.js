@@ -354,6 +354,7 @@ class SearchLecture extends React.Component {
                 totalPages={Math.floor((this.props.count - 1) / limit) + 1}
                 activePage={this.state.page}
                 onPageChange={this.handlePageChange}
+                siblingRange={3}
               />
             </div>}
             <Button onClick={this.props.onClose} content="Close" />
