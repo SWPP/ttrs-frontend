@@ -61,6 +61,7 @@ class RecommendTab extends React.Component {
       blocks: compressBlocks(this.state.blocks),
     }
     this.props.onGetRecommendation(options)
+    this.setState({ recommendedTimeTableIndex: 0 })
   }
 
   handleClickBookmarkedCard = (index) => {

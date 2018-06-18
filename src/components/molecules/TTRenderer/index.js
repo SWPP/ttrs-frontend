@@ -343,7 +343,9 @@ class TTRenderer extends React.Component {
     for (let i = 0; i < this.props.lectures.length; i += 1) {
       this.drawLecture(context, this.props.lectures[i])
     }
-    { this.props.haveSelection && this.drawSelections(context) }
+    if (this.props.haveSelection) {
+      this.drawSelections(context)
+    }
     requestAnimationFrame(this.updateCanvas)
   }
 
