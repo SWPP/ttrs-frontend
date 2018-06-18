@@ -129,13 +129,13 @@ class SettingsTab extends React.Component {
 
     return (
       <div>
-        <Grid>
-          <Grid.Row>
-            <Grid.Column>
-              <Dimmer active={this.props.notRecommendsLoading} inverted>
-                <Loader>Loading</Loader>
-              </Dimmer>
-              <div>
+        <div>
+          <Grid>
+            <Grid.Row>
+              <Grid.Column>
+                <Dimmer active={this.props.updateProfileLoading} inverted>
+                  <Loader>Loading</Loader>
+                </Dimmer>
                 <Header as="h2" content="Update Profile" />
                 <Form id="form" onSubmit={this.handleUpdateInfo}>
                   <Form.Input
@@ -225,8 +225,17 @@ class SettingsTab extends React.Component {
                   header="There are some errors with your submission"
                   list={Object.keys(errors.texts).map(key => errors.texts[key])}
                 />}
-              </div>
-              <Divider />
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </div>
+        <Divider />
+        <Grid>
+          <Grid.Row>
+            <Grid.Column>
+              <Dimmer active={this.props.notRecommendsLoading} inverted>
+                <Loader>Loading</Loader>
+              </Dimmer>
               <div>
                 <Header as="h2" content="Not Recommends" />
                 <List verticalAlign="middle" ordered>
@@ -251,38 +260,38 @@ class SettingsTab extends React.Component {
                   ))}
                 </List>
               </div>
-              <Divider />
-              <div>
-                <Header as="h2" content="Withdraw" />
-                <Popup
-                  on="click"
-                  hideOnScroll
-                  trigger={<Button icon="user x" negative content="Withdraw" />}
-                  content={<Form>
-                    <Form.Input
-                      name="passwordWithdraw"
-                      onChange={this.handleChange}
-                      error={errors.bools.passwordWithdraw}
-                      type="password"
-                      placeholder="Input your password..."
-                      action={<Popup
-                        inverted
-                        trigger={<Button
-                          type="submit"
-                          attached="right"
-                          icon="exclamation triangle"
-                          color="red"
-                          onClick={this.handleWithdraw}
-                        />}
-                        content="You cannot undo this action."
-                      />}
-                    />
-                  </Form>}
-                />
-              </div>
             </Grid.Column>
           </Grid.Row>
         </Grid>
+        <Divider />
+        <div>
+          <Header as="h2" content="Withdraw" />
+          <Popup
+            on="click"
+            hideOnScroll
+            trigger={<Button icon="user x" negative content="Withdraw" />}
+            content={<Form>
+              <Form.Input
+                name="passwordWithdraw"
+                onChange={this.handleChange}
+                error={errors.bools.passwordWithdraw}
+                type="password"
+                placeholder="Input your password..."
+                action={<Popup
+                  inverted
+                  trigger={<Button
+                    type="submit"
+                    attached="right"
+                    icon="exclamation triangle"
+                    color="red"
+                    onClick={this.handleWithdraw}
+                  />}
+                  content="You cannot undo this action."
+                />}
+              />
+            </Form>}
+          />
+        </div>
       </div>
     )
   }
@@ -299,6 +308,7 @@ SettingsTab.propTypes = {
   colleges: PropTypes.array,
   errors: PropTypes.object,
   notRecommendsLoading: PropTypes.bool,
+  updateProfileLoading: PropTypes.bool,
   onUpdateInfo: PropTypes.func,
   onWithdraw: PropTypes.func,
   onGetNotRecommendCourses: PropTypes.func,
