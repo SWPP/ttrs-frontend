@@ -1,6 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Message, Button, Header, Divider, Popup, List, Grid, Dimmer, Loader } from 'semantic-ui-react'
+import {
+  Form, Message, Button, Header, Divider, Popup, List, Grid, Dimmer, Loader,
+  Transition
+} from 'semantic-ui-react'
 import { customErrors } from '../../../services/error_utility'
 import { initialErrorUnit } from '../../../store/ttrs/selectors'
 
@@ -231,23 +234,25 @@ class SettingsTab extends React.Component {
                 <Header as="h2" content="Not Recommends" />
                 <List verticalAlign="middle" ordered>
                   {this.props.notRecommendCourses.map((course) => (
-                    <List.Item key={course.id}>
-                      <List.Content floated="right">
-                        <Popup
-                          trigger={<Button
-                            icon="delete"
-                            color="red"
+                    <Transition transitionOnMount>
+                      <List.Item key={course.id}>
+                        <List.Content floated="right">
+                          <Popup
+                            trigger={<Button
+                              icon="delete"
+                              color="red"
+                              inverted
+                              onClick={() => this.props.onDeleteFromNotRecommends(this.props.notRecommends, course.id)}
+                            />}
+                            content="Allow to recommend this course from now."
                             inverted
-                            onClick={() => this.props.onDeleteFromNotRecommends(this.props.notRecommends, course.id)}
-                          />}
-                          content="Allow to recommend this course from now."
-                          inverted
-                        />
-                      </List.Content>
-                      <List.Header as="h3">
-                        {course.name}
-                      </List.Header>
-                    </List.Item>
+                          />
+                        </List.Content>
+                        <List.Header as="h3">
+                          {course.name}
+                        </List.Header>
+                      </List.Item>
+                    </Transition>
                   ))}
                 </List>
               </div>
