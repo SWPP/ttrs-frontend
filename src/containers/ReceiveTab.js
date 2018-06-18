@@ -9,6 +9,8 @@ const mapStateToProps = (state) => {
     myTimeTable: state.ttrs.timeTable.myTimeTable,
     receivedTimeTables: state.ttrs.timeTable.receivedTimeTables,
     receivedTimeTable: state.ttrs.timeTable.receivedTimeTable,
+    myTimeTableLoading: state.ttrs.loading.myTimeTableLoading,
+    receivedTimeTableLoading: state.ttrs.loading.receivedTimeTableLoading,
   }
 }
 

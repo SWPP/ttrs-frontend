@@ -9,6 +9,7 @@ const mapStateToProps = (state) => {
     colleges: state.ttrs.belongInfo.colleges,
     fields: state.ttrs.fields,
     types: state.ttrs.types,
+    searchLectureLoading: state.ttrs.loading.searchLectureLoading,
   }
 }
 

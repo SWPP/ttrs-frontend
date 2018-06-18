@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Form, Modal, Card, Pagination, Icon, Grid, Divider } from 'semantic-ui-react'
+import { Button, Form, Modal, Card, Pagination, Icon, Grid, Divider, Dimmer, Loader } from 'semantic-ui-react'
 import Lecture from '../../../containers/Lecture'
 
 const limit = 6
@@ -313,6 +313,9 @@ class SearchLecture extends React.Component {
             <Divider />
           </Modal.Content>
           <div className="scrolling content">
+            <Dimmer active={this.props.searchLectureLoading} inverted>
+              <Loader>Loading</Loader>
+            </Dimmer>
             <Card.Group itemsPerRow={3} doubling stackable>
               {this.props.searchLectures.map(lecture =>
                 <Lecture
@@ -351,6 +354,7 @@ SearchLecture.propTypes = {
   colleges: PropTypes.array,
   fields: PropTypes.object,
   types: PropTypes.array,
+  searchLectureLoading: PropTypes.bool,
 
   onSearchLecture: PropTypes.func,
   onClose: PropTypes.func,

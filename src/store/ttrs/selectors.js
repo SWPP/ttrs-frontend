@@ -72,6 +72,16 @@ export const initialNotice = {
   notices: [],
 }
 
+export const initialLoading = {
+  myTimeTableLoading: false,
+  bookmarkedTimeTableLoading: false,
+  receivedTimeTableLoading: false,
+  recommendedTimeTableLoading: false,
+  notRecommendsLoading: false,
+  evaluationsLoading: false,
+  searchLectureLoading: false,
+}
+
 export const initialState = {
   loaded: false,
   studentInfo: initialStudentInfo,
@@ -80,6 +90,7 @@ export const initialState = {
   search: initialSearch,
   error: initialError,
   notice: initialNotice,
+  loading: initialLoading,
   toGo: null,
   semesters: [],
   year: null,

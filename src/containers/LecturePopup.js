@@ -12,6 +12,7 @@ const mapStateToProps = (state, props) => {
     evaluations: state.ttrs.evaluations,
     lectureDetail: state.ttrs.lectureDetail,
     notRecommends: state.ttrs.studentInfo.notRecommends,
+    evaluationsLoading: state.ttrs.loading.evaluationsLoading,
     lecture: props.lecture,
     open: props.open,
     canDelete: props.canDelete,
