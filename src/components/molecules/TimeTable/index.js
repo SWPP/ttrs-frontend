@@ -75,11 +75,13 @@ class TimeTable extends React.Component {
     return (
       <div>
         <TTRenderer
+          type={this.props.type}
           id={this.props.id}
           lectures={this.props.lectures}
           canDeleteLecture={this.props.canModify}
           onDeleteLecture={this.props.onDeleteLecture}
           onChange={this.props.onSelectBlocks ? this.props.onSelectBlocks : () => {}}
+          haveSelection={this.props.haveSelection}
         />
       </div>
     )
@@ -181,6 +183,9 @@ class TimeTable extends React.Component {
           </Menu.Item>}
           {this.props.id &&
           <Menu.Item>
+            {this.props.isReceived &&
+            <div>From {this.props.sender}&nbsp;&nbsp;&nbsp;&nbsp;</div>}
+            {this.props.haveSelection &&
             <Popup
               position="bottom left"
               flowing
@@ -190,7 +195,7 @@ class TimeTable extends React.Component {
                 {'Hold \'ctrl\' to unselect, \'shift\' to toggle blocks.'}<br />
                 {'Select columns/rows or whole table by dragging table headers.'}
               </h5></div>}
-            />
+            />}
           </Menu.Item>}
           <Menu.Menu position="right">
             {this.props.canModify && (this.props.id !== null || this.props.canCreate) &&
@@ -318,6 +323,7 @@ class TimeTable extends React.Component {
 
 TimeTable.propTypes = {
   username: PropTypes.string,
+  type: PropTypes.string,
   id: PropTypes.number,
   memo: PropTypes.string,
   title: PropTypes.string,
@@ -328,6 +334,9 @@ TimeTable.propTypes = {
   canCreate: PropTypes.bool,
   haveSidebar: PropTypes.bool,
   isRecommended: PropTypes.bool,
+  haveSelection: PropTypes.bool,
+  isReceived: PropTypes.bool,
+  sender: PropTypes.string,
 
   onCopyToMy: PropTypes.func,
   onBookmark: PropTypes.func,

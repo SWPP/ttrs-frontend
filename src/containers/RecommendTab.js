@@ -1,6 +1,9 @@
 import { connect } from 'react-redux'
 import RecommendTab from '../components/organisms/RecommendTab'
-import { deleteTimeTableRequest, getRecommendationRequest, selectRecommendedTimeTableRequest, updateMyTimeTableRequest } from '../store/ttrs/actions'
+import {
+  deleteTimeTableRequest, getRecommendationRequest, selectBookmarkedTimeTableRequest, selectReceivedTimeTableRequest,
+  selectRecommendedTimeTableRequest, updateBookmarkedTimeTableRequest, updateMyTimeTableRequest
+} from '../store/ttrs/actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -9,6 +12,10 @@ const mapStateToProps = (state) => {
     myTimeTable: state.ttrs.timeTable.myTimeTable,
     recommendedTimeTables: state.ttrs.timeTable.recommendedTimeTables,
     recommendedTimeTable: state.ttrs.timeTable.recommendedTimeTable,
+    bookmarkedTimeTables: state.ttrs.timeTable.bookmarkedTimeTables,
+    bookmarkedTimeTable: state.ttrs.timeTable.bookmarkedTimeTable,
+    receivedTimeTables: state.ttrs.timeTable.receivedTimeTables,
+    receivedTimeTable: state.ttrs.timeTable.receivedTimeTable,
   }
 }
 
@@ -25,6 +32,15 @@ const mapDispatchToProps = (dispatch) => {
     },
     onGetRecommendation: (options) => {
       dispatch(getRecommendationRequest(options))
+    },
+    onSelectBookmarkedTimeTable: (bookmarkedTimeTable) => {
+      dispatch(selectBookmarkedTimeTableRequest(bookmarkedTimeTable))
+    },
+    onUpdateBookmarkedTimeTable: (timeTableId, updatedInfo, deleteLectureId) => {
+      dispatch(updateBookmarkedTimeTableRequest(timeTableId, updatedInfo, deleteLectureId))
+    },
+    onSelectReceivedTimeTable: (receivedTimeTable, timeTableId) => {
+      dispatch(selectReceivedTimeTableRequest(receivedTimeTable, timeTableId))
     },
   }
 }

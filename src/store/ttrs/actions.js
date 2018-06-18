@@ -59,6 +59,8 @@ export const SET_EVALUATIONS_RESPONSE = 'MODIFY_EVALUATIONS_RESPONSE'
 export const TOGGLE_LIKE_IT_REQUEST = 'TOGGLE_LIKE_IT_REQUEST'
 export const SET_FIELDS_AND_TYPES = 'SET_FIELDS_AND_TYPES'
 export const GET_RECOMMENDATION_REQUEST = 'GET_RECOMMENDATION_REQUEST'
+export const SEND_TO_DEVELOPER_RESPONSE = 'SEND_TO_DEVELOPER_RESPONSE'
+
 
 export const loadResponse = () => {
   return {
@@ -503,5 +505,11 @@ export const getRecommendationRequest = (options) => {
   return {
     type: GET_RECOMMENDATION_REQUEST,
     options,
+  }
+}
+
+export const sendToDeveloperResponse = () => {
+  return {
+    type: SEND_TO_DEVELOPER_RESPONSE,
   }
 }
