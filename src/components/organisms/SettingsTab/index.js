@@ -234,25 +234,23 @@ class SettingsTab extends React.Component {
                 <Header as="h2" content="Not Recommends" />
                 <List verticalAlign="middle" ordered>
                   {this.props.notRecommendCourses.map((course) => (
-                    <Transition transitionOnMount>
-                      <List.Item key={course.id}>
-                        <List.Content floated="right">
-                          <Popup
-                            trigger={<Button
-                              icon="delete"
-                              color="red"
-                              inverted
-                              onClick={() => this.props.onDeleteFromNotRecommends(this.props.notRecommends, course.id)}
-                            />}
-                            content="Allow to recommend this course from now."
+                    <List.Item key={course.id}>
+                      <List.Content floated="right">
+                        <Popup
+                          trigger={<Button
+                            icon="delete"
+                            color="red"
                             inverted
-                          />
-                        </List.Content>
-                        <List.Header as="h3">
-                          {course.name}
-                        </List.Header>
-                      </List.Item>
-                    </Transition>
+                            onClick={() => this.props.onDeleteFromNotRecommends(this.props.notRecommends, course.id)}
+                          />}
+                          content="Allow to recommend this course from now."
+                          inverted
+                        />
+                      </List.Content>
+                      <List.Header as="h3">
+                        {course.name}
+                      </List.Header>
+                    </List.Item>
                   ))}
                 </List>
               </div>

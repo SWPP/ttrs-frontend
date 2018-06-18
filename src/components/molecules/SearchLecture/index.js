@@ -22,6 +22,7 @@ class SearchLecture extends React.Component {
     'course.field.startswith': null,
     'course.field.endswith': null,
     selectBlocks: false,
+    emptyTime: false,
     page: 1,
   }
 
@@ -97,8 +98,38 @@ class SearchLecture extends React.Component {
     if (this.state['course.field.endswith']) {
       options['course.field.endswith'] = this.state['course.field.endswith']
     }
+    let blocks = null
     if (this.state.selectBlocks) {
-      options.blocks = compressBlocks(this.props.blocks)
+      blocks = this.props.blocks
+    }
+    if (this.state.emptyTime) {
+      if (blocks === null) {
+        blocks = []
+        for (let i = 0; i < 24; i += 1) {
+          blocks.push([])
+          for (let j = 0; j < 6; j += 1) {
+            blocks[i].push(true)
+          }
+        }
+      }
+      this.props.lectures.forEach(lecture => {
+        lecture.timeSlots.forEach(slot => {
+          const dayIndex = ['월', '화', '수', '목', '금', '토'].indexOf(slot.dayOfWeek)
+
+          let startTime = slot.startTime.split(':').map((i) => Number(i))
+          startTime = (Math.floor((((startTime[0] * 60) + startTime[1]) - 1) / 30) + 1) - 18
+
+          let endTime = slot.endTime.split(':').map((i) => Number(i))
+          endTime = (Math.floor((((endTime[0] * 60) + endTime[1]) - 1) / 30) + 1) - 18
+
+          for (let i = startTime; i < endTime; i += 1) {
+            blocks[i][dayIndex] = false
+          }
+        })
+      })
+    }
+    if (blocks !== null) {
+      options.blocks = compressBlocks(blocks)
     }
     this.props.onSearchLecture(options)
   }
@@ -224,6 +255,16 @@ class SearchLecture extends React.Component {
                       />
                     </Form.Group>
                   </Grid.Column>
+                  <Grid.Column>
+                    <Form.Radio
+                      style={{ marginTop: 25 }}
+                      label="Empty Area Only"
+                      toggle
+                      name="emptyTime"
+                      checked={this.state.emptyTime}
+                      onChange={this.handleToggle}
+                    />
+                  </Grid.Column>
                 </Grid.Row>
 
                 <Grid.Row columns={5} style={{ marginTop: -30 }}>
@@ -280,7 +321,7 @@ class SearchLecture extends React.Component {
                   </Grid.Column>
                   <Grid.Column>
                     <Form.Radio
-                      style={{ float: 'right', marginTop: 30, marginRight: 10 }}
+                      style={{ marginTop: 30 }}
                       label="Selected Area Only"
                       toggle
                       name="selectBlocks"
