@@ -3,6 +3,8 @@ import {
   initialStudentInfo,
 } from './selectors'
 import * as actions from './actions'
+import { COPY_TO_MY_TIME_TABLE_REQUEST } from './actions'
+import { COPY_TO_MY_TIME_TABLE_RESPONSE } from './actions'
 
 const studentInfo = (state = [], action) => {
   switch (action.type) {
@@ -442,6 +444,86 @@ const loading = (state = [], action) => {
       return {
         ...state,
         searchLectureLoading: false,
+      }
+    case actions.UPDATE_MY_TIME_TABLE_REQUEST:
+      return {
+        ...state,
+        myTimeTableLoading: true,
+      }
+    case actions.ADD_LECTURE_TO_MY_TIME_TABLE:
+      return {
+        ...state,
+        myTimeTableLoading: false,
+      }
+    case actions.UPDATE_MY_TIME_TABLE_INFO:
+      return {
+        ...state,
+        myTimeTableLoading: false,
+      }
+    case actions.DELETE_LECTURE_FROM_MY_TIME_TABLE_RESPONSE:
+      return {
+        ...state,
+        myTimeTableLoading: false,
+      }
+    case actions.SELECT_BOOKMARKED_TIME_TABLE_REQUEST:
+      return {
+        ...state,
+        bookmarkedTimeTableLoading: true,
+      }
+    case actions.UPDATE_BOOKMARKED_TIME_TABLE_REQUEST:
+      return {
+        ...state,
+        bookmarkedTimeTableLoading: true,
+      }
+    case actions.BOOKMARK_REQUEST:
+      return {
+        ...state,
+        bookmarkedTimeTableLoading: true,
+      }
+    case actions.SELECT_BOOKMARKED_TIME_TABLE_RESPONSE:
+      return {
+        ...state,
+        bookmarkedTimeTableLoading: false,
+      }
+    case actions.ADD_LECTURE_TO_BOOKMARKED_TIME_TABLE:
+      return {
+        ...state,
+        bookmarkedTimeTableLoading: false,
+      }
+    case actions.UPDATE_BOOKMARKED_TIME_TABLE_INFO:
+      return {
+        ...state,
+        bookmarkedTimeTableLoading: false,
+      }
+    case actions.BOOKMARK_RESPONSE:
+      return {
+        ...state,
+        bookmarkedTimeTableLoading: false,
+      }
+    case actions.DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE_RESPONSE:
+      return {
+        ...state,
+        bookmarkedTimeTableLoading: false,
+      }
+    case actions.SELECT_RECEIVED_TIME_TABLE_REQUEST:
+      return {
+        ...state,
+        receivedTimeTableLoading: true,
+      }
+    case actions.SELECT_RECEIVED_TIME_TABLE_RESPONSE:
+      return {
+        ...state,
+        receivedTimeTableLoading: false,
+      }
+    case COPY_TO_MY_TIME_TABLE_REQUEST:
+      return {
+        ...state,
+        myTimeTableLoading: true,
+      }
+    case COPY_TO_MY_TIME_TABLE_RESPONSE:
+      return {
+        ...state,
+        myTimeTableLoading: false,
       }
     default:
       return state
