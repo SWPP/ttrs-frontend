@@ -15,6 +15,7 @@ const mapStateToProps = (state) => {
     colleges: state.ttrs.belongInfo.colleges,
     errors: state.ttrs.error.settingsTab,
     notRecommendsLoading: state.ttrs.loading.notRecommendsLoading,
+    updateProfileLoading: state.ttrs.loading.updateProfileLoading,
   }
 }
 
