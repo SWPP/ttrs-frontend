@@ -75,6 +75,7 @@ class TimeTable extends React.Component {
     return (
       <div>
         <TTRenderer
+          type={this.props.type}
           id={this.props.id}
           lectures={this.props.lectures}
           canDeleteLecture={this.props.canModify}
@@ -322,6 +323,7 @@ class TimeTable extends React.Component {
 
 TimeTable.propTypes = {
   username: PropTypes.string,
+  type: PropTypes.string,
   id: PropTypes.number,
   memo: PropTypes.string,
   title: PropTypes.string,

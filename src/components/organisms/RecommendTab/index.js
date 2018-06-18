@@ -262,6 +262,7 @@ class RecommendTab extends React.Component {
                   {this.state.timeTable === 'My' &&
                   <TimeTable
                     {...this.props.myTimeTable}
+                    type={'My'}
                     isReceived={false}
                     haveSelection
                     isRecommended={false}
@@ -309,6 +310,7 @@ class RecommendTab extends React.Component {
                     <Sidebar.Pusher>
                       <TimeTable
                         {...this.props.bookmarkedTimeTable}
+                        type={'Bookmarked'}
                         isReceived={false}
                         haveSelection
                         isRecommended={false}
@@ -360,6 +362,7 @@ class RecommendTab extends React.Component {
                     <Sidebar.Pusher>
                       <TimeTable
                         {...this.props.receivedTimeTable}
+                        type={'Received'}
                         isReceived
                         haveSelection
                         isRecommended={false}
@@ -533,6 +536,7 @@ class RecommendTab extends React.Component {
                 <Sidebar.Pusher>
                   <TimeTable
                     {...this.props.recommendedTimeTable}
+                    type={'Recommended'}
                     isReceived={false}
                     haveSelection
                     isRecommended

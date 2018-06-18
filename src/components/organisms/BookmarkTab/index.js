@@ -28,6 +28,7 @@ class BookmarkTab extends React.Component {
               <h1>My TimeTable</h1>
               <TimeTable
                 {...this.props.myTimeTable}
+                type={'My'}
                 isReceived={false}
                 haveSelection
                 isRecommended={false}
@@ -76,6 +77,7 @@ class BookmarkTab extends React.Component {
                 <Sidebar.Pusher>
                   <TimeTable
                     {...this.props.bookmarkedTimeTable}
+                    type={'Bookmarked'}
                     isReceived={false}
                     haveSelection
                     isRecommended={false}

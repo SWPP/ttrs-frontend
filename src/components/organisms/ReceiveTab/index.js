@@ -27,6 +27,7 @@ class ReceiveTab extends React.Component {
               <h1>My TimeTable</h1>
               <TimeTable
                 {...this.props.myTimeTable}
+                type={'My'}
                 isReceived={false}
                 haveSelection
                 isRecommended={false}
@@ -78,6 +79,7 @@ class ReceiveTab extends React.Component {
                 <Sidebar.Pusher>
                   <TimeTable
                     {...this.props.receivedTimeTable}
+                    type={'Received'}
                     isReceived
                     haveSelection={false}
                     isRecommended={false}

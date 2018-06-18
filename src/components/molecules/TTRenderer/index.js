@@ -107,7 +107,7 @@ class TTRenderer extends React.Component {
 
   getCanvas = () => {
     if (this.canvas === null) {
-      this.canvas = document.getElementById(`table${this.props.id}`)
+      this.canvas = document.getElementById(`table${this.props.type}${this.props.id}`)
     }
     return this.canvas
   }
@@ -357,7 +357,7 @@ class TTRenderer extends React.Component {
         style={{ width: '100%', height: canvasHeight }}
       >
         <canvas
-          id={`table${this.props.id}`}
+          id={`table${this.props.type}${this.props.id}`}
           width={this.div.current ? this.div.current.offsetWidth : 0}
           height={canvasHeight}
           onMouseDown={(e) => this.onMouseDown(e)}
@@ -383,6 +383,7 @@ class TTRenderer extends React.Component {
 }
 
 TTRenderer.propTypes = {
+  type: PropTypes.string,
   id: PropTypes.number,
   lectures: PropTypes.array,
   canDeleteLecture: PropTypes.bool,

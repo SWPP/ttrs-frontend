@@ -18,6 +18,7 @@ const mapStateToProps = (state, props) => {
     haveSelection: props.haveSelection,
     isReceived: props.isReceived,
     sender: props.sender,
+    type: props.type,
   }
 }
 
