@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Message, Button, Header, Divider, Popup, List, Grid, Dimmer, Loader } from 'semantic-ui-react'
+import { Form, Message, Button, Header, Divider, Popup, List, Grid, Dimmer, Loader, Container } from 'semantic-ui-react'
 import { customErrors } from '../../../services/error_utility'
 import { initialErrorUnit } from '../../../store/ttrs/selectors'
 
@@ -129,160 +129,162 @@ class SettingsTab extends React.Component {
 
     return (
       <div>
-        <Grid>
-          <Grid.Row>
-            <Grid.Column>
-              <Dimmer active={this.props.notRecommendsLoading} inverted>
-                <Loader>Loading</Loader>
-              </Dimmer>
-              <div>
-                <Header as="h2" content="Update Profile" />
-                <Form id="form" onSubmit={this.handleUpdateInfo}>
-                  <Form.Input
-                    required
-                    label="Old Password"
-                    icon="lock"
-                    iconPosition="left"
-                    placeholder="Old password"
-                    type="password"
-                    name="passwordOld"
-                    value={this.state.passwordOld}
-                    error={errors.bools.passwordOld}
-                    onChange={this.handleChange}
-                  />
-                  <Form.Input
-                    label="Password"
-                    icon="lock"
-                    iconPosition="left"
-                    placeholder="Password"
-                    type="password"
-                    name="password"
-                    value={this.state.password}
-                    error={errors.bools.password}
-                    onChange={this.handleChange}
-                  />
-                  <Form.Input
-                    label="Password Confirm"
-                    icon="lock"
-                    iconPosition="left"
-                    placeholder="Password Confirm"
-                    type="password"
-                    name="passwordConfirm"
-                    value={this.state.passwordConfirm}
-                    error={errors.bools.passwordConfirm}
-                    onChange={this.handleChange}
-                  />
-                  <Form.Select
-                    label="Grade"
-                    required
-                    placeholder="Grade"
-                    options={gradeOptions}
-                    name="grade"
-                    value={this.state.grade}
-                    error={errors.bools.grade}
-                    onChange={this.handleChange}
-                  />
-                  <Form.Select
-                    label="College"
-                    required
-                    placeholder="College"
-                    options={collegeOptions}
-                    name="collegeIndex"
-                    value={this.state.collegeIndex}
-                    error={errors.bools.college}
-                    onChange={(e, { name, value }) => {
-                      this.setState({ [name]: value })
-                      this.setState({ departmentIndex: null })
-                      this.setState({ majorIndex: null })
-                    }}
-                  />
-                  <Form.Select
-                    label="Department"
-                    placeholder="Department"
-                    options={departmentOptions}
-                    name="departmentIndex"
-                    value={this.state.departmentIndex}
-                    error={errors.bools.department}
-                    onChange={(e, { name, value }) => {
-                      this.setState({ [name]: value })
-                      this.setState({ majorIndex: null })
-                    }}
-                  />
-                  <Form.Select
-                    label="Major"
-                    placeholder="Major"
-                    options={majorOptions}
-                    name="majorIndex"
-                    value={this.state.majorIndex}
-                    error={errors.bools.major}
-                    onChange={this.handleChange}
-                  />
-                  <Button type="submit" color="teal">Update</Button>
-                </Form>
-                {Object.keys(errors.texts).length > 0 &&
-                <Message
-                  negative
-                  header="There are some errors with your submission"
-                  list={Object.keys(errors.texts).map(key => errors.texts[key])}
-                />}
-              </div>
-              <Divider />
-              <div>
-                <Header as="h2" content="Not Recommends" />
-                <List verticalAlign="middle" ordered>
-                  {this.props.notRecommendCourses.map((course) => (
-                    <List.Item key={course.id}>
-                      <List.Content floated="right">
-                        <Popup
-                          trigger={<Button
-                            icon="delete"
-                            color="red"
-                            inverted
-                            onClick={() => this.props.onDeleteFromNotRecommends(this.props.notRecommends, course.id)}
-                          />}
-                          content="Allow to recommend this course from now."
-                          inverted
-                        />
-                      </List.Content>
-                      <List.Header as="h3">
-                        {course.name}
-                      </List.Header>
-                    </List.Item>
-                  ))}
-                </List>
-              </div>
-              <Divider />
-              <div>
-                <Header as="h2" content="Withdraw" />
-                <Popup
-                  on="click"
-                  hideOnScroll
-                  trigger={<Button icon="user x" negative content="Withdraw" />}
-                  content={<Form>
+        <Container>
+          <Grid>
+            <Grid.Row>
+              <Grid.Column>
+                <Dimmer active={this.props.notRecommendsLoading} inverted>
+                  <Loader>Loading</Loader>
+                </Dimmer>
+                <div>
+                  <Header as="h2" content="Update Profile" />
+                  <Form id="form" onSubmit={this.handleUpdateInfo}>
                     <Form.Input
-                      name="passwordWithdraw"
-                      onChange={this.handleChange}
-                      error={errors.bools.passwordWithdraw}
+                      required
+                      label="Old Password"
+                      icon="lock"
+                      iconPosition="left"
+                      placeholder="Old password"
                       type="password"
-                      placeholder="Input your password..."
-                      action={<Popup
-                        inverted
-                        trigger={<Button
-                          type="submit"
-                          attached="right"
-                          icon="exclamation triangle"
-                          color="red"
-                          onClick={this.handleWithdraw}
-                        />}
-                        content="You cannot undo this action."
-                      />}
+                      name="passwordOld"
+                      value={this.state.passwordOld}
+                      error={errors.bools.passwordOld}
+                      onChange={this.handleChange}
                     />
-                  </Form>}
-                />
-              </div>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
+                    <Form.Input
+                      label="Password"
+                      icon="lock"
+                      iconPosition="left"
+                      placeholder="Password"
+                      type="password"
+                      name="password"
+                      value={this.state.password}
+                      error={errors.bools.password}
+                      onChange={this.handleChange}
+                    />
+                    <Form.Input
+                      label="Password Confirm"
+                      icon="lock"
+                      iconPosition="left"
+                      placeholder="Password Confirm"
+                      type="password"
+                      name="passwordConfirm"
+                      value={this.state.passwordConfirm}
+                      error={errors.bools.passwordConfirm}
+                      onChange={this.handleChange}
+                    />
+                    <Form.Select
+                      label="Grade"
+                      required
+                      placeholder="Grade"
+                      options={gradeOptions}
+                      name="grade"
+                      value={this.state.grade}
+                      error={errors.bools.grade}
+                      onChange={this.handleChange}
+                    />
+                    <Form.Select
+                      label="College"
+                      required
+                      placeholder="College"
+                      options={collegeOptions}
+                      name="collegeIndex"
+                      value={this.state.collegeIndex}
+                      error={errors.bools.college}
+                      onChange={(e, { name, value }) => {
+                        this.setState({ [name]: value })
+                        this.setState({ departmentIndex: null })
+                        this.setState({ majorIndex: null })
+                      }}
+                    />
+                    <Form.Select
+                      label="Department"
+                      placeholder="Department"
+                      options={departmentOptions}
+                      name="departmentIndex"
+                      value={this.state.departmentIndex}
+                      error={errors.bools.department}
+                      onChange={(e, { name, value }) => {
+                        this.setState({ [name]: value })
+                        this.setState({ majorIndex: null })
+                      }}
+                    />
+                    <Form.Select
+                      label="Major"
+                      placeholder="Major"
+                      options={majorOptions}
+                      name="majorIndex"
+                      value={this.state.majorIndex}
+                      error={errors.bools.major}
+                      onChange={this.handleChange}
+                    />
+                    <Button type="submit" color="teal">Update</Button>
+                  </Form>
+                  {Object.keys(errors.texts).length > 0 &&
+                  <Message
+                    negative
+                    header="There are some errors with your submission"
+                    list={Object.keys(errors.texts).map(key => errors.texts[key])}
+                  />}
+                </div>
+                <Divider />
+                <div>
+                  <Header as="h2" content="Not Recommends" />
+                  <List verticalAlign="middle" ordered>
+                    {this.props.notRecommendCourses.map((course) => (
+                      <List.Item key={course.id}>
+                        <List.Content floated="right">
+                          <Popup
+                            trigger={<Button
+                              icon="delete"
+                              color="red"
+                              inverted
+                              onClick={() => this.props.onDeleteFromNotRecommends(this.props.notRecommends, course.id)}
+                            />}
+                            content="Allow to recommend this course from now."
+                            inverted
+                          />
+                        </List.Content>
+                        <List.Header as="h3">
+                          {course.name}
+                        </List.Header>
+                      </List.Item>
+                    ))}
+                  </List>
+                </div>
+                <Divider />
+                <div>
+                  <Header as="h2" content="Withdraw" />
+                  <Popup
+                    on="click"
+                    hideOnScroll
+                    trigger={<Button icon="user x" negative content="Withdraw" />}
+                    content={<Form>
+                      <Form.Input
+                        name="passwordWithdraw"
+                        onChange={this.handleChange}
+                        error={errors.bools.passwordWithdraw}
+                        type="password"
+                        placeholder="Input your password..."
+                        action={<Popup
+                          inverted
+                          trigger={<Button
+                            type="submit"
+                            attached="right"
+                            icon="exclamation triangle"
+                            color="red"
+                            onClick={this.handleWithdraw}
+                          />}
+                          content="You cannot undo this action."
+                        />}
+                      />
+                    </Form>}
+                  />
+                </div>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Container>
       </div>
     )
   }
