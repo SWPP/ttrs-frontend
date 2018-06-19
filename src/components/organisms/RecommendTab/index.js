@@ -340,7 +340,10 @@ class RecommendTab extends React.Component {
                               onAddLecture={(newLectureId) => this.props.onUpdateBookmarkedTimeTable(this.props.bookmarkedTimeTable.id, { lectures: getLectureIds(this.props.bookmarkedTimeTable) }, newLectureId)}
                               onModifyContent={(content) => this.props.onUpdateBookmarkedTimeTable(this.props.bookmarkedTimeTable.id, content, null)}
                               onDeleteLecture={(lectureId) => this.props.onUpdateBookmarkedTimeTable(this.props.bookmarkedTimeTable.id, { lectures: getLectureIdsWithout(lectureId, this.props.bookmarkedTimeTable) }, -lectureId)}
-                              onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'bookmarked', this.props.bookmarkedTimeTables) : console.log('There is no timetable')}
+                              onDeleteTimeTable={(timeTableId) => {
+                                timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'bookmarked', this.props.bookmarkedTimeTables) : console.log('There is no timetable')
+                                this.setState({ bookmarkedTimeTableIndex: 0 })
+                              }}
                               onSelectBlocks={(blocks) => this.setState({ leftBlocks: blocks })}
                             />
                           </Grid.Column>
@@ -400,7 +403,10 @@ class RecommendTab extends React.Component {
                               canCopyToMy
                               sender={this.props.receivedTimeTable.sender}
                               onOpenSidebar={() => this.setState({ receivedSidebarVisible: true })}
-                              onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'received', this.props.receivedTimeTables) : console.log('There is no timetable')}
+                              onDeleteTimeTable={(timeTableId) => {
+                                timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'received', this.props.receivedTimeTables) : console.log('There is no timetable')
+                                this.setState({ receivedTimeTableIndex: 0 })
+                              }}
                               onSelectBlocks={(blocks) => this.setState({ leftBlocks: blocks })}
                             />
                           </Grid.Column>
