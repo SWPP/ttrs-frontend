@@ -29,6 +29,8 @@ class TTRenderer extends React.Component {
     this.state = {
       openId: null,
     }
+
+    this.props.onChange(this.blocks.map(row => [...row]))
   }
 
   componentDidMount() {
@@ -92,7 +94,7 @@ class TTRenderer extends React.Component {
     this.selectionMode = null
 
     this.updateCanvas()
-    this.props.onChange(this.blocks)
+    this.props.onChange(this.blocks.map(row => [...row]))
   }
 
   setSelectionMode = (e) => {
@@ -226,14 +228,24 @@ class TTRenderer extends React.Component {
     ctx.beginPath()
     ctx.moveTo(0, 0)
     ctx.lineTo(this.blockWidth * 7, 0)
-    for (let i = 1; i <= 25; i += 1) {
-      ctx.moveTo((i % 2) === 1 ? 0 : this.blockWidth, blockHeight * i)
+    for (let i = 1; i <= 25; i += 2) {
+      ctx.moveTo(0, blockHeight * i)
       ctx.lineTo(this.blockWidth * 7, blockHeight * i)
     }
-
     for (let j = 0; j <= 7; j += 1) {
       ctx.moveTo(this.blockWidth * j, 0)
       ctx.lineTo(this.blockWidth * j, blockHeight * 25)
+    }
+    ctx.stroke()
+
+    ctx.strokeStyle = '#CCC'
+    ctx.lineWidth = this.lineWidth / 2
+
+    ctx.beginPath()
+    ctx.moveTo(0, 0)
+    for (let i = 2; i <= 25; i += 2) {
+      ctx.moveTo(this.blockWidth, blockHeight * i)
+      ctx.lineTo(this.blockWidth * 7, blockHeight * i)
     }
     ctx.stroke()
   }
