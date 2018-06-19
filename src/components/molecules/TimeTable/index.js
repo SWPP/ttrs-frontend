@@ -102,7 +102,7 @@ class TimeTable extends React.Component {
     return (
       <div>
         <Menu tabular attached="top">
-          {this.props.id !== null &&
+          {this.props.id !== null ?
           <Menu.Item active fitted>
             {!this.state.isModifyingTitle ?
               <div style={{ paddingLeft: 10, paddingRight: 10 }}>
@@ -182,6 +182,19 @@ class TimeTable extends React.Component {
                 />
               </Form>
             }
+          </Menu.Item> :
+          <Menu.Item>
+            {this.props.haveSelection && (this.props.canCreate || this.props.type === 'Recommended') &&
+            <Popup
+              position="bottom left"
+              flowing
+              trigger={<div><Icon name="lightbulb" />Selection</div>}
+              header="You can select blocks by mouse dragging!"
+              content={<div>
+                {'Hold \'ctrl\' to unselect, \'shift\' to toggle blocks.'}<br />
+                {'Select columns/rows or whole table by dragging table headers.'}
+              </div>}
+            />}
           </Menu.Item>}
           {this.props.id &&
           <Menu.Item>
