@@ -589,6 +589,9 @@ const loading = (state = [], action) => {
         evaluationsLoading: true,
       }
     case actions.SET_ERRORS:
+      if (action.message === undefined) {
+        return state
+      }
       return initialLoading
     default:
       return state
@@ -613,7 +616,6 @@ const ttrsReducer = (state = initialState, action) => {
         studentInfo: studentInfo(state.studentInfo, action),
         toGo: 'home',
         notice: notice(state.notice, action),
-        loading: loading(state.loading, action),
       }
     case actions.SIGN_UP_RESPONSE:
       return {
