@@ -432,7 +432,7 @@ class RecommendTab extends React.Component {
                       color="teal"
                       content="Recommend"
                       onClick={() => {
-                        this.handleRecommend(this.state.leftBlocks)
+                        this.handleRecommend(this.state.rightBlocks)
                         this.setState({ rightTimeTableSidebarVisible: false })
                       }}
                     />
