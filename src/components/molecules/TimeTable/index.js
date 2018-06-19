@@ -192,11 +192,12 @@ class TimeTable extends React.Component {
               </div>}
             />}
           </Menu.Item>}
-          {this.props.id &&
+          {this.props.id && this.props.isReceived &&
           <Menu.Item>
-            {this.props.isReceived &&
-            <div>From {this.props.sender}&nbsp;&nbsp;&nbsp;&nbsp;</div>}
-            {this.props.haveSelection &&
+            From {this.props.sender}
+          </Menu.Item>}
+          {this.props.id && this.props.haveSelection &&
+          <Menu.Item>
             <Popup
               position="bottom left"
               flowing
@@ -206,7 +207,7 @@ class TimeTable extends React.Component {
                 {'Hold \'ctrl\' to unselect, \'shift\' to toggle blocks.'}<br />
                 {'Select columns/rows or whole table by dragging table headers.'}
               </div>}
-            />}
+            />
           </Menu.Item>}
           <Menu.Menu position="right">
             {this.props.canModify && (this.props.id !== null || this.props.canCreate) &&
