@@ -136,6 +136,7 @@ function* signIn(username, password) {
     year,
     semester,
   }
+  yield put(actions.switchSemesterResponse(year, semester))
   try {
     const response = yield call(axios.get, updateURLParams('ttrs/static-information/', params), config)
     console.log('get Fields and Types response', response)
@@ -761,21 +762,19 @@ export default function* () {
     const info = JSON.parse(localStorage.getItem('STUDENT_INFO'))
     if (info != null) {
       yield call(signIn, info.username, info.password)
+      try {
+        const { year, semester } = JSON.parse(localStorage.getItem('SEMESTER'))
+        if (year && semester) {
+          yield call(switchSemester, year, semester)
+        }
+      } catch (error) {
+        console.log('get semester info from local storage error', error)
+        localStorage.removeItem('SEMESTER')
+      }
     }
   } catch (error) {
     console.log('get student info from local storage error', error)
     localStorage.removeItem('STUDENT_INFO')
-  }
-  try {
-    const { year, semester } = JSON.parse(localStorage.getItem('SEMESTER'))
-    if (year && semester) {
-      initialState.year = year
-      initialState.semester = semester
-      yield call(switchSemester, year, semester)
-    }
-  } catch (error) {
-    console.log('get semester info from local storage error', error)
-    localStorage.removeItem('SEMESTER')
   }
   yield fork(watchSignIn)
   yield fork(watchSignUp)
