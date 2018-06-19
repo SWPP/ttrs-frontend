@@ -128,7 +128,7 @@ class SettingsTab extends React.Component {
     }
 
     return (
-      <div>
+      <Container>
         <div>
           <Grid>
             <Grid.Row>
@@ -292,7 +292,7 @@ class SettingsTab extends React.Component {
             </Form>}
           />
         </div>
-      </div>
+      </Container>
     )
   }
 }
