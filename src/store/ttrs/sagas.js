@@ -132,6 +132,16 @@ function* signIn(username, password) {
   }
   year = initialState.year
   semester = initialState.semester
+  try {
+    const semesterInfo = JSON.parse(localStorage.getItem('SEMESTER'))
+    if (semesterInfo !== null) {
+      year = semesterInfo.year
+      semester = semesterInfo.semester
+    }
+  } catch (error) {
+    console.log('get semester info from local storage error', error)
+    localStorage.removeItem('SEMESTER')
+  }
   const params = {
     year,
     semester,
@@ -762,15 +772,6 @@ export default function* () {
     const info = JSON.parse(localStorage.getItem('STUDENT_INFO'))
     if (info != null) {
       yield call(signIn, info.username, info.password)
-      try {
-        const { year, semester } = JSON.parse(localStorage.getItem('SEMESTER'))
-        if (year && semester) {
-          yield call(switchSemester, year, semester)
-        }
-      } catch (error) {
-        console.log('get semester info from local storage error', error)
-        localStorage.removeItem('SEMESTER')
-      }
     }
   } catch (error) {
     console.log('get student info from local storage error', error)
