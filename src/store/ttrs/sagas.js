@@ -595,6 +595,7 @@ function* getRecommendation(options) {
     yield call(getRecommendedTimeTables, response)
   } catch (error) {
     console.log('getCurrent Recommended TimeTables error', error.response)
+    yield put(actions.setErrors('getRecommendation', processErrors(error.response.data), 'Failed to get recommendations'))
   }
 }
 
