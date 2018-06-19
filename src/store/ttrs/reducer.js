@@ -341,7 +341,7 @@ const notice = (state = initialNotice, action) => {
       return newNotice(state, newId, 'Copied to mine successfully.')
     case actions.BOOKMARK_RESPONSE:
       return newNotice(state, newId, 'Bookmarked successfully.')
-    case actions.SEND_TIME_TABLE:
+    case actions.SEND_TIME_TABLE_RESPONSE:
       return newNotice(state, newId, 'Sent successfully.')
     case actions.DELETE_FROM_NOT_RECOMMENDS_RESPONSE:
       return newNotice(state, newId, 'Allowed successfully.')

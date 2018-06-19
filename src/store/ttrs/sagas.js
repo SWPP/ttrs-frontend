@@ -356,6 +356,7 @@ function* sendTimeTable(sendInfo) {
   try {
     const response = yield call(axios.post, 'ttrs/time-tables/send/', sendInfo, config)
     console.log('send Time Table response', response)
+    yield put(actions.sendTimeTableResponse())
   } catch (error) {
     console.log('send Time Table error', error.response)
     yield put(actions.setErrors('send', processErrors(error.request.data), 'Failed to send the timetable.'))
