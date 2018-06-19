@@ -104,7 +104,10 @@ class ReceiveTab extends React.Component {
                           canCopyToMy
                           sender={this.props.receivedTimeTable.sender}
                           onOpenSidebar={() => this.setState({ sidebarVisible: true })}
-                          onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'received', this.props.receivedTimeTables) : console.log('There is no timetable')}
+                          onDeleteTimeTable={(timeTableId) => {
+                            timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'received', this.props.receivedTimeTables) : console.log('There is no timetable')
+                            this.setState({ receivedTimeTableIndex: 0 })
+                          }}
                         />
                       </Grid.Column>
                     </Grid.Row>
