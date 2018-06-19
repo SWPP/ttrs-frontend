@@ -275,6 +275,8 @@ function* switchSemester(newYear, newSemester) {
     const receivedTimeTableResponse = yield call(axios.get, updateURLParams('ttrs/received-time-tables/', params), config)
     console.log('getCurrent receivedTimeTable response', receivedTimeTableResponse)
     yield call(getReceivedTimeTables, receivedTimeTableResponse)
+
+    yield put(actions.switchSemesterResponse(year, semester))
   } catch (error) {
     console.log('switchSemester error', error.response)
     yield put(actions.setErrors('switchSemester', processErrors(error.response.data), 'Failed to switch the semester.'))
@@ -763,6 +765,17 @@ export default function* () {
   } catch (error) {
     console.log('get student info from local storage error', error)
     localStorage.removeItem('STUDENT_INFO')
+  }
+  try {
+    const { year, semester } = JSON.parse(localStorage.getItem('SEMESTER'))
+    if (year && semester) {
+      initialState.year = year
+      initialState.semester = semester
+      yield call(switchSemester, year, semester)
+    }
+  } catch (error) {
+    console.log('get semester info from local storage error', error)
+    localStorage.removeItem('SEMESTER')
   }
   yield fork(watchSignIn)
   yield fork(watchSignUp)
