@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Card, List } from 'semantic-ui-react'
+import { Button, Card, List, Popup } from 'semantic-ui-react'
 import TimeSlot from '../TimeSlot'
 import LecturePopup from '../../../containers/LecturePopup'
 
@@ -74,7 +74,28 @@ class Lecture extends React.Component {
               content="Details"
               onClick={() => this.setState({ open: true })}
             />
-            <Button basic color="blue" content="Add" onClick={this.props.onAddLecture} />
+            {this.props.intersects.length > 0
+            ? <Popup
+              trigger={<Button
+                basic
+                color="red"
+                content="Add"
+              />}
+              header="Cannot add this lecture to the time table"
+              content={<div>
+                Intersects with
+                {this.props.intersects.map((other) =>
+                  <div key={other.id}>{other.course.name}</div>
+                )}
+              </div>}
+              flowing
+            />
+            : <Button
+              basic
+              color="blue"
+              content="Add"
+              onClick={this.props.onAddLecture}
+            />}
           </div>
         </Card.Content>
         {this.state.open &&
@@ -91,6 +112,7 @@ class Lecture extends React.Component {
 
 Lecture.propTypes = {
   lecture: PropTypes.object,
+  intersects: PropTypes.array,
   onAddLecture: PropTypes.func,
 }
 

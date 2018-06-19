@@ -22,6 +22,7 @@ function setup() {
         },
       ],
     },
+    intersects: [],
     onAddLecture: jest.fn(),
   }
 

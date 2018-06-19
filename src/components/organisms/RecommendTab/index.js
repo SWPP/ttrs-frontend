@@ -101,8 +101,7 @@ class RecommendTab extends React.Component {
                 <Form style={{ float: 'right', marginRight: -14 }}>
                   <Form.Group inline>
                     <Form.Dropdown
-                      simple item
-                      fluid
+                      simple
                       placeholder="TimeTable"
                       options={timeTableOptions}
                       name="timeTable"

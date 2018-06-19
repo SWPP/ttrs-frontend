@@ -19,6 +19,7 @@ export const ADD_LECTURE_TO_MY_TIME_TABLE = 'ADD_LECTURE_TO_MY_TIME_TABLE'
 export const UPDATE_MY_TIME_TABLE_INFO = 'UPDATE_MY_TIME_TABLE_INFO'
 export const DELETE_LECTURE_FROM_MY_TIME_TABLE_RESPONSE = 'DELETE_LECTURE_FROM_MY_TIME_TABLE_RESPONSE'
 export const SWITCH_SEMESTER = 'SWITCH_SEMESTER'
+export const SWITCH_SEMESTER_RESPONSE = 'SWITCH_SEMESTER_RESPONSE'
 export const CREATE_BOOKMARKED_TIME_TABLES = 'CREATE_BOOKMARKED_TIME_TABLES'
 export const SELECT_BOOKMARKED_TIME_TABLE_REQUEST = 'SELECT_BOOKMARKED_TIME_TABLE_REQUEST'
 export const SELECT_BOOKMARKED_TIME_TABLE_RESPONSE = 'SELECT_BOOKMARKED_TIME_TABLE_RESPONSE'
@@ -208,6 +209,14 @@ export const switchSemester = (newYear, newSemester) => {
     type: SWITCH_SEMESTER,
     newYear,
     newSemester,
+  }
+}
+
+export const switchSemesterResponse = (year, semester) => {
+  return {
+    type: SWITCH_SEMESTER_RESPONSE,
+    year,
+    semester,
   }
 }
 

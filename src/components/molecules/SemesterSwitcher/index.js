@@ -2,12 +2,21 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Dimmer, Dropdown, Grid, Loader } from 'semantic-ui-react'
 
-const SemesterSwitcher = ({ semesters, onSwitchSemester, myTimeTableLoading, bookmarkedTimeTableLoading, receivedTimeTableLoading, recommendedTimeTableLoading }) => {
+const SemesterSwitcher = ({ semesters, year, semester, onSwitchSemester, myTimeTableLoading, bookmarkedTimeTableLoading, receivedTimeTableLoading, recommendedTimeTableLoading }) => {
   const options = semesters.map((semester, index) => ({
     key: `${semester.year}-${semester.semester}`,
     text: `${semester.year}-${semester.semester}`,
     value: index,
   }))
+
+  const getIndex = () => {
+    for (let i = 0; i < options.length; i += 1) {
+      if (options[i].key === `${year}-${semester}`) {
+        return i
+      }
+    }
+    return null
+  }
 
   return (
     <Grid>
@@ -19,7 +28,7 @@ const SemesterSwitcher = ({ semesters, onSwitchSemester, myTimeTableLoading, boo
           <Dropdown
             simple item scrolling
             options={options}
-            defaultValue={options.length > 0 ? options[0].value : null}
+            value={getIndex()}
             onChange={(e, { value }) => {
               onSwitchSemester(semesters[value].year, semesters[value].semester)
             }}
@@ -32,6 +41,8 @@ const SemesterSwitcher = ({ semesters, onSwitchSemester, myTimeTableLoading, boo
 
 SemesterSwitcher.propTypes = {
   semesters: PropTypes.array,
+  year: PropTypes.number,
+  semester: PropTypes.string,
   myTimeTableLoading: PropTypes.bool,
   bookmarkedTimeTableLoading: PropTypes.bool,
   receivedTimeTableLoading: PropTypes.bool,
