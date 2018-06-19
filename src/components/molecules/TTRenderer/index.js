@@ -27,7 +27,10 @@ class TTRenderer extends React.Component {
     this.selectionMode = null
 
     this.state = {
-      openId: null,
+      openId: {
+        lecture: null,
+        table: null,
+      },
     }
 
     this.props.onChange(this.blocks.map(row => [...row]))
@@ -79,7 +82,7 @@ class TTRenderer extends React.Component {
     this.setSelectionMode(e)
     const lecture = this.getLectureByPoint(this.endPoint)
     if (this.mouseMode === 'down' && this.selectionMode === null && lecture !== null) {
-      this.setState({ openId: lecture.id })
+      this.setState({ openId: { lecture: lecture.id, table: this.props.id } })
     } else {
       const newSelection = this.getNewSelection()
       for (let i = 0; i < this.blocks.length; i += 1) {
@@ -377,14 +380,14 @@ class TTRenderer extends React.Component {
           onMouseUp={(e) => this.onMouseUp(e)}
         />
         {this.props.lectures.map((lecture) => {
-          if (lecture.id === this.state.openId) {
+          if (this.props.id === this.state.openId.table && lecture.id === this.state.openId.lecture) {
             return (<LecturePopup
               key={lecture.id}
-              open={lecture.id === this.state.openId}
+              open
               lecture={lecture}
               onDeleteLecture={() => this.props.onDeleteLecture(lecture.id)}
               canDelete={this.props.canDeleteLecture}
-              onClose={() => this.setState({ openId: null })}
+              onClose={() => this.setState({ openId: { lecture: null, table: null } })}
             />)
           }
           return null
