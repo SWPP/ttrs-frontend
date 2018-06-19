@@ -53,12 +53,8 @@ class TimeTable extends React.Component {
   }
 
   onSubmitSend = () => {
-    if (this.props.id === null) {
-      console.log('There is no TimeTable')
-      return
-    }
     if (this.props.username === this.state.receiverName) {
-      console.log('Can not send TimeTable to you')
+      this.props.onSendToSelf()
       return
     }
     const sendInfo = {
@@ -365,6 +361,7 @@ TimeTable.propTypes = {
   onCopyToMy: PropTypes.func,
   onBookmark: PropTypes.func,
   onSend: PropTypes.func,
+  onSendToSelf: PropTypes.func,
   onModifyContent: PropTypes.func,
   onAddLecture: PropTypes.func,
   onDeleteLecture: PropTypes.func,

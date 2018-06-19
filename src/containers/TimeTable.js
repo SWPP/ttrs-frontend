@@ -1,6 +1,10 @@
 import { connect } from 'react-redux'
 import TimeTable from '../components/molecules/TimeTable'
-import { addToNotRecommendsRequest, bookmarkRequest, copyToMyTimeTableRequest, getEvaluationsRequest, sendTimeTable } from '../store/ttrs/actions'
+import {
+  addToNotRecommendsRequest, bookmarkRequest, copyToMyTimeTableRequest, getEvaluationsRequest, sendTimeTable,
+  setErrors
+} from '../store/ttrs/actions'
+import { initialErrorUnit } from '../store/ttrs/selectors'
 
 const mapStateToProps = (state, props) => {
   return {
@@ -32,6 +36,9 @@ const mapDispatchToProps = (dispatch, props) => {
     },
     onSend: (sendInfo) => {
       dispatch(sendTimeTable(sendInfo))
+    },
+    onSendToSelf: () => {
+      dispatch(setErrors('sendTimeTable', initialErrorUnit, 'You cannot send timetable to yourself.'))
     },
     onModifyContent: props.onModifyContent,
     onAddLecture: props.onAddLecture,
