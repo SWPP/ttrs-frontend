@@ -301,7 +301,14 @@ class TimeTable extends React.Component {
                     <Icon name="trash" color="red" />
                   </button>}
                   content={this.state.isDeleting ?
-                    <Button color="red" content="Delete" onClick={() => this.props.onDeleteTimeTable(this.props.id)} /> :
+                    <Button
+                      color="red"
+                      content="Delete"
+                      onClick={() => {
+                        this.props.onDeleteTimeTable(this.props.id)
+                        this.setState({ isDeleting: false })
+                      }}
+                    /> :
                     'Delete this timetable'}
                   onClose={() => this.setState({ isDeleting: false })}
                   on={this.state.isDeleting ? 'click' : 'hover'}
