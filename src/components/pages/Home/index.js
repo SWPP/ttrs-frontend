@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
-  Container, Dropdown, Grid, Header, List, Menu, Modal, Segment, Form, TextArea, Popup,
-  Icon, Button
+  Container, Dropdown, Grid, Header, List, Menu, Modal, Segment, Form, TextArea, Button, Dimmer, Loader,
 } from 'semantic-ui-react'
 import SemesterSwitcher from '../../../containers/SemesterSwitcher'
 import RecommendTab from '../../../containers/RecommendTab'
@@ -29,14 +28,6 @@ class Home extends React.Component {
   }
 
   render() {
-    const iconButtonStyle = {
-      backgroundColor: 'white',
-      padding: 5,
-    }
-
-    if (!this.props.isLoaded || !this.props.isSignedIn) {
-      return null
-    }
     const tabName = this.props.route.currentTab
     let tab = null
     if (tabName === 'recommend') {
@@ -54,6 +45,9 @@ class Home extends React.Component {
 
     return (
       <div className="homepage">
+        <Dimmer active={!this.props.isLoaded || !this.props.isSignedIn}>
+          <Loader>Loading</Loader>
+        </Dimmer>
         <Menu fixed="top" inverted compact>
           <Container>
             <Menu.Item header><img src={ttrsIconSmall} alt="icon" style={{ width: 23, marginRight: 10 }} />TTRS</Menu.Item>

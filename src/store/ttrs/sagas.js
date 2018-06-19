@@ -132,10 +132,21 @@ function* signIn(username, password) {
   }
   year = initialState.year
   semester = initialState.semester
+  try {
+    const semesterInfo = JSON.parse(localStorage.getItem('SEMESTER'))
+    if (semesterInfo !== null) {
+      year = semesterInfo.year
+      semester = semesterInfo.semester
+    }
+  } catch (error) {
+    console.log('get semester info from local storage error', error)
+    localStorage.removeItem('SEMESTER')
+  }
   const params = {
     year,
     semester,
   }
+  yield put(actions.switchSemesterResponse(year, semester))
   try {
     const response = yield call(axios.get, updateURLParams('ttrs/static-information/', params), config)
     console.log('get Fields and Types response', response)
@@ -765,17 +776,6 @@ export default function* () {
   } catch (error) {
     console.log('get student info from local storage error', error)
     localStorage.removeItem('STUDENT_INFO')
-  }
-  try {
-    const { year, semester } = JSON.parse(localStorage.getItem('SEMESTER'))
-    if (year && semester) {
-      initialState.year = year
-      initialState.semester = semester
-      yield call(switchSemester, year, semester)
-    }
-  } catch (error) {
-    console.log('get semester info from local storage error', error)
-    localStorage.removeItem('SEMESTER')
   }
   yield fork(watchSignIn)
   yield fork(watchSignUp)
