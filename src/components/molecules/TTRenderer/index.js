@@ -29,6 +29,8 @@ class TTRenderer extends React.Component {
     this.state = {
       openId: null,
     }
+
+    this.props.onChange(this.blocks.map(row => [...row]))
   }
 
   componentDidMount() {
