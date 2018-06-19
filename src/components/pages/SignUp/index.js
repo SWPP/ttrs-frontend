@@ -140,7 +140,7 @@ class SignUp extends React.Component {
                 <Form.Input
                   icon="mail"
                   required
-                  label="Email Address"
+                  label="Email Address (@snu.ac.kr)"
                   iconPosition="left"
                   placeholder="Email Address"
                   type="email"
