@@ -39,6 +39,8 @@ class RecommendTab extends React.Component {
     bookmarkedTimeTableIndex: 0,
     receivedSidebarVisible: false,
     receivedTimeTableIndex: 0,
+    leftBlocks: null,
+    rightBlocks: null,
   }
 
   handleChange = (e, { name, value }) => {
@@ -49,7 +51,7 @@ class RecommendTab extends React.Component {
     this.setState({ [name]: checked })
   }
 
-  handleRecommend = () => {
+  handleRecommend = (blocks) => {
     const options = {
       avoidSuccessive: this.state.avoidSuccessiveLecture,
       avoidVoid: this.state.avoidVoidLecture,
@@ -58,7 +60,7 @@ class RecommendTab extends React.Component {
       jeonseon: this.state.jeonseonWeight,
       gyoyang: this.state.gyoyangWeight,
       credit: this.state.creditUserWant,
-      blocks: compressBlocks(this.state.blocks),
+      blocks: compressBlocks(blocks),
     }
     this.props.onGetRecommendation(options)
     this.setState({ recommendedTimeTableIndex: 0 })
@@ -124,7 +126,7 @@ class RecommendTab extends React.Component {
                       color="teal"
                       content="Recommend"
                       onClick={() => {
-                        this.handleRecommend()
+                        this.handleRecommend(this.state.leftBlocks)
                         this.setState({ leftTimeTableSidebarVisible: false })
                       }}
                     />
@@ -250,7 +252,7 @@ class RecommendTab extends React.Component {
                             color="teal"
                             content="Recommend"
                             onClick={() => {
-                              this.handleRecommend()
+                              this.handleRecommend(this.state.leftBlocks)
                               this.setState({ leftTimeTableSidebarVisible: false })
                             }}
                           />
@@ -282,7 +284,7 @@ class RecommendTab extends React.Component {
                           onDeleteLecture={(lectureId) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, { lectures: getLectureIdsWithout(lectureId, this.props.myTimeTable) }, -lectureId)}
                           onModifyContent={(content) => this.props.onUpdateMyTimeTable(this.props.myTimeTable.id, content, null)}
                           onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'my', null) : console.log('There is no timetable')}
-                          onSelectBlocks={(blocks) => this.setState({ blocks })}
+                          onSelectBlocks={(blocks) => this.setState({ leftBlocks: blocks })}
                         />
                       </Grid.Column>
                     </Grid.Row>
@@ -339,6 +341,7 @@ class RecommendTab extends React.Component {
                               onModifyContent={(content) => this.props.onUpdateBookmarkedTimeTable(this.props.bookmarkedTimeTable.id, content, null)}
                               onDeleteLecture={(lectureId) => this.props.onUpdateBookmarkedTimeTable(this.props.bookmarkedTimeTable.id, { lectures: getLectureIdsWithout(lectureId, this.props.bookmarkedTimeTable) }, -lectureId)}
                               onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'bookmarked', this.props.bookmarkedTimeTables) : console.log('There is no timetable')}
+                              onSelectBlocks={(blocks) => this.setState({ leftBlocks: blocks })}
                             />
                           </Grid.Column>
                         </Grid.Row>
@@ -398,6 +401,7 @@ class RecommendTab extends React.Component {
                               sender={this.props.receivedTimeTable.sender}
                               onOpenSidebar={() => this.setState({ receivedSidebarVisible: true })}
                               onDeleteTimeTable={(timeTableId) => timeTableId !== null ? this.props.onDeleteTimeTable(timeTableId, 'received', this.props.receivedTimeTables) : console.log('There is no timetable')}
+                              onSelectBlocks={(blocks) => this.setState({ leftBlocks: blocks })}
                             />
                           </Grid.Column>
                         </Grid.Row>
@@ -428,7 +432,7 @@ class RecommendTab extends React.Component {
                       color="teal"
                       content="Recommend"
                       onClick={() => {
-                        this.handleRecommend()
+                        this.handleRecommend(this.state.leftBlocks)
                         this.setState({ rightTimeTableSidebarVisible: false })
                       }}
                     />
@@ -554,7 +558,7 @@ class RecommendTab extends React.Component {
                             color="teal"
                             content="Recommend"
                             onClick={() => {
-                              this.handleRecommend()
+                              this.handleRecommend(this.state.rightBlocks)
                               this.setState({ rightTimeTableSidebarVisible: false })
                             }}
                           />
@@ -588,7 +592,7 @@ class RecommendTab extends React.Component {
                             this.props.onSelectRecommendedTimeTable(this.props.recommendedTimeTables[nextIndex])
                             this.setState({ recommendedTimeTableIndex: nextIndex })
                           }}
-                          onSelectBlocks={(blocks) => this.setState({ blocks })}
+                          onSelectBlocks={(blocks) => this.setState({ rightBlocks: blocks })}
                         />
                       </Grid.Column>
                     </Grid.Row>
