@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Message, Button, Header, Divider, Popup, List, Grid, Dimmer, Loader } from 'semantic-ui-react'
+import { Form, Message, Button, Header, Divider, Popup, List, Grid, Dimmer, Loader, Container } from 'semantic-ui-react'
 import { customErrors } from '../../../services/error_utility'
 import { initialErrorUnit } from '../../../store/ttrs/selectors'
 
