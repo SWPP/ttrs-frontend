@@ -92,7 +92,7 @@ class TTRenderer extends React.Component {
     this.selectionMode = null
 
     this.updateCanvas()
-    this.props.onChange(this.blocks)
+    this.props.onChange(this.blocks.map(row => [...row]))
   }
 
   setSelectionMode = (e) => {
