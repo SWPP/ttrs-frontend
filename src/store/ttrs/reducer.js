@@ -362,65 +362,95 @@ const notice = (state = initialNotice, action) => {
 const loading = (state = [], action) => {
   switch (action.type) {
     case actions.SIGN_IN_REQUEST:
+    case actions.SWITCH_SEMESTER:
+    case actions.DELETE_TIME_TABLE_REQUEST:
       return {
         ...state,
         myTimeTableLoading: true,
         bookmarkedTimeTableLoading: true,
         receivedTimeTableLoading: true,
       }
-    case actions.SWITCH_SEMESTER:
+    case actions.DELETE_MY_TIME_TABLE_RESPONSE:
+    case actions.DELETE_BOOKMARKED_TIME_TABLE_RESPONSE:
+    case actions.DELETE_RECEIVED_TIME_TABLE_RESPONSE:
+      return {
+        ...state,
+        myTimeTableLoading: false,
+        bookmarkedTimeTableLoading: false,
+        receivedTimeTableLoading: false,
+      }
+    case actions.UPDATE_MY_TIME_TABLE_REQUEST:
+    case actions.COPY_TO_MY_TIME_TABLE_REQUEST:
       return {
         ...state,
         myTimeTableLoading: true,
-        bookmarkedTimeTableLoading: true,
-        receivedTimeTableLoading: true,
       }
     case actions.CREATE_MY_TIME_TABLE:
+    case actions.ADD_LECTURE_TO_MY_TIME_TABLE:
+    case actions.UPDATE_MY_TIME_TABLE_INFO:
+    case actions.DELETE_LECTURE_FROM_MY_TIME_TABLE_RESPONSE:
+    case actions.COPY_TO_MY_TIME_TABLE_RESPONSE:
       return {
         ...state,
         myTimeTableLoading: false,
       }
+    case actions.SELECT_BOOKMARKED_TIME_TABLE_REQUEST:
+    case actions.UPDATE_BOOKMARKED_TIME_TABLE_REQUEST:
+    case actions.BOOKMARK_REQUEST:
+      return {
+        ...state,
+        bookmarkedTimeTableLoading: true,
+      }
     case actions.CREATE_BOOKMARKED_TIME_TABLES:
+    case actions.SELECT_BOOKMARKED_TIME_TABLE_RESPONSE:
+    case actions.ADD_LECTURE_TO_BOOKMARKED_TIME_TABLE:
+    case actions.UPDATE_BOOKMARKED_TIME_TABLE_INFO:
+    case actions.BOOKMARK_RESPONSE:
+    case actions.DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE_RESPONSE:
       return {
         ...state,
         bookmarkedTimeTableLoading: false,
       }
+    case actions.SELECT_RECEIVED_TIME_TABLE_REQUEST:
+      return {
+        ...state,
+        receivedTimeTableLoading: true,
+      }
     case actions.CREATE_RECEIVED_TIME_TABLES:
+    case actions.SELECT_RECEIVED_TIME_TABLE_RESPONSE:
       return {
         ...state,
         receivedTimeTableLoading: false,
       }
     case actions.GET_RECOMMENDATION_REQUEST:
-      return {
-        ...state,
-        recommendedTimeTableLoading: true,
-      }
-    case actions.CREATE_RECOMMENDED_TIME_TABLES:
-      return {
-        ...state,
-        recommendedTimeTableLoading: false,
-      }
     case actions.SELECT_RECOMMENDED_TIME_TABLE_REQUEST:
       return {
         ...state,
         recommendedTimeTableLoading: true,
       }
+    case actions.CREATE_RECOMMENDED_TIME_TABLES:
     case actions.SELECT_RECOMMENDED_TIME_TABLE_RESPONSE:
       return {
         ...state,
         recommendedTimeTableLoading: false,
       }
     case actions.GET_NOT_RECOMMEND_COURSES_REQUEST:
+    case actions.DELETE_FROM_NOT_RECOMMENDS_REQUEST:
       return {
         ...state,
         notRecommendsLoading: true,
       }
     case actions.SET_NOT_RECOMMEND_COURSES:
+    case actions.DELETE_FROM_NOT_RECOMMENDS_RESPONSE:
       return {
         ...state,
         notRecommendsLoading: false,
       }
     case actions.GET_EVALUATIONS_REQUEST:
+    case actions.ADD_EVALUATION_REQUEST:
+    case actions.DELETE_EVALUATION_REQUEST:
+    case actions.MODIFY_EVALUATION_REQUEST:
+    case actions.TOGGLE_LIKE_IT_REQUEST:
       return {
         ...state,
         evaluationsLoading: true,
@@ -440,86 +470,6 @@ const loading = (state = [], action) => {
         ...state,
         searchLectureLoading: false,
       }
-    case actions.UPDATE_MY_TIME_TABLE_REQUEST:
-      return {
-        ...state,
-        myTimeTableLoading: true,
-      }
-    case actions.ADD_LECTURE_TO_MY_TIME_TABLE:
-      return {
-        ...state,
-        myTimeTableLoading: false,
-      }
-    case actions.UPDATE_MY_TIME_TABLE_INFO:
-      return {
-        ...state,
-        myTimeTableLoading: false,
-      }
-    case actions.DELETE_LECTURE_FROM_MY_TIME_TABLE_RESPONSE:
-      return {
-        ...state,
-        myTimeTableLoading: false,
-      }
-    case actions.SELECT_BOOKMARKED_TIME_TABLE_REQUEST:
-      return {
-        ...state,
-        bookmarkedTimeTableLoading: true,
-      }
-    case actions.UPDATE_BOOKMARKED_TIME_TABLE_REQUEST:
-      return {
-        ...state,
-        bookmarkedTimeTableLoading: true,
-      }
-    case actions.BOOKMARK_REQUEST:
-      return {
-        ...state,
-        bookmarkedTimeTableLoading: true,
-      }
-    case actions.SELECT_BOOKMARKED_TIME_TABLE_RESPONSE:
-      return {
-        ...state,
-        bookmarkedTimeTableLoading: false,
-      }
-    case actions.ADD_LECTURE_TO_BOOKMARKED_TIME_TABLE:
-      return {
-        ...state,
-        bookmarkedTimeTableLoading: false,
-      }
-    case actions.UPDATE_BOOKMARKED_TIME_TABLE_INFO:
-      return {
-        ...state,
-        bookmarkedTimeTableLoading: false,
-      }
-    case actions.BOOKMARK_RESPONSE:
-      return {
-        ...state,
-        bookmarkedTimeTableLoading: false,
-      }
-    case actions.DELETE_LECTURE_FROM_BOOKMARKED_TIME_TABLE_RESPONSE:
-      return {
-        ...state,
-        bookmarkedTimeTableLoading: false,
-      }
-    case actions.SELECT_RECEIVED_TIME_TABLE_REQUEST:
-      return {
-        ...state,
-        receivedTimeTableLoading: true,
-      }
-    case actions.SELECT_RECEIVED_TIME_TABLE_RESPONSE:
-      return {
-        ...state,
-        receivedTimeTableLoading: false,
-      }
-    case actions.COPY_TO_MY_TIME_TABLE_REQUEST:
-      return {
-        ...state,
-        myTimeTableLoading: true,
-      }
-    case actions.COPY_TO_MY_TIME_TABLE_RESPONSE:
-      return {
-        ...state,
-        myTimeTableLoading: false,
-      }
     case actions.UPDATE_STUDENT_INFO_REQUEST:
       return {
         ...state,
@@ -530,65 +480,10 @@ const loading = (state = [], action) => {
         ...state,
         updateProfileLoading: false,
       }
-    case actions.DELETE_TIME_TABLE_REQUEST:
-      return {
-        ...state,
-        myTimeTableLoading: true,
-        bookmarkedTimeTableLoading: true,
-        receivedTimeTableLoading: true,
-      }
-    case actions.DELETE_MY_TIME_TABLE_RESPONSE:
-      return {
-        ...state,
-        myTimeTableLoading: false,
-        bookmarkedTimeTableLoading: false,
-        receivedTimeTableLoading: false,
-      }
-    case actions.DELETE_BOOKMARKED_TIME_TABLE_RESPONSE:
-      return {
-        ...state,
-        myTimeTableLoading: false,
-        bookmarkedTimeTableLoading: false,
-        receivedTimeTableLoading: false,
-      }
-    case actions.DELETE_RECEIVED_TIME_TABLE_RESPONSE:
-      return {
-        ...state,
-        myTimeTableLoading: false,
-        bookmarkedTimeTableLoading: false,
-        receivedTimeTableLoading: false,
-      }
-    case actions.DELETE_FROM_NOT_RECOMMENDS_REQUEST:
-      return {
-        ...state,
-        notRecommendsLoading: true,
-      }
-    case actions.DELETE_FROM_NOT_RECOMMENDS_RESPONSE:
-      return {
-        ...state,
-        notRecommendsLoading: false,
-      }
-    case actions.ADD_EVALUATION_REQUEST:
-      return {
-        ...state,
-        evaluationsLoading: true,
-      }
-    case actions.DELETE_EVALUATION_REQUEST:
-      return {
-        ...state,
-        evaluationsLoading: true,
-      }
-    case actions.MODIFY_EVALUATION_REQUEST:
-      return {
-        ...state,
-        evaluationsLoading: true,
-      }
-    case actions.TOGGLE_LIKE_IT_REQUEST:
-      return {
-        ...state,
-        evaluationsLoading: true,
-      }
     case actions.SET_ERRORS:
+      if (action.message === undefined) {
+        return state
+      }
       return initialLoading
     default:
       return state
@@ -626,7 +521,6 @@ const ttrsReducer = (state = initialState, action) => {
         studentInfo: studentInfo(state.studentInfo, action),
         toGo: 'home',
         notice: notice(state.notice, action),
-        loading: loading(state.loading, action),
       }
     case actions.SIGN_UP_RESPONSE:
       return {
